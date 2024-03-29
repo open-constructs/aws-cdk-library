@@ -19,6 +19,19 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   releaseTrigger: release.ReleaseTrigger.manual(),
   gitpod: true,
+  publishToPypi: {
+    distName: 'open-constructs-aws-cdk',
+    module: 'open_constructs_aws_cdk',
+  },
+  // publishToMaven: {
+  //   mavenGroupId: 'org.open-constructs',
+  //   mavenArtifactId: 'aws-cdk',
+  //   javaPackage: 'org.open_constructs.aws_cdk',
+  // },
+  // publishToNuget: {
+  //   packageId: 'OpenConstructs.AwsCdk',
+  //   dotNetNamespace: 'OpenConstructs.AwsCdk',
+  // },
 
   // deps: [
 
