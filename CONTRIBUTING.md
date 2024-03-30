@@ -64,12 +64,12 @@ export class MyConstruct extends Construct {
   constructor(scope: Construct, id: string, private props: MyConstructProps) {
     super(scope, id);
 
-    this.createResource();
+    this.something = this.createResource();
   }
   
-  protected createResource() {
+  protected createResource(): CfnSomething {
     // Create the resource here
-    this.something = new CfnSomething(this, 'Resource', {
+    return new CfnSomething(this, 'Resource', {
       something: this.props.something,
     });
   }
