@@ -28,7 +28,7 @@ Construct design in this library has two primary goals:
 To achieve these goals, the following design principles are followed:
 
 * Focus on only accepting L2 constructs to start. L3 constructs will come later as the library matures.
-* Follow the AWS CDK contributing guides
+* Follow [the AWS CDK contributing guides](https://github.com/aws/aws-cdk/blob/main/CONTRIBUTING.md)
 * Use the AWS CDK library as a reference for design patterns
 
 Additionally, constructs [SHOULD](https://datatracker.ietf.org/doc/html/rfc2119#section-3):
