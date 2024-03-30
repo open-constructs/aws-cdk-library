@@ -33,6 +33,17 @@ To achieve these goals, the following design principles are followed:
 
 Additionally, constructs [SHOULD](https://datatracker.ietf.org/doc/html/rfc2119#section-3):
 * Follow the standard CDK pattern of having all options on the third construct parameter (props).
+* Each option in the props passed to the construct should be readonly.
+```typescript
+/**
+ * Properties for MyConstruct.
+ */
+export interface MyConstructProps {
+  /**
+   * My property.
+   */
+  readonly myProperty: string;
+```
 * Be named after the AWS resource they create.
 * Acronyms used in the construct name should not be entirely captialized. For example, `Vpc` instead of `VPC`.
 * The primary L1 (Cfn*) construct should have an 'id' of `Resource`.
