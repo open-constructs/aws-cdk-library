@@ -43,6 +43,7 @@ export interface MyConstructProps {
    * My property.
    */
   readonly myProperty: string;
+}
 ```
 * Be named after the AWS resource they create.
 * Acronyms used in the construct name should not be entirely captialized. For example, `Vpc` instead of `VPC`.
