@@ -110,7 +110,7 @@ default value or conditionals. Test reports will report code coverage.
 
 For example, if your construct has a property that can be overridden, you should have a test that ensures the
 property is overridden correctly and that creates a default value when not overridden. 
-An example of this can be found [here](./test/example.test.ts). 
+An example of this can be found [here](./test/aws-examplemodule/example.test.ts). 
 
 * In the test 'Uses provided Role for Lambda Function' the Lambda Function is referenced via the `.node.defaultChild` property and then the role is compared to the one provided.
 * In the test 'Creates a role when none provided' fine-grained assertions are used to verify a role was created with the correct 'AssumeRolePolicyDocument' property.
@@ -128,7 +128,7 @@ constructs as they do not provide enough clarity on the intent of the construct.
 Integration tests should be created to cover a basic deployment of the most common use case for a construct.
 You do not need to create integration tests for every possible use case, but you should cover the most common.
 
-An example of an integration test can be found [here](./test/example.integ.ts). 
+An example of an integration test can be found [here](./test/aws-examplemodule/example.integ.ts). 
 
 To create a new test:
 1. Create a new file called 'something.integ.ts' alongside the other tests for your module.

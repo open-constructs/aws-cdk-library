@@ -18,7 +18,6 @@ class MyConstruct extends Construct {
       role: role,
     });
   }
-
 }
 
 describe('Lambda Function Role', () => {
