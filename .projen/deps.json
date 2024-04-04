@@ -20,6 +20,11 @@
       "type": "build"
     },
     {
+      "name": "aws-cdk",
+      "version": "^2",
+      "type": "build"
+    },
+    {
       "name": "eslint-import-resolver-typescript",
       "type": "build"
     },

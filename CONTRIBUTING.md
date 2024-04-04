@@ -1,10 +1,18 @@
-The project governance of the new community-driven CDK construct library initiative by the Open Construct Foundation is designed to ensure the quality, reliability, and security of the constructs provided to the AWS community.
+The project governance of the new community-driven CDK construct library initiative by the Open Construct 
+Foundation is designed to ensure the quality, reliability, and security of the constructs provided to the AWS 
+community.
 
-The governance process involves thorough reviews and stringent security checks for all constructs included in the library. This ensures the constructs that are marked as stable by the maintainers meet the highest standards and are reliable for AWS infrastructure development.
+The governance process involves thorough reviews and stringent security checks for all constructs included in 
+the library. This ensures the constructs that are marked as stable by the maintainers meet the highest 
+standards and are reliable for AWS infrastructure development.
 
-Under the careful stewardship of the Open Construct Foundation, the project will leverage the collective expertise of experienced CDK users, who will contribute to the development and maintenance of the library. This community-driven approach ensures that the constructs offered cover a wide range of L2 and L3 functionalities, extending the core library provided by AWS.
+Under the careful stewardship of the Open Construct Foundation, the project will leverage the collective 
+expertise of experienced CDK users, who will contribute to the development and maintenance of the library. This
+community-driven approach ensures that the constructs offered cover a wide range of L2 and L3 functionalities, 
+extending the core library provided by AWS.
 
-By following this governance model, the Open Construct Foundation aims to provide top-quality constructs that enhance the AWS infrastructure development experience and meet the needs of the AWS community.
+By following this governance model, the Open Construct Foundation aims to provide top-quality constructs that
+enhance the AWS infrastructure development experience and meet the needs of the AWS community.
 
 ## Contributor roles
 
@@ -82,3 +90,55 @@ export class MyConstruct extends Construct {
   * Other import methods normally require access to the context API which is beyond the scope of these constructs. We'd like to address this in the future.
 * Constructs should implement an interface so that the import methods (e.g. `.fromSomethingAttributes()`) can return the interface type.
 
+
+
+## Testing
+
+Tests are fundamental to building good constructs. The following testing guidelines should be followed:
+
+* All tests should be stored in the `test/aws-<something>` subdirectory. For example, if you are creating
+a construct for the AppStream service, then the module name would be `aws-appstream` and tests would go in the `/test/aws-appstream` directory.
+* Fine-grained tests should be implemented for all constructs with a goal of 100% coverage. For example,
+if you were creating an Application construct in the AppSteam module, your tests should be in the `test/aws-appstream/Application.test.ts` file.
+* Integration tests should be written for all constructs. For example, if you are creating an integration test
+for the Application construct in the AppStream module, your tests should be in the `test/aws-appstream/Application.integ.ts` file.
+
+### Fine-grained assertion tests
+
+Unit tests should be created that cover all pathways of code in your construct, including the testing of any 
+default value or conditionals. Test reports will report code coverage. 
+
+For example, if your construct has a property that can be overridden, you should have a test that ensures the
+property is overridden correctly and that creates a default value when not overridden. 
+An example of this can be found [here](./test/example.test.ts). 
+
+* In the test 'Uses provided Role for Lambda Function' the Lambda Function is referenced via the `.node.defaultChild` property and then the role is compared to the one provided.
+* In the test 'Creates a role when none provided' fine-grained assertions are used to verify a role was created with the correct 'AssumeRolePolicyDocument' property.
+* A `describe` is used to group together similar tests.
+
+All tests for a construct should be contained in a single file.
+
+### Snapshot tests
+
+While snapshots tests are useful when developing AWS CDK applications, they should not be used when creating 
+constructs as they do not provide enough clarity on the intent of the construct. 
+
+### Integration tests
+
+Integration tests should be created to cover a basic deployment of the most common use case for a construct.
+You do not need to create integration tests for every possible use case, but you should cover the most common.
+
+An example of an integration test can be found [here](./test/example.integ.ts). 
+
+To create a new test:
+1. Create a new file called 'something.integ.ts' alongside the other tests for your module.
+2. Run `npx projen` to have projen generate some integration testing tasks
+3. Run `npx projen integ:example:deploy` (where `example` is the prefix on the file you created in step 1) to 
+deploy the stack. You will need to have proper AWS credentials for your own account available in the
+environment. We do not provide an AWS account for you to deploy your integration tests to.
+4. You can use `npx projen integ:example:assert` to test the current code against the most recent snapshot.
+This will be done during the Pull Request process so make sure your snapshots are up to date before submitting.
+5. Snapshots can be updated without a deployment by running `npx projen integ:example:snapshot`. This is fine for small changes but it's recommended that you do a deployment to an account with the `deploy` command after any major changes.
+
+Snapshots are created and stored in the `example.integ.snapshot` directory and should be committed along with
+the rest of your code.
