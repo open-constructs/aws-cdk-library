@@ -99,9 +99,9 @@ Tests are fundamental to building good constructs. The following testing guideli
 * All tests should be stored in the `test/aws-<something>` subdirectory. For example, if you are creating
 a construct for the AppStream service, then the module name would be `aws-appstream` and tests would go in the `/test/aws-appstream` directory.
 * Fine-grained tests should be implemented for all constructs with a goal of 100% coverage. For example,
-if you were creating an Application construct in the AppSteam module, your tests should be in the `test/aws-appstream/Application.test.ts` file.
+if you were creating an Application construct in the AppSteam module, your tests should be in the `test/aws-appstream/application.test.ts` file.
 * Integration tests should be written for all constructs. For example, if you are creating an integration test
-for the Application construct in the AppStream module, your tests should be in the `test/aws-appstream/Application.integ.ts` file.
+for the Application construct in the AppStream module, your tests should be in the `test/aws-appstream/application.integ.ts` file.
 
 ### Fine-grained assertion tests
 
