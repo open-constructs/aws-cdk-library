@@ -96,8 +96,11 @@ export class MyConstruct extends Construct {
 
 Tests are fundamental to building good constructs. The following testing guidelines should be followed:
 
-* All tests should be stored in the `test/aws-<something>` subdirectory. For example, if you are creating
-a construct for the AppStream service, then the module name would be `aws-appstream` and tests would go in the `/test/aws-appstream` directory.
+* All tests should be stored in the `test/<something>` subdirectory. For example, if you are creating
+a construct for the AppStream service, then the module name would be `aws-appstream` and tests would go in the 
+`/test/aws-appstream` directory. The 'aws' prefix should only be used when building L2 constructs for 
+specific AWS services. If you are building L3 constructs that span multiple services, then you shouldn't use
+a prefix.
 * Fine-grained tests should be implemented for all constructs with a goal of 100% coverage. For example,
 if you were creating an Application construct in the AppSteam module, your tests should be in the `test/aws-appstream/application.test.ts` file.
 * Integration tests should be written for all constructs. For example, if you are creating an integration test
