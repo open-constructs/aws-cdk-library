@@ -1,4 +1,5 @@
 import { awscdk, github, javascript, release } from 'projen';
+import { NodePackageManager } from 'projen/lib/javascript';
 
 let cdkVersion = '2.120.0';
 const project = new awscdk.AwsCdkConstructLibrary({
@@ -12,6 +13,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   repositoryUrl: 'https://github.com/open-constructs/aws-cdk-library.git',
   licensed: true,
   license: 'Apache-2.0',
+  packageManager: NodePackageManager.NPM,
   experimentalIntegRunner: false, // we're using the AWS CDK-provided runner
   // autoApproveUpgrades: true,
   // autoApproveOptions: { allowedUsernames: ['hoegertn'] },
