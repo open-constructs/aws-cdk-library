@@ -115,6 +115,10 @@ For example, if your construct has a property that can be overridden, you should
 property is overridden correctly and that creates a default value when not overridden. 
 An example of this can be found [here](./test/aws-examplemodule/example.test.ts). 
 
+> [!NOTE]  
+> The specific code in these tests are not a prescription for how to write tests, but rather an example of how to structure them. 
+> Testing that a role is correct could be done multiple ways and this is just one.
+
 * In the test 'Uses provided Role for Lambda Function' the Lambda Function is referenced via the `.node.defaultChild` property and then the role is compared to the one provided.
 * In the test 'Creates a role when none provided' fine-grained assertions are used to verify a role was created with the correct 'AssumeRolePolicyDocument' property.
 * A `describe` is used to group together similar tests.
