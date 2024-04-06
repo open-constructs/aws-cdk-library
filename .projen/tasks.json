@@ -149,75 +149,23 @@
         }
       ]
     },
-    "integ:example:assert": {
-      "name": "integ:example:assert",
-      "description": "assert the snapshot of integration test 'example'",
+    "integ": {
+      "name": "integ",
+      "description": "Run integration tests",
       "steps": [
         {
-          "exec": "[ -d \"test/example.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'example'. Run 'projen integ:example:deploy' to capture.\" && exit 1)"
-        },
-        {
-          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/example.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/.tmp/example.integ/assert.cdk.out > /dev/null"
-        },
-        {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/example.integ.snapshot/ test/.tmp/example.integ/assert.cdk.out/"
+          "exec": "integ-runner",
+          "receiveArgs": true
         }
       ]
     },
-    "integ:example:deploy": {
-      "name": "integ:example:deploy",
-      "description": "deploy integration test 'example' and capture snapshot",
+    "integ:update": {
+      "name": "integ:update",
+      "description": "Run integration tests and update on any failed tests",
       "steps": [
         {
-          "exec": "rm -fr test/.tmp/example.integ/deploy.cdk.out"
-        },
-        {
-          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/example.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/.tmp/example.integ/deploy.cdk.out"
-        },
-        {
-          "exec": "rm -fr test/example.integ.snapshot"
-        },
-        {
-          "exec": "mv test/.tmp/example.integ/deploy.cdk.out test/example.integ.snapshot"
-        },
-        {
-          "spawn": "integ:example:destroy"
-        }
-      ]
-    },
-    "integ:example:destroy": {
-      "name": "integ:example:destroy",
-      "description": "destroy integration test 'example'",
-      "steps": [
-        {
-          "exec": "cdk destroy --app test/example.integ.snapshot '**' --no-version-reporting"
-        }
-      ]
-    },
-    "integ:example:snapshot": {
-      "name": "integ:example:snapshot",
-      "description": "update snapshot for integration test \"example\"",
-      "steps": [
-        {
-          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/example.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/example.integ.snapshot > /dev/null"
-        }
-      ]
-    },
-    "integ:example:watch": {
-      "name": "integ:example:watch",
-      "description": "watch integration test 'example' (without updating snapshots)",
-      "steps": [
-        {
-          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/example.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/.tmp/example.integ/deploy.cdk.out"
-        }
-      ]
-    },
-    "integ:snapshot-all": {
-      "name": "integ:snapshot-all",
-      "description": "update snapshot for all integration tests",
-      "steps": [
-        {
-          "spawn": "integ:example:snapshot"
+          "exec": "integ-runner --update-on-failed",
+          "receiveArgs": true
         }
       ]
     },
@@ -336,9 +284,6 @@
         },
         {
           "spawn": "eslint"
-        },
-        {
-          "spawn": "integ:example:assert"
         }
       ]
     },
@@ -375,13 +320,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@types/jest,eslint-import-resolver-typescript,eslint-plugin-import,jest,jsii-diff,jsii-docgen,jsii-pacmak,jsii-rosetta,jsii,projen,ts-jest,ts-node,typescript"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-cdk/integ-runner,@aws-cdk/integ-tests-alpha,@types/jest,eslint-import-resolver-typescript,eslint-plugin-import,jest,jsii-diff,jsii-docgen,jsii-pacmak,jsii-rosetta,jsii,projen,ts-jest,ts-node,typescript"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii projen standard-version ts-jest ts-node typescript aws-cdk-lib constructs"
+          "exec": "yarn upgrade @aws-cdk/integ-runner @aws-cdk/integ-tests-alpha @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-import-resolver-typescript eslint-plugin-import eslint jest jest-junit jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii projen standard-version ts-jest ts-node typescript aws-cdk-lib constructs"
         },
         {
           "exec": "npx projen"

@@ -138,14 +138,10 @@ You do not need to create integration tests for every possible use case, but you
 An example of an integration test can be found [here](./test/aws-examplemodule/example.integ.ts). 
 
 To create a new test:
-1. Create a new file called 'something.integ.ts' alongside the other tests for your module.
-2. Run `npx projen` to have projen generate some integration testing tasks
-3. Run `npx projen integ:example:deploy` (where `example` is the prefix on the file you created in step 1) to 
-deploy the stack. You will need to have proper AWS credentials for your own account available in the
-environment. We do not provide an AWS account for you to deploy your integration tests to.
-4. You can use `npx projen integ:example:assert` to test the current code against the most recent snapshot.
-This will be done during the Pull Request process so make sure your snapshots are up to date before submitting.
-5. Snapshots can be updated without a deployment by running `npx projen integ:example:snapshot`. This is fine for small changes but it's recommended that you do a deployment to an account with the `deploy` command after any major changes.
+1. Create a new file called 'integ.something.ts' alongside the other tests for your module. E.g. `test/aws-examplemodule/integ.example.ts`.
+2. Run `npx projen integ:update test/aws-examplemodule/integ.example.ts`. This will update the snapshot for the test. You will need to have AWS credentials in your environment.
+3. Run `npx projen integ test/aws-examplemodule/integ.example.ts` to verify your current code against the snapshot.  
+4. If the test fails, you can update the snapshot by running `npx projen integ:update test/aws-examplemodule/integ.example.ts` again.
 
-Snapshots are created and stored in the `example.integ.snapshot` directory and should be committed along with
+Snapshots are created and stored in the `integ.example.ts.snapshot` directory and should be committed along with
 the rest of your code.

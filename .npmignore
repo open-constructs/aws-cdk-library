@@ -22,7 +22,5 @@ dist
 tsconfig.tsbuildinfo
 /.eslintrc.json
 !.jsii
-test/.tmp
-test/example.integ.snapshot
 /.gitattributes
 /.projenrc.ts

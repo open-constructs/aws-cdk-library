@@ -30,6 +30,36 @@
   resolved "https://registry.yarnpkg.com/@aws-cdk/asset-node-proxy-agent-v6/-/asset-node-proxy-agent-v6-2.0.1.tgz#6dc9b7cdb22ff622a7176141197962360c33e9ac"
   integrity sha512-DDt4SLdLOwWCjGtltH4VCST7hpOI5DzieuhGZsBpZ+AgJdSI2GCjklCXm0GCTwJG/SolkL5dtQXyUKgg9luBDg==
 
+"@aws-cdk/aws-service-spec@0.0.40":
+  version "0.0.40"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-service-spec/-/aws-service-spec-0.0.40.tgz#f1b7cb34323b060d6ab72df456f5a92ec8346bdf"
+  integrity sha512-ujRd7lEnmwsoaHAAY04QjjzKoOHnyEcv6APSEH7airjv+rodJG6713wZOWo5su8ESaC/1SE/+cFix2mKtpcz1Q==
+  dependencies:
+    "@aws-cdk/service-spec-types" "^0.0.40"
+    "@cdklabs/tskb" "^0.0.3"
+
+"@aws-cdk/integ-runner@2.120.0-alpha.0":
+  version "2.120.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/integ-runner/-/integ-runner-2.120.0-alpha.0.tgz#475f7327f32ad2bcfa8295545e62b7e0cbc56a65"
+  integrity sha512-zgCaFxV8RFg+Ei2BlbBeBnAcEj/YCK+K9jb1pdOF/wNAJZahXtWpcv1MjpB2w4WESOhSu41uY3tfdz0CgJqLUA==
+  dependencies:
+    "@aws-cdk/aws-service-spec" "0.0.40"
+    aws-cdk "2.120.0"
+  optionalDependencies:
+    fsevents "2.3.2"
+
+"@aws-cdk/integ-tests-alpha@2.120.0-alpha.0":
+  version "2.120.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/integ-tests-alpha/-/integ-tests-alpha-2.120.0-alpha.0.tgz#6c5950e93969c083f575f4469bc229ed0af7f64f"
+  integrity sha512-iwyWHwnu/OAqq9qjU/GNv4gCrpUUqEofZgMNgDIt4bwUP4n/jcbmJni36ZdqJwBETdkQ0liT0C5aDlYX3gliTA==
+
+"@aws-cdk/service-spec-types@^0.0.40":
+  version "0.0.40"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/service-spec-types/-/service-spec-types-0.0.40.tgz#348f67da375fbed4538f3dcbefae6f5458662b37"
+  integrity sha512-+UWCCRQ5CtkLVaiJMCdG+r/0ifHo/YIE2u0hhD731Ud1iO99cMEzulzMztfBXxNdX4ySNq9WthyJTFSFWWAxYw==
+  dependencies:
+    "@cdklabs/tskb" "^0.0.3"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.23.5", "@babel/code-frame@^7.24.1", "@babel/code-frame@^7.24.2":
   version "7.24.2"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.24.2.tgz#718b4b19841809a58b29b68cde80bc5e1aa6d9ae"
@@ -322,6 +352,11 @@
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
+
+"@cdklabs/tskb@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@cdklabs/tskb/-/tskb-0.0.3.tgz#4b79846d9381eb1252ba85d5d20b7cd7d99b6ecb"
+  integrity sha512-JR+MuD4awAXvutu7HArephXfZm09GPTaSAQUqNcJB5+ZENRm4kV+L6vJL6Tn1xHjCcHksO+HAqj3gYtm5K94vA==
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -1196,10 +1231,10 @@ aws-cdk-lib@2.120.0:
     table "^6.8.1"
     yaml "1.10.2"
 
-aws-cdk@^2:
-  version "2.135.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.135.0.tgz#a44574104ac543b38f0e0652b971d77e625a9073"
-  integrity sha512-id/kBxDvXQhcPYhkP/3fwhaKN0uD3raz1Z4RZcO9jJ4UoQV2RElQl+dYdmIrwNSoNVhtZeV1O4IdEtBHUhdShQ==
+aws-cdk@2.120.0:
+  version "2.120.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.120.0.tgz#24041919868be8cd13acb2ceed0873117d9e86b1"
+  integrity sha512-1kAxwMELEaFTIYIhB69DhaqBydujAPrQvZjngWQeV9Nt+AsiWzwmtGncql7u0oroyDrJEjdneGgqp2HjIiL1ZQ==
   optionalDependencies:
     fsevents "2.3.2"
 
