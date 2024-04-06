@@ -1,0 +1,12 @@
+{
+  "version": "36.0.0",
+  "testCases": {
+    "IntegTestExample/DefaultTest": {
+      "stacks": [
+        "IntegrationTestExampleStack"
+      ],
+      "assertionStack": "IntegTestExample/DefaultTest/DeployAssert",
+      "assertionStackName": "IntegTestExampleDefaultTestDeployAssertB2D38A87"
+    }
+  }
+}

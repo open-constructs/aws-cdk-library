@@ -1,10 +1,18 @@
-The project governance of the new community-driven CDK construct library initiative by the Open Construct Foundation is designed to ensure the quality, reliability, and security of the constructs provided to the AWS community.
+The project governance of the new community-driven CDK construct library initiative by the Open Construct 
+Foundation is designed to ensure the quality, reliability, and security of the constructs provided to the AWS 
+community.
 
-The governance process involves thorough reviews and stringent security checks for all constructs included in the library. This ensures the constructs that are marked as stable by the maintainers meet the highest standards and are reliable for AWS infrastructure development.
+The governance process involves thorough reviews and stringent security checks for all constructs included in 
+the library. This ensures the constructs that are marked as stable by the maintainers meet the highest 
+standards and are reliable for AWS infrastructure development.
 
-Under the careful stewardship of the Open Construct Foundation, the project will leverage the collective expertise of experienced CDK users, who will contribute to the development and maintenance of the library. This community-driven approach ensures that the constructs offered cover a wide range of L2 and L3 functionalities, extending the core library provided by AWS.
+Under the careful stewardship of the Open Construct Foundation, the project will leverage the collective 
+expertise of experienced CDK users, who will contribute to the development and maintenance of the library. This
+community-driven approach ensures that the constructs offered cover a wide range of L2 and L3 functionalities, 
+extending the core library provided by AWS.
 
-By following this governance model, the Open Construct Foundation aims to provide top-quality constructs that enhance the AWS infrastructure development experience and meet the needs of the AWS community.
+By following this governance model, the Open Construct Foundation aims to provide top-quality constructs that
+enhance the AWS infrastructure development experience and meet the needs of the AWS community.
 
 ## Contributor roles
 
@@ -82,3 +90,58 @@ export class MyConstruct extends Construct {
   * Other import methods normally require access to the context API which is beyond the scope of these constructs. We'd like to address this in the future.
 * Constructs should implement an interface so that the import methods (e.g. `.fromSomethingAttributes()`) can return the interface type.
 
+
+
+## Testing
+
+Tests are fundamental to building good constructs. The following testing guidelines should be followed:
+
+* All tests should be stored in the `test/<something>` subdirectory. For example, if you are creating
+a construct for the AppStream service, then the module name would be `aws-appstream` and tests would go in the 
+`/test/aws-appstream` directory. The 'aws' prefix should only be used when building L2 constructs for 
+specific AWS services. If you are building L3 constructs that span multiple services, then you shouldn't use
+a prefix.
+* Fine-grained tests should be implemented for all constructs with a goal of 100% coverage. For example,
+if you were creating an Application construct in the AppSteam module, your tests should be in the `test/aws-appstream/application.test.ts` file.
+* Integration tests should be written for all constructs. For example, if you are creating an integration test
+for the Application construct in the AppStream module, your tests should be in the `test/aws-appstream/application.integ.ts` file.
+
+### Fine-grained assertion tests
+
+Unit tests should be created that cover all pathways of code in your construct, including the testing of any 
+default value or conditionals. Test reports will report code coverage. 
+
+For example, if your construct has a property that can be overridden, you should have a test that ensures the
+property is overridden correctly and that creates a default value when not overridden. 
+An example of this can be found [here](./test/aws-examplemodule/example.test.ts). 
+
+> [!NOTE]  
+> The specific code in these tests are not a prescription for how to write tests, but rather an example of how to structure them. 
+> Testing that a role is correct could be done multiple ways and this is just one.
+
+* In the test 'Uses provided Role for Lambda Function' the Lambda Function is referenced via the `.node.defaultChild` property and then the role is compared to the one provided.
+* In the test 'Creates a role when none provided' fine-grained assertions are used to verify a role was created with the correct 'AssumeRolePolicyDocument' property.
+* A `describe` is used to group together similar tests.
+
+All tests for a construct should be contained in a single file.
+
+### Snapshot tests
+
+While snapshots tests are useful when developing AWS CDK applications, they should not be used when creating 
+constructs as they do not provide enough clarity on the intent of the construct. 
+
+### Integration tests
+
+Integration tests should be created to cover a basic deployment of the most common use case for a construct.
+You do not need to create integration tests for every possible use case, but you should cover the most common.
+
+An example of an integration test can be found [here](./test/aws-examplemodule/example.integ.ts). 
+
+To create a new test:
+1. Create a new file called 'integ.something.ts' alongside the other tests for your module. E.g. `test/aws-examplemodule/integ.example.ts`.
+2. Run `npx projen integ:update test/aws-examplemodule/integ.example.ts`. This will update the snapshot for the test. You will need to have AWS credentials in your environment.
+3. Run `npx projen integ test/aws-examplemodule/integ.example.ts` to verify your current code against the snapshot.  
+4. If the test fails, you can update the snapshot by running `npx projen integ:update test/aws-examplemodule/integ.example.ts` again.
+
+Snapshots are created and stored in the `integ.example.ts.snapshot` directory and should be committed along with
+the rest of your code.

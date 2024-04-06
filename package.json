@@ -14,6 +14,8 @@
     "docgen": "npx projen docgen",
     "eject": "npx projen eject",
     "eslint": "npx projen eslint",
+    "integ": "npx projen integ",
+    "integ:update": "npx projen integ:update",
     "package": "npx projen package",
     "package-all": "npx projen package-all",
     "package:js": "npx projen package:js",
@@ -36,6 +38,8 @@
     "organization": false
   },
   "devDependencies": {
+    "@aws-cdk/integ-runner": "2.120.0-alpha.0",
+    "@aws-cdk/integ-tests-alpha": "2.120.0-alpha.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^6",
