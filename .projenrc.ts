@@ -8,6 +8,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   cdkVersion: cdkVersion,
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.3.0',
+  constructsVersion: '10.3.0',
   name: '@open-constructs/aws-cdk',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/open-constructs/aws-cdk-library.git',
