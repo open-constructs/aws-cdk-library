@@ -32,7 +32,7 @@ export class ReportGranularity {
 export class CurFormat {
 
   /** GZIP compressed text or CSV format */
-  public static readonly TEXT: CurFormat = new CurFormat('GZIP', 'textORcsv');
+  public static readonly TEXT_OR_CSV: CurFormat = new CurFormat('GZIP', 'textORcsv');
   /** Parquet format */
   public static readonly PARQUET: CurFormat = new CurFormat('Parquet', 'Parquet');
 
@@ -124,9 +124,9 @@ export class CostReport extends Construct {
       resources: [this.reportBucket.bucketArn],
     }));
 
-    const format = props.format ?? CurFormat.TEXT;
+    const format = props.format ?? CurFormat.TEXT_OR_CSV;
 
-    this.createReportDefinition(this, 'Resource', {
+    const reportDefinition = this.createReportDefinition(this, 'Resource', {
       compression: format.compression,
       format: format.format,
       refreshClosedReports: false,
@@ -138,6 +138,7 @@ export class CostReport extends Construct {
       timeUnit: props.reportGranularity?.value ?? 'HOURLY',
       additionalSchemaElements: ['RESOURCES'],
     });
+    reportDefinition.node.addDependency(this.reportBucket.policy!);
 
   }
 

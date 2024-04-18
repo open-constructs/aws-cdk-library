@@ -281,7 +281,7 @@ public readonly format: string;
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.CurFormat.property.PARQUET">PARQUET</a></code> | <code><a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a></code> | Parquet format. |
-| <code><a href="#@open-constructs/aws-cdk.CurFormat.property.TEXT">TEXT</a></code> | <code><a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a></code> | GZIP compressed text or CSV format. |
+| <code><a href="#@open-constructs/aws-cdk.CurFormat.property.TEXT_OR_CSV">TEXT_OR_CSV</a></code> | <code><a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a></code> | GZIP compressed text or CSV format. |
 
 ---
 
@@ -297,10 +297,10 @@ Parquet format.
 
 ---
 
-##### `TEXT`<sup>Required</sup> <a name="TEXT" id="@open-constructs/aws-cdk.CurFormat.property.TEXT"></a>
+##### `TEXT_OR_CSV`<sup>Required</sup> <a name="TEXT_OR_CSV" id="@open-constructs/aws-cdk.CurFormat.property.TEXT_OR_CSV"></a>
 
 ```typescript
-public readonly TEXT: CurFormat;
+public readonly TEXT_OR_CSV: CurFormat;
 ```
 
 - *Type:* <a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a>

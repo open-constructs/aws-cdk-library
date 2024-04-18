@@ -1,0 +1,12 @@
+{
+  "version": "36.0.0",
+  "testCases": {
+    "CurReport/DefaultTest": {
+      "stacks": [
+        "cur-report"
+      ],
+      "assertionStack": "CurReport/DefaultTest/DeployAssert",
+      "assertionStackName": "CurReportDefaultTestDeployAssert2956AD14"
+    }
+  }
+}
