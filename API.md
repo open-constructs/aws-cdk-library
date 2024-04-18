@@ -100,6 +100,7 @@ Any object.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.CostReport.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@open-constructs/aws-cdk.CostReport.property.reportBucket">reportBucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | *No description.* |
 
 ---
 
@@ -112,6 +113,16 @@ public readonly node: Node;
 - *Type:* constructs.Node
 
 The tree node.
+
+---
+
+##### `reportBucket`<sup>Required</sup> <a name="reportBucket" id="@open-constructs/aws-cdk.CostReport.property.reportBucket"></a>
+
+```typescript
+public readonly reportBucket: IBucket;
+```
+
+- *Type:* aws-cdk-lib.aws_s3.IBucket
 
 ---
 
@@ -199,7 +210,42 @@ The granularity of the line items in the report.
 
 ### CurFormat <a name="CurFormat" id="@open-constructs/aws-cdk.CurFormat"></a>
 
+Enum for the possible formats of a cost report.
 
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.CurFormat.for">for</a></code> | Returns a CurFormat instance for the given compression and format string values. |
+
+---
+
+##### `for` <a name="for" id="@open-constructs/aws-cdk.CurFormat.for"></a>
+
+```typescript
+import { CurFormat } from '@open-constructs/aws-cdk'
+
+CurFormat.for(compression: string, format: string)
+```
+
+Returns a CurFormat instance for the given compression and format string values.
+
+###### `compression`<sup>Required</sup> <a name="compression" id="@open-constructs/aws-cdk.CurFormat.for.parameter.compression"></a>
+
+- *Type:* string
+
+The compression string value.
+
+---
+
+###### `format`<sup>Required</sup> <a name="format" id="@open-constructs/aws-cdk.CurFormat.for.parameter.format"></a>
+
+- *Type:* string
+
+The format string value.
+
+---
 
 #### Properties <a name="Properties" id="Properties"></a>
 
@@ -234,8 +280,8 @@ public readonly format: string;
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.CurFormat.property.PARQUET">PARQUET</a></code> | <code><a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a></code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.CurFormat.property.TEXT">TEXT</a></code> | <code><a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a></code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.CurFormat.property.PARQUET">PARQUET</a></code> | <code><a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a></code> | Parquet format. |
+| <code><a href="#@open-constructs/aws-cdk.CurFormat.property.TEXT">TEXT</a></code> | <code><a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a></code> | GZIP compressed text or CSV format. |
 
 ---
 
@@ -247,6 +293,8 @@ public readonly PARQUET: CurFormat;
 
 - *Type:* <a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a>
 
+Parquet format.
+
 ---
 
 ##### `TEXT`<sup>Required</sup> <a name="TEXT" id="@open-constructs/aws-cdk.CurFormat.property.TEXT"></a>
@@ -257,11 +305,40 @@ public readonly TEXT: CurFormat;
 
 - *Type:* <a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a>
 
+GZIP compressed text or CSV format.
+
 ---
 
 ### ReportGranularity <a name="ReportGranularity" id="@open-constructs/aws-cdk.ReportGranularity"></a>
 
+Enum for the possible granularities of a cost report.
 
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.ReportGranularity.for">for</a></code> | Returns a ReportGranularity instance for the given granularity string value. |
+
+---
+
+##### `for` <a name="for" id="@open-constructs/aws-cdk.ReportGranularity.for"></a>
+
+```typescript
+import { ReportGranularity } from '@open-constructs/aws-cdk'
+
+ReportGranularity.for(granularity: string)
+```
+
+Returns a ReportGranularity instance for the given granularity string value.
+
+###### `granularity`<sup>Required</sup> <a name="granularity" id="@open-constructs/aws-cdk.ReportGranularity.for.parameter.granularity"></a>
+
+- *Type:* string
+
+The granularity string value to create an instance for.
+
+---
 
 #### Properties <a name="Properties" id="Properties"></a>
 
@@ -285,9 +362,9 @@ public readonly value: string;
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.ReportGranularity.property.DAILY">DAILY</a></code> | <code><a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a></code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.ReportGranularity.property.HOURLY">HOURLY</a></code> | <code><a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a></code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.ReportGranularity.property.MONTHLY">MONTHLY</a></code> | <code><a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a></code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.ReportGranularity.property.DAILY">DAILY</a></code> | <code><a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a></code> | Daily granularity. |
+| <code><a href="#@open-constructs/aws-cdk.ReportGranularity.property.HOURLY">HOURLY</a></code> | <code><a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a></code> | Hourly granularity. |
+| <code><a href="#@open-constructs/aws-cdk.ReportGranularity.property.MONTHLY">MONTHLY</a></code> | <code><a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a></code> | Weekly granularity. |
 
 ---
 
@@ -299,6 +376,8 @@ public readonly DAILY: ReportGranularity;
 
 - *Type:* <a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a>
 
+Daily granularity.
+
 ---
 
 ##### `HOURLY`<sup>Required</sup> <a name="HOURLY" id="@open-constructs/aws-cdk.ReportGranularity.property.HOURLY"></a>
@@ -309,6 +388,8 @@ public readonly HOURLY: ReportGranularity;
 
 - *Type:* <a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a>
 
+Hourly granularity.
+
 ---
 
 ##### `MONTHLY`<sup>Required</sup> <a name="MONTHLY" id="@open-constructs/aws-cdk.ReportGranularity.property.MONTHLY"></a>
@@ -318,6 +399,8 @@ public readonly MONTHLY: ReportGranularity;
 ```
 
 - *Type:* <a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a>
+
+Weekly granularity.
 
 ---
 

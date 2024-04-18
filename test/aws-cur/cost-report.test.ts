@@ -27,7 +27,7 @@ describe('CostReport', () => {
     template.hasResourceProperties('AWS::CUR::ReportDefinition', {
       ReportName: 'default-cur',
       TimeUnit: 'HOURLY',
-      Format: 'textORCsv',
+      Format: 'textORcsv',
       Compression: 'GZIP',
     });
   });
@@ -73,18 +73,7 @@ describe('CostReport', () => {
         Statement: Match.arrayWith([
           Match.objectLike({
             Principal: {
-              AWS: {
-                'Fn::Join': [
-                  '',
-                  [
-                    'arn:',
-                    {
-                      Ref: 'AWS::Partition',
-                    },
-                    ':iam::386209384616:root',
-                  ],
-                ],
-              },
+              Service: 'billingreports.amazonaws.com',
             },
             Action: ['s3:GetBucketAcl', 's3:GetBucketPolicy'],
           }),

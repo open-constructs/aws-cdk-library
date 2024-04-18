@@ -1,19 +1,51 @@
 import { Stack, aws_cur, aws_iam, aws_s3 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
+/**
+ * Enum for the possible granularities of a cost report
+ */
 export class ReportGranularity {
 
+  /** Hourly granularity */
   public static readonly HOURLY: ReportGranularity = new ReportGranularity('HOURLY');
+  /** Daily granularity */
   public static readonly DAILY: ReportGranularity = new ReportGranularity('DAILY');
+  /** Weekly granularity */
   public static readonly MONTHLY: ReportGranularity = new ReportGranularity('MONTHLY');
+
+  /**
+   * Returns a ReportGranularity instance for the given granularity string value.
+   *
+   * @param granularity - The granularity string value to create an instance for.
+   * @returns A ReportGranularity instance.
+   */
+  public static for(granularity: string): ReportGranularity {
+    return new ReportGranularity(granularity);
+  }
 
   private constructor(public readonly value: string) { }
 }
 
+/**
+ * Enum for the possible formats of a cost report
+ */
 export class CurFormat {
 
-  public static readonly TEXT: CurFormat = new CurFormat('GZIP', 'textORCsv');
+  /** GZIP compressed text or CSV format */
+  public static readonly TEXT: CurFormat = new CurFormat('GZIP', 'textORcsv');
+  /** Parquet format */
   public static readonly PARQUET: CurFormat = new CurFormat('Parquet', 'Parquet');
+
+  /**
+   * Returns a CurFormat instance for the given compression and format string values.
+   *
+   * @param compression - The compression string value
+   * @param format - The format string value
+   * @returns A CurFormat instance.
+   */
+  public static for(compression: string, format: string): CurFormat {
+    return new CurFormat(compression, format);
+  }
 
   private constructor(public readonly compression: string, public readonly format: string) { }
 }
@@ -64,39 +96,57 @@ export interface CostReportProps {
  * });
  */
 export class CostReport extends Construct {
+
+  public readonly reportBucket: aws_s3.IBucket;
+
   constructor(scope: Construct, id: string, props: CostReportProps) {
     super(scope, id);
 
-    const globalCURAccountId = '386209384616';
-
-    const curBucket = props.bucket ?? new aws_s3.Bucket(this, 'Bucket', {
+    this.reportBucket = props.bucket ?? this.createReportBucket(this, 'Bucket', {
       blockPublicAccess: aws_s3.BlockPublicAccess.BLOCK_ALL,
       enforceSSL: true,
     });
 
+    const currentStack = Stack.of(this);
+
+    const billingPrincipal = new aws_iam.ServicePrincipal('billingreports.amazonaws.com').withConditions({
+      StringEquals: {
+        'aws:SourceArn': `arn:aws:cur:${currentStack.region}:${currentStack.account}:definition/*`,
+        'aws:SourceAccount': currentStack.account,
+      },
+    });
     // Grant the global CUR Account write access to the bucket
-    curBucket.grantPut(new aws_iam.AccountPrincipal(globalCURAccountId));
-    curBucket.addToResourcePolicy(new aws_iam.PolicyStatement({
+    this.reportBucket.grantPut(billingPrincipal);
+    this.reportBucket.addToResourcePolicy(new aws_iam.PolicyStatement({
       effect: aws_iam.Effect.ALLOW,
-      principals: [new aws_iam.AccountPrincipal(globalCURAccountId)],
+      principals: [billingPrincipal],
       actions: ['s3:GetBucketAcl', 's3:GetBucketPolicy'],
-      resources: [curBucket.bucketArn],
+      resources: [this.reportBucket.bucketArn],
     }));
 
     const format = props.format ?? CurFormat.TEXT;
 
-    new aws_cur.CfnReportDefinition(this, 'Resource', {
+    this.createReportDefinition(this, 'Resource', {
       compression: format.compression,
       format: format.format,
       refreshClosedReports: false,
       reportName: props.costReportName ?? 'default-cur',
       reportVersioning: 'CREATE_NEW_REPORT',
-      s3Bucket: curBucket.bucketName,
+      s3Bucket: this.reportBucket.bucketName,
       s3Prefix: 'reports',
-      s3Region: Stack.of(this).region,
+      s3Region: currentStack.region,
       timeUnit: props.reportGranularity?.value ?? 'HOURLY',
       additionalSchemaElements: ['RESOURCES'],
     });
 
   }
+
+  protected createReportBucket(scope: Construct, id: string, props: aws_s3.BucketProps): aws_s3.IBucket {
+    return new aws_s3.Bucket(scope, id, props);
+  }
+
+  protected createReportDefinition(scope: Construct, id: string, props: aws_cur.CfnReportDefinitionProps): aws_cur.CfnReportDefinition {
+    return new aws_cur.CfnReportDefinition(scope, id, props);
+  }
+
 }
