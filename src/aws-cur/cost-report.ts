@@ -72,7 +72,7 @@ export interface CostReportProps {
   /**
    * The format to use for the cost and usage report.
    *
-   * @default - TEXT
+   * @default - TEXT_OR_CSV
    */
   readonly format?: CurFormat;
 
