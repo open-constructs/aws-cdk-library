@@ -23,7 +23,7 @@ export class ReportGranularity {
     return new ReportGranularity(granularity);
   }
 
-  private constructor(public readonly value: string) { }
+  protected constructor(public readonly value: string) { }
 }
 
 /**
@@ -47,7 +47,7 @@ export class CurFormat {
     return new CurFormat(compression, format);
   }
 
-  private constructor(public readonly compression: string, public readonly format: string) { }
+  protected constructor(public readonly compression: string, public readonly format: string) { }
 }
 
 /**
@@ -97,6 +97,7 @@ export interface CostReportProps {
  */
 export class CostReport extends Construct {
 
+  /** The S3 bucket that stores the cost report */
   public readonly reportBucket: aws_s3.IBucket;
 
   constructor(scope: Construct, id: string, props: CostReportProps) {

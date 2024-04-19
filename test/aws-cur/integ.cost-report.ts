@@ -13,7 +13,7 @@ class CostReportStack extends cdk.Stack {
       blockPublicAccess: cdk.aws_s3.BlockPublicAccess.BLOCK_ALL,
     });
 
-    new ocf.CostReport(this, 'CostReport', {
+    new ocf.aws_cur.CostReport(this, 'CostReport', {
       bucket,
     });
   }

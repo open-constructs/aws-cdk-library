@@ -1,2 +1,2 @@
 // Export constructs here
-export * from './aws-cur';
+export * as aws_cur from './aws-cur';

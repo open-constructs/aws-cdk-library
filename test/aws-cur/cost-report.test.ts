@@ -1,7 +1,7 @@
 
 import { App, CfnElement, Stack, aws_s3 } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
-import { CostReport, ReportGranularity, CurFormat } from '../../src';
+import { CostReport, ReportGranularity, CurFormat } from '../../src/aws-cur';
 
 describe('CostReport', () => {
   let app: App;

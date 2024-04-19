@@ -2,7 +2,7 @@
 
 ## Constructs <a name="Constructs" id="Constructs"></a>
 
-### CostReport <a name="CostReport" id="@open-constructs/aws-cdk.CostReport"></a>
+### CostReport <a name="CostReport" id="@open-constructs/aws-cdk.aws_cur.CostReport"></a>
 
 Represents a Cost Report construct in AWS CDK.
 
@@ -19,37 +19,37 @@ const report = new CostReport(stack, 'MyReport', {
 ```
 
 
-#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.CostReport.Initializer"></a>
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_cur.CostReport.Initializer"></a>
 
 ```typescript
-import { CostReport } from '@open-constructs/aws-cdk'
+import { aws_cur } from '@open-constructs/aws-cdk'
 
-new CostReport(scope: Construct, id: string, props: CostReportProps)
+new aws_cur.CostReport(scope: Construct, id: string, props: CostReportProps)
 ```
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.CostReport.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.CostReport.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.CostReport.Initializer.parameter.props">props</a></code> | <code><a href="#@open-constructs/aws-cdk.CostReportProps">CostReportProps</a></code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.Initializer.parameter.props">props</a></code> | <code>@open-constructs/aws-cdk.aws_cur.CostReportProps</code> | *No description.* |
 
 ---
 
-##### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.CostReport.Initializer.parameter.scope"></a>
+##### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_cur.CostReport.Initializer.parameter.scope"></a>
 
 - *Type:* constructs.Construct
 
 ---
 
-##### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.CostReport.Initializer.parameter.id"></a>
+##### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_cur.CostReport.Initializer.parameter.id"></a>
 
 - *Type:* string
 
 ---
 
-##### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.CostReport.Initializer.parameter.props"></a>
+##### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_cur.CostReport.Initializer.parameter.props"></a>
 
-- *Type:* <a href="#@open-constructs/aws-cdk.CostReportProps">CostReportProps</a>
+- *Type:* @open-constructs/aws-cdk.aws_cur.CostReportProps
 
 ---
 
@@ -57,11 +57,11 @@ new CostReport(scope: Construct, id: string, props: CostReportProps)
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.CostReport.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.toString">toString</a></code> | Returns a string representation of this construct. |
 
 ---
 
-##### `toString` <a name="toString" id="@open-constructs/aws-cdk.CostReport.toString"></a>
+##### `toString` <a name="toString" id="@open-constructs/aws-cdk.aws_cur.CostReport.toString"></a>
 
 ```typescript
 public toString(): string
@@ -73,21 +73,21 @@ Returns a string representation of this construct.
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.CostReport.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
 
 ---
 
-##### ~~`isConstruct`~~ <a name="isConstruct" id="@open-constructs/aws-cdk.CostReport.isConstruct"></a>
+##### ~~`isConstruct`~~ <a name="isConstruct" id="@open-constructs/aws-cdk.aws_cur.CostReport.isConstruct"></a>
 
 ```typescript
-import { CostReport } from '@open-constructs/aws-cdk'
+import { aws_cur } from '@open-constructs/aws-cdk'
 
-CostReport.isConstruct(x: any)
+aws_cur.CostReport.isConstruct(x: any)
 ```
 
 Checks if `x` is a construct.
 
-###### `x`<sup>Required</sup> <a name="x" id="@open-constructs/aws-cdk.CostReport.isConstruct.parameter.x"></a>
+###### `x`<sup>Required</sup> <a name="x" id="@open-constructs/aws-cdk.aws_cur.CostReport.isConstruct.parameter.x"></a>
 
 - *Type:* any
 
@@ -99,12 +99,12 @@ Any object.
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.CostReport.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.CostReport.property.reportBucket">reportBucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.reportBucket">reportBucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | The S3 bucket that stores the cost report. |
 
 ---
 
-##### `node`<sup>Required</sup> <a name="node" id="@open-constructs/aws-cdk.CostReport.property.node"></a>
+##### `node`<sup>Required</sup> <a name="node" id="@open-constructs/aws-cdk.aws_cur.CostReport.property.node"></a>
 
 ```typescript
 public readonly node: Node;
@@ -116,7 +116,7 @@ The tree node.
 
 ---
 
-##### `reportBucket`<sup>Required</sup> <a name="reportBucket" id="@open-constructs/aws-cdk.CostReport.property.reportBucket"></a>
+##### `reportBucket`<sup>Required</sup> <a name="reportBucket" id="@open-constructs/aws-cdk.aws_cur.CostReport.property.reportBucket"></a>
 
 ```typescript
 public readonly reportBucket: IBucket;
@@ -124,35 +124,37 @@ public readonly reportBucket: IBucket;
 
 - *Type:* aws-cdk-lib.aws_s3.IBucket
 
+The S3 bucket that stores the cost report.
+
 ---
 
 
 ## Structs <a name="Structs" id="Structs"></a>
 
-### CostReportProps <a name="CostReportProps" id="@open-constructs/aws-cdk.CostReportProps"></a>
+### CostReportProps <a name="CostReportProps" id="@open-constructs/aws-cdk.aws_cur.CostReportProps"></a>
 
 Properties for defining a Cost and Usage Report.
 
-#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.CostReportProps.Initializer"></a>
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_cur.CostReportProps.Initializer"></a>
 
 ```typescript
-import { CostReportProps } from '@open-constructs/aws-cdk'
+import { aws_cur } from '@open-constructs/aws-cdk'
 
-const costReportProps: CostReportProps = { ... }
+const costReportProps: aws_cur.CostReportProps = { ... }
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.CostReportProps.property.bucket">bucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | The bucket to place the cost report into. |
-| <code><a href="#@open-constructs/aws-cdk.CostReportProps.property.costReportName">costReportName</a></code> | <code>string</code> | The name of the cost report. |
-| <code><a href="#@open-constructs/aws-cdk.CostReportProps.property.format">format</a></code> | <code><a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a></code> | The format to use for the cost and usage report. |
-| <code><a href="#@open-constructs/aws-cdk.CostReportProps.property.reportGranularity">reportGranularity</a></code> | <code><a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a></code> | The granularity of the line items in the report. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReportProps.property.bucket">bucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | The bucket to place the cost report into. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReportProps.property.costReportName">costReportName</a></code> | <code>string</code> | The name of the cost report. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReportProps.property.format">format</a></code> | <code>@open-constructs/aws-cdk.aws_cur.CurFormat</code> | The format to use for the cost and usage report. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReportProps.property.reportGranularity">reportGranularity</a></code> | <code>@open-constructs/aws-cdk.aws_cur.ReportGranularity</code> | The granularity of the line items in the report. |
 
 ---
 
-##### `bucket`<sup>Optional</sup> <a name="bucket" id="@open-constructs/aws-cdk.CostReportProps.property.bucket"></a>
+##### `bucket`<sup>Optional</sup> <a name="bucket" id="@open-constructs/aws-cdk.aws_cur.CostReportProps.property.bucket"></a>
 
 ```typescript
 public readonly bucket: IBucket;
@@ -167,7 +169,7 @@ If non is provided, a new bucket will be created.
 
 ---
 
-##### `costReportName`<sup>Optional</sup> <a name="costReportName" id="@open-constructs/aws-cdk.CostReportProps.property.costReportName"></a>
+##### `costReportName`<sup>Optional</sup> <a name="costReportName" id="@open-constructs/aws-cdk.aws_cur.CostReportProps.property.costReportName"></a>
 
 ```typescript
 public readonly costReportName: string;
@@ -180,26 +182,26 @@ The name of the cost report.
 
 ---
 
-##### `format`<sup>Optional</sup> <a name="format" id="@open-constructs/aws-cdk.CostReportProps.property.format"></a>
+##### `format`<sup>Optional</sup> <a name="format" id="@open-constructs/aws-cdk.aws_cur.CostReportProps.property.format"></a>
 
 ```typescript
 public readonly format: CurFormat;
 ```
 
-- *Type:* <a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a>
+- *Type:* @open-constructs/aws-cdk.aws_cur.CurFormat
 - *Default:* TEXT_OR_CSV
 
 The format to use for the cost and usage report.
 
 ---
 
-##### `reportGranularity`<sup>Optional</sup> <a name="reportGranularity" id="@open-constructs/aws-cdk.CostReportProps.property.reportGranularity"></a>
+##### `reportGranularity`<sup>Optional</sup> <a name="reportGranularity" id="@open-constructs/aws-cdk.aws_cur.CostReportProps.property.reportGranularity"></a>
 
 ```typescript
 public readonly reportGranularity: ReportGranularity;
 ```
 
-- *Type:* <a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a>
+- *Type:* @open-constructs/aws-cdk.aws_cur.ReportGranularity
 - *Default:* HOURLY
 
 The granularity of the line items in the report.
@@ -208,30 +210,57 @@ The granularity of the line items in the report.
 
 ## Classes <a name="Classes" id="Classes"></a>
 
-### CurFormat <a name="CurFormat" id="@open-constructs/aws-cdk.CurFormat"></a>
+### CurFormat <a name="CurFormat" id="@open-constructs/aws-cdk.aws_cur.CurFormat"></a>
 
 Enum for the possible formats of a cost report.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_cur.CurFormat.Initializer"></a>
+
+```typescript
+import { aws_cur } from '@open-constructs/aws-cdk'
+
+new aws_cur.CurFormat(compression: string, format: string)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CurFormat.Initializer.parameter.compression">compression</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CurFormat.Initializer.parameter.format">format</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `compression`<sup>Required</sup> <a name="compression" id="@open-constructs/aws-cdk.aws_cur.CurFormat.Initializer.parameter.compression"></a>
+
+- *Type:* string
+
+---
+
+##### `format`<sup>Required</sup> <a name="format" id="@open-constructs/aws-cdk.aws_cur.CurFormat.Initializer.parameter.format"></a>
+
+- *Type:* string
+
+---
 
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.CurFormat.for">for</a></code> | Returns a CurFormat instance for the given compression and format string values. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CurFormat.for">for</a></code> | Returns a CurFormat instance for the given compression and format string values. |
 
 ---
 
-##### `for` <a name="for" id="@open-constructs/aws-cdk.CurFormat.for"></a>
+##### `for` <a name="for" id="@open-constructs/aws-cdk.aws_cur.CurFormat.for"></a>
 
 ```typescript
-import { CurFormat } from '@open-constructs/aws-cdk'
+import { aws_cur } from '@open-constructs/aws-cdk'
 
-CurFormat.for(compression: string, format: string)
+aws_cur.CurFormat.for(compression: string, format: string)
 ```
 
 Returns a CurFormat instance for the given compression and format string values.
 
-###### `compression`<sup>Required</sup> <a name="compression" id="@open-constructs/aws-cdk.CurFormat.for.parameter.compression"></a>
+###### `compression`<sup>Required</sup> <a name="compression" id="@open-constructs/aws-cdk.aws_cur.CurFormat.for.parameter.compression"></a>
 
 - *Type:* string
 
@@ -239,7 +268,7 @@ The compression string value.
 
 ---
 
-###### `format`<sup>Required</sup> <a name="format" id="@open-constructs/aws-cdk.CurFormat.for.parameter.format"></a>
+###### `format`<sup>Required</sup> <a name="format" id="@open-constructs/aws-cdk.aws_cur.CurFormat.for.parameter.format"></a>
 
 - *Type:* string
 
@@ -251,12 +280,12 @@ The format string value.
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.CurFormat.property.compression">compression</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.CurFormat.property.format">format</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CurFormat.property.compression">compression</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CurFormat.property.format">format</a></code> | <code>string</code> | *No description.* |
 
 ---
 
-##### `compression`<sup>Required</sup> <a name="compression" id="@open-constructs/aws-cdk.CurFormat.property.compression"></a>
+##### `compression`<sup>Required</sup> <a name="compression" id="@open-constructs/aws-cdk.aws_cur.CurFormat.property.compression"></a>
 
 ```typescript
 public readonly compression: string;
@@ -266,7 +295,7 @@ public readonly compression: string;
 
 ---
 
-##### `format`<sup>Required</sup> <a name="format" id="@open-constructs/aws-cdk.CurFormat.property.format"></a>
+##### `format`<sup>Required</sup> <a name="format" id="@open-constructs/aws-cdk.aws_cur.CurFormat.property.format"></a>
 
 ```typescript
 public readonly format: string;
@@ -280,59 +309,79 @@ public readonly format: string;
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.CurFormat.property.PARQUET">PARQUET</a></code> | <code><a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a></code> | Parquet format. |
-| <code><a href="#@open-constructs/aws-cdk.CurFormat.property.TEXT_OR_CSV">TEXT_OR_CSV</a></code> | <code><a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a></code> | GZIP compressed text or CSV format. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CurFormat.property.PARQUET">PARQUET</a></code> | <code>@open-constructs/aws-cdk.aws_cur.CurFormat</code> | Parquet format. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CurFormat.property.TEXT_OR_CSV">TEXT_OR_CSV</a></code> | <code>@open-constructs/aws-cdk.aws_cur.CurFormat</code> | GZIP compressed text or CSV format. |
 
 ---
 
-##### `PARQUET`<sup>Required</sup> <a name="PARQUET" id="@open-constructs/aws-cdk.CurFormat.property.PARQUET"></a>
+##### `PARQUET`<sup>Required</sup> <a name="PARQUET" id="@open-constructs/aws-cdk.aws_cur.CurFormat.property.PARQUET"></a>
 
 ```typescript
 public readonly PARQUET: CurFormat;
 ```
 
-- *Type:* <a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a>
+- *Type:* @open-constructs/aws-cdk.aws_cur.CurFormat
 
 Parquet format.
 
 ---
 
-##### `TEXT_OR_CSV`<sup>Required</sup> <a name="TEXT_OR_CSV" id="@open-constructs/aws-cdk.CurFormat.property.TEXT_OR_CSV"></a>
+##### `TEXT_OR_CSV`<sup>Required</sup> <a name="TEXT_OR_CSV" id="@open-constructs/aws-cdk.aws_cur.CurFormat.property.TEXT_OR_CSV"></a>
 
 ```typescript
 public readonly TEXT_OR_CSV: CurFormat;
 ```
 
-- *Type:* <a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a>
+- *Type:* @open-constructs/aws-cdk.aws_cur.CurFormat
 
 GZIP compressed text or CSV format.
 
 ---
 
-### ReportGranularity <a name="ReportGranularity" id="@open-constructs/aws-cdk.ReportGranularity"></a>
+### ReportGranularity <a name="ReportGranularity" id="@open-constructs/aws-cdk.aws_cur.ReportGranularity"></a>
 
 Enum for the possible granularities of a cost report.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_cur.ReportGranularity.Initializer"></a>
+
+```typescript
+import { aws_cur } from '@open-constructs/aws-cdk'
+
+new aws_cur.ReportGranularity(value: string)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.ReportGranularity.Initializer.parameter.value">value</a></code> | <code>string</code> | *No description.* |
+
+---
+
+##### `value`<sup>Required</sup> <a name="value" id="@open-constructs/aws-cdk.aws_cur.ReportGranularity.Initializer.parameter.value"></a>
+
+- *Type:* string
+
+---
 
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.ReportGranularity.for">for</a></code> | Returns a ReportGranularity instance for the given granularity string value. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.ReportGranularity.for">for</a></code> | Returns a ReportGranularity instance for the given granularity string value. |
 
 ---
 
-##### `for` <a name="for" id="@open-constructs/aws-cdk.ReportGranularity.for"></a>
+##### `for` <a name="for" id="@open-constructs/aws-cdk.aws_cur.ReportGranularity.for"></a>
 
 ```typescript
-import { ReportGranularity } from '@open-constructs/aws-cdk'
+import { aws_cur } from '@open-constructs/aws-cdk'
 
-ReportGranularity.for(granularity: string)
+aws_cur.ReportGranularity.for(granularity: string)
 ```
 
 Returns a ReportGranularity instance for the given granularity string value.
 
-###### `granularity`<sup>Required</sup> <a name="granularity" id="@open-constructs/aws-cdk.ReportGranularity.for.parameter.granularity"></a>
+###### `granularity`<sup>Required</sup> <a name="granularity" id="@open-constructs/aws-cdk.aws_cur.ReportGranularity.for.parameter.granularity"></a>
 
 - *Type:* string
 
@@ -344,11 +393,11 @@ The granularity string value to create an instance for.
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.ReportGranularity.property.value">value</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.ReportGranularity.property.value">value</a></code> | <code>string</code> | *No description.* |
 
 ---
 
-##### `value`<sup>Required</sup> <a name="value" id="@open-constructs/aws-cdk.ReportGranularity.property.value"></a>
+##### `value`<sup>Required</sup> <a name="value" id="@open-constructs/aws-cdk.aws_cur.ReportGranularity.property.value"></a>
 
 ```typescript
 public readonly value: string;
@@ -362,43 +411,43 @@ public readonly value: string;
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.ReportGranularity.property.DAILY">DAILY</a></code> | <code><a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a></code> | Daily granularity. |
-| <code><a href="#@open-constructs/aws-cdk.ReportGranularity.property.HOURLY">HOURLY</a></code> | <code><a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a></code> | Hourly granularity. |
-| <code><a href="#@open-constructs/aws-cdk.ReportGranularity.property.MONTHLY">MONTHLY</a></code> | <code><a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a></code> | Weekly granularity. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.ReportGranularity.property.DAILY">DAILY</a></code> | <code>@open-constructs/aws-cdk.aws_cur.ReportGranularity</code> | Daily granularity. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.ReportGranularity.property.HOURLY">HOURLY</a></code> | <code>@open-constructs/aws-cdk.aws_cur.ReportGranularity</code> | Hourly granularity. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.ReportGranularity.property.MONTHLY">MONTHLY</a></code> | <code>@open-constructs/aws-cdk.aws_cur.ReportGranularity</code> | Weekly granularity. |
 
 ---
 
-##### `DAILY`<sup>Required</sup> <a name="DAILY" id="@open-constructs/aws-cdk.ReportGranularity.property.DAILY"></a>
+##### `DAILY`<sup>Required</sup> <a name="DAILY" id="@open-constructs/aws-cdk.aws_cur.ReportGranularity.property.DAILY"></a>
 
 ```typescript
 public readonly DAILY: ReportGranularity;
 ```
 
-- *Type:* <a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a>
+- *Type:* @open-constructs/aws-cdk.aws_cur.ReportGranularity
 
 Daily granularity.
 
 ---
 
-##### `HOURLY`<sup>Required</sup> <a name="HOURLY" id="@open-constructs/aws-cdk.ReportGranularity.property.HOURLY"></a>
+##### `HOURLY`<sup>Required</sup> <a name="HOURLY" id="@open-constructs/aws-cdk.aws_cur.ReportGranularity.property.HOURLY"></a>
 
 ```typescript
 public readonly HOURLY: ReportGranularity;
 ```
 
-- *Type:* <a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a>
+- *Type:* @open-constructs/aws-cdk.aws_cur.ReportGranularity
 
 Hourly granularity.
 
 ---
 
-##### `MONTHLY`<sup>Required</sup> <a name="MONTHLY" id="@open-constructs/aws-cdk.ReportGranularity.property.MONTHLY"></a>
+##### `MONTHLY`<sup>Required</sup> <a name="MONTHLY" id="@open-constructs/aws-cdk.aws_cur.ReportGranularity.property.MONTHLY"></a>
 
 ```typescript
 public readonly MONTHLY: ReportGranularity;
 ```
 
-- *Type:* <a href="#@open-constructs/aws-cdk.ReportGranularity">ReportGranularity</a>
+- *Type:* @open-constructs/aws-cdk.aws_cur.ReportGranularity
 
 Weekly granularity.
 
