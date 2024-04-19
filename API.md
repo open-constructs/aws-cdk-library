@@ -187,7 +187,7 @@ public readonly format: CurFormat;
 ```
 
 - *Type:* <a href="#@open-constructs/aws-cdk.CurFormat">CurFormat</a>
-- *Default:* TEXT
+- *Default:* TEXT_OR_CSV
 
 The format to use for the cost and usage report.
 
