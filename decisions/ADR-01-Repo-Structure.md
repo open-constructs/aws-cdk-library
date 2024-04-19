@@ -31,7 +31,7 @@ This structure should enable contributors to find things quickly and makes sure 
 │   │   └── ...
 ├── test
 │   ├── aws-elasticache
-│   │   ├── redis-replication-group.integ-test.ts
+│   │   ├── integ.redis-replication-group.ts
 │   │   ├── redis-replication-group.test.ts
 │   ├── ...
 │   ├── static-website
@@ -39,12 +39,12 @@ This structure should enable contributors to find things quickly and makes sure 
 │   ├── monitoring
 │   │   ├── lambda-monitoring
 │   │   │   ├── lambda-monitoring.test.ts
-│   │   ├── monitoring.integ-test.ts
+│   │   ├── integ.monitoring.ts
 │   │   ├── monitoring-aspect.test.ts
 │   ├── ...
 │   ├── core
 │   │   ├── typescript-asset
-│   │   │   ├── typescript-asset.integ-test.ts
+│   │   │   ├── integ.typescript-asset.ts
 │   │   │   ├── typescript-asset.test.ts
 │   │   └── ...
 
