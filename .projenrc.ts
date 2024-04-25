@@ -21,6 +21,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
   depsUpgradeOptions: { workflowOptions: { schedule: javascript.UpgradeDependenciesSchedule.WEEKLY } },
   githubOptions: {
     projenCredentials: github.GithubCredentials.fromApp(),
+    pullRequestLintOptions: {
+      semanticTitleOptions: {
+        types: ['feat', 'fix', 'build', 'chore', 'ci', 'docs', 'style', 'refactor', 'perf', 'test', 'revert', 'Revert'],
+      },
+    },
   },
   releaseTrigger: release.ReleaseTrigger.manual(),
   gitpod: true,
