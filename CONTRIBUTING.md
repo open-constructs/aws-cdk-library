@@ -155,8 +155,9 @@ This section guides you through setting up your Windows machine.
 
 ### Installation
 
-Install WSL if you do not have it installed yet:\
-https://learn.microsoft.com/en-us/windows/wsl/install
+Install WSL if you do not have it installed yet:  
+
+* [WSL Install](https://learn.microsoft.com/en-us/windows/wsl/install)  
 
 Now you have access to an Ubuntu terminal powered by WSL.
 
@@ -164,18 +165,21 @@ Now you have access to an Ubuntu terminal powered by WSL.
 >From here on it is assumed you are using the WSL terminal to run all commands.\
 >You can use [Windows Terminal (Recommended)](https://apps.microsoft.com/detail/9n0dx20hk701?rtc=1&hl=en-za&gl=ZA), or you can run the `wsl` command in CMD or PowerShell.
 
-You can now setup Node in your WSL:\
-[Node Install](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl)
+You can now setup Node in your WSL:  
+
+* [Node Install](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl)  
 
 ### Setup `aws-cdk-library` on WSL
 
-Now that WSL is setup, you can clone this project onto your WSL machine in a preferred Directory.\
+Now that WSL is setup, you can clone this project onto your WSL machine in a preferred Directory.
 
-To contribute, fork the repository to your own GitHub account, and then clone it onto your machine:
-`git clone https://github.com/<your_username_here>/aws-cdk-library.git`
+To contribute, fork the repository to your own GitHub account, and then clone it onto your machine:  
+
+* `git clone https://github.com/<your_username_here>/aws-cdk-library.git` 
 
 Open the project and confirm that your setup is working by running the following commands: 
-- `npm install`
-- `npm run build`.
+
+* `npm install`  
+* `npm run build`  
 
 If it runs successfully, your environment is setup correctly.
