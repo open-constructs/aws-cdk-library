@@ -174,8 +174,7 @@ You can now setup Node in your WSL:
 Now that WSL is setup, you can clone this project onto your WSL machine in a preferred Directory.
 
 > [!NOTE]
-> It is recommended to store all WSL specific projects in the WSL file system instead of the "mounted" Windows filesystem. 
-> i.e. `~/< your_project_directory >/aws-cdk-library`
+> It is recommended to store all WSL specific projects in the WSL file system instead of the "mounted" Windows `C:\` drive, e.g., `~/< your_project_directory >/aws-cdk-library`.
 > This will keep everything consistent in the Linux machine.
 
 To contribute, fork the repository to your own GitHub account, and then clone it onto your machine:  
