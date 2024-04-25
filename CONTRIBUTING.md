@@ -1,14 +1,16 @@
-The project governance of the new community-driven CDK construct library initiative by the Open Construct 
-Foundation is designed to ensure the quality, reliability, and security of the constructs provided to the AWS 
+# Contributing to the Community-driven CDK Construct Library Initiative
+
+The project governance of the new community-driven CDK construct library initiative by the Open Construct
+Foundation is designed to ensure the quality, reliability, and security of the constructs provided to the AWS
 community.
 
-The governance process involves thorough reviews and stringent security checks for all constructs included in 
-the library. This ensures the constructs that are marked as stable by the maintainers meet the highest 
+The governance process involves thorough reviews and stringent security checks for all constructs included in
+the library. This ensures the constructs that are marked as stable by the maintainers meet the highest
 standards and are reliable for AWS infrastructure development.
 
-Under the careful stewardship of the Open Construct Foundation, the project will leverage the collective 
+Under the careful stewardship of the Open Construct Foundation, the project will leverage the collective
 expertise of experienced CDK users, who will contribute to the development and maintenance of the library. This
-community-driven approach ensures that the constructs offered cover a wide range of L2 and L3 functionalities, 
+community-driven approach ensures that the constructs offered cover a wide range of L2 and L3 functionalities,
 extending the core library provided by AWS.
 
 By following this governance model, the Open Construct Foundation aims to provide top-quality constructs that
@@ -40,8 +42,10 @@ To achieve these goals, the following design principles are followed:
 * Use the AWS CDK library as a reference for [design patterns](https://github.com/aws/aws-cdk/blob/main/docs/DESIGN_GUIDELINES.md).
 
 Additionally, constructs [SHOULD](https://datatracker.ietf.org/doc/html/rfc2119#section-3):
+
 * Follow the standard CDK pattern of having all options on the third construct parameter (props).
 * Each option in the props passed to the construct should be readonly.
+
 ```typescript
 /**
  * Properties for MyConstruct.
@@ -53,6 +57,7 @@ export interface MyConstructProps {
   readonly myProperty: string;
 }
 ```
+
 * Be named after the AWS resource they create.
 * Acronyms used in the construct name should not be entirely captialized. For example, `Vpc` instead of `VPC`.
 * The primary L1 (Cfn*) construct should have an 'id' of `Resource`.
@@ -67,6 +72,7 @@ export interface MyConstructProps {
   * Integration tests should be designed to be quick to execute. If this can't be achieved because it requires creating
     a resource that takes a long time to create, then the integration test can be skipped.
 * L1 constructs should be created in protected methods to allow for easy extension of the construct. For example:
+
 ```typescript
 export class MyConstruct extends Construct {
   protected something: CfnSomething;
@@ -84,21 +90,20 @@ export class MyConstruct extends Construct {
   }
 }
 ```
+
 * The props argument to the constructor should be marked as private so that it is accessible elsewhere in the construct but not from outside the construct.
 * Eslint should be executed and pass with no errors or warnings.
-* A static import method from attributes (e.g. `.fromSomethingAttributes()`) should be written. 
+* A static import method from attributes (e.g. `.fromSomethingAttributes()`) should be written.
   * Other import methods normally require access to the context API which is beyond the scope of these constructs. We'd like to address this in the future.
 * Constructs should implement an interface so that the import methods (e.g. `.fromSomethingAttributes()`) can return the interface type.
-
-
 
 ## Testing
 
 Tests are fundamental to building good constructs. The following testing guidelines should be followed:
 
 * All tests should be stored in the `test/<something>` subdirectory. For example, if you are creating
-a construct for the AppStream service, then the module name would be `aws-appstream` and tests would go in the 
-`/test/aws-appstream` directory. The 'aws' prefix should only be used when building L2 constructs for 
+a construct for the AppStream service, then the module name would be `aws-appstream` and tests would go in the
+`/test/aws-appstream` directory. The 'aws' prefix should only be used when building L2 constructs for
 specific AWS services. If you are building L3 constructs that span multiple services, then you shouldn't use
 a prefix.
 * Fine-grained tests should be implemented for all constructs with a goal of 100% coverage. For example,
@@ -108,15 +113,15 @@ for the Application construct in the AppStream module, your tests should be in t
 
 ### Fine-grained assertion tests
 
-Unit tests should be created that cover all pathways of code in your construct, including the testing of any 
-default value or conditionals. Test reports will report code coverage. 
+Unit tests should be created that cover all pathways of code in your construct, including the testing of any
+default value or conditionals. Test reports will report code coverage.
 
 For example, if your construct has a property that can be overridden, you should have a test that ensures the
-property is overridden correctly and that creates a default value when not overridden. 
-An example of this can be found [here](./test/aws-examplemodule/example.test.ts). 
+property is overridden correctly and that creates a default value when not overridden.
+An example of this can be found [here](./test/aws-examplemodule/example.test.ts).
 
 > [!NOTE]  
-> The specific code in these tests are not a prescription for how to write tests, but rather an example of how to structure them. 
+> The specific code in these tests are not a prescription for how to write tests, but rather an example of how to structure them.
 > Testing that a role is correct could be done multiple ways and this is just one.
 
 * In the test 'Uses provided Role for Lambda Function' the Lambda Function is referenced via the `.node.defaultChild` property and then the role is compared to the one provided.
@@ -127,17 +132,18 @@ All tests for a construct should be contained in a single file.
 
 ### Snapshot tests
 
-While snapshots tests are useful when developing AWS CDK applications, they should not be used when creating 
-constructs as they do not provide enough clarity on the intent of the construct. 
+While snapshots tests are useful when developing AWS CDK applications, they should not be used when creating
+constructs as they do not provide enough clarity on the intent of the construct.
 
 ### Integration tests
 
 Integration tests should be created to cover a basic deployment of the most common use case for a construct.
 You do not need to create integration tests for every possible use case, but you should cover the most common.
 
-An example of an integration test can be found [here](./test/aws-examplemodule/example.integ.ts). 
+An example of an integration test can be found [here](./test/aws-examplemodule/example.integ.ts).
 
 To create a new test:
+
 1. Create a new file called 'integ.something.ts' alongside the other tests for your module. E.g. `test/aws-examplemodule/integ.example.ts`.
 2. Run `npx projen integ:update test/aws-examplemodule/integ.example.ts`. This will update the snapshot for the test. You will need to have AWS credentials in your environment.
 3. Run `npx projen integ test/aws-examplemodule/integ.example.ts` to verify your current code against the snapshot.  
@@ -179,9 +185,9 @@ Now that WSL is setup, you can clone this project onto your WSL machine in a pre
 
 To contribute, fork the repository to your own GitHub account, and then clone it onto your machine:  
 
-* `git clone https://github.com/<your_username_here>/aws-cdk-library.git` 
+* `git clone https://github.com/<your_username_here>/aws-cdk-library.git`
 
-Open the project and confirm that your setup is working by running the following commands: 
+Open the project and confirm that your setup is working by running the following commands:
 
 * `npm install`  
 * `npm run build`  
