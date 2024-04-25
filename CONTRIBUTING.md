@@ -145,3 +145,45 @@ To create a new test:
 
 Snapshots are created and stored in the `integ.example.ts.snapshot` directory and should be committed along with
 the rest of your code.
+
+## Windows Environment Setup
+
+Currently `projen` does not support Windows very well.
+Since this project makes use of `projen`, you will need to setup [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/about) to contribute as a Windows user.
+
+This section guides you through setting up your Windows machine.
+
+### Installation
+
+Install WSL if you do not have it installed yet:  
+
+* [WSL Install](https://learn.microsoft.com/en-us/windows/wsl/install)  
+
+Now you have access to an Ubuntu terminal powered by WSL.
+
+> [!IMPORTANT]  
+> From here on it is assumed you are using the WSL terminal to run all commands.\
+> You can use [Windows Terminal (Recommended)](https://apps.microsoft.com/detail/9n0dx20hk701?rtc=1&hl=en-za&gl=ZA), or you can run the `wsl` command in CMD or PowerShell.
+
+You can now setup Node.js in your WSL:  
+
+* [Node.js Install](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl)  
+
+### Setup `aws-cdk-library` on WSL
+
+Now that WSL is setup, you can clone this project onto your WSL machine in a preferred directory.
+
+> [!NOTE]
+> It is recommended to store all WSL specific projects in the WSL file system instead of the "mounted" Windows `C:\` drive, e.g., `~/< your_project_directory >/aws-cdk-library`.
+> This will keep everything consistent in the Linux machine.
+
+To contribute, fork the repository to your own GitHub account, and then clone it onto your machine:  
+
+* `git clone https://github.com/<your_username_here>/aws-cdk-library.git` 
+
+Open the project and confirm that your setup is working by running the following commands: 
+
+* `npm install`  
+* `npm run build`  
+
+If it runs successfully, your environment is setup correctly.
