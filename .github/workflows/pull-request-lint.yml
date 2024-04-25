@@ -24,13 +24,11 @@ jobs:
           types: |-
             feat
             fix
-            build
             chore
             ci
             docs
             style
             refactor
-            perf
             test
             revert
             Revert

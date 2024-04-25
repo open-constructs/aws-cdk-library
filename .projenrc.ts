@@ -23,7 +23,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     projenCredentials: github.GithubCredentials.fromApp(),
     pullRequestLintOptions: {
       semanticTitleOptions: {
-        types: ['feat', 'fix', 'build', 'chore', 'ci', 'docs', 'style', 'refactor', 'perf', 'test', 'revert', 'Revert'],
+        types: ['feat', 'fix', 'chore', 'ci', 'docs', 'style', 'refactor', 'test', 'revert', 'Revert'],
       },
     },
   },

@@ -193,3 +193,26 @@ Open the project and confirm that your setup is working by running the following
 * `npm run build`  
 
 If it runs successfully, your environment is setup correctly.
+
+## Pull Request
+
+When submitting a pull request, please ensure that you have followed the guidelines outlined in this document.
+
+### Pull Request Title
+
+* Pull request title must adhere to [conventional commits](https://www.conventionalcommits.org):
+  * `feat`: Indicates a new feature has been added to the project.
+  * `fix`: Indicates a bug fix that corrects an issue in the project.
+  * `chore`: Describes other changes.
+  * `ci`: Changes to our CI configuration files and scripts.
+  * `docs`: Documentation updates or additions, including both docstrings and Markdown files.
+  * `style`: Changes that do not affect the meaning of the code (white-space, formatting, etc).
+  * `refactor`: A code change that neither fixes a bug nor adds a feature, primarily aimed at improving code readability or structure.
+  * `test`: Adding missing tests or correcting existing tests.
+  * `revert`: Used to indicate a reversal of a previous commit.
+* Titles for `feat` and `fix` PRs end up in the change log. Think about what makes most sense for users reading the changelog while writing them.
+  * `feat`: Describe the feature (not the action of creating the commit or PR, for example, avoid words like "added" or "changed")
+  * `fix`: Describe the bug (not the solution)
+* Formatting guidelines for titles:
+  * Title should be lowercase (except for the special use of `Revert`).
+  * Do not end the title with a period.
