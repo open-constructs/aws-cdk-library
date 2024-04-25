@@ -162,8 +162,8 @@ Install WSL if you do not have it installed yet:
 Now you have access to an Ubuntu terminal powered by WSL.
 
 > [!IMPORTANT]  
->From here on it is assumed you are using the WSL terminal to run all commands.\
->You can use [Windows Terminal (Recommended)](https://apps.microsoft.com/detail/9n0dx20hk701?rtc=1&hl=en-za&gl=ZA), or you can run the `wsl` command in CMD or PowerShell.
+> From here on it is assumed you are using the WSL terminal to run all commands.\
+> You can use [Windows Terminal (Recommended)](https://apps.microsoft.com/detail/9n0dx20hk701?rtc=1&hl=en-za&gl=ZA), or you can run the `wsl` command in CMD or PowerShell.
 
 You can now setup Node in your WSL:  
 
