@@ -33,7 +33,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     distName: 'open-constructs-aws-cdk',
     module: 'open_constructs_aws_cdk',
   },
-  minNodeVersion: '18.20.2',
+  minNodeVersion: '18.0.0',
   // publishToMaven: {
   //   mavenGroupId: 'org.open-constructs',
   //   mavenArtifactId: 'aws-cdk',
