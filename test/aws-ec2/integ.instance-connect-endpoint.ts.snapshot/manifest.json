@@ -1,0 +1,317 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "InstanceConnectEndpointStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "InstanceConnectEndpointStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "InstanceConnectEndpointStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "InstanceConnectEndpointStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/60bf5bedca6e6961a0b26f17696f091c2c30056bdfc32c0909e6697d05f15541.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "InstanceConnectEndpointStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "InstanceConnectEndpointStack.assets"
+      ],
+      "metadata": {
+        "/InstanceConnectEndpointStack/VPC/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCB9E5F0B4"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1SubnetB4246D30"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1RouteTableFEE4B781"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1RouteTableAssociation0B0896DC"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1DefaultRoute91CEF279"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1EIP6AD938E8"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1NATGatewayE0556630"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2Subnet74179F39"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2RouteTable6F1A15F1"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2RouteTableAssociation5A808732"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2DefaultRouteB7481BBA"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PublicSubnet2/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2EIP4947BC00"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PublicSubnet2/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2NATGateway3C070193"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet1Subnet8BCA10E0"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet1RouteTableBE8A6027"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet1RouteTableAssociation347902D1"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet1DefaultRouteAE1D6490"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet2SubnetCFCDAA7A"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet2RouteTable0A19E10E"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet2RouteTableAssociation0C73D413"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet2DefaultRouteF4F5CFD2"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCIGWB7E252D3"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCVPCGW99B986DC"
+          }
+        ],
+        "/InstanceConnectEndpointStack/VPC/RestrictDefaultSecurityGroupCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCRestrictDefaultSecurityGroupCustomResource59474679"
+          }
+        ],
+        "/InstanceConnectEndpointStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+          }
+        ],
+        "/InstanceConnectEndpointStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E"
+          }
+        ],
+        "/InstanceConnectEndpointStack/Instance/InstanceSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceInstanceSecurityGroupF0E2D5BE"
+          }
+        ],
+        "/InstanceConnectEndpointStack/Instance/InstanceSecurityGroup/from InstanceConnectEndpointStackSecurityGroupAB1BD525:22": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceInstanceSecurityGroupfromInstanceConnectEndpointStackSecurityGroupAB1BD525228343766C"
+          }
+        ],
+        "/InstanceConnectEndpointStack/Instance/InstanceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceInstanceRoleE9785DE5"
+          }
+        ],
+        "/InstanceConnectEndpointStack/Instance/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceInstanceProfileAB5AEF02"
+          }
+        ],
+        "/InstanceConnectEndpointStack/Instance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceC1063A87"
+          }
+        ],
+        "/InstanceConnectEndpointStack/SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn-ami-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/InstanceConnectEndpointStack/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SecurityGroupDD263621"
+          }
+        ],
+        "/InstanceConnectEndpointStack/SecurityGroup/to InstanceConnectEndpointStackInstanceInstanceSecurityGroupED8DD45C:22": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SecurityGrouptoInstanceConnectEndpointStackInstanceInstanceSecurityGroupED8DD45C22FB84383F"
+          }
+        ],
+        "/InstanceConnectEndpointStack/InstanceConnectEndpoint/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InstanceConnectEndpointAC315DCA"
+          }
+        ],
+        "/InstanceConnectEndpointStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/InstanceConnectEndpointStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "InstanceConnectEndpointStack"
+    },
+    "InstanceConnectEndpointDefaultTestDeployAssert284B1FD7.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "InstanceConnectEndpointDefaultTestDeployAssert284B1FD7.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "InstanceConnectEndpointDefaultTestDeployAssert284B1FD7": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "InstanceConnectEndpointDefaultTestDeployAssert284B1FD7.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/21fbb51d7b23f6a6c262b46a9caee79d744a3ac019fd45422d988b96d44b2a22.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "InstanceConnectEndpointDefaultTestDeployAssert284B1FD7.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "InstanceConnectEndpointDefaultTestDeployAssert284B1FD7.assets"
+      ],
+      "metadata": {
+        "/InstanceConnectEndpoint/DefaultTest/DeployAssert/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/InstanceConnectEndpoint/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "InstanceConnectEndpoint/DefaultTest/DeployAssert"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
