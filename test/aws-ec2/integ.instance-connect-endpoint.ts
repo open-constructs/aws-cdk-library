@@ -13,8 +13,13 @@ class InstanceConnectEndpointStack extends cdk.Stack {
 
     const instance = new cdk.aws_ec2.Instance(this, 'Instance', {
       vpc,
-      instanceType: new cdk.aws_ec2.InstanceType('t2.micro'),
-      machineImage: new cdk.aws_ec2.AmazonLinuxImage(),
+      instanceType: cdk.aws_ec2.InstanceType.of(
+        cdk.aws_ec2.InstanceClass.C5,
+        cdk.aws_ec2.InstanceSize.LARGE,
+      ),
+      machineImage: new cdk.aws_ec2.AmazonLinuxImage({
+        generation: cdk.aws_ec2.AmazonLinuxGeneration.AMAZON_LINUX_2023,
+      }),
     });
 
     const securityGroup = new cdk.aws_ec2.SecurityGroup(this, 'SecurityGroup', {

@@ -19,12 +19,15 @@ export interface IInstanceConnectEndpoint extends aws_ec2.IConnectable, IConstru
 export interface InstanceConnectEndpointProps {
   /**
    * Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+   *
+   * @see https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-instanceconnectendpoint.html#cfn-ec2-instanceconnectendpoint-clienttoken
    */
   clientToken?: string;
 
   /**
    * Indicates whether your client's IP address is preserved as the source.
    *
+   * @see https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-instanceconnectendpoint.html#cfn-ec2-instanceconnectendpoint-preserveclientip
    * @default true
    */
   preserveClientIp?: boolean;
