@@ -75,35 +75,35 @@ export class InstanceConnectEndpoint extends Construct implements IInstanceConne
    */
   public readonly connections: aws_ec2.Connections;
 
+  private readonly props: InstanceConnectEndpointProps;
+  private readonly securityGroups: aws_ec2.ISecurityGroup[];
+
   constructor(scope: Construct, id: string, props: InstanceConnectEndpointProps) {
     super(scope, id);
+    this.props = props;
 
-    const securityGroups = props.securityGroups ?? [
+    this.securityGroups = props.securityGroups ?? [
       new aws_ec2.SecurityGroup(this, 'SecurityGroup', {
         vpc: props.vpc,
       }),
     ];
 
     this.connections = new aws_ec2.Connections({
-      securityGroups,
+      securityGroups: this.securityGroups,
     });
 
-    const instanceConnectEndpoint = this.createInstanceConnectEndpoint(this, 'Resource', {
-      clientToken: props.clientToken,
-      preserveClientIp: props.preserveClientIp,
-      securityGroupIds: securityGroups.map(sg => sg.securityGroupId),
-      subnetId: props.vpc.selectSubnets().subnetIds[0],
-    });
+    const instanceConnectEndpoint = this.createInstanceConnectEndpoint();
 
     this.instanceConnectEndpointId = instanceConnectEndpoint.getAtt('Id').toString();
   }
 
-  protected createInstanceConnectEndpoint(
-    scope: Construct,
-    id: string,
-    props: aws_ec2.CfnInstanceConnectEndpointProps,
-  ): aws_ec2.CfnInstanceConnectEndpoint {
-    return new aws_ec2.CfnInstanceConnectEndpoint(scope, id, props);
+  protected createInstanceConnectEndpoint(): aws_ec2.CfnInstanceConnectEndpoint {
+    return new aws_ec2.CfnInstanceConnectEndpoint(this, 'Resource', {
+      clientToken: this.props.clientToken,
+      preserveClientIp: this.props.preserveClientIp,
+      securityGroupIds: this.securityGroups.map(sg => sg.securityGroupId),
+      subnetId: this.props.vpc.selectSubnets().subnetIds[0],
+    });
   }
 }
 
