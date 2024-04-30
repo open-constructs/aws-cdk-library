@@ -22,7 +22,7 @@ export interface InstanceConnectEndpointProps {
    *
    * @see https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-instanceconnectendpoint.html#cfn-ec2-instanceconnectendpoint-clienttoken
    */
-  clientToken?: string;
+  readonly clientToken?: string;
 
   /**
    * Indicates whether your client's IP address is preserved as the source.
@@ -30,19 +30,19 @@ export interface InstanceConnectEndpointProps {
    * @see https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-instanceconnectendpoint.html#cfn-ec2-instanceconnectendpoint-preserveclientip
    * @default true
    */
-  preserveClientIp?: boolean;
+  readonly preserveClientIp?: boolean;
 
   /**
    * The security groups to associate with the EC2 Instance Connect Endpoint.
    *
    * @default - a new security group is created
    */
-  securityGroups?: aws_ec2.ISecurityGroup[];
+  readonly securityGroups?: aws_ec2.ISecurityGroup[];
 
   /**
    * The VPC in which the EC2 Instance Connect Endpoint is created.
    */
-  vpc: aws_ec2.IVpc;
+  readonly vpc: aws_ec2.IVpc;
 }
 
 /**
