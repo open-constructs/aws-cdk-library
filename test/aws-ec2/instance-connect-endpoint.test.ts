@@ -2,7 +2,7 @@ import { App, Stack, aws_ec2 } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { InstanceConnectEndpoint } from '../../src/aws-ec2';
 
-describe('CostReport', () => {
+describe('InstanceConnectEndpoint', () => {
   let app: App;
   let stack: Stack;
 
@@ -12,7 +12,7 @@ describe('CostReport', () => {
   });
 
   test('default configuration', () => {
-    new InstanceConnectEndpoint(stack, 'MyCostReport', {
+    new InstanceConnectEndpoint(stack, 'MyInstanceConnectEndpoint', {
       vpc: new aws_ec2.Vpc(stack, 'VPC', {
         maxAzs: 2,
       }),
@@ -20,7 +20,7 @@ describe('CostReport', () => {
 
     Template.fromStack(stack).hasResourceProperties('AWS::EC2::InstanceConnectEndpoint', {
       SecurityGroupIds: [
-        { 'Fn::GetAtt': ['MyCostReportSecurityGroup9CB2B7F4', 'GroupId'] },
+        { 'Fn::GetAtt': ['MyInstanceConnectEndpointSecurityGroup99B9E814', 'GroupId'] },
       ],
       SubnetId: { Ref: 'VPCPrivateSubnet1Subnet8BCA10E0' },
     });
@@ -30,7 +30,7 @@ describe('CostReport', () => {
     const vpc = new aws_ec2.Vpc(stack, 'VPC', {
       maxAzs: 2,
     });
-    new InstanceConnectEndpoint(stack, 'MyCustomCostReport', {
+    new InstanceConnectEndpoint(stack, 'MyCustomInstanceConnectEndpoint', {
       vpc,
       clientToken: 'my-client-token',
       preserveClientIp: false,
