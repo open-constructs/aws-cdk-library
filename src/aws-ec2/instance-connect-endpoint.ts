@@ -45,6 +45,9 @@ export interface InstanceConnectEndpointProps {
   readonly vpc: aws_ec2.IVpc;
 }
 
+/**
+ * Attributes for importing an EC2 Instance Connect Endpoint.
+ */
 export interface InstanceConnectEndpointAttributes {
   /**
    * The ID of the EC2 Instance Connect Endpoint.

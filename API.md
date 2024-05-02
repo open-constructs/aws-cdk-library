@@ -505,6 +505,8 @@ The granularity of the line items in the report.
 
 ### InstanceConnectEndpointAttributes <a name="InstanceConnectEndpointAttributes" id="@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpointAttributes"></a>
 
+Attributes for importing an EC2 Instance Connect Endpoint.
+
 #### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpointAttributes.Initializer"></a>
 
 ```typescript
