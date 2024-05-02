@@ -1,10 +1,10 @@
-import { aws_ec2 } from 'aws-cdk-lib';
-import { Construct, IConstruct } from 'constructs';
+import { IResource, Resource, aws_ec2 } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 
 /**
  * An EC2 Instance Connect Endpoint.
  */
-export interface IInstanceConnectEndpoint extends aws_ec2.IConnectable, IConstruct {
+export interface IInstanceConnectEndpoint extends aws_ec2.IConnectable, IResource {
   /**
    * The ID of the EC2 Instance Connect Endpoint.
    *
@@ -63,7 +63,7 @@ export interface InstanceConnectEndpointProps {
  *   },
  * );
  */
-export class InstanceConnectEndpoint extends Construct implements IInstanceConnectEndpoint {
+export class InstanceConnectEndpoint extends Resource implements IInstanceConnectEndpoint {
 
   /**
    * The ID of the EC2 Instance Connect Endpoint.
