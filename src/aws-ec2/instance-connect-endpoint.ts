@@ -45,6 +45,20 @@ export interface InstanceConnectEndpointProps {
   readonly vpc: aws_ec2.IVpc;
 }
 
+export interface InstanceConnectEndpointAttributes {
+  /**
+   * The ID of the EC2 Instance Connect Endpoint.
+   */
+  readonly instanceConnectEndpointId: string;
+
+  /**
+   * The security groups associated with the EC2 Instance Connect Endpoint.
+   *
+   * @default - no security groups
+   */
+  readonly securityGroups?: aws_ec2.ISecurityGroup[];
+}
+
 /**
  * Represents an EC2 Instance Connect Endpoint construct in AWS CDK.
  *
@@ -64,6 +78,24 @@ export interface InstanceConnectEndpointProps {
  * );
  */
 export class InstanceConnectEndpoint extends Resource implements IInstanceConnectEndpoint {
+
+  /**
+   * Import an existing endpoint to the stack from its attributes.
+   */
+  public static fromInstanceConnectEndpointAttributes(
+    scope: Construct,
+    id: string,
+    attrs: InstanceConnectEndpointAttributes,
+  ): IInstanceConnectEndpoint {
+    class Import extends Resource implements IInstanceConnectEndpoint {
+      public readonly instanceConnectEndpointId = attrs.instanceConnectEndpointId;
+      public readonly connections = new aws_ec2.Connections({
+        securityGroups: attrs.securityGroups,
+      });
+    }
+
+    return new Import(scope, id);
+  }
 
   /**
    * The ID of the EC2 Instance Connect Endpoint.
