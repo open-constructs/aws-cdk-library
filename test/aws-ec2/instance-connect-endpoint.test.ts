@@ -51,4 +51,41 @@ describe('InstanceConnectEndpoint', () => {
       SubnetId: { Ref: 'VPCPrivateSubnet1Subnet8BCA10E0' },
     });
   });
+
+  describe('import endpoint', () => {
+    test('import from only instance connect endpoint id', () => {
+      const existingEndpoint = InstanceConnectEndpoint.fromInstanceConnectEndpointAttributes(
+        stack,
+        'ImportedInstanceConnectEndpoint',
+        {
+          instanceConnectEndpointId: 'my-endpoint-id',
+        },
+      );
+
+      expect(existingEndpoint.instanceConnectEndpointId).toEqual('my-endpoint-id');
+      expect(existingEndpoint.connections.securityGroups).toEqual([]);
+    });
+
+    test('import from instance connect endpoint id and security groups', () => {
+      const vpc = new aws_ec2.Vpc(stack, 'VPC');
+      const securityGroup = new aws_ec2.SecurityGroup(stack, 'SecurityGroup', {
+        vpc,
+        allowAllOutbound: false,
+      });
+
+      const existingEndpoint = InstanceConnectEndpoint.fromInstanceConnectEndpointAttributes(
+        stack,
+        'ImportedInstanceConnectEndpoint',
+        {
+          instanceConnectEndpointId: 'my-endpoint-id',
+          securityGroups: [securityGroup],
+        },
+      );
+
+      expect(existingEndpoint.instanceConnectEndpointId).toEqual('my-endpoint-id');
+      expect(existingEndpoint.connections.securityGroups).toEqual([securityGroup]);
+    });
+  });
+
+
 });
