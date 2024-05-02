@@ -82,11 +82,7 @@ export class InstanceConnectEndpoint extends Construct implements IInstanceConne
     super(scope, id);
     this.props = props;
 
-    this.securityGroups = props.securityGroups ?? [
-      new aws_ec2.SecurityGroup(this, 'SecurityGroup', {
-        vpc: props.vpc,
-      }),
-    ];
+    this.securityGroups = props.securityGroups ?? [this.createSecurityGroup()];
 
     this.connections = new aws_ec2.Connections({
       securityGroups: this.securityGroups,
@@ -94,7 +90,7 @@ export class InstanceConnectEndpoint extends Construct implements IInstanceConne
 
     const instanceConnectEndpoint = this.createInstanceConnectEndpoint();
 
-    this.instanceConnectEndpointId = instanceConnectEndpoint.getAtt('Id').toString();
+    this.instanceConnectEndpointId = instanceConnectEndpoint.attrId;
   }
 
   protected createInstanceConnectEndpoint(): aws_ec2.CfnInstanceConnectEndpoint {
@@ -103,6 +99,12 @@ export class InstanceConnectEndpoint extends Construct implements IInstanceConne
       preserveClientIp: this.props.preserveClientIp,
       securityGroupIds: this.securityGroups.map(sg => sg.securityGroupId),
       subnetId: this.props.vpc.selectSubnets().subnetIds[0],
+    });
+  }
+
+  protected createSecurityGroup(): aws_ec2.SecurityGroup {
+    return new aws_ec2.SecurityGroup(this, 'SecurityGroup', {
+      vpc: this.props.vpc,
     });
   }
 }
