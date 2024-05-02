@@ -536,14 +536,13 @@ The ID of the EC2 Instance Connect Endpoint.
 
 ---
 
-##### `securityGroups`<sup>Optional</sup> <a name="securityGroups" id="@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpointAttributes.property.securityGroups"></a>
+##### `securityGroups`<sup>Required</sup> <a name="securityGroups" id="@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpointAttributes.property.securityGroups"></a>
 
 ```typescript
 public readonly securityGroups: ISecurityGroup[];
 ```
 
 - *Type:* aws-cdk-lib.aws_ec2.ISecurityGroup[]
-- *Default:* no security groups
 
 The security groups associated with the EC2 Instance Connect Endpoint.
 

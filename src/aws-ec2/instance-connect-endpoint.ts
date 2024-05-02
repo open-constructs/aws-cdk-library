@@ -56,10 +56,8 @@ export interface InstanceConnectEndpointAttributes {
 
   /**
    * The security groups associated with the EC2 Instance Connect Endpoint.
-   *
-   * @default - no security groups
    */
-  readonly securityGroups?: aws_ec2.ISecurityGroup[];
+  readonly securityGroups: aws_ec2.ISecurityGroup[];
 }
 
 /**
