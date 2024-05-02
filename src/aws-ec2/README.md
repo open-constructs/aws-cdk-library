@@ -60,3 +60,19 @@ const endpoint = new InstanceConnectEndpoint(stack, 'MyCustomEndpoint', {
   clientToken: 'my-client-token', // Specify client token to ensure the idempotency of the request.
 });
 ```
+
+Import an existing endpoint:
+
+```ts
+declare const existingEndpoint: ec2.IInstanceConnectEndpoint;
+declare const securityGroups: ec2.ISecurityGroup[];
+
+const existingEndpoint = InstanceConnectEndpoint.fromInstanceConnectEndpointAttributes(
+  stack,
+  'MyExistingEndpoint',
+  {
+    instanceConnectEndpointId: existingEndpoint.instanceConnectEndpointId,
+    securityGroups,
+  },
+);
+```
