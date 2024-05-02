@@ -86,6 +86,4 @@ describe('InstanceConnectEndpoint', () => {
       expect(existingEndpoint.connections.securityGroups).toEqual([securityGroup]);
     });
   });
-
-
 });
