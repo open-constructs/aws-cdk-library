@@ -26,18 +26,18 @@ const vpc = new ec2.Vpc(stack, 'MyVpc');
 Here's how you can create an EC2 Instance Connect endpoint and allow connections to an EC2 instance:
 
 ```ts
-const instance = new cdk.aws_ec2.Instance(this, 'Instance', {
+const instance = new ec2.Instance(this, 'Instance', {
   vpc,
-  instanceType: cdk.aws_ec2.InstanceType.of(
-    cdk.aws_ec2.InstanceClass.C5,
-    cdk.aws_ec2.InstanceSize.LARGE,
+  instanceType: ec2.InstanceType.of(
+    ec2.InstanceClass.C5,
+    ec2.InstanceSize.LARGE,
   ),
-  machineImage: new cdk.aws_ec2.AmazonLinuxImage({
-    generation: cdk.aws_ec2.AmazonLinuxGeneration.AMAZON_LINUX_2023,
+  machineImage: new ec2.AmazonLinuxImage({
+    generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2023,
   }),
 });
 
-const endpoint = new InstanceConnectEndpoint(stack, 'MyEndpoint', {
+const endpoint = new ec2.InstanceConnectEndpoint(stack, 'MyEndpoint', {
   vpc,
 });
 
@@ -53,7 +53,7 @@ Creating an endpoint with a custom settings:
 ```ts
 declare const endpointSecurityGroup: ec2.ISecurityGroup;
 
-const endpoint = new InstanceConnectEndpoint(stack, 'MyCustomEndpoint', {
+const endpoint = new ec2.InstanceConnectEndpoint(stack, 'MyCustomEndpoint', {
   vpc,
   securityGroups: [endpointSecurityGroup], // Specify user-defined security groups
   preserveClientIp: true, // Whether your client's IP address is preserved as the source
@@ -67,7 +67,7 @@ Import an existing endpoint:
 declare const existingEndpoint: ec2.IInstanceConnectEndpoint;
 declare const securityGroups: ec2.ISecurityGroup[];
 
-const existingEndpoint = InstanceConnectEndpoint.fromInstanceConnectEndpointAttributes(
+const existingEndpoint = ec2.InstanceConnectEndpoint.fromInstanceConnectEndpointAttributes(
   stack,
   'MyExistingEndpoint',
   {
