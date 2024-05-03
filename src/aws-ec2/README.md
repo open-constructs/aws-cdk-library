@@ -37,7 +37,7 @@ const instance = new ec2.Instance(this, 'Instance', {
   }),
 });
 
-const endpoint = new ec2.InstanceConnectEndpoint(stack, 'MyEndpoint', {
+const endpoint = new InstanceConnectEndpoint(stack, 'MyEndpoint', {
   vpc,
 });
 
@@ -53,7 +53,7 @@ Creating an endpoint with a custom settings:
 ```ts
 declare const endpointSecurityGroup: ec2.ISecurityGroup;
 
-const endpoint = new ec2.InstanceConnectEndpoint(stack, 'MyCustomEndpoint', {
+const endpoint = new InstanceConnectEndpoint(stack, 'MyCustomEndpoint', {
   vpc,
   securityGroups: [endpointSecurityGroup], // Specify user-defined security groups
   preserveClientIp: true, // Whether your client's IP address is preserved as the source
@@ -67,7 +67,7 @@ Import an existing endpoint:
 declare const existingEndpoint: ec2.IInstanceConnectEndpoint;
 declare const securityGroups: ec2.ISecurityGroup[];
 
-const existingEndpoint = ec2.InstanceConnectEndpoint.fromInstanceConnectEndpointAttributes(
+const existingEndpoint = InstanceConnectEndpoint.fromInstanceConnectEndpointAttributes(
   stack,
   'MyExistingEndpoint',
   {
