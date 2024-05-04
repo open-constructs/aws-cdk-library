@@ -23,7 +23,8 @@ Here's how you can create a monthly cost and usage report in Parquet format:
 
 ```typescript
 const app = new App();
-const stack = new Stack(app, 'CostReportStack');
+// Cannot specify regions other than us-east-1
+const stack = new Stack(app, 'CostReportStack', { env: { region: 'us-east-1' } });
 
 new CostReport(stack, 'MyCostReport', {
   costReportName: 'monthly-business-report',

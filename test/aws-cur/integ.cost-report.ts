@@ -5,7 +5,7 @@ import * as ocf from '../../src';
 
 class CostReportStack extends cdk.Stack {
   constructor(scope: Construct) {
-    super(scope, 'cur-report');
+    super(scope, 'cur-report', { env: { region: 'us-east-1' } });
 
     const bucket = new cdk.aws_s3.Bucket(this, 'ReportBucket', {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
