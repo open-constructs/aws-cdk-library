@@ -9,6 +9,7 @@ describe('CostReport', () => {
 
   beforeEach(() => {
     app = new App();
+    // Cannot specify regions other than us-east-1
     stack = new Stack(app, 'TestStack', { env: { region: 'us-east-1' } });
   });
 
