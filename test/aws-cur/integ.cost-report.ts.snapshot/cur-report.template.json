@@ -81,11 +81,7 @@
           "Fn::Join": [
            "",
            [
-            "arn:aws:cur:",
-            {
-             "Ref": "AWS::Region"
-            },
-            ":",
+            "arn:aws:cur:us-east-1:",
             {
              "Ref": "AWS::AccountId"
             },
@@ -128,11 +124,7 @@
           "Fn::Join": [
            "",
            [
-            "arn:aws:cur:",
-            {
-             "Ref": "AWS::Region"
-            },
-            ":",
+            "arn:aws:cur:us-east-1:",
             {
              "Ref": "AWS::AccountId"
             },
@@ -207,7 +199,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": {
-      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
      },
      "S3Key": "b7f33614a69548d6bafe224d751a7ef238cde19097415e553fe8b63a4c8fd8a6.zip"
     },
@@ -253,9 +245,7 @@
      "Ref": "ReportBucket577F0FCD"
     },
     "S3Prefix": "reports",
-    "S3Region": {
-     "Ref": "AWS::Region"
-    },
+    "S3Region": "us-east-1",
     "TimeUnit": "HOURLY"
    },
    "DependsOn": [
