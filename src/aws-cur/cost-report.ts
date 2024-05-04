@@ -106,7 +106,7 @@ export class CostReport extends Construct {
     const currentStack = Stack.of(this);
 
     if (currentStack.region !== 'us-east-1') {
-      throw new Error('CUR as it is only available in the us-east-1 region');
+      throw new Error(`The \`CostReport\` construct is only available in the us-east-1 region, got: ${currentStack.region} region`);
     }
 
     this.reportBucket = props.bucket ?? this.createReportBucket(this, 'Bucket', {
