@@ -1,4 +1,4 @@
-import { awscdk, github, javascript, release } from 'projen';
+import { ReleasableCommits, awscdk, github, javascript, release } from 'projen';
 import { NodePackageManager } from 'projen/lib/javascript';
 
 let cdkVersion = '2.120.0';
@@ -27,8 +27,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
       },
     },
   },
-  releaseTrigger: release.ReleaseTrigger.manual(),
+  releaseTrigger: release.ReleaseTrigger.continuous(),
+  releasableCommits: ReleasableCommits.ofType(['feat', 'fix', 'revert', 'Revert']),
   gitpod: true,
+  npmAccess: javascript.NpmAccess.PUBLIC,
   publishToPypi: {
     distName: 'open-constructs-aws-cdk',
     module: 'open_constructs_aws_cdk',
