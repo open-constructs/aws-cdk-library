@@ -103,12 +103,16 @@ export class CostReport extends Construct {
   constructor(scope: Construct, id: string, props: CostReportProps) {
     super(scope, id);
 
+    const currentStack = Stack.of(this);
+
+    if (currentStack.region !== 'us-east-1') {
+      throw new Error('CUR as it is only available in the us-east-1 region');
+    }
+
     this.reportBucket = props.bucket ?? this.createReportBucket(this, 'Bucket', {
       blockPublicAccess: aws_s3.BlockPublicAccess.BLOCK_ALL,
       enforceSSL: true,
     });
-
-    const currentStack = Stack.of(this);
 
     const billingPrincipal = new aws_iam.ServicePrincipal('billingreports.amazonaws.com').withConditions({
       StringEquals: {

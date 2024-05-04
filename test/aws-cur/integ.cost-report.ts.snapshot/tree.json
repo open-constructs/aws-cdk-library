@@ -106,11 +106,7 @@
                                     "Fn::Join": [
                                       "",
                                       [
-                                        "arn:aws:cur:",
-                                        {
-                                          "Ref": "AWS::Region"
-                                        },
-                                        ":",
+                                        "arn:aws:cur:us-east-1:",
                                         {
                                           "Ref": "AWS::AccountId"
                                         },
@@ -153,11 +149,7 @@
                                     "Fn::Join": [
                                       "",
                                       [
-                                        "arn:aws:cur:",
-                                        {
-                                          "Ref": "AWS::Region"
-                                        },
-                                        ":",
+                                        "arn:aws:cur:us-east-1:",
                                         {
                                           "Ref": "AWS::AccountId"
                                         },
@@ -277,9 +269,7 @@
                       "Ref": "ReportBucket577F0FCD"
                     },
                     "s3Prefix": "reports",
-                    "s3Region": {
-                      "Ref": "AWS::Region"
-                    },
+                    "s3Region": "us-east-1",
                     "timeUnit": "HOURLY"
                   }
                 },
@@ -291,7 +281,7 @@
             },
             "constructInfo": {
               "fqn": "constructs.Construct",
-              "version": "10.0.5"
+              "version": "10.3.0"
             }
           },
           "BootstrapVersion": {
@@ -329,7 +319,7 @@
                 "path": "CurReport/DefaultTest/Default",
                 "constructInfo": {
                   "fqn": "constructs.Construct",
-                  "version": "10.0.5"
+                  "version": "10.3.0"
                 }
               },
               "DeployAssert": {
@@ -375,7 +365,7 @@
         "path": "Tree",
         "constructInfo": {
           "fqn": "constructs.Construct",
-          "version": "10.0.5"
+          "version": "10.3.0"
         }
       }
     },

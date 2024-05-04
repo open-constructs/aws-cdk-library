@@ -9,7 +9,7 @@ describe('CostReport', () => {
 
   beforeEach(() => {
     app = new App();
-    stack = new Stack(app, 'TestStack');
+    stack = new Stack(app, 'TestStack', { env: { region: 'us-east-1' } });
   });
 
   test('default configuration', () => {
@@ -110,6 +110,16 @@ describe('CostReport', () => {
     const template = Template.fromStack(stack);
 
     template.resourceCountIs('AWS::CUR::ReportDefinition', 2);
+  });
+
+  test('regions other than us-east-1', () => {
+    const regionOtherStack = new Stack(app, 'OtherRegionStack', { env: { region: 'ap-northeast-1' } });
+
+    expect(() => new CostReport(regionOtherStack, 'MyCustomCostReport', {
+      costReportName: 'custom-cur',
+      reportGranularity: ReportGranularity.DAILY,
+      format: CurFormat.PARQUET,
+    })).toThrow('CUR as it is only available in the us-east-1 region');
   });
 
 });
