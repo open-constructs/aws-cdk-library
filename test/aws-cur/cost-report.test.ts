@@ -120,7 +120,7 @@ describe('CostReport', () => {
       costReportName: 'custom-cur',
       reportGranularity: ReportGranularity.DAILY,
       format: CurFormat.PARQUET,
-    })).toThrow('CUR as it is only available in the us-east-1 region');
+    })).toThrow(`The \`CostReport\` construct is only available in the us-east-1 region, got: ${regionOtherStack.region} region`);
   });
 
 });
