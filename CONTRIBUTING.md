@@ -152,6 +152,31 @@ To create a new test:
 Snapshots are created and stored in the `integ.example.ts.snapshot` directory and should be committed along with
 the rest of your code.
 
+## Linux/MacOS Environment Setup
+
+### Installation
+
+Setup Node.js on your environment:
+
+* [Node.js Install](https://nodejs.org/en/download/package-manager)
+
+Confirm your installation is successful by running the following command in your terminal:
+
+`node -v`
+
+### Setup `aws-cdk-library` on your Environment
+
+To contribute, fork the repository to your own GitHub account, and then clone it onto your machine:
+
+* `git clone https://github.com/<your_username_here>/aws-cdk-library.git`
+
+Open the project and confirm that your setup is working by running the following commands:
+
+* `npm install`  
+* `npm run build`  
+
+If it runs successfully, your environment is setup correctly.
+
 ## Windows Environment Setup
 
 Currently `projen` does not support Windows very well.
