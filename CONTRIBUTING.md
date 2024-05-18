@@ -162,7 +162,7 @@ Setup Node.js on your environment:
 
 Confirm your installation is successful by running the following command in your terminal:
 
-`node -v`
+* `node -v`  
 
 ### Setup `aws-cdk-library` on your Environment
 
