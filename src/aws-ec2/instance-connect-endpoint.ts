@@ -4,7 +4,9 @@ import { Construct } from 'constructs';
 /**
  * An EC2 Instance Connect Endpoint.
  */
-export interface IInstanceConnectEndpoint extends aws_ec2.IConnectable, IResource {
+export interface IInstanceConnectEndpoint
+  extends aws_ec2.IConnectable,
+    IResource {
   /**
    * The ID of the EC2 Instance Connect Endpoint.
    *
@@ -78,8 +80,10 @@ export interface InstanceConnectEndpointAttributes {
  *   },
  * );
  */
-export class InstanceConnectEndpoint extends Resource implements IInstanceConnectEndpoint {
-
+export class InstanceConnectEndpoint
+  extends Resource
+  implements IInstanceConnectEndpoint
+{
   /**
    * Import an existing endpoint to the stack from its attributes.
    */
@@ -89,7 +93,8 @@ export class InstanceConnectEndpoint extends Resource implements IInstanceConnec
     attrs: InstanceConnectEndpointAttributes,
   ): IInstanceConnectEndpoint {
     class Import extends Resource implements IInstanceConnectEndpoint {
-      public readonly instanceConnectEndpointId = attrs.instanceConnectEndpointId;
+      public readonly instanceConnectEndpointId =
+        attrs.instanceConnectEndpointId;
       public readonly connections = new aws_ec2.Connections({
         securityGroups: attrs.securityGroups,
       });
@@ -111,7 +116,11 @@ export class InstanceConnectEndpoint extends Resource implements IInstanceConnec
   private readonly props: InstanceConnectEndpointProps;
   private readonly securityGroups: aws_ec2.ISecurityGroup[];
 
-  constructor(scope: Construct, id: string, props: InstanceConnectEndpointProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: InstanceConnectEndpointProps,
+  ) {
     super(scope, id);
     this.props = props;
 
@@ -130,7 +139,7 @@ export class InstanceConnectEndpoint extends Resource implements IInstanceConnec
     return new aws_ec2.CfnInstanceConnectEndpoint(this, 'Resource', {
       clientToken: this.props.clientToken,
       preserveClientIp: this.props.preserveClientIp,
-      securityGroupIds: this.securityGroups.map(sg => sg.securityGroupId),
+      securityGroupIds: this.securityGroups.map((sg) => sg.securityGroupId),
       subnetId: this.props.vpc.selectSubnets().subnetIds[0],
     });
   }
@@ -141,4 +150,3 @@ export class InstanceConnectEndpoint extends Resource implements IInstanceConnec
     });
   }
 }
-

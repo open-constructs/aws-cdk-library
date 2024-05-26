@@ -38,7 +38,10 @@ class InstanceConnectEndpointStack extends cdk.Stack {
       },
     );
 
-    instanceConnectEndpoint.connections.allowTo(instance, cdk.aws_ec2.Port.tcp(22));
+    instanceConnectEndpoint.connections.allowTo(
+      instance,
+      cdk.aws_ec2.Port.tcp(22),
+    );
   }
 }
 

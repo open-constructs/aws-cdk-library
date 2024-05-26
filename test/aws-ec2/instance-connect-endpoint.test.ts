@@ -18,12 +18,20 @@ describe('InstanceConnectEndpoint', () => {
       }),
     });
 
-    Template.fromStack(stack).hasResourceProperties('AWS::EC2::InstanceConnectEndpoint', {
-      SecurityGroupIds: [
-        { 'Fn::GetAtt': ['MyInstanceConnectEndpointSecurityGroup99B9E814', 'GroupId'] },
-      ],
-      SubnetId: { Ref: 'VPCPrivateSubnet1Subnet8BCA10E0' },
-    });
+    Template.fromStack(stack).hasResourceProperties(
+      'AWS::EC2::InstanceConnectEndpoint',
+      {
+        SecurityGroupIds: [
+          {
+            'Fn::GetAtt': [
+              'MyInstanceConnectEndpointSecurityGroup99B9E814',
+              'GroupId',
+            ],
+          },
+        ],
+        SubnetId: { Ref: 'VPCPrivateSubnet1Subnet8BCA10E0' },
+      },
+    );
   });
 
   test('custom configuration', () => {
@@ -42,14 +50,17 @@ describe('InstanceConnectEndpoint', () => {
       ],
     });
 
-    Template.fromStack(stack).hasResourceProperties('AWS::EC2::InstanceConnectEndpoint', {
-      ClientToken: 'my-client-token',
-      PreserveClientIp: false,
-      SecurityGroupIds: [
-        { 'Fn::GetAtt': ['SecurityGroupDD263621', 'GroupId'] },
-      ],
-      SubnetId: { Ref: 'VPCPrivateSubnet1Subnet8BCA10E0' },
-    });
+    Template.fromStack(stack).hasResourceProperties(
+      'AWS::EC2::InstanceConnectEndpoint',
+      {
+        ClientToken: 'my-client-token',
+        PreserveClientIp: false,
+        SecurityGroupIds: [
+          { 'Fn::GetAtt': ['SecurityGroupDD263621', 'GroupId'] },
+        ],
+        SubnetId: { Ref: 'VPCPrivateSubnet1Subnet8BCA10E0' },
+      },
+    );
   });
 
   test('import from attributes', () => {
@@ -59,16 +70,21 @@ describe('InstanceConnectEndpoint', () => {
       allowAllOutbound: false,
     });
 
-    const existingEndpoint = InstanceConnectEndpoint.fromInstanceConnectEndpointAttributes(
-      stack,
-      'ImportedInstanceConnectEndpoint',
-      {
-        instanceConnectEndpointId: 'my-endpoint-id',
-        securityGroups: [securityGroup],
-      },
-    );
+    const existingEndpoint =
+      InstanceConnectEndpoint.fromInstanceConnectEndpointAttributes(
+        stack,
+        'ImportedInstanceConnectEndpoint',
+        {
+          instanceConnectEndpointId: 'my-endpoint-id',
+          securityGroups: [securityGroup],
+        },
+      );
 
-    expect(existingEndpoint.instanceConnectEndpointId).toEqual('my-endpoint-id');
-    expect(existingEndpoint.connections.securityGroups).toEqual([securityGroup]);
+    expect(existingEndpoint.instanceConnectEndpointId).toEqual(
+      'my-endpoint-id',
+    );
+    expect(existingEndpoint.connections.securityGroups).toEqual([
+      securityGroup,
+    ]);
   });
 });
