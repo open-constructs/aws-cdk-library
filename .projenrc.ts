@@ -18,17 +18,37 @@ const project = new awscdk.AwsCdkConstructLibrary({
   experimentalIntegRunner: false, // we're using the AWS CDK-provided runner
   // autoApproveUpgrades: true,
   // autoApproveOptions: { allowedUsernames: ['hoegertn'] },
-  depsUpgradeOptions: { workflowOptions: { schedule: javascript.UpgradeDependenciesSchedule.WEEKLY } },
+  depsUpgradeOptions: {
+    workflowOptions: {
+      schedule: javascript.UpgradeDependenciesSchedule.WEEKLY,
+    },
+  },
   githubOptions: {
     projenCredentials: github.GithubCredentials.fromApp(),
     pullRequestLintOptions: {
       semanticTitleOptions: {
-        types: ['feat', 'fix', 'chore', 'ci', 'docs', 'style', 'refactor', 'test', 'revert', 'Revert'],
+        types: [
+          'feat',
+          'fix',
+          'chore',
+          'ci',
+          'docs',
+          'style',
+          'refactor',
+          'test',
+          'revert',
+          'Revert',
+        ],
       },
     },
   },
   releaseTrigger: release.ReleaseTrigger.continuous(),
-  releasableCommits: ReleasableCommits.ofType(['feat', 'fix', 'revert', 'Revert']),
+  releasableCommits: ReleasableCommits.ofType([
+    'feat',
+    'fix',
+    'revert',
+    'Revert',
+  ]),
   gitpod: true,
   npmAccess: javascript.NpmAccess.PUBLIC,
   publishToPypi: {
@@ -50,6 +70,16 @@ const project = new awscdk.AwsCdkConstructLibrary({
     `@aws-cdk/integ-runner@${cdkVersion}-alpha.0`,
     `@aws-cdk/integ-tests-alpha@${cdkVersion}-alpha.0`,
   ],
+  eslintOptions: {
+    dirs: ['src', 'test'],
+    prettier: true,
+  },
+  prettier: true,
+  prettierOptions: {
+    settings: {
+      singleQuote: true,
+    },
+  },
 });
 
 project.addTask('integ', {
