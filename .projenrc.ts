@@ -1,5 +1,5 @@
 import { ReleasableCommits, awscdk, github, javascript, release } from 'projen';
-import { NodePackageManager } from 'projen/lib/javascript';
+import { ArrowParens, NodePackageManager } from 'projen/lib/javascript';
 
 let cdkVersion = '2.120.0';
 const project = new awscdk.AwsCdkConstructLibrary({
@@ -74,6 +74,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     settings: {
       singleQuote: true,
       printWidth: 100,
+      arrowParens: ArrowParens.AVOID,
     },
   },
 });
