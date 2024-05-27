@@ -7,9 +7,11 @@ import { Construct } from 'constructs';
 class MyConstruct extends Construct {
   constructor(scope: Construct, id: string, props: { role?: Role }) {
     super(scope, id);
-    const role = props.role ?? new Role(this, 'DefaultRole', {
-      assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
-    });
+    const role =
+      props.role ??
+      new Role(this, 'DefaultRole', {
+        assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+      });
 
     new Function(this, 'Resource', {
       code: Code.fromInline('module.exports.handler = async () => "hello world";'),

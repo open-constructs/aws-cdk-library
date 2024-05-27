@@ -79,7 +79,6 @@ export interface InstanceConnectEndpointAttributes {
  * );
  */
 export class InstanceConnectEndpoint extends Resource implements IInstanceConnectEndpoint {
-
   /**
    * Import an existing endpoint to the stack from its attributes.
    */
@@ -141,4 +140,3 @@ export class InstanceConnectEndpoint extends Resource implements IInstanceConnec
     });
   }
 }
-

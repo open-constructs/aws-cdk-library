@@ -8,7 +8,5 @@ const topic = new Topic(stack, 'Output', {});
 topic.applyRemovalPolicy(RemovalPolicy.DESTROY);
 
 new IntegTest(app, 'IntegTestExample', {
-  testCases: [
-    stack,
-  ],
+  testCases: [stack],
 });
