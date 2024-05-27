@@ -89,7 +89,7 @@ workflow.addJob('create-pr', {
       run: "echo aws_cdk_version=`curl -s https://api.github.com/repos/aws/aws-cdk/releases/latest  | jq -r .tag_name | sed 's/v//'` >> $GITHUB_ENV",
     },
     {
-      name: 'Overwrite the AWS CDK version in.projenrc.ts with the latest',
+      name: 'Overwrite the AWS CDK version in .projenrc.ts with the latest',
       run: 'sed -i "s/cdkVersion\\s=\\s\'[0-9|\\.]*\'/cdkVersion = \'${{ env.aws_cdk_version }}\'/" .projenrc.ts',
     },
     {
