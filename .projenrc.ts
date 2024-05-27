@@ -43,12 +43,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     },
   },
   releaseTrigger: release.ReleaseTrigger.continuous(),
-  releasableCommits: ReleasableCommits.ofType([
-    'feat',
-    'fix',
-    'revert',
-    'Revert',
-  ]),
+  releasableCommits: ReleasableCommits.ofType(['feat', 'fix', 'revert', 'Revert']),
   gitpod: true,
   npmAccess: javascript.NpmAccess.PUBLIC,
   publishToPypi: {
