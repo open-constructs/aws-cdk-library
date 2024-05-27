@@ -129,7 +129,7 @@ export class InstanceConnectEndpoint extends Resource implements IInstanceConnec
     return new aws_ec2.CfnInstanceConnectEndpoint(this, 'Resource', {
       clientToken: this.props.clientToken,
       preserveClientIp: this.props.preserveClientIp,
-      securityGroupIds: this.securityGroups.map((sg) => sg.securityGroupId),
+      securityGroupIds: this.securityGroups.map(sg => sg.securityGroupId),
       subnetId: this.props.vpc.selectSubnets().subnetIds[0],
     });
   }
