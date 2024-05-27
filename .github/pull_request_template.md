@@ -19,5 +19,4 @@ Closes #<issue number here>.
 - [ ] My code adheres to the [CONTRIBUTING GUIDE](https://github.com/open-constructs/aws-cdk-library/blob/main/CONTRIBUTING.md)
 
 ---
-
 _By submitting this pull request, I confirm that my contribution is made under the terms of the Apache-2.0 license_

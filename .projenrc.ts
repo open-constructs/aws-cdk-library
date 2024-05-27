@@ -25,6 +25,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
       semanticTitleOptions: {
         types: ['feat', 'fix', 'chore', 'ci', 'docs', 'style', 'refactor', 'test', 'revert', 'Revert'],
       },
+      contributorStatement: '_By submitting this pull request, I confirm that my contribution is made under the terms of the Apache-2.0 license_',
     },
   },
   pullRequestTemplateContents: [
@@ -46,12 +47,7 @@ Closes #<issue number here>.
 
 ### Checklist
 
-- [ ] My code adheres to the [CONTRIBUTING GUIDE](https://github.com/open-constructs/aws-cdk-library/blob/main/CONTRIBUTING.md)
-
----
-
-_By submitting this pull request, I confirm that my contribution is made under the terms of the Apache-2.0 license_
-`,
+- [ ] My code adheres to the [CONTRIBUTING GUIDE](https://github.com/open-constructs/aws-cdk-library/blob/main/CONTRIBUTING.md)`,
   ],
   releaseTrigger: release.ReleaseTrigger.continuous(),
   releasableCommits: ReleasableCommits.ofType(['feat', 'fix', 'revert', 'Revert']),
