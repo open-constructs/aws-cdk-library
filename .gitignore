@@ -50,4 +50,5 @@ junit.xml
 .jsii
 tsconfig.json
 !/API.md
+!/.github/workflows/upgrade-aws-cdk.yml
 !/.projenrc.ts
