@@ -118,9 +118,7 @@ export class CostReport extends Construct {
         enforceSSL: true,
       });
 
-    const billingPrincipal = new aws_iam.ServicePrincipal(
-      'billingreports.amazonaws.com',
-    ).withConditions({
+    const billingPrincipal = new aws_iam.ServicePrincipal('billingreports.amazonaws.com').withConditions({
       StringEquals: {
         'aws:SourceArn': `arn:aws:cur:${currentStack.region}:${currentStack.account}:definition/*`,
         'aws:SourceAccount': currentStack.account,
@@ -154,11 +152,7 @@ export class CostReport extends Construct {
     reportDefinition.node.addDependency(this.reportBucket.policy!);
   }
 
-  protected createReportBucket(
-    scope: Construct,
-    id: string,
-    props: aws_s3.BucketProps,
-  ): aws_s3.IBucket {
+  protected createReportBucket(scope: Construct, id: string, props: aws_s3.BucketProps): aws_s3.IBucket {
     return new aws_s3.Bucket(scope, id, props);
   }
 

@@ -27,18 +27,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     projenCredentials: github.GithubCredentials.fromApp(),
     pullRequestLintOptions: {
       semanticTitleOptions: {
-        types: [
-          'feat',
-          'fix',
-          'chore',
-          'ci',
-          'docs',
-          'style',
-          'refactor',
-          'test',
-          'revert',
-          'Revert',
-        ],
+        types: ['feat', 'fix', 'chore', 'ci', 'docs', 'style', 'refactor', 'test', 'revert', 'Revert'],
       },
     },
   },
@@ -61,10 +50,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   //   packageId: 'OpenConstructs.AwsCdk',
   //   dotNetNamespace: 'OpenConstructs.AwsCdk',
   // },
-  devDeps: [
-    `@aws-cdk/integ-runner@${cdkVersion}-alpha.0`,
-    `@aws-cdk/integ-tests-alpha@${cdkVersion}-alpha.0`,
-  ],
+  devDeps: [`@aws-cdk/integ-runner@${cdkVersion}-alpha.0`, `@aws-cdk/integ-tests-alpha@${cdkVersion}-alpha.0`],
   eslintOptions: {
     dirs: ['src', 'test'],
     prettier: true,
