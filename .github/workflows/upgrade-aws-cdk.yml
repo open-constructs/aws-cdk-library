@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
-        run: yarn install
+        run: npm install
       - name: Get latest AWS CDK version
         run: echo aws_cdk_version=`curl -s https://api.github.com/repos/aws/aws-cdk/releases/latest  | jq -r .tag_name | sed 's/v//'` >> $GITHUB_ENV
       - name: Overwrite the AWS CDK version in .projenrc.ts with the latest
@@ -22,7 +22,7 @@ jobs:
       - name: Synth project
         env:
           CI: "false"
-        run: yarn projen
+        run: npx projen
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:

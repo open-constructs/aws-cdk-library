@@ -82,7 +82,7 @@ workflow.addJob('create-pr', {
     },
     {
       name: 'Install dependencies',
-      run: 'yarn install',
+      run: 'npm install',
     },
     {
       name: 'Get latest AWS CDK version',
@@ -94,7 +94,7 @@ workflow.addJob('create-pr', {
     },
     {
       name: 'Synth project',
-      run: 'yarn projen',
+      run: 'npx projen',
       env: { CI: 'false' },
     },
     {
