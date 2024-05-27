@@ -14,9 +14,7 @@ class MyConstruct extends Construct {
       });
 
     new Function(this, 'Resource', {
-      code: Code.fromInline(
-        'module.exports.handler = async () => "hello world";',
-      ),
+      code: Code.fromInline('module.exports.handler = async () => "hello world";'),
       handler: 'main.handler',
       runtime: Runtime.NODEJS_20_X,
       role: role,

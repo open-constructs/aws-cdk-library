@@ -6,17 +6,11 @@ import { Construct } from 'constructs';
  */
 export class ReportGranularity {
   /** Hourly granularity */
-  public static readonly HOURLY: ReportGranularity = new ReportGranularity(
-    'HOURLY',
-  );
+  public static readonly HOURLY: ReportGranularity = new ReportGranularity('HOURLY');
   /** Daily granularity */
-  public static readonly DAILY: ReportGranularity = new ReportGranularity(
-    'DAILY',
-  );
+  public static readonly DAILY: ReportGranularity = new ReportGranularity('DAILY');
   /** Weekly granularity */
-  public static readonly MONTHLY: ReportGranularity = new ReportGranularity(
-    'MONTHLY',
-  );
+  public static readonly MONTHLY: ReportGranularity = new ReportGranularity('MONTHLY');
 
   /**
    * Returns a ReportGranularity instance for the given granularity string value.
@@ -36,15 +30,9 @@ export class ReportGranularity {
  */
 export class CurFormat {
   /** GZIP compressed text or CSV format */
-  public static readonly TEXT_OR_CSV: CurFormat = new CurFormat(
-    'GZIP',
-    'textORcsv',
-  );
+  public static readonly TEXT_OR_CSV: CurFormat = new CurFormat('GZIP', 'textORcsv');
   /** Parquet format */
-  public static readonly PARQUET: CurFormat = new CurFormat(
-    'Parquet',
-    'Parquet',
-  );
+  public static readonly PARQUET: CurFormat = new CurFormat('Parquet', 'Parquet');
 
   /**
    * Returns a CurFormat instance for the given compression and format string values.

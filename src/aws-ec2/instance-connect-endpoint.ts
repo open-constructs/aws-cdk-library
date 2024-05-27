@@ -4,9 +4,7 @@ import { Construct } from 'constructs';
 /**
  * An EC2 Instance Connect Endpoint.
  */
-export interface IInstanceConnectEndpoint
-  extends aws_ec2.IConnectable,
-    IResource {
+export interface IInstanceConnectEndpoint extends aws_ec2.IConnectable, IResource {
   /**
    * The ID of the EC2 Instance Connect Endpoint.
    *
@@ -80,10 +78,7 @@ export interface InstanceConnectEndpointAttributes {
  *   },
  * );
  */
-export class InstanceConnectEndpoint
-  extends Resource
-  implements IInstanceConnectEndpoint
-{
+export class InstanceConnectEndpoint extends Resource implements IInstanceConnectEndpoint {
   /**
    * Import an existing endpoint to the stack from its attributes.
    */
@@ -93,8 +88,7 @@ export class InstanceConnectEndpoint
     attrs: InstanceConnectEndpointAttributes,
   ): IInstanceConnectEndpoint {
     class Import extends Resource implements IInstanceConnectEndpoint {
-      public readonly instanceConnectEndpointId =
-        attrs.instanceConnectEndpointId;
+      public readonly instanceConnectEndpointId = attrs.instanceConnectEndpointId;
       public readonly connections = new aws_ec2.Connections({
         securityGroups: attrs.securityGroups,
       });
@@ -116,11 +110,7 @@ export class InstanceConnectEndpoint
   private readonly props: InstanceConnectEndpointProps;
   private readonly securityGroups: aws_ec2.ISecurityGroup[];
 
-  constructor(
-    scope: Construct,
-    id: string,
-    props: InstanceConnectEndpointProps,
-  ) {
+  constructor(scope: Construct, id: string, props: InstanceConnectEndpointProps) {
     super(scope, id);
     this.props = props;
 

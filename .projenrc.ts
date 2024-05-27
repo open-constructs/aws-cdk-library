@@ -78,6 +78,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   prettierOptions: {
     settings: {
       singleQuote: true,
+      printWidth: 100,
     },
   },
 });
