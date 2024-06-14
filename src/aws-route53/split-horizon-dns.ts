@@ -39,20 +39,26 @@ export interface ISplitHorizonDnsProps {
   readonly includeCertificate?: boolean;
 }
 
+export interface ISplitHorizonDns {
+  publicZone: route53.IHostedZone;
+  privateZone?: route53.IHostedZone;
+  records: Array<ARecordArray>;
+}
+
 /**
  * Creates a public and private zone for a given domain name, and creates A records for the given targets.
  * @property publicZone The public zone created
  * @property privateZone The private zone created
  * @property records The A records created
  */
-export class SplitHorizonDns extends Construct {
+export class SplitHorizonDns extends Construct implements ISplitHorizonDns {
   public publicZone: route53.IHostedZone;
 
   public privateZone?: route53.IHostedZone;
 
   public records: Array<ARecordArray>;
 
-  constructor(scope: Construct, id: string, props: ISplitHorizonDnsProps) {
+  constructor(scope: Construct, id: string, private props: ISplitHorizonDnsProps) {
     super(scope, id);
 
     const {
@@ -64,7 +70,7 @@ export class SplitHorizonDns extends Construct {
       certAlternateNames,
       privateZoneVpcs,
       targets,
-    } = props;
+    } = this.props;
 
     if (existingPublicZone) {
       this.publicZone = existingPublicZone;
