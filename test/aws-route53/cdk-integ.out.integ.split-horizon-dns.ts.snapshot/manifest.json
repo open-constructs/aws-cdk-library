@@ -1,0 +1,381 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "SplitHorizonDnsStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SplitHorizonDnsStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SplitHorizonDnsStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://697863601562/us-east-1",
+      "properties": {
+        "templateFile": "SplitHorizonDnsStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::697863601562:role/cdk-hnb659fds-deploy-role-697863601562-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::697863601562:role/cdk-hnb659fds-cfn-exec-role-697863601562-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-697863601562-us-east-1/251d0dc1993c060b2439b54cb243f4ead92e308a2b7c7a5f0c5e0e3a565d6d51.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SplitHorizonDnsStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::697863601562:role/cdk-hnb659fds-lookup-role-697863601562-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SplitHorizonDnsStack.assets"
+      ],
+      "metadata": {
+        "/SplitHorizonDnsStack": [
+          {
+            "type": "aws:cdk:error",
+            "data": "Need to perform AWS calls for account 697863601562, but no credentials have been configured",
+            "trace": [
+              "Annotations.addMessage (/Users/dakotalewallen/Projects/github/aws-cdk-library/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1608)",
+              "Annotations.addError (/Users/dakotalewallen/Projects/github/aws-cdk-library/node_modules/aws-cdk-lib/core/lib/annotations.js:1:1100)",
+              "Function.getValue (/Users/dakotalewallen/Projects/github/aws-cdk-library/node_modules/aws-cdk-lib/core/lib/context-provider.js:2:1172)",
+              "SplitHorizonDnsStack.get availabilityZones [as availabilityZones] (/Users/dakotalewallen/Projects/github/aws-cdk-library/node_modules/aws-cdk-lib/core/lib/stack.js:1:10375)",
+              "new Vpc (/Users/dakotalewallen/Projects/github/aws-cdk-library/node_modules/aws-cdk-lib/aws-ec2/lib/vpc.js:1:12149)",
+              "new SplitHorizonDnsStack (/Users/dakotalewallen/Projects/github/aws-cdk-library/test/aws-route53/integ.split-horizon-dns.ts:15:17)",
+              "Object.<anonymous> (/Users/dakotalewallen/Projects/github/aws-cdk-library/test/aws-route53/integ.split-horizon-dns.ts:37:18)",
+              "Module._compile (node:internal/modules/cjs/loader:1358:14)",
+              "Module.m._compile (/Users/dakotalewallen/Projects/github/aws-cdk-library/node_modules/ts-node/src/index.ts:1618:23)",
+              "Module._extensions..js (node:internal/modules/cjs/loader:1416:10)",
+              "Object.require.extensions.<computed> [as .ts] (/Users/dakotalewallen/Projects/github/aws-cdk-library/node_modules/ts-node/src/index.ts:1621:12)",
+              "Module.load (node:internal/modules/cjs/loader:1208:32)",
+              "Function.Module._load (node:internal/modules/cjs/loader:1024:12)",
+              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:174:12)",
+              "node:internal/main/run_main_module:28:49"
+            ]
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpc632CA88B"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet1SubnetE2DAA156"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet1RouteTable8A33B640"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet1RouteTableAssociationE9EE9198"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet1DefaultRoute541095B8"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet1EIPFACB5379"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet1NATGatewayD79F3015"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet2SubnetAC1228E3"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet2RouteTable0532E281"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet2RouteTableAssociation1BF1FAEB"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet2DefaultRoute438AD888"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet2/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet2EIP766CF0F6"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet2/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet2NATGatewayD80F7867"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet3/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet3Subnet6352D232"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet3/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet3RouteTable7A3A1442"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet3/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet3RouteTableAssociation212EEC13"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet3/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet3DefaultRouteEF1138EE"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet3/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet3EIP250C394C"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PublicSubnet3/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPublicSubnet3NATGateway07EDA442"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPrivateSubnet1SubnetC2DB5FF8"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPrivateSubnet1RouteTable02B66492"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPrivateSubnet1RouteTableAssociation49BD9818"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPrivateSubnet1DefaultRouteCCFAFFFB"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPrivateSubnet2SubnetEC1D7719"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPrivateSubnet2RouteTable95011678"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPrivateSubnet2RouteTableAssociationCAD1B140"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPrivateSubnet2DefaultRoute4C6E9A31"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PrivateSubnet3/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPrivateSubnet3Subnet5D10AF27"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PrivateSubnet3/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPrivateSubnet3RouteTableD62F598B"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PrivateSubnet3/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPrivateSubnet3RouteTableAssociationEA6A6A0D"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/PrivateSubnet3/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcPrivateSubnet3DefaultRouteEE4F2A64"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcIGW2E52BF2F"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcVPCGW8FDE359B"
+          }
+        ],
+        "/SplitHorizonDnsStack/myvpc/RestrictDefaultSecurityGroupCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "myvpcRestrictDefaultSecurityGroupCustomResourceEBBA2AC0"
+          }
+        ],
+        "/SplitHorizonDnsStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+          }
+        ],
+        "/SplitHorizonDnsStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E"
+          }
+        ],
+        "/SplitHorizonDnsStack/SplitHorizonDns/PublicZone/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SplitHorizonDnsPublicZone855A5549"
+          }
+        ],
+        "/SplitHorizonDnsStack/SplitHorizonDns/PrivateZone/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SplitHorizonDnsPrivateZoneB6E7E17E"
+          }
+        ],
+        "/SplitHorizonDnsStack/SplitHorizonDns/www.example.comPublicARecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SplitHorizonDnswwwexamplecomPublicARecord072A1B07"
+          }
+        ],
+        "/SplitHorizonDnsStack/SplitHorizonDns/www.example.comPrivateARecord/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SplitHorizonDnswwwexamplecomPrivateARecord0F95A172"
+          }
+        ],
+        "/SplitHorizonDnsStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SplitHorizonDnsStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SplitHorizonDnsStack"
+    },
+    "SplitHorizonDnsDefaultTestDeployAssertB4E57D9C.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SplitHorizonDnsDefaultTestDeployAssertB4E57D9C.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SplitHorizonDnsDefaultTestDeployAssertB4E57D9C": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "SplitHorizonDnsDefaultTestDeployAssertB4E57D9C.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/21fbb51d7b23f6a6c262b46a9caee79d744a3ac019fd45422d988b96d44b2a22.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SplitHorizonDnsDefaultTestDeployAssertB4E57D9C.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SplitHorizonDnsDefaultTestDeployAssertB4E57D9C.assets"
+      ],
+      "metadata": {
+        "/SplitHorizonDns/DefaultTest/DeployAssert/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SplitHorizonDns/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SplitHorizonDns/DefaultTest/DeployAssert"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  },
+  "missing": [
+    {
+      "key": "availability-zones:account=697863601562:region=us-east-1",
+      "provider": "availability-zones",
+      "props": {
+        "account": "697863601562",
+        "region": "us-east-1",
+        "lookupRoleArn": "arn:${AWS::Partition}:iam::697863601562:role/cdk-hnb659fds-lookup-role-697863601562-us-east-1"
+      }
+    }
+  ]
+}
