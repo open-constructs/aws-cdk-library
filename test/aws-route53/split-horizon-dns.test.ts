@@ -361,8 +361,7 @@ describe('split horizon', () => {
     });
   });
 
-  // this test is tricky. as there is no observable property of the record
-  it.skip('doesnt create private records if disallowed', () => {
+  it('doesn\'t create private records if disallowed', () => {
     const app = new cdk.App();
     const stack = new cdk.Stack(app, 'TestStack');
 
@@ -378,9 +377,13 @@ describe('split horizon', () => {
       targets: [firstTarget],
     });
 
-    // thing.records.forEach((record) => {
-    //   console.log(record);
-    // });
+    const template = Template.fromStack(stack);
+
+    template.resourcePropertiesCountIs('AWS::Route53::RecordSet', {
+      HostedZoneId: Match.objectLike({
+        Ref: Match.stringLikeRegexp('PrivateZone'),
+      }),
+    }, 0);
   });
 
   it('can receive an existing public zone', () => {
