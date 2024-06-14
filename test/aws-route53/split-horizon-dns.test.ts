@@ -442,4 +442,46 @@ describe('split horizon', () => {
       }),
     });
   });
+
+  it('creates an ACM certificate if requested', () => {
+    const app = new cdk.App();
+    const stack = new cdk.Stack(app, 'TestStack');
+
+    const firstTarget = {
+      target: [googleDns],
+      public: true,
+    };
+
+    new SplitHorizonDns(stack, 'MostBasicTestConstruct', {
+      zoneName: 'example.com',
+      includeCertificate: true,
+      targets: [firstTarget],
+    });
+
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::CertificateManager::Certificate', {
+      DomainName: exampleDomain,
+    });
+  });
+
+  it('does not create an ACM certificate if requested', () => {
+    const app = new cdk.App();
+    const stack = new cdk.Stack(app, 'TestStack');
+
+    const firstTarget = {
+      target: [googleDns],
+      public: true,
+    };
+
+    new SplitHorizonDns(stack, 'MostBasicTestConstruct', {
+      zoneName: 'example.com',
+      includeCertificate: false,
+      targets: [firstTarget],
+    });
+
+    const template = Template.fromStack(stack);
+
+    template.resourceCountIs('AWS::CertificateManager::Certificate', 0);
+  });
 });

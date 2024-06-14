@@ -58,6 +58,8 @@ export class SplitHorizonDns extends Construct implements ISplitHorizonDns {
 
   public records: Array<ARecordArray>;
 
+  public certificate?: acm.ICertificate;
+
   constructor(scope: Construct, id: string, private props: ISplitHorizonDnsProps) {
     super(scope, id);
 
@@ -81,7 +83,7 @@ export class SplitHorizonDns extends Construct implements ISplitHorizonDns {
     }
 
     if (includeCertificate) {
-      new acm.Certificate(this, 'Certificate', {
+      this.certificate = new acm.Certificate(this, 'Certificate', {
         domainName: zoneName,
         subjectAlternativeNames: certAlternateNames,
       });
@@ -89,8 +91,6 @@ export class SplitHorizonDns extends Construct implements ISplitHorizonDns {
 
     if (disallowPrivateZone) {
       console.log('Private zone creation is disallowed. Skipping...');
-    } else if (disallowPrivateZone && existingPrivateZone) {
-      console.error('Private zone creation is disallowed, but an existing private zone was provided. Skipping...');
     } else if (existingPrivateZone) {
       this.privateZone = existingPrivateZone;
     } else {
