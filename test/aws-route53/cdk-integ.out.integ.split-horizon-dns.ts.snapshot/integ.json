@@ -1,0 +1,12 @@
+{
+  "version": "36.0.0",
+  "testCases": {
+    "SplitHorizonDns/DefaultTest": {
+      "stacks": [
+        "SplitHorizonDnsStack"
+      ],
+      "assertionStack": "SplitHorizonDns/DefaultTest/DeployAssert",
+      "assertionStackName": "SplitHorizonDnsDefaultTestDeployAssertB4E57D9C"
+    }
+  }
+}

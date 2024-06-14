@@ -1,0 +1,34 @@
+{
+  "version": "36.0.0",
+  "files": {
+    "dd5711540f04e06aa955d7f4862fc04e8cdea464cb590dae91ed2976bb78098e": {
+      "source": {
+        "path": "asset.dd5711540f04e06aa955d7f4862fc04e8cdea464cb590dae91ed2976bb78098e",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "697863601562-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-697863601562-us-east-1",
+          "objectKey": "dd5711540f04e06aa955d7f4862fc04e8cdea464cb590dae91ed2976bb78098e.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::697863601562:role/cdk-hnb659fds-file-publishing-role-697863601562-us-east-1"
+        }
+      }
+    },
+    "251d0dc1993c060b2439b54cb243f4ead92e308a2b7c7a5f0c5e0e3a565d6d51": {
+      "source": {
+        "path": "SplitHorizonDnsStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "697863601562-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-697863601562-us-east-1",
+          "objectKey": "251d0dc1993c060b2439b54cb243f4ead92e308a2b7c7a5f0c5e0e3a565d6d51.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::697863601562:role/cdk-hnb659fds-file-publishing-role-697863601562-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
