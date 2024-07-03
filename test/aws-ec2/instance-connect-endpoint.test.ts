@@ -20,7 +20,9 @@ describe('InstanceConnectEndpoint', () => {
 
     Template.fromStack(stack).hasResourceProperties('AWS::EC2::InstanceConnectEndpoint', {
       SecurityGroupIds: [
-        { 'Fn::GetAtt': ['MyInstanceConnectEndpointSecurityGroup99B9E814', 'GroupId'] },
+        {
+          'Fn::GetAtt': ['MyInstanceConnectEndpointSecurityGroup99B9E814', 'GroupId'],
+        },
       ],
       SubnetId: { Ref: 'VPCPrivateSubnet1Subnet8BCA10E0' },
     });
@@ -45,9 +47,7 @@ describe('InstanceConnectEndpoint', () => {
     Template.fromStack(stack).hasResourceProperties('AWS::EC2::InstanceConnectEndpoint', {
       ClientToken: 'my-client-token',
       PreserveClientIp: false,
-      SecurityGroupIds: [
-        { 'Fn::GetAtt': ['SecurityGroupDD263621', 'GroupId'] },
-      ],
+      SecurityGroupIds: [{ 'Fn::GetAtt': ['SecurityGroupDD263621', 'GroupId'] }],
       SubnetId: { Ref: 'VPCPrivateSubnet1Subnet8BCA10E0' },
     });
   });

@@ -1,5 +1,5 @@
 import { ReleasableCommits, awscdk, github, javascript, release } from 'projen';
-import { NodePackageManager } from 'projen/lib/javascript';
+import { ArrowParens, NodePackageManager } from 'projen/lib/javascript';
 
 let cdkVersion = '2.120.0';
 const project = new awscdk.AwsCdkConstructLibrary({
@@ -18,14 +18,19 @@ const project = new awscdk.AwsCdkConstructLibrary({
   experimentalIntegRunner: false, // we're using the AWS CDK-provided runner
   // autoApproveUpgrades: true,
   // autoApproveOptions: { allowedUsernames: ['hoegertn'] },
-  depsUpgradeOptions: { workflowOptions: { schedule: javascript.UpgradeDependenciesSchedule.WEEKLY } },
+  depsUpgradeOptions: {
+    workflowOptions: {
+      schedule: javascript.UpgradeDependenciesSchedule.WEEKLY,
+    },
+  },
   githubOptions: {
     projenCredentials: github.GithubCredentials.fromApp(),
     pullRequestLintOptions: {
       semanticTitleOptions: {
         types: ['feat', 'fix', 'chore', 'ci', 'docs', 'style', 'refactor', 'test', 'revert', 'Revert'],
       },
-      contributorStatement: '_By submitting this pull request, I confirm that my contribution is made under the terms of the Apache-2.0 license_',
+      contributorStatement:
+        '_By submitting this pull request, I confirm that my contribution is made under the terms of the Apache-2.0 license_',
     },
   },
   pullRequestTemplateContents: [
@@ -68,10 +73,19 @@ Closes #<issue number here>.
   //   packageId: 'OpenConstructs.AwsCdk',
   //   dotNetNamespace: 'OpenConstructs.AwsCdk',
   // },
-  devDeps: [
-    `@aws-cdk/integ-runner@${cdkVersion}-alpha.0`,
-    `@aws-cdk/integ-tests-alpha@${cdkVersion}-alpha.0`,
-  ],
+  devDeps: [`@aws-cdk/integ-runner@${cdkVersion}-alpha.0`, `@aws-cdk/integ-tests-alpha@${cdkVersion}-alpha.0`],
+  eslintOptions: {
+    dirs: ['src', 'test'],
+    prettier: true,
+  },
+  prettier: true,
+  prettierOptions: {
+    settings: {
+      singleQuote: true,
+      printWidth: 120,
+      arrowParens: ArrowParens.AVOID,
+    },
+  },
 });
 
 project.addTask('integ', {
