@@ -1,4 +1,4 @@
-import { Aws, Duration, IResource, Resource, aws_ec2, aws_fsx } from 'aws-cdk-lib';
+import { Aws, Duration, aws_ec2, aws_fsx } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { MaintenanceTime } from './maintenance-time';
 
@@ -47,112 +47,112 @@ export interface OntapConfiguration {
   readonly automaticBackupRetention?: Duration;
 
   /**
-    * Start time for 30-minute daily automatic backup window in Coordinated Universal Time (UTC).
-    *
-    * @default - no backup window
-    */
+   * Start time for 30-minute daily automatic backup window in Coordinated Universal Time (UTC).
+   *
+   * @default - no backup window
+   */
   readonly dailyAutomaticBackupStartTime?: aws_fsx.DailyAutomaticBackupStartTime;
 
   /**
-    * The FSx for ONTAP file system deployment type to use in creating the file system.
-    */
+   * The FSx for ONTAP file system deployment type to use in creating the file system.
+   */
   readonly deploymentType: OntapDeploymentType;
 
   /**
-    * The total number of SSD IOPS provisioned for the file system.
-    *
-    * The minimum and maximum values for this property depend on the value of HAPairs and StorageCapacity.
-    * The minimum value is calculated as StorageCapacity * 3 * HAPairs (3 IOPS per GB of StorageCapacity).
-    * The maximum value is calculated as 200,000 * HAPairs.
-    *
-    * @default - 3 IOPS per GB of storage capacity
-    */
+   * The total number of SSD IOPS provisioned for the file system.
+   *
+   * The minimum and maximum values for this property depend on the value of HAPairs and StorageCapacity.
+   * The minimum value is calculated as StorageCapacity * 3 * HAPairs (3 IOPS per GB of StorageCapacity).
+   * The maximum value is calculated as 200,000 * HAPairs.
+   *
+   * @default - 3 IOPS per GB of storage capacity
+   */
   readonly diskIops?: number;
 
   /**
-    * The IP address range in which the endpoints to access your file system will be created.
-    *
-    * You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
-    *
-    * @default -
-    */
+   * The IP address range in which the endpoints to access your file system will be created.
+   *
+   * You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+   *
+   * @default -
+   */
   readonly endpointIpAddressRange?: string;
 
   /**
-    * The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
-    */
+   * The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
+   */
   readonly fsxAdminPassword?: string;
 
   /**
-    * How many high-availability (HA) pairs of file servers will power your file system.
-    * First-generation file systems are powered by 1 HA pair.
-    * Second-generation multi-AZ file systems are powered by 1 HA pair.
-    * Second generation single-AZ file systems are powered by up to 12 HA pairs.
-    *
-    * The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity.
-    *
-    * Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs.
-    *
-    * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs
-    * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage
-    *
-    * @default - 1 HA pair
-    */
+   * How many high-availability (HA) pairs of file servers will power your file system.
+   * First-generation file systems are powered by 1 HA pair.
+   * Second-generation multi-AZ file systems are powered by 1 HA pair.
+   * Second generation single-AZ file systems are powered by up to 12 HA pairs.
+   *
+   * The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity.
+   *
+   * Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs.
+   *
+   * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs
+   * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage
+   *
+   * @default - 1 HA pair
+   */
   readonly haPairs?: number;
 
   /**
-    * The subnet in which you want the preferred file server to be located.
-    *
-    * This value is required when DeploymentType is set to MULTI_AZ_1 or MULTI_AZ_2.
-    *
-    * @default
-    */
+   * The subnet in which you want the preferred file server to be located.
+   *
+   * This value is required when DeploymentType is set to MULTI_AZ_1 or MULTI_AZ_2.
+   *
+   * @default
+   */
   readonly preferredSubnet?: aws_ec2.ISubnet;
 
   /**
-    * The route tables in which Amazon FSx creates the rules for routing traffic to the correct file server.
-    * You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located.
-    *
-    * Amazon FSx manages VPC route tables for Multi-AZ file systems using tag-based authentication.
-    * These route tables are tagged with Key: AmazonFSx; Value: ManagedByAmazonFSx.
-    *
-    * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/unable-to-access.html#vpc-route-tables-not-tagged
-    *
-    * @default - Amazon FSx selects your VPC's default route table.
-    */
+   * The route tables in which Amazon FSx creates the rules for routing traffic to the correct file server.
+   * You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located.
+   *
+   * Amazon FSx manages VPC route tables for Multi-AZ file systems using tag-based authentication.
+   * These route tables are tagged with Key: AmazonFSx; Value: ManagedByAmazonFSx.
+   *
+   * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/unable-to-access.html#vpc-route-tables-not-tagged
+   *
+   * @default - Amazon FSx selects your VPC's default route table.
+   */
   readonly routeTables?: aws_ec2.IRouteTable[];
 
   /**
-    * The throughput capacity for the file system that you're creating in megabytes per second (MBps).
-    *
-    * You can define either the `throughputCapacityPerHaPair` or the `throughputCapacity` when creating a file system, but not both.
-    *
-    * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html
-    *
-    * @default - recommended throughput capacity based on the storage capacity
-    */
+   * The throughput capacity for the file system that you're creating in megabytes per second (MBps).
+   *
+   * You can define either the `throughputCapacityPerHaPair` or the `throughputCapacity` when creating a file system, but not both.
+   *
+   * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html
+   *
+   * @default - recommended throughput capacity based on the storage capacity
+   */
   readonly throughputCapacity?: number;
 
   /**
-    * The throughput capacity per HA pair, rather than the total throughput for the file system.
-    *
-    * You can define either the `throughputCapacityPerHaPair` or the `throughputCapacity` when creating a file system, but not both.
-    *
-    * For SINGLE_AZ_1 and MULTI_AZ_1 file systems, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.
-    * For SINGLE_AZ_2, valid values are 1536, 3072, or 6144 MBps.
-    * For MULTI_AZ_2, valid values are 384, 768, 1536, 3072, or 6144 MBps.
-    *
-    * @default - recommended throughput capacity based on the storage capacity
-    */
+   * The throughput capacity per HA pair, rather than the total throughput for the file system.
+   *
+   * You can define either the `throughputCapacityPerHaPair` or the `throughputCapacity` when creating a file system, but not both.
+   *
+   * For SINGLE_AZ_1 and MULTI_AZ_1 file systems, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.
+   * For SINGLE_AZ_2, valid values are 1536, 3072, or 6144 MBps.
+   * For MULTI_AZ_2, valid values are 384, 768, 1536, 3072, or 6144 MBps.
+   *
+   * @default - recommended throughput capacity based on the storage capacity
+   */
   readonly throughputCapacityPerHaPair?: number;
 
   /**
-    * The preferred day and time to perform weekly maintenance. The first digit is the day of the week, starting at 1
-    * for Monday, then the following are hours and minutes in the UTC time zone, 24 hour clock. For example: '2:20:30'
-    * is Tuesdays at 20:30.
-    *
-    * @default - no preference
-    */
+   * The preferred day and time to perform weekly maintenance. The first digit is the day of the week, starting at 1
+   * for Monday, then the following are hours and minutes in the UTC time zone, 24 hour clock. For example: '2:20:30'
+   * is Tuesdays at 20:30.
+   *
+   * @default - no preference
+   */
   readonly weeklyMaintenanceStartTime?: MaintenanceTime;
 }
 
@@ -166,11 +166,11 @@ export interface OntapFileSystemProps extends aws_fsx.FileSystemProps {
   readonly ontapConfiguration: OntapConfiguration;
 
   /**
-    * The subnet that the file system will be accessible from.
-    *
-    * For MULTI_AZ_1 deployment types,
-    * this subnet is for the standby file server and you have to specify a `prefferredSubnet` for the preffered file server.
-    */
+   * The subnet that the file system will be accessible from.
+   *
+   * For MULTI_AZ_1 deployment types,
+   * this subnet is for the standby file server and you have to specify a `prefferredSubnet` for the preffered file server.
+   */
   readonly vpcSubnets: aws_ec2.ISubnet[];
 }
 
@@ -182,11 +182,14 @@ export interface OntapFileSystemProps extends aws_fsx.FileSystemProps {
  * @resource AWS::FSx::FileSystem
  */
 export class OntapFileSystem extends aws_fsx.FileSystemBase {
-
   /**
    * Import an existing FSx for NetApp ONTAP file system from the given properties.
    */
-  public static fromOntapFileSystemAttributes(scope: Construct, id: string, attrs: aws_fsx.FileSystemAttributes): aws_fsx.IFileSystem {
+  public static fromOntapFileSystemAttributes(
+    scope: Construct,
+    id: string,
+    attrs: aws_fsx.FileSystemAttributes,
+  ): aws_fsx.IFileSystem {
     class Import extends aws_fsx.FileSystemBase {
       public readonly dnsName = attrs.dnsName;
       public readonly fileSystemId = attrs.fileSystemId;
@@ -242,7 +245,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
 
     this.validateProps(props);
 
-    const securityGroup = (props.securityGroup || this.createSecurityGroup(scope, props.vpc));
+    const securityGroup = props.securityGroup || this.createSecurityGroup(scope, props.vpc);
     this.connections = this.createConnections(securityGroup);
     this.fileSystem = this.createOntapFileSystem(scope, securityGroup, props);
 
@@ -266,12 +269,16 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     });
   }
 
-  protected createOntapFileSystem(scope: Construct, securityGroup: aws_ec2.ISecurityGroup, props: OntapFileSystemProps): aws_fsx.CfnFileSystem {
+  protected createOntapFileSystem(
+    scope: Construct,
+    securityGroup: aws_ec2.ISecurityGroup,
+    props: OntapFileSystemProps,
+  ): aws_fsx.CfnFileSystem {
     const ontapConfiguration = props.ontapConfiguration;
 
     const fileSystem = new aws_fsx.CfnFileSystem(scope, 'Resource', {
       fileSystemType: OntapFileSystem.DEFAULT_FILE_SYSTEM_TYPE,
-      subnetIds: props.vpcSubnets.map((subnet) => subnet.subnetId),
+      subnetIds: props.vpcSubnets.map(subnet => subnet.subnetId),
       backupId: props.backupId,
       kmsKeyId: props.kmsKey?.keyId,
       ontapConfiguration: {
@@ -286,7 +293,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
         fsxAdminPassword: ontapConfiguration.fsxAdminPassword,
         haPairs: ontapConfiguration.haPairs,
         preferredSubnetId: ontapConfiguration.preferredSubnet?.subnetId,
-        routeTableIds: ontapConfiguration.routeTables?.map((routeTable) => routeTable.routeTableId),
+        routeTableIds: ontapConfiguration.routeTables?.map(routeTable => routeTable.routeTableId),
         throughputCapacity: ontapConfiguration.throughputCapacity,
         throughputCapacityPerHaPair: ontapConfiguration.throughputCapacityPerHaPair,
         weeklyMaintenanceStartTime: ontapConfiguration.weeklyMaintenanceStartTime?.toTimestamp(),
@@ -307,7 +314,10 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
 
     this.validateHaPairs(deploymentType, ontapConfiguration.haPairs);
     this.validateAutomaticBackupRetention(ontapConfiguration.automaticBackupRetention);
-    this.validateDailyAutomaticBackupStartTime(ontapConfiguration.automaticBackupRetention, ontapConfiguration.dailyAutomaticBackupStartTime);
+    this.validateDailyAutomaticBackupStartTime(
+      ontapConfiguration.automaticBackupRetention,
+      ontapConfiguration.dailyAutomaticBackupStartTime,
+    );
     this.validateDiskIops(props.storageCapacityGiB, ontapConfiguration.diskIops, ontapConfiguration.haPairs);
     this.validateEndpointIpAddressRange(deploymentType, ontapConfiguration.endpointIpAddressRange);
     this.validateFsxAdminPassword(ontapConfiguration.fsxAdminPassword);
@@ -326,7 +336,10 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     if (automaticBackupRetention == null || automaticBackupRetention.toMilliseconds() === 0) {
       return;
     }
-    if (automaticBackupRetention.toMilliseconds() < Duration.days(1).toMilliseconds() || automaticBackupRetention.toDays() > 90) {
+    if (
+      automaticBackupRetention.toMilliseconds() < Duration.days(1).toMilliseconds() ||
+      automaticBackupRetention.toDays() > 90
+    ) {
       throw new Error('automaticBackupRetention must be between 1 and 90 days or be equal to 0');
     }
   }
@@ -342,7 +355,9 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     const automaticBackupDisabled = !automaticBackupRetention || automaticBackupRetention?.toDays() === 0;
 
     if (dailyAutomaticBackupStartTime && automaticBackupDisabled) {
-      throw new Error('\'automaticBackupRetention\' period must be set a non-zero day when \'dailyAutomaticBackupStartTime\' is set');
+      throw new Error(
+        "'automaticBackupRetention' period must be set a non-zero day when 'dailyAutomaticBackupStartTime' is set",
+      );
     }
   }
 
@@ -364,10 +379,12 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
       return;
     }
     if (deploymentType !== OntapDeploymentType.MULTI_AZ_1 && deploymentType !== OntapDeploymentType.MULTI_AZ_2) {
-      throw new Error('\'endpointIpAddressRange\' can only be specified for multi-AZ file systems');
+      throw new Error("'endpointIpAddressRange' can only be specified for multi-AZ file systems");
     }
     if (!/^[^\u0000\u0085\u2028\u2029\r\n]{9,17}$/.test(endpointIpAddressRange)) {
-      throw new Error('\'endpointIpAddressRange\' must be between 9 and 17 characters long and not contain any of the following characters: \\u0000, \\u0085, \\u2028, \\u2029, \\r, or \\n');
+      throw new Error(
+        "'endpointIpAddressRange' must be between 9 and 17 characters long and not contain any of the following characters: \\u0000, \\u0085, \\u2028, \\u2029, \\r, or \\n",
+      );
     }
   }
 
@@ -376,11 +393,15 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
       return;
     }
     if (!/^[^\u0000\u0085\u2028\u2029\r\n]{8,50}$/.test(fsxAdminPassword)) {
-      throw new Error('\'fsxAdminPassword\' must be between 8 and 50 characters long and not contain any of the following characters: \\u0000, \\u0085, \\u2028, \\u2029, \\r, or \\n');
+      throw new Error(
+        "'fsxAdminPassword' must be between 8 and 50 characters long and not contain any of the following characters: \\u0000, \\u0085, \\u2028, \\u2029, \\r, or \\n",
+      );
     }
     // must contain at least one English letter and one number, and must not contain the word 'admin'.
     if (!/[a-zA-Z]/.test(fsxAdminPassword) || !/\d/.test(fsxAdminPassword) || /admin/i.test(fsxAdminPassword)) {
-      throw new Error('\'fsxAdminPassword\' must contain at least one English letter and one number, and must not contain the word \'admin\'');
+      throw new Error(
+        "'fsxAdminPassword' must contain at least one English letter and one number, and must not contain the word 'admin'",
+      );
     }
   }
 
@@ -391,20 +412,35 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     if (!Number.isInteger(haPairs) || haPairs < 1 || haPairs > 12) {
       throw new Error(`\'haPairs\' must be an integer between 1 and 12, got ${haPairs}`);
     }
-    if (haPairs > 1 && ([OntapDeploymentType.SINGLE_AZ_1, OntapDeploymentType.MULTI_AZ_1, OntapDeploymentType.MULTI_AZ_2].includes(deploymentType))) {
+    if (
+      haPairs > 1 &&
+      [OntapDeploymentType.SINGLE_AZ_1, OntapDeploymentType.MULTI_AZ_1, OntapDeploymentType.MULTI_AZ_2].includes(
+        deploymentType,
+      )
+    ) {
       throw new Error(`\'haPairs\' must be 1 for deployment type ${deploymentType}`);
     }
   }
 
-  private validateSubnets(deploymentType: OntapDeploymentType, vpcSubnets: aws_ec2.ISubnet[], preferredSubnet?: aws_ec2.ISubnet): void {
-    if ((deploymentType === OntapDeploymentType.MULTI_AZ_1 || deploymentType === OntapDeploymentType.MULTI_AZ_2) && !preferredSubnet) {
-      throw new Error('\'preferredSubnet\' must be specified for multi-AZ file systems');
+  private validateSubnets(
+    deploymentType: OntapDeploymentType,
+    vpcSubnets: aws_ec2.ISubnet[],
+    preferredSubnet?: aws_ec2.ISubnet,
+  ): void {
+    if (
+      (deploymentType === OntapDeploymentType.MULTI_AZ_1 || deploymentType === OntapDeploymentType.MULTI_AZ_2) &&
+      !preferredSubnet
+    ) {
+      throw new Error("'preferredSubnet' must be specified for multi-AZ file systems");
     }
-    if ((deploymentType === OntapDeploymentType.SINGLE_AZ_1 || deploymentType === OntapDeploymentType.SINGLE_AZ_2) && preferredSubnet) {
-      throw new Error('\'preferredSubnet\' can only be specified for multi-AZ file systems');
+    if (
+      (deploymentType === OntapDeploymentType.SINGLE_AZ_1 || deploymentType === OntapDeploymentType.SINGLE_AZ_2) &&
+      preferredSubnet
+    ) {
+      throw new Error("'preferredSubnet' can only be specified for multi-AZ file systems");
     }
     if (preferredSubnet && !vpcSubnets.includes(preferredSubnet)) {
-      throw new Error('\'preferredSubnet\' must be one of the specified \'vpcSubnets\'');
+      throw new Error("'preferredSubnet' must be one of the specified 'vpcSubnets'");
     }
   }
 
@@ -413,7 +449,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
       return;
     }
     if (deploymentType !== OntapDeploymentType.MULTI_AZ_1 && deploymentType !== OntapDeploymentType.MULTI_AZ_2) {
-      throw new Error('\'routeTables\' can only be specified for multi-AZ file systems');
+      throw new Error("'routeTables' can only be specified for multi-AZ file systems");
     }
   }
 
@@ -427,12 +463,12 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
       return;
     }
     if (throughputCapacity != null && throughputCapacityPerHaPair != null) {
-      throw new Error('\'throughputCapacity\' and \'throughputCapacityPerHaPair\' cannot be specified at the same time');
+      throw new Error("'throughputCapacity' and 'throughputCapacityPerHaPair' cannot be specified at the same time");
     }
 
     // Calculate the throughput per HaPair and use it for validation,
     // regardless of whether `throughputCapacity` or `throughputCapacityPerHaPair` is defined.
-    const throughputPerHaPair = throughputCapacityPerHaPair ?? (throughputCapacity! / haPair);
+    const throughputPerHaPair = throughputCapacityPerHaPair ?? throughputCapacity! / haPair;
 
     const validValues: { [key in OntapDeploymentType]: number[] } = {
       SINGLE_AZ_1: [128, 256, 512, 1024, 2048, 4096],
@@ -443,13 +479,21 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
 
     const validRange = validValues[deploymentType];
     if (!validRange.includes(throughputPerHaPair)) {
-      throw new Error(`'throughputCapacityPerHaPair' and 'throughputCapacity' / haPairs must be one of the following values for ${deploymentType}: ${validRange.join(', ')}`);
+      throw new Error(
+        `'throughputCapacityPerHaPair' and 'throughputCapacity' / haPairs must be one of the following values for ${deploymentType}: ${validRange.join(', ')}`,
+      );
     }
   }
 
   private validateStorageCapacity(haPairs: number = 1, storageCapacityGiB: number): void {
-    if (!Number.isInteger(storageCapacityGiB) || storageCapacityGiB < 1024 * haPairs || storageCapacityGiB > Math.min(1_048_576, 524_288 * haPairs)) {
-      throw new Error(`storageCapacityGiB must be an integer between ${1024 * haPairs} and ${Math.min(1_048_576, 524_288 * haPairs)}, got ${storageCapacityGiB}`);
+    if (
+      !Number.isInteger(storageCapacityGiB) ||
+      storageCapacityGiB < 1024 * haPairs ||
+      storageCapacityGiB > Math.min(1_048_576, 524_288 * haPairs)
+    ) {
+      throw new Error(
+        `storageCapacityGiB must be an integer between ${1024 * haPairs} and ${Math.min(1_048_576, 524_288 * haPairs)}, got ${storageCapacityGiB}`,
+      );
     }
   }
 }
