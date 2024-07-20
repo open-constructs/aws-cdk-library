@@ -245,9 +245,9 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
 
     this.validateProps(props);
 
-    const securityGroup = props.securityGroup || this.createSecurityGroup(scope, props.vpc);
+    const securityGroup = props.securityGroup || this.createSecurityGroup(props.vpc);
     this.connections = this.createConnections(securityGroup);
-    this.fileSystem = this.createOntapFileSystem(scope, securityGroup, props);
+    this.fileSystem = this.createOntapFileSystem(securityGroup, props);
 
     this.fileSystem.applyRemovalPolicy(props.removalPolicy);
 
@@ -257,8 +257,8 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     this.interClusterDnsName = `intercluster.${baseDnsName}`;
   }
 
-  protected createSecurityGroup(scope: Construct, vpc: aws_ec2.IVpc): aws_ec2.SecurityGroup {
-    return new aws_ec2.SecurityGroup(scope, 'FsxOntapSecurityGroup', {
+  protected createSecurityGroup(vpc: aws_ec2.IVpc): aws_ec2.SecurityGroup {
+    return new aws_ec2.SecurityGroup(this, `FsxOntapSecurityGroup`, {
       vpc,
     });
   }
@@ -270,13 +270,12 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
   }
 
   protected createOntapFileSystem(
-    scope: Construct,
     securityGroup: aws_ec2.ISecurityGroup,
     props: OntapFileSystemProps,
   ): aws_fsx.CfnFileSystem {
     const ontapConfiguration = props.ontapConfiguration;
 
-    const fileSystem = new aws_fsx.CfnFileSystem(scope, 'Resource', {
+    const fileSystem = new aws_fsx.CfnFileSystem(this, 'Resource', {
       fileSystemType: OntapFileSystem.DEFAULT_FILE_SYSTEM_TYPE,
       subnetIds: props.vpcSubnets.map(subnet => subnet.subnetId),
       backupId: props.backupId,
