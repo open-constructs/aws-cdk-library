@@ -258,7 +258,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
   }
 
   protected createSecurityGroup(vpc: aws_ec2.IVpc): aws_ec2.SecurityGroup {
-    return new aws_ec2.SecurityGroup(this, `FsxOntapSecurityGroup`, {
+    return new aws_ec2.SecurityGroup(this, 'FsxOntapSecurityGroup', {
       vpc,
     });
   }
