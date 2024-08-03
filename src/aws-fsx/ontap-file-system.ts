@@ -1,4 +1,4 @@
-import { Aws, Duration, aws_ec2, aws_fsx } from 'aws-cdk-lib';
+import { Aws, Duration, Token, aws_ec2, aws_fsx } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { MaintenanceTime } from './maintenance-time';
 
@@ -200,20 +200,20 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
   }
 
   /**
-   * The default FSx file system type used by FSx for NetApp ONTAP.
+   * Configures a Connections object.
    */
-  private static readonly DEFAULT_FILE_SYSTEM_TYPE: string = 'ONTAP';
-
-  /**
-   * Configures a Connections object with all the ports required by FSx for NetApp ONTAP.
-   */
-  private static configureConnections(securityGroup: aws_ec2.ISecurityGroup): aws_ec2.Connections {
+  protected static configureConnections(securityGroup: aws_ec2.ISecurityGroup): aws_ec2.Connections {
     const connections = new aws_ec2.Connections({
       securityGroups: [securityGroup],
     });
 
     return connections;
   }
+
+  /**
+   * The default FSx file system type used by FSx for NetApp ONTAP.
+   */
+  private static readonly DEFAULT_FILE_SYSTEM_TYPE: string = 'ONTAP';
 
   /**
    * The security groups/rules used to allow network connections to the file system.
@@ -246,7 +246,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     this.validateProps(props);
 
     const securityGroup = props.securityGroup || this.createSecurityGroup(props.vpc);
-    this.connections = this.createConnections(securityGroup);
+    this.connections = OntapFileSystem.configureConnections(securityGroup);
     this.fileSystem = this.createOntapFileSystem(securityGroup, props);
 
     this.fileSystem.applyRemovalPolicy(props.removalPolicy);
@@ -260,12 +260,6 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
   protected createSecurityGroup(vpc: aws_ec2.IVpc): aws_ec2.SecurityGroup {
     return new aws_ec2.SecurityGroup(this, 'FsxOntapSecurityGroup', {
       vpc,
-    });
-  }
-
-  protected createConnections(securityGroup: aws_ec2.ISecurityGroup): aws_ec2.Connections {
-    return new aws_ec2.Connections({
-      securityGroups: [securityGroup],
     });
   }
 
@@ -332,7 +326,11 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
   }
 
   private validateAutomaticBackupRetention(automaticBackupRetention?: Duration): void {
-    if (automaticBackupRetention == null || automaticBackupRetention.toMilliseconds() === 0) {
+    if (
+      automaticBackupRetention == null ||
+      automaticBackupRetention.isUnresolved() ||
+      automaticBackupRetention.toMilliseconds() === 0
+    ) {
       return;
     }
     if (
@@ -361,7 +359,12 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
   }
 
   private validateDiskIops(storageCapacityGiB: number, diskIops?: number, haPairs: number = 1): void {
-    if (diskIops == null) {
+    if (
+      diskIops == null ||
+      Token.isUnresolved(diskIops) ||
+      Token.isUnresolved(storageCapacityGiB) ||
+      Token.isUnresolved(haPairs)
+    ) {
       return;
     }
 
@@ -374,7 +377,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
   }
 
   private validateEndpointIpAddressRange(deploymentType: OntapDeploymentType, endpointIpAddressRange?: string): void {
-    if (endpointIpAddressRange == null) {
+    if (endpointIpAddressRange == null || Token.isUnresolved(endpointIpAddressRange)) {
       return;
     }
     if (deploymentType !== OntapDeploymentType.MULTI_AZ_1 && deploymentType !== OntapDeploymentType.MULTI_AZ_2) {
@@ -388,7 +391,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
   }
 
   private validateFsxAdminPassword(fsxAdminPassword?: string): void {
-    if (fsxAdminPassword == null) {
+    if (fsxAdminPassword == null || Token.isUnresolved(fsxAdminPassword)) {
       return;
     }
     if (!/^[^\u0000\u0085\u2028\u2029\r\n]{8,50}$/.test(fsxAdminPassword)) {
@@ -405,7 +408,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
   }
 
   private validateHaPairs(deploymentType: OntapDeploymentType, haPairs?: number): void {
-    if (haPairs == null) {
+    if (haPairs == null || Token.isUnresolved(haPairs)) {
       return;
     }
     if (!Number.isInteger(haPairs) || haPairs < 1 || haPairs > 12) {
@@ -458,11 +461,21 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     throughputCapacityPerHaPair?: number,
     haPair: number = 1,
   ): void {
+    if (
+      Token.isUnresolved(throughputCapacity) ||
+      Token.isUnresolved(throughputCapacityPerHaPair) ||
+      Token.isUnresolved(haPair)
+    ) {
+      return;
+    }
     if (throughputCapacity == null && throughputCapacityPerHaPair == null) {
       return;
     }
     if (throughputCapacity != null && throughputCapacityPerHaPair != null) {
       throw new Error("'throughputCapacity' and 'throughputCapacityPerHaPair' cannot be specified at the same time");
+    }
+    if (haPair <= 0 || !Number.isInteger(haPair)) {
+      throw new Error(`'haPair' must be a positive integer, got ${haPair}`);
     }
 
     // Calculate the throughput per HaPair and use it for validation,
@@ -485,6 +498,9 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
   }
 
   private validateStorageCapacity(haPairs: number = 1, storageCapacityGiB: number): void {
+    if (Token.isUnresolved(storageCapacityGiB) || Token.isUnresolved(haPairs)) {
+      return;
+    }
     if (
       !Number.isInteger(storageCapacityGiB) ||
       storageCapacityGiB < 1024 * haPairs ||
