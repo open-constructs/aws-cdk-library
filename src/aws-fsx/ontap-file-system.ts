@@ -74,7 +74,7 @@ export interface OntapConfiguration {
    *
    * You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
    *
-   * @default -
+   * @default - an unused IP address range from the 198.19.* range
    */
   readonly endpointIpAddressRange?: string;
 
@@ -105,7 +105,7 @@ export interface OntapConfiguration {
    *
    * This value is required when DeploymentType is set to MULTI_AZ_1 or MULTI_AZ_2.
    *
-   * @default
+   * @default - no default value (This value is not used for single-AZ file systems, but it is required for multi-AZ file systems)
    */
   readonly preferredSubnet?: aws_ec2.ISubnet;
 
