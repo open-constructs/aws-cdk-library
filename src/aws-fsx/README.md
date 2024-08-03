@@ -47,7 +47,11 @@ Only `SINGLE_AZ_2` allows setting HA pairs to a value other than 1.
 
 ### Backup
 
-With FSx for ONTAP, you can protect your data by taking automatic daily backups and user-initiated backups of the volumes on your file system. Creating regular backups for your volumes is a best practice that helps support your data retention and compliance needs. You can restore volume backups to any existing FSx for ONTAP file system you have access to that is in the same AWS Region where the backup is stored. Working with Amazon FSx backups makes it is easy to create, view, restore, and delete backups of your volumes.
+With FSx for ONTAP, you can protect your data by taking automatic daily backups and user-initiated backups of the volumes on your file system.
+Creating regular backups for your volumes is a best practice that helps support your data retention and compliance needs.
+
+You can restore volume backups to any existing FSx for ONTAP file system you have access to that is in the same AWS Region where the backup is stored.
+Working with Amazon FSx backups makes it is easy to create, view, restore, and delete backups of your volumes.
 
 To enable automatic backups, set the `automaticBackupRetention` property to a non-zero value in the `ontapConfiguration`:
 
@@ -73,9 +77,18 @@ const fileSystem = new OntapFileSystem(this, 'FsxOntapFileSystem', {
 
 ### File system storage capacity and IOPS
 
-When you create an FSx for ONTAP file system, you specify the storage capacity of the SSD tier. For second-generation Single-AZ file systems, the storage capacity that you specify is spread evenly among the storage pools of each high-availability (HA) pair; these storage pools are called aggregates.
+When you create an FSx for ONTAP file system, you specify the storage capacity of the SSD tier.
 
-For each GiB of SSD storage that you provision, Amazon FSx automatically provisions 3 SSD input/output operations per second (IOPS) for the file system, up to a maximum of 160,000 SSD IOPS per file system. For second-generation Single-AZ file systems, your SSD IOPS are spread evenly across each of your file system's aggregates. You have the option to specify a level of provisioned SSD IOPS above the automatic 3 SSD IOPS per GiB.
+For second-generation Single-AZ file systems,
+the storage capacity that you specify is spread evenly among the storage pools of each high-availability (HA) pair;
+these storage pools are called aggregates.
+
+For each GiB of SSD storage that you provision,
+Amazon FSx automatically provisions 3 SSD input/output operations per second (IOPS) for the file system,
+up to a maximum of 160,000 SSD IOPS per file system.
+
+For second-generation Single-AZ file systems, your SSD IOPS are spread evenly across each of your file system's aggregates.
+You have the option to specify a level of provisioned SSD IOPS above the automatic 3 SSD IOPS per GiB.
 
 For more information, see [File system storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/storage-capacity-and-IOPS.html).
 
@@ -105,7 +118,12 @@ const fileSystem = new OntapFileSystem(this, 'FsxOntapFileSystem', {
 
 ### Multi-AZ file systems
 
-Multi-AZ file systems support all the availability and durability features of Single-AZ file systems. In addition, they are designed to provide continuous availability to data even when an Availability Zone is unavailable. Multi-AZ deployments have a single HA pair of file servers, the standby file server is deployed in a different Availability Zone from the active file server in the same AWS Region. Any changes written to your file system are synchronously replicated across Availability Zones to the standby.
+Multi-AZ file systems support all the availability and durability features of Single-AZ file systems.
+In addition, they are designed to provide continuous availability to data even when an Availability Zone is unavailable.
+
+Multi-AZ deployments have a single HA pair of file servers,
+the standby file server is deployed in a different Availability Zone from the active file server in the same AWS Region.
+Any changes written to your file system are synchronously replicated across Availability Zones to the standby.
 
 To create a Multi-AZ file system, set the `deploymentType` to `MULTI_AZ_X` and specify `endpointIpAddressRange`, `routeTables` and `preferredSubnet` in the `ontapConfiguration`:
 
@@ -136,7 +154,10 @@ const fileSystem = new OntapFileSystem(this, 'FsxOntapFileSystem', {
 
 ### Throughput Capacity
 
-FSx for ONTAP configures throughput capacity when you create the file system. You can modify your file system's throughput capacity at any time. Keep in mind that your file system requires a specific configuration to achieve the maximum amount of throughput capacity.
+FSx for ONTAP configures throughput capacity when you create the file system.
+You can modify your file system's throughput capacity at any time.
+
+Keep in mind that your file system requires a specific configuration to achieve the maximum amount of throughput capacity.
 
 For more information, see [Managing throughput capacity](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html).
 
@@ -166,7 +187,12 @@ const fileSystem = new OntapFileSystem(this, 'FsxOntapFileSystem', {
 
 ### Maintenance Window
 
-As a fully-managed service, FSx for ONTAP regularly performs maintenance on and updates to your file system. This maintenance has no impact for most workloads. For workloads that are performance-sensitive, on rare occasions you may notice a brief (<60 seconds) impact on performance when maintenance is occurring; Amazon FSx enables you to use the maintenance window to control when any such potential maintenance activity occurs.
+As a fully-managed service, FSx for ONTAP regularly performs maintenance on and updates to your file system.
+This maintenance has no impact for most workloads.
+
+For workloads that are performance-sensitive,
+on rare occasions you may notice a brief (<60 seconds) impact on performance when maintenance is occurring;
+Amazon FSx enables you to use the maintenance window to control when any such potential maintenance activity occurs.
 
 To set the maintenance window, specify the `maintenanceWindow` property in the `ontapConfiguration`:
 
@@ -189,7 +215,7 @@ const fileSystem = new OntapFileSystem(this, 'FsxOntapFileSystem', {
 });
 ```
 
-### Import an existing file system:
+### Import an existing file system
 
 To import an existing FSx for ONTAP file system, use the `OntapFileSystem.fromOntapFileSystemAttributes` method:
 
