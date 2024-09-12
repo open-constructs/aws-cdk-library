@@ -241,7 +241,7 @@ export class Namespace extends Resource implements INamespace {
       !/^[a-zA-Z][a-zA-Z_0-9+.@-]*$/.test(adminUsername)
     ) {
       throw new Error(
-        `\`adminUsername\` must start with a letter and can only contain letters, numbers, and the special characters: _, +, ., @, -, got: ${this.props.adminUsername}.`
+        `\`adminUsername\` must start with a letter and can only contain letters, numbers, and the special characters: _, +, ., @, -, got: ${adminUsername}.`
       );
     }
   }
@@ -256,7 +256,7 @@ export class Namespace extends Resource implements INamespace {
 
     if (!/^[a-zA-Z][a-zA-Z_0-9+.@-]*$/.test(dbName) || dbName.length > 127) {
       throw new Error(
-        `\`dbName\` must start with a letter, can only contain letters, numbers, and the special characters: _, +, ., @, -, and must not exceed 127 characters, got: ${this.props.dbName}.`
+        `\`dbName\` must start with a letter, can only contain letters, numbers, and the special characters: _, +, ., @, -, and must not exceed 127 characters, got: ${dbName}.`
       );
     }
   }
@@ -272,7 +272,7 @@ export class Namespace extends Resource implements INamespace {
 
     if (finalSnapshotName) {
       if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(finalSnapshotName) || finalSnapshotName.length > 255) {
-        throw new Error(`\`finalSnapshotName\` must be between 1 and 255 and consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`);
+        throw new Error(`\`finalSnapshotName\` must be between 1 and 255, consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`);
       }
     }
 
@@ -284,7 +284,7 @@ export class Namespace extends Resource implements INamespace {
 
       if (finalSnapshotRetentionPeriod < 1 || finalSnapshotRetentionPeriod > 3653) {
         {
-          throw new Error(`\`finalSnapshotRetentionPeriod\` must be 1-3653, got: ${finalSnapshotRetentionPeriod}.`);
+          throw new Error(`\`finalSnapshotRetentionPeriod\` must be between 1 and 3653, got: ${finalSnapshotRetentionPeriod}.`);
         }
       }
     }
@@ -313,7 +313,7 @@ export class Namespace extends Resource implements INamespace {
 
     if (!/^[a-z0-9-]+$/.test(namespaceName) || namespaceName.length < 3 || namespaceName.length > 64) {
       throw new Error(
-        `\`namespaceName\` must be between 3 and 64 characters and consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`
+        `\`namespaceName\` must be between 3 and 64 characters, consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`
       );
     }
   }

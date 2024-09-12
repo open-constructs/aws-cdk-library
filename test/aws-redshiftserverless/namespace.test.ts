@@ -119,7 +119,7 @@ describe('Redshift Serverless Namespace', () => {
         new Namespace(stack, 'Namespace', {
           finalSnapshotName,
         });
-      }).toThrow(`\`finalSnapshotName\` must be between 1 and 255 and consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`);
+      }).toThrow(`\`finalSnapshotName\` must be between 1 and 255, consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`);
     });
 
     test('throws when finalSnapshotRetentionPeriod is set without finalSnapshotName', () => {
@@ -136,7 +136,7 @@ describe('Redshift Serverless Namespace', () => {
           finalSnapshotName: 'my-final-snapshot',
           finalSnapshotRetentionPeriod,
         });
-      }).toThrow(`\`finalSnapshotRetentionPeriod\` must be 1-3653, got: ${finalSnapshotRetentionPeriod}.`);
+      }).toThrow(`\`finalSnapshotRetentionPeriod\` must be between 1 and 3653, got: ${finalSnapshotRetentionPeriod}.`);
     });
   })
 
@@ -165,7 +165,7 @@ describe('Redshift Serverless Namespace', () => {
         new Namespace(stack, 'Namespace', {
           namespaceName,
         });
-      }).toThrow(`\`namespaceName\` must be between 3 and 64 characters and consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`);
+      }).toThrow(`\`namespaceName\` must be between 3 and 64 characters, consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`);
     });
   })
 });
