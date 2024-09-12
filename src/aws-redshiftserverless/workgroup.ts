@@ -39,7 +39,7 @@ export interface WorkgroupProps {
   /**
    * The base compute capacity of the workgroup in Redshift Processing Units (RPUs).
    *
-   * @default 8
+   * @default 128
    */
   readonly baseCapacity?: number;
 

@@ -1,4 +1,4 @@
-import { IResource, Lazy, Names, Resource, SecretValue, aws_redshiftserverless } from 'aws-cdk-lib';
+import { IResource, Lazy, Names, Resource, SecretValue, Stack, Token, aws_redshiftserverless } from 'aws-cdk-lib';
 import { IRole } from 'aws-cdk-lib/aws-iam';
 import { IKey } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
@@ -8,17 +8,25 @@ import { Construct } from 'constructs';
  */
 export interface INamespace extends IResource {
   /**
-   * The namespace Arn
+   * The namespace ARN
    *
    * @attribute
    */
   readonly namespaceArn: string;
+
   /**
    * The namespace name
    *
    * @attribute
    */
   readonly namespaceName: string;
+
+  /**
+   * The namespace id
+   *
+   * @attribute
+   */
+  readonly namespaceId: string;
 }
 
 /**
@@ -61,7 +69,7 @@ export interface NamespaceProps {
   readonly finalSnapshotName?: string;
 
   /**
-   * How long to retain the final snapshot.
+   * How long days to retain the final snapshot.
    *
    * @default - Retained indefinitely if finalSnapshotName is specified, otherwise no final snapshot
    */
@@ -119,13 +127,13 @@ export enum LogExport {
  */
 export interface NamespaceAttributes {
   /**
-   * The namespace Arn
-   */
-  readonly namespaceArn: string;
-  /**
    * The namespace name
    */
   readonly namespaceName: string;
+  /**
+   * The namespace id
+   */
+  readonly namespaceId: string;
 
 }
 
@@ -145,16 +153,18 @@ export interface NamespaceAttributes {
 export class Namespace extends Resource implements INamespace {
 
   /**
-   * Import an existing namspace to the stack from its attributes.
+   * Imports an existing Namespace from attributes
    */
-  public static fromNamespaceAttributes(
-    scope: Construct,
-    id: string,
-    attrs: NamespaceAttributes,
-  ): INamespace {
+  public static fromNamespaceAttributes(scope: Construct, id: string, attrs: NamespaceAttributes): INamespace {
+
     class Import extends Resource implements INamespace {
-      public readonly namespaceArn = attrs.namespaceArn;
       public readonly namespaceName = attrs.namespaceName;
+      public readonly namespaceId = attrs.namespaceId;
+      public readonly namespaceArn = Stack.of(this).formatArn({
+        resource: 'redshift-serverless',
+        service: 'namespace',
+        resourceName: attrs.namespaceId,
+      });
     }
 
     return new Import(scope, id);
@@ -168,6 +178,10 @@ export class Namespace extends Resource implements INamespace {
    * The namespace name
    */
   readonly namespaceName: string;
+  /**
+   * The namespace id
+   */
+  readonly namespaceId: string;
 
   private readonly props: NamespaceProps;
 
@@ -179,10 +193,17 @@ export class Namespace extends Resource implements INamespace {
     });
     this.props = props;
 
+    this.validateAdmin();
+    this.validateDbName();
+    this.validateFinalSnapshot();
+    this.validateDefaultIamRole();
+    this.validateNamespaceName();
+
     const namespace = this.createNamespace();
 
     this.namespaceArn = namespace.attrNamespaceNamespaceArn;
     this.namespaceName = namespace.attrNamespaceNamespaceName;
+    this.namespaceId = namespace.attrNamespaceNamespaceId;
 
   }
 
@@ -199,5 +220,101 @@ export class Namespace extends Resource implements INamespace {
       logExports: this.props.logExports,
       namespaceName: this.physicalName,
     });
+  }
+
+  /**
+   * Validates admin settings.
+   */
+  private validateAdmin(): void {
+    const adminUsername = this.props.adminUsername;
+    const adminUserPassword = this.props.adminUserPassword;
+
+    if (Token.isUnresolved(adminUsername)) { return }
+
+    if ((adminUsername !== undefined && adminUserPassword === undefined)
+      || (adminUsername === undefined && adminUserPassword !== undefined)) {
+      throw new Error('You must specify both `adminUsername` and `adminUserPassword`, or neither.');
+    }
+
+    if (
+      adminUsername &&
+      !/^[a-zA-Z][a-zA-Z_0-9+.@-]*$/.test(adminUsername)
+    ) {
+      throw new Error(
+        `\`adminUsername\` must start with a letter and can only contain letters, numbers, and the special characters: _, +, ., @, -, got: ${this.props.adminUsername}.`
+      );
+    }
+  }
+
+  /**
+   * Validates a database name.
+   */
+  private validateDbName(): void {
+    const dbName = this.props.dbName;
+
+    if (Token.isUnresolved(dbName) || dbName === undefined) { return }
+
+    if (!/^[a-zA-Z][a-zA-Z_0-9+.@-]*$/.test(dbName) || dbName.length > 127) {
+      throw new Error(
+        `\`dbName\` must start with a letter, can only contain letters, numbers, and the special characters: _, +, ., @, -, and must not exceed 127 characters, got: ${this.props.dbName}.`
+      );
+    }
+  }
+
+  /**
+   * Validates final snapshot settings.
+   */
+  private validateFinalSnapshot(): void {
+    const finalSnapshotName = this.props.finalSnapshotName;
+    const finalSnapshotRetentionPeriod = this.props.finalSnapshotRetentionPeriod;
+
+    if (Token.isUnresolved(finalSnapshotName)) return;
+
+    if (finalSnapshotName) {
+      if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(finalSnapshotName) || finalSnapshotName.length > 255) {
+        throw new Error(`\`finalSnapshotName\` must be between 1 and 255 and consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`);
+      }
+    }
+
+    if (!Token.isUnresolved(finalSnapshotRetentionPeriod)
+      && finalSnapshotRetentionPeriod !== undefined) {
+      if (!finalSnapshotName) {
+        throw new Error('You must set \`finalSnapshotName`\ when you specify \`finalSnapshotRetentionPeriod\`.');
+      }
+
+      if (finalSnapshotRetentionPeriod < 1 || finalSnapshotRetentionPeriod > 3653) {
+        {
+          throw new Error(`\`finalSnapshotRetentionPeriod\` must be 1-3653, got: ${finalSnapshotRetentionPeriod}.`);
+        }
+      }
+    }
+  }
+
+  /**
+   * Validates role settings.
+   */
+  private validateDefaultIamRole(): void {
+    if (!this.props.defaultIamRole) {
+      return;
+    }
+
+    if (!this.props.iamRoles || !this.props.iamRoles.includes(this.props.defaultIamRole)) {
+      throw new Error('\`defaultIamRole\` must be included in \`iamRoles\`.')
+    }
+  }
+
+  /**
+   * Validates a namespace name.
+   */
+  private validateNamespaceName(): void {
+    const namespaceName = this.props.namespaceName;
+
+    if (Token.isUnresolved(namespaceName) || namespaceName === undefined) { return }
+
+    if (!/^[a-z0-9-]+$/.test(namespaceName) || namespaceName.length < 3 || namespaceName.length > 64) {
+      throw new Error(
+        `\`namespaceName\` must be between 3 and 64 characters and consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`
+      );
+    }
   }
 }
