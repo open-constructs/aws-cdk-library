@@ -33,10 +33,19 @@ class RedshiftServerlessStack extends cdk.Stack {
     });
 
     const workgroup = new ocf.aws_redshiftserverless.Workgroup(this, 'WorkGroup', {
-      namespace,
-      vpc,
+      baseCapacity: 8,
+      configParameters: {
+        datestyle: 'ISO, MDY',
+        enable_user_activity_logging: 'true',
+        query_group: 'default',
+        require_ssl: 'true',
+        search_path: '$user, public',
+        max_query_execution_time: '14440',
+      },
       enhancedVpcRouting: true,
+      namespace,
       publiclyAccessible: true,
+      vpc,
       port: 5432,
     });
     this.workgroup = workgroup;
@@ -58,4 +67,3 @@ new IntegTest(app, 'RedshiftServerless', {
 });
 
 new cdk.CfnOutput(testCase, 'endpointAddress', { value: testCase.workgroup.endpointAddress });
-// new cdk.CfnOutput(testCase, 'port', { value: testCase.workgroup.port.toString() });

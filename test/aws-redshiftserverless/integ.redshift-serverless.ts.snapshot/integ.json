@@ -1,0 +1,14 @@
+{
+  "enableLookups": true,
+  "version": "36.0.0",
+  "testCases": {
+    "RedshiftServerless/DefaultTest": {
+      "stacks": [
+        "RedshiftServerlessStack"
+      ],
+      "stackUpdateWorkflow": false,
+      "assertionStack": "RedshiftServerless/DefaultTest/DeployAssert",
+      "assertionStackName": "RedshiftServerlessDefaultTestDeployAssertC5CDACEC"
+    }
+  }
+}

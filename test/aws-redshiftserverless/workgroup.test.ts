@@ -41,7 +41,12 @@ describe('Redshift Serverless Workgroup', () => {
     new Workgroup(stack, 'Workgroup', {
       baseCapacity: 8,
       configParameters: {
-        aaa: 'aaa',
+        datestyle: 'ISO, MDY',
+        enable_user_activity_logging: 'true',
+        query_group: 'default',
+        require_ssl: 'true',
+        search_path: '$user, public',
+        max_query_execution_time: '14440',
       },
       enhancedVpcRouting: true,
       namespace,
@@ -56,6 +61,20 @@ describe('Redshift Serverless Workgroup', () => {
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::RedshiftServerless::Workgroup', {
+      WorkgroupName: 'my-workgroup',
+      NamespaceName: stack.resolve(namespace.namespaceName),
+      BaseCapacity: 8,
+      ConfigParameters: [
+        { ParameterKey: 'datestyle', ParameterValue: 'ISO, MDY' },
+        { ParameterKey: 'enable_user_activity_logging', ParameterValue: 'true' },
+        { ParameterKey: 'query_group', ParameterValue: 'default' },
+        { ParameterKey: 'require_ssl', ParameterValue: 'true' },
+        { ParameterKey: 'search_path', ParameterValue: '$user, public' },
+        { ParameterKey: 'max_query_execution_time', ParameterValue: '14440' },
+      ],
+      EnhancedVpcRouting: true,
+      Port: 5440,
+      PubliclyAccessible: true,
       SecurityGroupIds: [stack.resolve(securityGroup.securityGroupId)],
       SubnetIds: [
         { Ref: 'VPCPrivateSubnet1Subnet8BCA10E0' },
