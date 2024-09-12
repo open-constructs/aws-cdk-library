@@ -119,7 +119,7 @@ export enum LogExport {
   /**
    * User activity log
    */
-  USER_ACTIVITY_LOG = 'useractivitylog'
+  USER_ACTIVITY_LOG = 'useractivitylog',
 }
 
 /**
@@ -134,7 +134,6 @@ export interface NamespaceAttributes {
    * The namespace id
    */
   readonly namespaceId: string;
-
 }
 
 /**
@@ -151,12 +150,10 @@ export interface NamespaceAttributes {
  * );
  */
 export class Namespace extends Resource implements INamespace {
-
   /**
    * Imports an existing Namespace from attributes
    */
   public static fromNamespaceAttributes(scope: Construct, id: string, attrs: NamespaceAttributes): INamespace {
-
     class Import extends Resource implements INamespace {
       public readonly namespaceName = attrs.namespaceName;
       public readonly namespaceId = attrs.namespaceId;
@@ -187,9 +184,11 @@ export class Namespace extends Resource implements INamespace {
 
   constructor(scope: Construct, id: string, props: NamespaceProps) {
     super(scope, id, {
-      physicalName: props.namespaceName ?? Lazy.string({
-        produce: () => Names.uniqueResourceName(this, { maxLength: 64, allowedSpecialCharacters: '-' }).toLowerCase(),
-      }),
+      physicalName:
+        props.namespaceName ??
+        Lazy.string({
+          produce: () => Names.uniqueResourceName(this, { maxLength: 64, allowedSpecialCharacters: '-' }).toLowerCase(),
+        }),
     });
     this.props = props;
 
@@ -204,7 +203,6 @@ export class Namespace extends Resource implements INamespace {
     this.namespaceArn = namespace.attrNamespaceNamespaceArn;
     this.namespaceName = namespace.attrNamespaceNamespaceName;
     this.namespaceId = namespace.attrNamespaceNamespaceId;
-
   }
 
   protected createNamespace(): aws_redshiftserverless.CfnNamespace {
@@ -229,19 +227,20 @@ export class Namespace extends Resource implements INamespace {
     const adminUsername = this.props.adminUsername;
     const adminUserPassword = this.props.adminUserPassword;
 
-    if (Token.isUnresolved(adminUsername)) { return }
-
-    if ((adminUsername !== undefined && adminUserPassword === undefined)
-      || (adminUsername === undefined && adminUserPassword !== undefined)) {
-      throw new Error('You must specify both `adminUsername` and `adminUserPassword`, or neither.');
+    if (Token.isUnresolved(adminUsername)) {
+      return;
     }
 
     if (
-      adminUsername &&
-      !/^[a-zA-Z][a-zA-Z_0-9+.@-]*$/.test(adminUsername)
+      (adminUsername !== undefined && adminUserPassword === undefined) ||
+      (adminUsername === undefined && adminUserPassword !== undefined)
     ) {
+      throw new Error('You must specify both `adminUsername` and `adminUserPassword`, or neither.');
+    }
+
+    if (adminUsername && !/^[a-zA-Z][a-zA-Z_0-9+.@-]*$/.test(adminUsername)) {
       throw new Error(
-        `\`adminUsername\` must start with a letter and can only contain letters, numbers, and the special characters: _, +, ., @, -, got: ${adminUsername}.`
+        `\`adminUsername\` must start with a letter and can only contain letters, numbers, and the special characters: _, +, ., @, -, got: ${adminUsername}.`,
       );
     }
   }
@@ -252,11 +251,13 @@ export class Namespace extends Resource implements INamespace {
   private validateDbName(): void {
     const dbName = this.props.dbName;
 
-    if (Token.isUnresolved(dbName) || dbName === undefined) { return }
+    if (Token.isUnresolved(dbName) || dbName === undefined) {
+      return;
+    }
 
     if (!/^[a-zA-Z][a-zA-Z_0-9+.@-]*$/.test(dbName) || dbName.length > 127) {
       throw new Error(
-        `\`dbName\` must start with a letter, can only contain letters, numbers, and the special characters: _, +, ., @, -, and must not exceed 127 characters, got: ${dbName}.`
+        `\`dbName\` must start with a letter, can only contain letters, numbers, and the special characters: _, +, ., @, -, and must not exceed 127 characters, got: ${dbName}.`,
       );
     }
   }
@@ -272,19 +273,22 @@ export class Namespace extends Resource implements INamespace {
 
     if (finalSnapshotName) {
       if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(finalSnapshotName) || finalSnapshotName.length > 255) {
-        throw new Error(`\`finalSnapshotName\` must be between 1 and 255, consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`);
+        throw new Error(
+          `\`finalSnapshotName\` must be between 1 and 255, consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`,
+        );
       }
     }
 
-    if (!Token.isUnresolved(finalSnapshotRetentionPeriod)
-      && finalSnapshotRetentionPeriod !== undefined) {
+    if (!Token.isUnresolved(finalSnapshotRetentionPeriod) && finalSnapshotRetentionPeriod !== undefined) {
       if (!finalSnapshotName) {
-        throw new Error('You must set \`finalSnapshotName`\ when you specify \`finalSnapshotRetentionPeriod\`.');
+        throw new Error('You must set `finalSnapshotName` when you specify `finalSnapshotRetentionPeriod`.');
       }
 
       if (finalSnapshotRetentionPeriod < 1 || finalSnapshotRetentionPeriod > 3653) {
         {
-          throw new Error(`\`finalSnapshotRetentionPeriod\` must be between 1 and 3653, got: ${finalSnapshotRetentionPeriod}.`);
+          throw new Error(
+            `\`finalSnapshotRetentionPeriod\` must be between 1 and 3653, got: ${finalSnapshotRetentionPeriod}.`,
+          );
         }
       }
     }
@@ -299,7 +303,7 @@ export class Namespace extends Resource implements INamespace {
     }
 
     if (!this.props.iamRoles || !this.props.iamRoles.includes(this.props.defaultIamRole)) {
-      throw new Error('\`defaultIamRole\` must be included in \`iamRoles\`.')
+      throw new Error('`defaultIamRole` must be included in `iamRoles`.');
     }
   }
 
@@ -309,11 +313,13 @@ export class Namespace extends Resource implements INamespace {
   private validateNamespaceName(): void {
     const namespaceName = this.props.namespaceName;
 
-    if (Token.isUnresolved(namespaceName) || namespaceName === undefined) { return }
+    if (Token.isUnresolved(namespaceName) || namespaceName === undefined) {
+      return;
+    }
 
     if (!/^[a-z0-9-]+$/.test(namespaceName) || namespaceName.length < 3 || namespaceName.length > 64) {
       throw new Error(
-        `\`namespaceName\` must be between 3 and 64 characters, consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`
+        `\`namespaceName\` must be between 3 and 64 characters, consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`,
       );
     }
   }

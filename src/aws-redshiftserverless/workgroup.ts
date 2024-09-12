@@ -146,7 +146,7 @@ export interface WorkgroupAttributes {
  * declare const namespace: Namespace;
  * declare const vpc: aws_ec2.IVpc;
  *
-* const nameSpace = new Workgroup(
+ * const nameSpace = new Workgroup(
  *   stack,
  *   'Workgroup',
  *   {
@@ -157,15 +157,10 @@ export interface WorkgroupAttributes {
  * );
  */
 export class Workgroup extends Resource implements IWorkgroup {
-
   /**
    * Import an existing workgroup to the stack from its attributes.
    */
-  public static fromWorkgroupAttributes(
-    scope: Construct,
-    id: string,
-    attrs: WorkgroupAttributes,
-  ): IWorkgroup {
+  public static fromWorkgroupAttributes(scope: Construct, id: string, attrs: WorkgroupAttributes): IWorkgroup {
     class Import extends Resource implements IWorkgroup {
       public readonly workgroupName = attrs.workgroupName;
       public readonly workgroupId = attrs.workgroupId;
@@ -221,9 +216,11 @@ export class Workgroup extends Resource implements IWorkgroup {
 
   constructor(scope: Construct, id: string, props: WorkgroupProps) {
     super(scope, id, {
-      physicalName: props.workgroupName ?? Lazy.string({
-        produce: () => Names.uniqueResourceName(this, { maxLength: 64, allowedSpecialCharacters: '-' }).toLowerCase(),
-      }),
+      physicalName:
+        props.workgroupName ??
+        Lazy.string({
+          produce: () => Names.uniqueResourceName(this, { maxLength: 64, allowedSpecialCharacters: '-' }).toLowerCase(),
+        }),
     });
     this.props = props;
 
@@ -254,9 +251,9 @@ export class Workgroup extends Resource implements IWorkgroup {
       baseCapacity: this.props.baseCapacity,
       configParameters: this.props.configParameters
         ? Object.entries(this.props.configParameters).map(([key, value]) => ({
-          parameterKey: key,
-          parameterValue: value,
-        }))
+            parameterKey: key,
+            parameterValue: value,
+          }))
         : undefined,
       enhancedVpcRouting: this.props.enhancedVpcRouting,
       namespaceName: this.props.namespace?.namespaceName,
@@ -287,7 +284,6 @@ export class Workgroup extends Resource implements IWorkgroup {
   private validateCapacity(): void {
     const baseCapacity = this.props.baseCapacity;
 
-
     if (!Token.isUnresolved(baseCapacity) && baseCapacity !== undefined) {
       if (baseCapacity < 8 || baseCapacity > 512 || baseCapacity % 8 !== 0) {
         throw new Error(`\`baseCapacity\` must be between 8 and 512 in units of 8, got: ${baseCapacity}.`);
@@ -300,11 +296,13 @@ export class Workgroup extends Resource implements IWorkgroup {
    */
   private validateWorkgroupName(): void {
     const workgroupName = this.props.workgroupName;
-    if (Token.isUnresolved(workgroupName) || workgroupName === undefined) { return; }
+    if (Token.isUnresolved(workgroupName) || workgroupName === undefined) {
+      return;
+    }
 
     if (!/^[a-z0-9-]{3,64}$/.test(workgroupName)) {
       throw new Error(
-        `\`workgroupName\` must be between 3 and 64 characters long, contain only lowercase letters, numbers, and hyphens, got: ${workgroupName}.`
+        `\`workgroupName\` must be between 3 and 64 characters long, contain only lowercase letters, numbers, and hyphens, got: ${workgroupName}.`,
       );
     }
   }
@@ -317,15 +315,11 @@ export class Workgroup extends Resource implements IWorkgroup {
   private validatePort(): void {
     const port = this.props.port;
     if (!Token.isUnresolved(port) && port !== undefined) {
-
-      const isValidPort = (
-        (port >= 5431 && port <= 5455) ||
-        (port >= 8191 && port <= 8215)
-      );
+      const isValidPort = (port >= 5431 && port <= 5455) || (port >= 8191 && port <= 8215);
 
       if (!isValidPort) {
         throw new Error(
-          `\`port\` must be in the range of 5431-5455 or 8191-8215 for Amazon Redshift Serverless, got: ${port}.`
+          `\`port\` must be in the range of 5431-5455 or 8191-8215 for Amazon Redshift Serverless, got: ${port}.`,
         );
       }
     }
@@ -337,9 +331,8 @@ export class Workgroup extends Resource implements IWorkgroup {
    * @see https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-usage-considerations.html
    */
   private validateSubnet(): void {
-
     if (this.props.vpc.availabilityZones.length < 3) {
-      throw new Error('\`vpc` must have at least three subnets, and they must span across three Availability Zones.');
+      throw new Error('`vpc` must have at least three subnets, and they must span across three Availability Zones.');
     }
   }
 }

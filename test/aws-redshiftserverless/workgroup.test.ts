@@ -12,7 +12,7 @@ describe('Redshift Serverless Workgroup', () => {
     stack = new Stack(app, 'TestStack', {
       env: { account: '012345678901', region: 'us-east-1' },
     });
-    vpc = new aws_ec2.Vpc(stack, 'VPC',);
+    vpc = new aws_ec2.Vpc(stack, 'VPC');
   });
 
   test('Create namsepace with minimal properties ', () => {
@@ -21,12 +21,11 @@ describe('Redshift Serverless Workgroup', () => {
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::RedshiftServerless::Workgroup', {
-      SecurityGroupIds: [{
-        'Fn::GetAtt': [
-          'NamespaceSecurityGroup051B6159',
-          'GroupId',
-        ],
-      }],
+      SecurityGroupIds: [
+        {
+          'Fn::GetAtt': ['NamespaceSecurityGroup051B6159', 'GroupId'],
+        },
+      ],
       SubnetIds: [
         { Ref: 'VPCPrivateSubnet1Subnet8BCA10E0' },
         { Ref: 'VPCPrivateSubnet2SubnetCFCDAA7A' },
@@ -68,8 +67,7 @@ describe('Redshift Serverless Workgroup', () => {
 
   describe('import method', () => {
     test('imports Workgroup correctly', () => {
-
-      const securityGroup = aws_ec2.SecurityGroup.fromSecurityGroupId(stack, 'SG', 'sg-123456789')
+      const securityGroup = aws_ec2.SecurityGroup.fromSecurityGroupId(stack, 'SG', 'sg-123456789');
       const importedWorkgroup = Workgroup.fromWorkgroupAttributes(stack, 'ImportedWorkgroup', {
         workgroupName: 'my-workgroup',
         workgroupId: 'my-workgroup-id',
@@ -88,18 +86,20 @@ describe('Redshift Serverless Workgroup', () => {
 
       expect(importedWorkgroup.workgroupName).toEqual('my-workgroup');
 
-      expect(importedWorkgroup.workgroupArn).toEqual(Stack.of(stack).formatArn({
-        resource: 'redshift-serverless',
-        service: 'workgroup',
-        resourceName: 'my-workgroup-id',
-      }));
+      expect(importedWorkgroup.workgroupArn).toEqual(
+        Stack.of(stack).formatArn({
+          resource: 'redshift-serverless',
+          service: 'workgroup',
+          resourceName: 'my-workgroup-id',
+        }),
+      );
 
       expect(importedWorkgroup.connections.securityGroups).toEqual([securityGroup]);
     });
   });
 
   describe('validateCapacity test', () => {
-    test.each([0, 520, 15])('throws when baseCapacity is invalid, got %d', (baseCapacity) => {
+    test.each([0, 520, 15])('throws when baseCapacity is invalid, got %d', baseCapacity => {
       expect(() => {
         new Workgroup(stack, 'Workgroup', {
           baseCapacity,
@@ -110,25 +110,31 @@ describe('Redshift Serverless Workgroup', () => {
   });
 
   describe('validateWorkgroupName test', () => {
-    test.each(['ABC', 'name with spaces', 'a'.repeat(2), 'a'.repeat(100),])
-      ('throws when workgroupName is invalid, got %s', (workgroupName) => {
+    test.each(['ABC', 'name with spaces', 'a'.repeat(2), 'a'.repeat(100)])(
+      'throws when workgroupName is invalid, got %s',
+      workgroupName => {
         expect(() => {
           new Workgroup(stack, 'Workgroup', {
             workgroupName,
             vpc,
           });
-        }).toThrow(`\`workgroupName\` must be between 3 and 64 characters long, contain only lowercase letters, numbers, and hyphens, got: ${workgroupName}.`);
-      });
+        }).toThrow(
+          `\`workgroupName\` must be between 3 and 64 characters long, contain only lowercase letters, numbers, and hyphens, got: ${workgroupName}.`,
+        );
+      },
+    );
   });
 
   describe('validatePort test', () => {
-    test.each([5430, 5456, 8190, 8216])('throws when port is invalid, got %d', (port) => {
+    test.each([5430, 5456, 8190, 8216])('throws when port is invalid, got %d', port => {
       expect(() => {
         new Workgroup(stack, 'Workgroup', {
           port,
           vpc,
         });
-      }).toThrow(`\`port\` must be in the range of 5431-5455 or 8191-8215 for Amazon Redshift Serverless, got: ${port}.`);
+      }).toThrow(
+        `\`port\` must be in the range of 5431-5455 or 8191-8215 for Amazon Redshift Serverless, got: ${port}.`,
+      );
     });
   });
 
@@ -142,7 +148,7 @@ describe('Redshift Serverless Workgroup', () => {
         new Workgroup(stack, 'Workgroup', {
           vpc: vpcFor2Az,
         });
-      }).toThrow('\`vpc` must have at least three subnets, and they must span across three Availability Zones.');
+      }).toThrow('`vpc` must have at least three subnets, and they must span across three Availability Zones.');
     });
   });
 });

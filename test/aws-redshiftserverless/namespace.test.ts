@@ -1,8 +1,8 @@
 import { App, SecretValue, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
-import { LogExport, Namespace } from '../../src/aws-redshiftserverless';
 import { Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Key } from 'aws-cdk-lib/aws-kms';
+import { LogExport, Namespace } from '../../src/aws-redshiftserverless';
 
 describe('Redshift Serverless Namespace', () => {
   let app: App;
@@ -63,23 +63,25 @@ describe('Redshift Serverless Namespace', () => {
     test('import from namespaceId', () => {
       const existingNamespace = Namespace.fromNamespaceAttributes(stack, 'ImportedNamespace', {
         namespaceId: 'my-namespace-id',
-        namespaceName: 'my-namespace-name'
+        namespaceName: 'my-namespace-name',
       });
 
       expect(existingNamespace.namespaceId).toEqual('my-namespace-id');
-      expect(existingNamespace.namespaceArn).toEqual(Stack.of(stack).formatArn({
-        resource: 'redshift-serverless',
-        service: 'namespace',
-        resourceName: 'my-namespace-id',
-      }));
+      expect(existingNamespace.namespaceArn).toEqual(
+        Stack.of(stack).formatArn({
+          resource: 'redshift-serverless',
+          service: 'namespace',
+          resourceName: 'my-namespace-id',
+        }),
+      );
     });
-  })
+  });
 
   describe('validateAdmin test', () => {
     test('throws when adminUsername is set without adminUserPassword', () => {
       expect(() => {
         new Namespace(stack, 'Namespace', {
-          adminUsername: 'my-admin'
+          adminUsername: 'my-admin',
         });
       }).toThrow('You must specify both `adminUsername` and `adminUserPassword`, or neither.');
     });
@@ -92,33 +94,46 @@ describe('Redshift Serverless Namespace', () => {
       }).toThrow('You must specify both `adminUsername` and `adminUserPassword`, or neither.');
     });
 
-    test.each(['123abc', 'invalid$name'])('throws when adminUsername is invalid, got %s', (adminUsername) => {
+    test.each(['123abc', 'invalid$name'])('throws when adminUsername is invalid, got %s', adminUsername => {
       expect(() => {
         new Namespace(stack, 'Namespace', {
           adminUsername,
           adminUserPassword: SecretValue.unsafePlainText('My-password-123!'),
         });
-      }).toThrow(`\`adminUsername\` must start with a letter and can only contain letters, numbers, and the special characters: _, +, ., @, -, got: ${adminUsername}.`);
+      }).toThrow(
+        `\`adminUsername\` must start with a letter and can only contain letters, numbers, and the special characters: _, +, ., @, -, got: ${adminUsername}.`,
+      );
     });
-  })
+  });
 
   describe('validateDbName test', () => {
-    test.each(['123abc', 'invalid$name'])('throws when dbName is invalid, got %s', (dbName) => {
+    test.each(['123abc', 'invalid$name'])('throws when dbName is invalid, got %s', dbName => {
       expect(() => {
         new Namespace(stack, 'Namespace', {
           dbName,
         });
-      }).toThrow(`\`dbName\` must start with a letter, can only contain letters, numbers, and the special characters: _, +, ., @, -, and must not exceed 127 characters, got: ${dbName}.`);
+      }).toThrow(
+        `\`dbName\` must start with a letter, can only contain letters, numbers, and the special characters: _, +, ., @, -, and must not exceed 127 characters, got: ${dbName}.`,
+      );
     });
-  })
+  });
 
   describe('validateFinalSnapshot test', () => {
-    test.each(['123abc', 'UpperName', 'invalid$name', 'end-with-a-hyphen-', 'two--consecutive-hyphens', 'a'.repeat(256)])('throws when finalSnapshotName is invalid, got %s', (finalSnapshotName) => {
+    test.each([
+      '123abc',
+      'UpperName',
+      'invalid$name',
+      'end-with-a-hyphen-',
+      'two--consecutive-hyphens',
+      'a'.repeat(256),
+    ])('throws when finalSnapshotName is invalid, got %s', finalSnapshotName => {
       expect(() => {
         new Namespace(stack, 'Namespace', {
           finalSnapshotName,
         });
-      }).toThrow(`\`finalSnapshotName\` must be between 1 and 255, consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`);
+      }).toThrow(
+        `\`finalSnapshotName\` must be between 1 and 255, consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`,
+      );
     });
 
     test('throws when finalSnapshotRetentionPeriod is set without finalSnapshotName', () => {
@@ -126,18 +141,23 @@ describe('Redshift Serverless Namespace', () => {
         new Namespace(stack, 'Namespace', {
           finalSnapshotRetentionPeriod: 10,
         });
-      }).toThrow('You must set \`finalSnapshotName`\ when you specify \`finalSnapshotRetentionPeriod\`.');
+      }).toThrow('You must set `finalSnapshotName` when you specify `finalSnapshotRetentionPeriod`.');
     });
 
-    test.each([0, 3654])('throws when finalSnapshotRetentionPeriod is invalid, got %d', (finalSnapshotRetentionPeriod) => {
-      expect(() => {
-        new Namespace(stack, 'Namespace', {
-          finalSnapshotName: 'my-final-snapshot',
-          finalSnapshotRetentionPeriod,
-        });
-      }).toThrow(`\`finalSnapshotRetentionPeriod\` must be between 1 and 3653, got: ${finalSnapshotRetentionPeriod}.`);
-    });
-  })
+    test.each([0, 3654])(
+      'throws when finalSnapshotRetentionPeriod is invalid, got %d',
+      finalSnapshotRetentionPeriod => {
+        expect(() => {
+          new Namespace(stack, 'Namespace', {
+            finalSnapshotName: 'my-final-snapshot',
+            finalSnapshotRetentionPeriod,
+          });
+        }).toThrow(
+          `\`finalSnapshotRetentionPeriod\` must be between 1 and 3653, got: ${finalSnapshotRetentionPeriod}.`,
+        );
+      },
+    );
+  });
 
   describe('validateDefaultIamRole test', () => {
     test('throws when defaultIamRole role is not included in iamRoles', () => {
@@ -154,17 +174,22 @@ describe('Redshift Serverless Namespace', () => {
           defaultIamRole,
           iamRoles: [anotherRole],
         });
-      }).toThrow('\`defaultIamRole\` must be included in \`iamRoles\`.');
+      }).toThrow('`defaultIamRole` must be included in `iamRoles`.');
     });
-  })
+  });
 
   describe('validateNamespaceName test', () => {
-    test.each(['UpperName', 'invalid$name', 'a'.repeat(2), 'a'.repeat(65)])('throws when namespaceName is invalid, got %s', (namespaceName) => {
-      expect(() => {
-        new Namespace(stack, 'Namespace', {
-          namespaceName,
-        });
-      }).toThrow(`\`namespaceName\` must be between 3 and 64 characters, consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`);
-    });
-  })
+    test.each(['UpperName', 'invalid$name', 'a'.repeat(2), 'a'.repeat(65)])(
+      'throws when namespaceName is invalid, got %s',
+      namespaceName => {
+        expect(() => {
+          new Namespace(stack, 'Namespace', {
+            namespaceName,
+          });
+        }).toThrow(
+          `\`namespaceName\` must be between 3 and 64 characters, consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`,
+        );
+      },
+    );
+  });
 });

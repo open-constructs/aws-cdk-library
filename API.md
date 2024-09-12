@@ -523,7 +523,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.fromNamespaceAttributes">fromNamespaceAttributes</a></code> | Import an existing namspace to the stack from its attributes. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.fromNamespaceAttributes">fromNamespaceAttributes</a></code> | Imports an existing Namespace from attributes. |
 
 ---
 
@@ -599,7 +599,7 @@ import { aws_redshiftserverless } from '@open-constructs/aws-cdk'
 aws_redshiftserverless.Namespace.fromNamespaceAttributes(scope: Construct, id: string, attrs: NamespaceAttributes)
 ```
 
-Import an existing namspace to the stack from its attributes.
+Imports an existing Namespace from attributes.
 
 ###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.fromNamespaceAttributes.parameter.scope"></a>
 
@@ -627,6 +627,7 @@ Import an existing namspace to the stack from its attributes.
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.property.namespaceArn">namespaceArn</a></code> | <code>string</code> | The namespace Arn. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.property.namespaceId">namespaceId</a></code> | <code>string</code> | The namespace id. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.property.namespaceName">namespaceName</a></code> | <code>string</code> | The namespace name. |
 
 ---
@@ -683,6 +684,18 @@ public readonly namespaceArn: string;
 - *Type:* string
 
 The namespace Arn.
+
+---
+
+##### `namespaceId`<sup>Required</sup> <a name="namespaceId" id="@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.property.namespaceId"></a>
+
+```typescript
+public readonly namespaceId: string;
+```
+
+- *Type:* string
+
+The namespace id.
 
 ---
 
@@ -906,10 +919,11 @@ Import an existing workgroup to the stack from its attributes.
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The connection object associated with the EC2 Instance Connect Endpoint. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The connection object associated with the Redshift Serverless Workgroup. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The workgroup endpoint address. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.port">port</a></code> | <code>number</code> | The workgroup port. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.workgroupArn">workgroupArn</a></code> | <code>string</code> | The workgroup Arn. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.workgroupId">workgroupId</a></code> | <code>string</code> | The workgroup id. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.workgroupName">workgroupName</a></code> | <code>string</code> | The workgroup name. |
 
 ---
@@ -965,7 +979,7 @@ public readonly connections: Connections;
 
 - *Type:* aws-cdk-lib.aws_ec2.Connections
 
-The connection object associated with the EC2 Instance Connect Endpoint.
+The connection object associated with the Redshift Serverless Workgroup.
 
 ---
 
@@ -1002,6 +1016,18 @@ public readonly workgroupArn: string;
 - *Type:* string
 
 The workgroup Arn.
+
+---
+
+##### `workgroupId`<sup>Required</sup> <a name="workgroupId" id="@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.workgroupId"></a>
+
+```typescript
+public readonly workgroupId: string;
+```
+
+- *Type:* string
+
+The workgroup id.
 
 ---
 
@@ -1235,20 +1261,20 @@ const namespaceAttributes: aws_redshiftserverless.NamespaceAttributes = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceAttributes.property.namespaceArn">namespaceArn</a></code> | <code>string</code> | The namespace Arn. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceAttributes.property.namespaceId">namespaceId</a></code> | <code>string</code> | The namespace id. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceAttributes.property.namespaceName">namespaceName</a></code> | <code>string</code> | The namespace name. |
 
 ---
 
-##### `namespaceArn`<sup>Required</sup> <a name="namespaceArn" id="@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceAttributes.property.namespaceArn"></a>
+##### `namespaceId`<sup>Required</sup> <a name="namespaceId" id="@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceAttributes.property.namespaceId"></a>
 
 ```typescript
-public readonly namespaceArn: string;
+public readonly namespaceId: string;
 ```
 
 - *Type:* string
 
-The namespace Arn.
+The namespace id.
 
 ---
 
@@ -1285,7 +1311,7 @@ const namespaceProps: aws_redshiftserverless.NamespaceProps = { ... }
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.dbName">dbName</a></code> | <code>string</code> | The name of the primary database created in the namespace. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.defaultIamRole">defaultIamRole</a></code> | <code>aws-cdk-lib.aws_iam.IRole</code> | The IAM role to set as a default in the namespace. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.finalSnapshotName">finalSnapshotName</a></code> | <code>string</code> | The name of the snapshot to be created before the namespace is deleted. |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.finalSnapshotRetentionPeriod">finalSnapshotRetentionPeriod</a></code> | <code>number</code> | How long to retain the final snapshot. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.finalSnapshotRetentionPeriod">finalSnapshotRetentionPeriod</a></code> | <code>number</code> | How long days to retain the final snapshot. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.iamRoles">iamRoles</a></code> | <code>aws-cdk-lib.aws_iam.IRole[]</code> | A list of IAM roles to associate with the namespace. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.kmsKey">kmsKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | A Customer Managed Key used to encrypt your data. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.logExports">logExports</a></code> | <code>@open-constructs/aws-cdk.aws_redshiftserverless.LogExport[]</code> | The types of logs the namespace can export. |
@@ -1367,7 +1393,7 @@ public readonly finalSnapshotRetentionPeriod: number;
 - *Type:* number
 - *Default:* Retained indefinitely if finalSnapshotName is specified, otherwise no final snapshot
 
-How long to retain the final snapshot.
+How long days to retain the final snapshot.
 
 ---
 
@@ -1441,7 +1467,7 @@ const workgroupAttributes: aws_redshiftserverless.WorkgroupAttributes = { ... }
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupAttributes.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The workgroup endpoint address. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupAttributes.property.port">port</a></code> | <code>number</code> | The workgroup port. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupAttributes.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The security groups associated with the Redshift Serverless Workgroup. |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupAttributes.property.workgroupArn">workgroupArn</a></code> | <code>string</code> | The workgroup Arn. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupAttributes.property.workgroupId">workgroupId</a></code> | <code>string</code> | The workgroup id. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupAttributes.property.workgroupName">workgroupName</a></code> | <code>string</code> | The workgroup name. |
 
 ---
@@ -1482,15 +1508,15 @@ The security groups associated with the Redshift Serverless Workgroup.
 
 ---
 
-##### `workgroupArn`<sup>Required</sup> <a name="workgroupArn" id="@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupAttributes.property.workgroupArn"></a>
+##### `workgroupId`<sup>Required</sup> <a name="workgroupId" id="@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupAttributes.property.workgroupId"></a>
 
 ```typescript
-public readonly workgroupArn: string;
+public readonly workgroupId: string;
 ```
 
 - *Type:* string
 
-The workgroup Arn.
+The workgroup id.
 
 ---
 
@@ -1554,7 +1580,7 @@ public readonly baseCapacity: number;
 ```
 
 - *Type:* number
-- *Default:* 8
+- *Default:* 128
 
 The base compute capacity of the workgroup in Redshift Processing Units (RPUs).
 
@@ -2019,7 +2045,8 @@ A Redshift Serverless Namespace.
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.namespaceArn">namespaceArn</a></code> | <code>string</code> | The namespace Arn. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.namespaceArn">namespaceArn</a></code> | <code>string</code> | The namespace ARN. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.namespaceId">namespaceId</a></code> | <code>string</code> | The namespace id. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.namespaceName">namespaceName</a></code> | <code>string</code> | The namespace name. |
 
 ---
@@ -2075,7 +2102,19 @@ public readonly namespaceArn: string;
 
 - *Type:* string
 
-The namespace Arn.
+The namespace ARN.
+
+---
+
+##### `namespaceId`<sup>Required</sup> <a name="namespaceId" id="@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.namespaceId"></a>
+
+```typescript
+public readonly namespaceId: string;
+```
+
+- *Type:* string
+
+The namespace id.
 
 ---
 
@@ -2111,6 +2150,7 @@ A Redshift Serverless Workgroup.
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The workgroup endpoint address. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup.property.port">port</a></code> | <code>number</code> | The workgroup port. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup.property.workgroupArn">workgroupArn</a></code> | <code>string</code> | The workgroup Arn. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup.property.workgroupId">workgroupId</a></code> | <code>string</code> | The workgroup id. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup.property.workgroupName">workgroupName</a></code> | <code>string</code> | The workgroup name. |
 
 ---
@@ -2203,6 +2243,18 @@ public readonly workgroupArn: string;
 - *Type:* string
 
 The workgroup Arn.
+
+---
+
+##### `workgroupId`<sup>Required</sup> <a name="workgroupId" id="@open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup.property.workgroupId"></a>
+
+```typescript
+public readonly workgroupId: string;
+```
+
+- *Type:* string
+
+The workgroup id.
 
 ---
 
