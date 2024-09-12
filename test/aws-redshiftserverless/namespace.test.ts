@@ -21,7 +21,7 @@ describe('Redshift Serverless Namespace', () => {
     });
   });
 
-  test('Create namsepace with max properties ', () => {
+  test('Create namsepace with maximum properties ', () => {
     const defaultIamRole = new Role(stack, 'DefaultRole', {
       assumedBy: new ServicePrincipal('redshift.amazonaws.com'),
     });
@@ -73,7 +73,6 @@ describe('Redshift Serverless Namespace', () => {
         resourceName: 'my-namespace-id',
       }));
     });
-
   })
 
   describe('validateAdmin test', () => {

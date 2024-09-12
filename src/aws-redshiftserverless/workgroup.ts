@@ -1,4 +1,4 @@
-import { IResource, Lazy, Names, Resource, aws_redshiftserverless, aws_ec2 } from 'aws-cdk-lib';
+import { IResource, Lazy, Names, Resource, aws_redshiftserverless, aws_ec2, Token, Stack } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { INamespace } from './namespace';
 
@@ -18,6 +18,12 @@ export interface IWorkgroup extends IResource, aws_ec2.IConnectable {
    * @attribute
    */
   readonly workgroupName: string;
+  /**
+   * The workgroup id
+   *
+   * @attribute
+   */
+  readonly workgroupId: string;
   /**
    * The workgroup endpoint address
    *
@@ -112,13 +118,13 @@ export interface WorkgroupProps {
  */
 export interface WorkgroupAttributes {
   /**
-   * The workgroup Arn
-   */
-  readonly workgroupArn: string;
-  /**
    * The workgroup name
    */
   readonly workgroupName: string;
+  /**
+   * The workgroup id
+   */
+  readonly workgroupId: string;
   /**
    * The workgroup endpoint address
    */
@@ -161,13 +167,18 @@ export class Workgroup extends Resource implements IWorkgroup {
     attrs: WorkgroupAttributes,
   ): IWorkgroup {
     class Import extends Resource implements IWorkgroup {
-      public readonly workgroupArn = attrs.workgroupArn;
       public readonly workgroupName = attrs.workgroupName;
+      public readonly workgroupId = attrs.workgroupId;
       public readonly endpointAddress = attrs.endpointAddress;
       public readonly port = attrs.port;
       public readonly connections = new aws_ec2.Connections({
         securityGroups: attrs.securityGroups,
         defaultPort: aws_ec2.Port.tcp(attrs.port),
+      });
+      public readonly workgroupArn = Stack.of(this).formatArn({
+        resource: 'redshift-serverless',
+        service: 'workgroup',
+        resourceName: attrs.workgroupId,
       });
     }
 
@@ -178,10 +189,16 @@ export class Workgroup extends Resource implements IWorkgroup {
    * The workgroup Arn
    */
   readonly workgroupArn: string;
+
   /**
    * The workgroup name
    */
   readonly workgroupName: string;
+
+  /**
+   * The workgroup id
+   */
+  readonly workgroupId: string;
 
   /**
    * The workgroup endpoint address
@@ -218,10 +235,16 @@ export class Workgroup extends Resource implements IWorkgroup {
       subnetType: aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
     };
 
+    this.validateCapacity();
+    this.validateWorkgroupName();
+    this.validatePort();
+    this.validateSubnet();
+
     const workgroup = this.createWorkgroup();
 
     this.workgroupArn = workgroup.attrWorkgroupWorkgroupArn;
     this.workgroupName = workgroup.attrWorkgroupWorkgroupName;
+    this.workgroupId = workgroup.attrWorkgroupWorkgroupId;
     this.endpointAddress = workgroup.attrWorkgroupEndpointAddress;
     this.port = workgroup.attrWorkgroupEndpointPort;
   }
@@ -256,5 +279,67 @@ export class Workgroup extends Resource implements IWorkgroup {
     return new aws_ec2.Connections({
       securityGroups: this.securityGroups,
     });
+  }
+
+  /**
+   * Validates capacity settings.
+   */
+  private validateCapacity(): void {
+    const baseCapacity = this.props.baseCapacity;
+
+
+    if (!Token.isUnresolved(baseCapacity) && baseCapacity !== undefined) {
+      if (baseCapacity < 8 || baseCapacity > 512 || baseCapacity % 8 !== 0) {
+        throw new Error(`\`baseCapacity\` must be between 8 and 512 in units of 8, got: ${baseCapacity}.`);
+      }
+    }
+  }
+
+  /**
+   * Validates a workgroup name.
+   */
+  private validateWorkgroupName(): void {
+    const workgroupName = this.props.workgroupName;
+    if (Token.isUnresolved(workgroupName) || workgroupName === undefined) { return; }
+
+    if (!/^[a-z0-9-]{3,64}$/.test(workgroupName)) {
+      throw new Error(
+        `\`workgroupName\` must be between 3 and 64 characters long, contain only lowercase letters, numbers, and hyphens, got: ${workgroupName}.`
+      );
+    }
+  }
+
+  /**
+   * Validates a port number.
+   *
+   * @see https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-connecting.html
+   */
+  private validatePort(): void {
+    const port = this.props.port;
+    if (!Token.isUnresolved(port) && port !== undefined) {
+
+      const isValidPort = (
+        (port >= 5431 && port <= 5455) ||
+        (port >= 8191 && port <= 8215)
+      );
+
+      if (!isValidPort) {
+        throw new Error(
+          `\`port\` must be in the range of 5431-5455 or 8191-8215 for Amazon Redshift Serverless, got: ${port}.`
+        );
+      }
+    }
+  }
+
+  /**
+   * Validates subnets.
+   *
+   * @see https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-usage-considerations.html
+   */
+  private validateSubnet(): void {
+
+    if (this.props.vpc.availabilityZones.length < 3) {
+      throw new Error('\`vpc` must have at least three subnets, and they must span across three Availability Zones.');
+    }
   }
 }
