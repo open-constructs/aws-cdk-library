@@ -284,6 +284,59 @@
               "version": "10.3.0"
             }
           },
+          "CostReportWithDefaultName": {
+            "id": "CostReportWithDefaultName",
+            "path": "cur-report/CostReportWithDefaultName",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "cur-report/CostReportWithDefaultName/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CUR::ReportDefinition",
+                  "aws:cdk:cloudformation:props": {
+                    "additionalSchemaElements": [
+                      "RESOURCES"
+                    ],
+                    "compression": "GZIP",
+                    "format": "textORcsv",
+                    "refreshClosedReports": false,
+                    "reportName": "cur-reportCostReportWithDefaultName4EE60E4F",
+                    "reportVersioning": "CREATE_NEW_REPORT",
+                    "s3Bucket": {
+                      "Ref": "ReportBucket577F0FCD"
+                    },
+                    "s3Prefix": "reports",
+                    "s3Region": "us-east-1",
+                    "timeUnit": "HOURLY"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cur.CfnReportDefinition",
+                  "version": "2.120.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "CostReportName1": {
+            "id": "CostReportName1",
+            "path": "cur-report/CostReportName1",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.120.0"
+            }
+          },
+          "CostReportName2": {
+            "id": "CostReportName2",
+            "path": "cur-report/CostReportName2",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.120.0"
+            }
+          },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
             "path": "cur-report/BootstrapVersion",

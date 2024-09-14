@@ -19,6 +19,7 @@ import { CostReport, ReportGranularity, CurFormat } from '@open-constructs/aws-c
 ```
 
 ### Basic Example
+
 Here's how you can create a monthly cost and usage report in Parquet format:
 
 ```typescript

@@ -13,8 +13,19 @@ class CostReportStack extends cdk.Stack {
       blockPublicAccess: cdk.aws_s3.BlockPublicAccess.BLOCK_ALL,
     });
 
-    new ocf.aws_cur.CostReport(this, 'CostReport', {
+    const report1 = new ocf.aws_cur.CostReport(this, 'CostReport', {
       bucket,
+      costReportName: 'default-cur',
+    });
+    const report2 = new ocf.aws_cur.CostReport(this, 'CostReportWithDefaultName', {
+      bucket,
+    });
+
+    new cdk.CfnOutput(this, 'CostReportName1', {
+      value: report1.costReportName,
+    });
+    new cdk.CfnOutput(this, 'CostReportName2', {
+      value: report2.costReportName,
     });
   }
 }

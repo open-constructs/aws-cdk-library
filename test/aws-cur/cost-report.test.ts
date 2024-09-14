@@ -24,7 +24,7 @@ describe('CostReport', () => {
 
     // Validate properties of the CUR report
     template.hasResourceProperties('AWS::CUR::ReportDefinition', {
-      ReportName: 'default-cur',
+      ReportName: 'TestStackMyCostReportF831D765',
       TimeUnit: 'HOURLY',
       Format: 'textORcsv',
       Compression: 'GZIP',
@@ -109,6 +109,47 @@ describe('CostReport', () => {
     const template = Template.fromStack(stack);
 
     template.resourceCountIs('AWS::CUR::ReportDefinition', 2);
+  });
+
+  test('report name can have special characters', () => {
+    new CostReport(stack, 'Report', {
+      costReportName: "report1!-_.*'()",
+    });
+
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::CUR::ReportDefinition', {
+      ReportName: "report1!-_.*'()",
+    });
+  });
+
+  test('throws if the report name has spaces', () => {
+    expect(
+      () =>
+        new CostReport(stack, 'MyCostReport', {
+          costReportName: 'report with spaces',
+        }),
+    ).toThrow(
+      "'costReportName' must only contain alphanumeric characters and the following special characters: !-_.*'(), got: 'report with spaces'",
+    );
+  });
+
+  test('throws if the length of the report name is greater than 256 characters', () => {
+    expect(
+      () =>
+        new CostReport(stack, 'MyCostReport', {
+          costReportName: 'a'.repeat(257),
+        }),
+    ).toThrow("'costReportName' must be between 1 and 256 characters long, got: 257");
+  });
+
+  test('throws if the length of the report name is less than 1 character', () => {
+    expect(
+      () =>
+        new CostReport(stack, 'MyCostReport', {
+          costReportName: '',
+        }),
+    ).toThrow("'costReportName' must be between 1 and 256 characters long, got: 0");
   });
 
   test('regions other than us-east-1', () => {

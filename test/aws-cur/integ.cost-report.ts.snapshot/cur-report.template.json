@@ -251,6 +251,40 @@
    "DependsOn": [
     "ReportBucketPolicyA15D85AD"
    ]
+  },
+  "CostReportWithDefaultNameDF33889A": {
+   "Type": "AWS::CUR::ReportDefinition",
+   "Properties": {
+    "AdditionalSchemaElements": [
+     "RESOURCES"
+    ],
+    "Compression": "GZIP",
+    "Format": "textORcsv",
+    "RefreshClosedReports": false,
+    "ReportName": "cur-reportCostReportWithDefaultName4EE60E4F",
+    "ReportVersioning": "CREATE_NEW_REPORT",
+    "S3Bucket": {
+     "Ref": "ReportBucket577F0FCD"
+    },
+    "S3Prefix": "reports",
+    "S3Region": "us-east-1",
+    "TimeUnit": "HOURLY"
+   },
+   "DependsOn": [
+    "ReportBucketPolicyA15D85AD"
+   ]
+  }
+ },
+ "Outputs": {
+  "CostReportName1": {
+   "Value": {
+    "Ref": "CostReport0C3566A0"
+   }
+  },
+  "CostReportName2": {
+   "Value": {
+    "Ref": "CostReportWithDefaultNameDF33889A"
+   }
   }
  },
  "Parameters": {
