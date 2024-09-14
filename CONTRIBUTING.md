@@ -60,7 +60,7 @@ export interface MyConstructProps {
 
 * Be named after the AWS resource they create.
 * Acronyms used in the construct name should not be entirely captialized. For example, `Vpc` instead of `VPC`.
-* L2 constructs should extend a `Resource` class from `aws-cdk-lib`.
+* L2 constructs must extend a `Resource` class from `aws-cdk-lib`.
 
 ```typescript
 import { Resource } from 'aws-cdk-lib';
