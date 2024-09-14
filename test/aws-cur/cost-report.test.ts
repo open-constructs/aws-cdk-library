@@ -122,8 +122,8 @@ describe('CostReport', () => {
     })).toThrow(`The \`CostReport\` construct is only available in the us-east-1 region, got: ${regionOtherStack.region} region`);
   });
 
-  test('skip validation if region is token', () => {
-    // Credential's default region is used if it is not specified.
+  test('skip validation if no region is specified (i.e. it is a token)', () => {
+    // Default region is used if region is not specified.
     const stackWithRegionToken = new Stack(app, 'OtherRegionStack');
 
     expect(() => new CostReport(stackWithRegionToken, 'MyCustomCostReport', {
