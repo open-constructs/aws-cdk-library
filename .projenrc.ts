@@ -1,5 +1,5 @@
-import { awscdk, github, javascript, release } from 'projen';
-import { NodePackageManager } from 'projen/lib/javascript';
+import { ReleasableCommits, awscdk, github, javascript, release } from 'projen';
+import { ArrowParens, NodePackageManager } from 'projen/lib/javascript';
 
 let cdkVersion = '2.120.0';
 const project = new awscdk.AwsCdkConstructLibrary({
@@ -18,17 +18,46 @@ const project = new awscdk.AwsCdkConstructLibrary({
   experimentalIntegRunner: false, // we're using the AWS CDK-provided runner
   // autoApproveUpgrades: true,
   // autoApproveOptions: { allowedUsernames: ['hoegertn'] },
-  depsUpgradeOptions: { workflowOptions: { schedule: javascript.UpgradeDependenciesSchedule.WEEKLY } },
+  depsUpgradeOptions: {
+    workflowOptions: {
+      schedule: javascript.UpgradeDependenciesSchedule.WEEKLY,
+    },
+  },
   githubOptions: {
     projenCredentials: github.GithubCredentials.fromApp(),
     pullRequestLintOptions: {
       semanticTitleOptions: {
         types: ['feat', 'fix', 'chore', 'ci', 'docs', 'style', 'refactor', 'test', 'revert', 'Revert'],
       },
+      contributorStatement:
+        '_By submitting this pull request, I confirm that my contribution is made under the terms of the Apache-2.0 license_',
     },
   },
-  releaseTrigger: release.ReleaseTrigger.manual(),
+  pullRequestTemplateContents: [
+    `### Issue # (if applicable)
+
+Closes #<issue number here>.
+
+### Reason for this change
+
+<!--What is the bug or use case behind this change?-->
+
+### Description of changes
+
+<!--What code changes did you make? Have you made any important design decisions?-->
+
+### Description of how you validated changes
+
+<!--Have you added any unit tests and/or integration tests?-->
+
+### Checklist
+
+- [ ] My code adheres to the [CONTRIBUTING GUIDE](https://github.com/open-constructs/aws-cdk-library/blob/main/CONTRIBUTING.md)`,
+  ],
+  releaseTrigger: release.ReleaseTrigger.continuous(),
+  releasableCommits: ReleasableCommits.ofType(['feat', 'fix', 'revert', 'Revert']),
   gitpod: true,
+  npmAccess: javascript.NpmAccess.PUBLIC,
   publishToPypi: {
     distName: 'open-constructs-aws-cdk',
     module: 'open_constructs_aws_cdk',
@@ -44,10 +73,19 @@ const project = new awscdk.AwsCdkConstructLibrary({
   //   packageId: 'OpenConstructs.AwsCdk',
   //   dotNetNamespace: 'OpenConstructs.AwsCdk',
   // },
-  devDeps: [
-    `@aws-cdk/integ-runner@${cdkVersion}-alpha.0`,
-    `@aws-cdk/integ-tests-alpha@${cdkVersion}-alpha.0`,
-  ],
+  devDeps: [`@aws-cdk/integ-runner@${cdkVersion}-alpha.0`, `@aws-cdk/integ-tests-alpha@${cdkVersion}-alpha.0`],
+  eslintOptions: {
+    dirs: ['src', 'test'],
+    prettier: true,
+  },
+  prettier: true,
+  prettierOptions: {
+    settings: {
+      singleQuote: true,
+      printWidth: 120,
+      arrowParens: ArrowParens.AVOID,
+    },
+  },
 });
 
 project.addTask('integ', {

@@ -5,7 +5,6 @@ import { Construct } from 'constructs';
  * Enum for the possible granularities of a cost report
  */
 export class ReportGranularity {
-
   /** Hourly granularity */
   public static readonly HOURLY: ReportGranularity = new ReportGranularity('HOURLY');
   /** Daily granularity */
@@ -23,14 +22,13 @@ export class ReportGranularity {
     return new ReportGranularity(granularity);
   }
 
-  protected constructor(public readonly value: string) { }
+  protected constructor(public readonly value: string) {}
 }
 
 /**
  * Enum for the possible formats of a cost report
  */
 export class CurFormat {
-
   /** GZIP compressed text or CSV format */
   public static readonly TEXT_OR_CSV: CurFormat = new CurFormat('GZIP', 'textORcsv');
   /** Parquet format */
@@ -47,7 +45,10 @@ export class CurFormat {
     return new CurFormat(compression, format);
   }
 
-  protected constructor(public readonly compression: string, public readonly format: string) { }
+  protected constructor(
+    public readonly compression: string,
+    public readonly format: string,
+  ) {}
 }
 
 /**
@@ -106,13 +107,17 @@ export class CostReport extends Resource {
     const currentStack = Stack.of(this);
 
     if (currentStack.region !== 'us-east-1') {
-      throw new Error(`The \`CostReport\` construct is only available in the us-east-1 region, got: ${currentStack.region} region`);
+      throw new Error(
+        `The \`CostReport\` construct is only available in the us-east-1 region, got: ${currentStack.region} region`,
+      );
     }
 
-    this.reportBucket = props.bucket ?? this.createReportBucket(this, 'Bucket', {
-      blockPublicAccess: aws_s3.BlockPublicAccess.BLOCK_ALL,
-      enforceSSL: true,
-    });
+    this.reportBucket =
+      props.bucket ??
+      this.createReportBucket(this, 'Bucket', {
+        blockPublicAccess: aws_s3.BlockPublicAccess.BLOCK_ALL,
+        enforceSSL: true,
+      });
 
     const billingPrincipal = new aws_iam.ServicePrincipal('billingreports.amazonaws.com').withConditions({
       StringEquals: {
@@ -122,12 +127,14 @@ export class CostReport extends Resource {
     });
     // Grant the global CUR Account write access to the bucket
     this.reportBucket.grantPut(billingPrincipal);
-    this.reportBucket.addToResourcePolicy(new aws_iam.PolicyStatement({
-      effect: aws_iam.Effect.ALLOW,
-      principals: [billingPrincipal],
-      actions: ['s3:GetBucketAcl', 's3:GetBucketPolicy'],
-      resources: [this.reportBucket.bucketArn],
-    }));
+    this.reportBucket.addToResourcePolicy(
+      new aws_iam.PolicyStatement({
+        effect: aws_iam.Effect.ALLOW,
+        principals: [billingPrincipal],
+        actions: ['s3:GetBucketAcl', 's3:GetBucketPolicy'],
+        resources: [this.reportBucket.bucketArn],
+      }),
+    );
 
     const format = props.format ?? CurFormat.TEXT_OR_CSV;
 
@@ -144,15 +151,17 @@ export class CostReport extends Resource {
       additionalSchemaElements: ['RESOURCES'],
     });
     reportDefinition.node.addDependency(this.reportBucket.policy!);
-
   }
 
   protected createReportBucket(scope: Construct, id: string, props: aws_s3.BucketProps): aws_s3.IBucket {
     return new aws_s3.Bucket(scope, id, props);
   }
 
-  protected createReportDefinition(scope: Construct, id: string, props: aws_cur.CfnReportDefinitionProps): aws_cur.CfnReportDefinition {
+  protected createReportDefinition(
+    scope: Construct,
+    id: string,
+    props: aws_cur.CfnReportDefinitionProps,
+  ): aws_cur.CfnReportDefinition {
     return new aws_cur.CfnReportDefinition(scope, id, props);
   }
-
 }
