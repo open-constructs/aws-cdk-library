@@ -238,7 +238,7 @@ When submitting a pull request, please ensure that you have followed the guideli
 * Titles for `feat` and `fix` PRs end up in the change log. Think about what makes most sense for users reading the changelog while writing them.
   * `feat`: Describe the feature (not the action of creating the commit or PR, for example, avoid words like "added" or "changed")
   * `fix`: Describe the bug (not the solution)
-* In the case of changes to a specific module, the title should include the name of that module.
+* In the case of changes to a specific module, the scope of the title should include the name of that module.
   * e.g.) `feat(aws-s3): description of the change`
   * Do not omit the `aws-` part.
 * Formatting guidelines for titles:
