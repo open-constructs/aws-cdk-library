@@ -97,7 +97,6 @@ export interface CostReportProps {
  * });
  */
 export class CostReport extends Resource {
-
   /** The S3 bucket that stores the cost report */
   public readonly reportBucket: aws_s3.IBucket;
 
