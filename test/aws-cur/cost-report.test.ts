@@ -122,4 +122,15 @@ describe('CostReport', () => {
     })).toThrow(`The \`CostReport\` construct is only available in the us-east-1 region, got: ${regionOtherStack.region} region`);
   });
 
+  test('skip validation if region is token', () => {
+    // Credential's default region is used if it is not specified.
+    const stackWithRegionToken = new Stack(app, 'OtherRegionStack');
+
+    expect(() => new CostReport(stackWithRegionToken, 'MyCustomCostReport', {
+      costReportName: 'custom-cur',
+      reportGranularity: ReportGranularity.DAILY,
+      format: CurFormat.PARQUET,
+    })).not.toThrow();
+  });
+
 });
