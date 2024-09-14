@@ -85,6 +85,9 @@ Closes #<issue number here>.
       printWidth: 120,
       arrowParens: ArrowParens.AVOID,
     },
+    ignoreFileOptions: {
+      ignorePatterns: ['*.md'],
+    },
   },
 });
 
