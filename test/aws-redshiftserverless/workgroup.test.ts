@@ -118,13 +118,31 @@ describe('Redshift Serverless Workgroup', () => {
   });
 
   describe('validateCapacity test', () => {
-    test.each([0, 520, 15])('throws when baseCapacity is invalid, got %d', baseCapacity => {
+    test.each([0, 1056])('throws when baseCapacity is out of range, got %d', baseCapacity => {
       expect(() => {
         new Workgroup(stack, 'Workgroup', {
           baseCapacity,
           vpc,
         });
-      }).toThrow(`\`baseCapacity\` must be between 8 and 512 in units of 8, got: ${baseCapacity}.`);
+      }).toThrow(`\`baseCapacity\` must be between 8 and 1024, got: ${baseCapacity}.`);
+    });
+
+    test('throws when baseCapacity is not units of 8 between 8 and 512', () => {
+      expect(() => {
+        new Workgroup(stack, 'Workgroup', {
+          baseCapacity: 15,
+          vpc,
+        });
+      }).toThrow('`baseCapacity` must be units of 8 between 8 and 512, got: 15.');
+    });
+
+    test('throws when baseCapacity is not units of 32 between 512 and 1024', () => {
+      expect(() => {
+        new Workgroup(stack, 'Workgroup', {
+          baseCapacity: 520,
+          vpc,
+        });
+      }).toThrow('`baseCapacity` must be units of 32 between 512 and 1024, got: 520.');
     });
   });
 

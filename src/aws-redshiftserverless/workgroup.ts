@@ -45,7 +45,12 @@ export interface WorkgroupProps {
   /**
    * The base compute capacity of the workgroup in Redshift Processing Units (RPUs).
    *
+   * You can adjust the Base capacity setting from 8 RPUs to 512 RPUs in units of 8.
+   * Also you can increment or decrement RPUs in units of 32 when setting a base capacity between 512-1024.
+   *
    * @default 128
+   *
+   * @see https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-capacity.html
    */
   readonly baseCapacity?: number;
 
@@ -285,8 +290,16 @@ export class Workgroup extends Resource implements IWorkgroup {
     const baseCapacity = this.props.baseCapacity;
 
     if (!Token.isUnresolved(baseCapacity) && baseCapacity !== undefined) {
-      if (baseCapacity < 8 || baseCapacity > 512 || baseCapacity % 8 !== 0) {
-        throw new Error(`\`baseCapacity\` must be between 8 and 512 in units of 8, got: ${baseCapacity}.`);
+      if (baseCapacity < 8 || baseCapacity > 1024) {
+        throw new Error(`\`baseCapacity\` must be between 8 and 1024, got: ${baseCapacity}.`);
+      }
+
+      if (8 <= baseCapacity && baseCapacity <= 512 && baseCapacity % 8 !== 0) {
+        throw new Error(`\`baseCapacity\` must be units of 8 between 8 and 512, got: ${baseCapacity}.`);
+      }
+
+      if (512 <= baseCapacity && baseCapacity <= 1024 && baseCapacity % 32 !== 0) {
+        throw new Error(`\`baseCapacity\` must be units of 32 between 512 and 1024, got: ${baseCapacity}.`);
       }
     }
   }

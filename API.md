@@ -1584,6 +1584,12 @@ public readonly baseCapacity: number;
 
 The base compute capacity of the workgroup in Redshift Processing Units (RPUs).
 
+You can adjust the Base capacity setting from 8 RPUs to 512 RPUs in units of 8.
+
+Also you can increment or decrement RPUs in units of 32 when setting a base capacity between 512-1024.
+
+> [https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-capacity.html](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-capacity.html)
+
 ---
 
 ##### `configParameters`<sup>Optional</sup> <a name="configParameters" id="@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.configParameters"></a>
