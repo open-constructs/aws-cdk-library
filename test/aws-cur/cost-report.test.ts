@@ -132,11 +132,13 @@ describe('CostReport', () => {
     // Default region is used if region is not specified.
     const stackWithRegionToken = new Stack(app, 'OtherRegionStack');
 
-    expect(() => new CostReport(stackWithRegionToken, 'MyCustomCostReport', {
-      costReportName: 'custom-cur',
-      reportGranularity: ReportGranularity.DAILY,
-      format: CurFormat.PARQUET,
-    })).not.toThrow();
+    expect(
+      () =>
+        new CostReport(stackWithRegionToken, 'MyCustomCostReport', {
+          costReportName: 'custom-cur',
+          reportGranularity: ReportGranularity.DAILY,
+          format: CurFormat.PARQUET,
+        }),
+    ).not.toThrow();
   });
-
 });
