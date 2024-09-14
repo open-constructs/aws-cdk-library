@@ -1,0 +1,12 @@
+{
+  "version": "36.0.0",
+  "testCases": {
+    "InstanceConnectEndpoint/DefaultTest": {
+      "stacks": [
+        "InstanceConnectEndpointStack"
+      ],
+      "assertionStack": "InstanceConnectEndpoint/DefaultTest/DeployAssert",
+      "assertionStackName": "InstanceConnectEndpointDefaultTestDeployAssert284B1FD7"
+    }
+  }
+}

@@ -1,4 +1,3 @@
-
 import { App, CfnElement, Stack, aws_s3 } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { CostReport, ReportGranularity, CurFormat } from '../../src/aws-cur';
@@ -113,13 +112,20 @@ describe('CostReport', () => {
   });
 
   test('regions other than us-east-1', () => {
-    const regionOtherStack = new Stack(app, 'OtherRegionStack', { env: { region: 'ap-northeast-1' } });
+    const regionOtherStack = new Stack(app, 'OtherRegionStack', {
+      env: { region: 'ap-northeast-1' },
+    });
 
-    expect(() => new CostReport(regionOtherStack, 'MyCustomCostReport', {
-      costReportName: 'custom-cur',
-      reportGranularity: ReportGranularity.DAILY,
-      format: CurFormat.PARQUET,
-    })).toThrow(`The \`CostReport\` construct is only available in the us-east-1 region, got: ${regionOtherStack.region} region`);
+    expect(
+      () =>
+        new CostReport(regionOtherStack, 'MyCustomCostReport', {
+          costReportName: 'custom-cur',
+          reportGranularity: ReportGranularity.DAILY,
+          format: CurFormat.PARQUET,
+        }),
+    ).toThrow(
+      `The \`CostReport\` construct is only available in the us-east-1 region, got: ${regionOtherStack.region} region`,
+    );
   });
 
   test('skip validation if no region is specified (i.e. it is a token)', () => {
