@@ -1,4 +1,4 @@
-import { Stack, aws_cur, aws_iam, aws_s3 } from 'aws-cdk-lib';
+import { Resource, Stack, aws_cur, aws_iam, aws_s3 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 /**
@@ -95,7 +95,7 @@ export interface CostReportProps {
  *   format: CurFormat.PARQUET
  * });
  */
-export class CostReport extends Construct {
+export class CostReport extends Resource {
 
   /** The S3 bucket that stores the cost report */
   public readonly reportBucket: aws_s3.IBucket;
