@@ -1,4 +1,4 @@
-import { Names, Stack, Token, aws_cur, aws_iam, aws_s3 } from 'aws-cdk-lib';
+import { Names, Resource, Stack, Token, aws_cur, aws_iam, aws_s3 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 /**
@@ -100,7 +100,7 @@ export interface CostReportProps {
  *   format: CurFormat.PARQUET
  * });
  */
-export class CostReport extends Construct {
+export class CostReport extends Resource {
   /** The S3 bucket that stores the cost report */
   public readonly reportBucket: aws_s3.IBucket;
   /** The name of the cost report */
@@ -111,7 +111,7 @@ export class CostReport extends Construct {
 
     const currentStack = Stack.of(this);
 
-    if (currentStack.region !== 'us-east-1') {
+    if (!Token.isUnresolved(currentStack.region) && currentStack.region !== 'us-east-1') {
       throw new Error(
         `The \`CostReport\` construct is only available in the us-east-1 region, got: ${currentStack.region} region`,
       );
