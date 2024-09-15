@@ -1,4 +1,4 @@
-import { Resource, Stack, aws_cur, aws_iam, aws_s3 } from 'aws-cdk-lib';
+import { Resource, Stack, Token, aws_cur, aws_iam, aws_s3 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 /**
@@ -105,7 +105,7 @@ export class CostReport extends Resource {
 
     const currentStack = Stack.of(this);
 
-    if (currentStack.region !== 'us-east-1') {
+    if (!Token.isUnresolved(currentStack.region) && currentStack.region !== 'us-east-1') {
       throw new Error(
         `The \`CostReport\` construct is only available in the us-east-1 region, got: ${currentStack.region} region`,
       );
