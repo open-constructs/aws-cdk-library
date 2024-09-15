@@ -60,6 +60,18 @@ export interface MyConstructProps {
 
 * Be named after the AWS resource they create.
 * Acronyms used in the construct name should not be entirely captialized. For example, `Vpc` instead of `VPC`.
+* L2 constructs should extend a `Resource` class from `aws-cdk-lib`.
+
+```typescript
+import { Resource } from 'aws-cdk-lib';
+
+export class MyL2Construct extends Resource {
+  constructor(scope: Construct, id: string, props: MyL2ConstructProps) {
+    super(scope, id);
+  }
+}
+```
+
 * The primary L1 (Cfn*) construct should have an 'id' of `Resource`.
 * Appropriate .grant*() methods should be implemented for IAM permissions.
 * If the resource must reside in a VPC, then the construct must require a VPC as a parameter.
@@ -74,7 +86,7 @@ export interface MyConstructProps {
 * L1 constructs should be created in protected methods to allow for easy extension of the construct. For example:
 
 ```typescript
-export class MyConstruct extends Construct {
+export class MyConstruct extends Resource {
   protected something: CfnSomething;
   constructor(scope: Construct, id: string, private props: MyConstructProps) {
     super(scope, id);
