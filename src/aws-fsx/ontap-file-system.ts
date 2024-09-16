@@ -79,7 +79,13 @@ export interface OntapConfiguration {
   readonly endpointIpAddressRange?: string;
 
   /**
-   * The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
+   * The ONTAP administrative password for the `fsxadmin` user with which you administer your file system using the NetApp ONTAP CLI and REST API.
+   *
+   * If you don't specify a password, Amazon FSx will not set one.
+   *
+   * You can change the admin password at any time through the management console.
+   *
+   * @default - do not set an admin password
    */
   readonly fsxAdminPassword?: string;
 
