@@ -15,10 +15,10 @@ class CostReportStack extends cdk.Stack {
 
     const report1 = new ocf.aws_cur.CostReport(this, 'CostReport', {
       bucket,
-      costReportName: 'default-cur',
     });
     const report2 = new ocf.aws_cur.CostReport(this, 'CostReportWithDefaultName', {
       bucket,
+      enableDefaultUniqueReportName: true,
     });
 
     new cdk.CfnOutput(this, 'CostReportName1', {

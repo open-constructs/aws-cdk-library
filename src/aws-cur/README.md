@@ -51,6 +51,23 @@ new CostReport(stack, 'MyDetailedCostReport', {
 });
 ```
 
+### Generating Unique Report Name By Default
+
+If you set the `enableDefaultUniqueReportName` property to `true`, the construct will automatically
+generate a unique report name by default.
+
+The cost report name must be unique within your AWS account. So this property is useful when you want
+to create multiple reports without specifying a report name for each one.
+
+If you specify a report name directly via the `costReportName`, the construct will use that name instead
+of generating a unique one.
+
+```typescript
+new CostReport(stack, 'MyCostReport', {
+  enableDefaultUniqueReportName: true,
+});
+```
+
 ### Additional Notes
 
 The construct automatically handles the permissions required for AWS billing services to access the S3 bucket.

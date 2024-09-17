@@ -24,7 +24,7 @@ describe('CostReport', () => {
 
     // Validate properties of the CUR report
     template.hasResourceProperties('AWS::CUR::ReportDefinition', {
-      ReportName: 'TestStackMyCostReportF831D765',
+      ReportName: 'default-cur',
       TimeUnit: 'HOURLY',
       Format: 'textORcsv',
       Compression: 'GZIP',
@@ -109,6 +109,43 @@ describe('CostReport', () => {
     const template = Template.fromStack(stack);
 
     template.resourceCountIs('AWS::CUR::ReportDefinition', 2);
+  });
+
+  test('unique report name is generated if costReportName is not specified and enableDefaultUniqueReportName is true', () => {
+    new CostReport(stack, 'MyCostReport', {
+      enableDefaultUniqueReportName: true,
+    });
+
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::CUR::ReportDefinition', {
+      ReportName: 'TestStackMyCostReportF831D765',
+    });
+  });
+
+  test('fixed report name is generated if costReportName is not specified and enableDefaultUniqueReportName is false', () => {
+    new CostReport(stack, 'MyCostReport', {
+      enableDefaultUniqueReportName: false,
+    });
+
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::CUR::ReportDefinition', {
+      ReportName: 'default-cur',
+    });
+  });
+
+  test('report name can be specified even if enableDefaultUniqueReportName is true', () => {
+    new CostReport(stack, 'MyCostReport', {
+      enableDefaultUniqueReportName: true,
+      costReportName: 'custom-cur',
+    });
+
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::CUR::ReportDefinition', {
+      ReportName: 'custom-cur',
+    });
   });
 
   test('report name can have special characters', () => {
