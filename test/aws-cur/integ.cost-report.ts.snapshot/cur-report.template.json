@@ -252,7 +252,7 @@
     "ReportBucketPolicyA15D85AD"
    ]
   },
-  "CostReportWithDefaultNameDF33889A": {
+  "CostReportWithUniqueReportName449C5FC3": {
    "Type": "AWS::CUR::ReportDefinition",
    "Properties": {
     "AdditionalSchemaElements": [
@@ -261,7 +261,7 @@
     "Compression": "GZIP",
     "Format": "textORcsv",
     "RefreshClosedReports": false,
-    "ReportName": "cur-reportCostReportWithDefaultName4EE60E4F",
+    "ReportName": "cur-reportCostReportWithUniqueReportName82909F43",
     "ReportVersioning": "CREATE_NEW_REPORT",
     "S3Bucket": {
      "Ref": "ReportBucket577F0FCD"
@@ -276,14 +276,14 @@
   }
  },
  "Outputs": {
-  "CostReportName1": {
+  "CostReportName": {
    "Value": {
     "Ref": "CostReport0C3566A0"
    }
   },
-  "CostReportName2": {
+  "UniqueCostReportName": {
    "Value": {
-    "Ref": "CostReportWithDefaultNameDF33889A"
+    "Ref": "CostReportWithUniqueReportName449C5FC3"
    }
   }
  },

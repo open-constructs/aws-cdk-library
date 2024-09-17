@@ -280,17 +280,17 @@
               }
             },
             "constructInfo": {
-              "fqn": "constructs.Construct",
-              "version": "10.3.0"
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.120.0"
             }
           },
-          "CostReportWithDefaultName": {
-            "id": "CostReportWithDefaultName",
-            "path": "cur-report/CostReportWithDefaultName",
+          "CostReportWithUniqueReportName": {
+            "id": "CostReportWithUniqueReportName",
+            "path": "cur-report/CostReportWithUniqueReportName",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "cur-report/CostReportWithDefaultName/Resource",
+                "path": "cur-report/CostReportWithUniqueReportName/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::CUR::ReportDefinition",
                   "aws:cdk:cloudformation:props": {
@@ -300,7 +300,7 @@
                     "compression": "GZIP",
                     "format": "textORcsv",
                     "refreshClosedReports": false,
-                    "reportName": "cur-reportCostReportWithDefaultName4EE60E4F",
+                    "reportName": "cur-reportCostReportWithUniqueReportName82909F43",
                     "reportVersioning": "CREATE_NEW_REPORT",
                     "s3Bucket": {
                       "Ref": "ReportBucket577F0FCD"
@@ -317,21 +317,21 @@
               }
             },
             "constructInfo": {
-              "fqn": "constructs.Construct",
-              "version": "10.3.0"
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.120.0"
             }
           },
-          "CostReportName1": {
-            "id": "CostReportName1",
-            "path": "cur-report/CostReportName1",
+          "CostReportName": {
+            "id": "CostReportName",
+            "path": "cur-report/CostReportName",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.120.0"
             }
           },
-          "CostReportName2": {
-            "id": "CostReportName2",
-            "path": "cur-report/CostReportName2",
+          "UniqueCostReportName": {
+            "id": "UniqueCostReportName",
+            "path": "cur-report/UniqueCostReportName",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.120.0"

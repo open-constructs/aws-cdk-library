@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/dddfac35d8910b82535998c84f2402b3d30385dc6a8d3a1703d39cf38df5a37d.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1/a019b27bb46cfc5076913cf39dac56a1e51b11dcdc8521cf57b88a9c8d2b0f32.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -70,22 +70,22 @@
             "data": "CostReport0C3566A0"
           }
         ],
-        "/cur-report/CostReportWithDefaultName/Resource": [
+        "/cur-report/CostReportWithUniqueReportName/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CostReportWithDefaultNameDF33889A"
+            "data": "CostReportWithUniqueReportName449C5FC3"
           }
         ],
-        "/cur-report/CostReportName1": [
+        "/cur-report/CostReportName": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CostReportName1"
+            "data": "CostReportName"
           }
         ],
-        "/cur-report/CostReportName2": [
+        "/cur-report/UniqueCostReportName": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CostReportName2"
+            "data": "UniqueCostReportName"
           }
         ],
         "/cur-report/BootstrapVersion": [
