@@ -8,12 +8,12 @@ class CodeartifactStack extends cdk.Stack {
     super(scope, 'codeartifact', { env: { region: 'eu-central-1' } });
 
     const domain = new ocf.aws_codeartifact.Domain(this, 'domain', {
-        domainName: 'test-domain'
+      domainName: 'test-domain',
     });
 
     new ocf.aws_codeartifact.Repository(this, 'repository', {
-        domain,
-        repositoryName: 'repo1',
+      domain,
+      repositoryName: 'repo1',
     });
   }
 }

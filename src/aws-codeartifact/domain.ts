@@ -129,12 +129,12 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
         alias: `codeartifact-domain/${props.domainName}`,
       });
 
-      this.cfnResourceProps = {
-        domainName: props.domainName,
-        encryptionKey: encryptionKey?.keyArn,
-        tags: this.cdkTagManager.renderTags(),
-        permissionsPolicyDocument: this.policy,
-      }
+    this.cfnResourceProps = {
+      domainName: props.domainName,
+      encryptionKey: encryptionKey?.keyArn,
+      tags: this.cdkTagManager.renderTags(),
+      permissionsPolicyDocument: this.policy,
+    };
     this.cfnResource = this.createCfnResource();
 
     this.domainName = this.cfnResource.attrName;
@@ -146,7 +146,6 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
   protected createCfnResource(): CfnDomain {
     return new CfnDomain(this, 'Resource', this.cfnResourceProps);
   }
-
 
   /**
    * Adds a statement to the KMS key resource policy.
