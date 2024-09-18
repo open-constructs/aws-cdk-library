@@ -1,4 +1,4 @@
-import { IResource, ITaggableV2, Resource, Stack, TagManager, TagType } from 'aws-cdk-lib';
+import { ArnFormat, IResource, ITaggableV2, Resource, Stack, TagManager, TagType } from 'aws-cdk-lib';
 import { CfnRepository, CfnRepositoryProps } from 'aws-cdk-lib/aws-codeartifact';
 import {
   AddToResourcePolicyResult,
@@ -10,7 +10,7 @@ import {
   principalIsOwnedResource,
 } from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
-import { IDomain } from './domain';
+import { Domain, IDomain } from './domain';
 
 const READ_ACTIONS = [
   'codeartifact:DescribePackageVersion',
@@ -51,18 +51,10 @@ export interface IRepository extends IResource {
   readonly repositoryName: string;
 
   /**
-   * The domain name that contains the repository
+   * The domain that contains the repository
    *
-   * @attribute
    */
-  readonly domainName: string;
-
-  /**
-   * 12-digit account number of the AWS account that owns the domain that contains the repository.
-   *
-   * @attribute
-   */
-  readonly domainOwner: string;
+  readonly domain: IDomain;
 }
 
 export interface RepositoryProps {
@@ -86,15 +78,69 @@ export interface RepositoryProps {
   readonly externalConnection?: RepositoryConnection;
 }
 
-export class Repository extends Resource implements IRepository, ITaggableV2 {
+/**
+ * A new or imported Repository.
+ */
+abstract class RepositoryBase extends Resource implements IRepository {
+  public abstract repositoryArn: string;
+  public abstract repositoryName: string;
+  public abstract domain: IDomain;
+}
+
+export interface RepositoryAttributes {
+  readonly repositoryArn: string;
+  readonly repositoryName: string;
+  readonly domain: IDomain;
+}
+
+export class Repository extends RepositoryBase implements IRepository, ITaggableV2 {
+  public static fromRepositoryAttributes(scope: Construct, id: string, attrs: RepositoryAttributes): IRepository {
+    class Import extends RepositoryBase {
+      public readonly repositoryArn = attrs.repositoryArn;
+      public readonly repositoryName = attrs.repositoryName;
+      public readonly domain = attrs.domain;
+    }
+
+    return new Import(scope, id);
+  }
+
+  public static fromRepositoryArn(scope: Construct, id: string, repositoryArn: string): IRepository {
+    const repositoryResourceArnParts = Stack.of(scope).splitArn(repositoryArn, ArnFormat.SLASH_RESOURCE_NAME);
+    if (
+      repositoryResourceArnParts.resource !== 'repository' ||
+      repositoryResourceArnParts.account === undefined ||
+      repositoryResourceArnParts.resourceName === undefined
+    ) {
+      throw new Error(`Expected a repository ARN, but got ${repositoryArn}`);
+    }
+    const repositoryNameParts = repositoryResourceArnParts.resourceName.split('/');
+    const domainName = repositoryNameParts[0];
+    const repositoryName = repositoryNameParts[1];
+
+    const domain = Domain.fromDomainArn(
+      scope,
+      'domain',
+      Stack.of(scope).formatArn({
+        resource: 'domain',
+        service: 'codeartifact',
+        resourceName: domainName,
+      }),
+    );
+
+    return Repository.fromRepositoryAttributes(scope, id, {
+      repositoryArn: repositoryArn,
+      repositoryName: repositoryName,
+      domain,
+    });
+  }
+
   protected cfnResource: CfnRepository;
   protected cfnResourceProps: CfnRepositoryProps;
 
   readonly cdkTagManager: TagManager;
   readonly repositoryArn: string;
   readonly repositoryName: string;
-  readonly domainName: string;
-  readonly domainOwner: string;
+  readonly domain: IDomain;
   /**
    * Optional policy document that represents the resource policy of this repository
    *
@@ -124,8 +170,16 @@ export class Repository extends Resource implements IRepository, ITaggableV2 {
 
     this.repositoryArn = this.cfnResource.attrArn;
     this.repositoryName = this.cfnResource.attrName;
-    this.domainName = this.cfnResource.attrDomainName;
-    this.domainOwner = this.cfnResource.attrDomainOwner;
+    this.domain = Domain.fromDomainArn(
+      this,
+      'domain',
+      Stack.of(this).formatArn({
+        resource: 'domain',
+        service: 'codeartifact',
+        account: this.cfnResource.attrDomainOwner,
+        resourceName: this.cfnResource.attrDomainName,
+      }),
+    );
   }
 
   protected createCfnResource(): CfnRepository {
