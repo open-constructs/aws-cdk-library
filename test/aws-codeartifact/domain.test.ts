@@ -21,7 +21,7 @@ test('Domain: Instantiation works and defaults are adhered to', () => {
     Properties: {
       DomainName: 'dummy',
       EncryptionKey: {
-        'Fn::GetAtt': ['domainkey3E5758F1', 'Arn'],
+        'Fn::GetAtt': ['domainKey3A7D694C', 'Arn'],
       },
       PermissionsPolicyDocument: Match.absent(),
       Tags: [{ Key: 'tag1', Value: 'value1' }],
@@ -56,7 +56,7 @@ test('Domain: Can import Domain', () => {
 
   expect(domain.domainArn).toEqual('arn:aws:codeartifact:us-east-1:12345:domain/dummy');
   expect(domain.domainName).toEqual('dummy');
-  expect(domain.encryptionKeyArn).toBeUndefined();
+  expect(domain.encryptionKey).toBeUndefined();
   expect(domain.domainOwner).toEqual('12345');
 });
 
@@ -73,7 +73,7 @@ test('Domain: can grant access', () => {
     Properties: {
       DomainName: 'dummy',
       EncryptionKey: {
-        'Fn::GetAtt': ['domainkey3E5758F1', 'Arn'],
+        'Fn::GetAtt': ['domainKey3A7D694C', 'Arn'],
       },
       PermissionsPolicyDocument: {
         Statement: [
