@@ -127,6 +127,35 @@ test('repository: can grant access', () => {
   });
 });
 
+test('repository: can add upstream repos', () => {
+  // GIVEN
+  const upstreamA = new Repository(stack, 'upstreamA', {
+    repositoryName: 'upstreamA',
+    domain,
+  });
+  const upstreamB = new Repository(stack, 'upstreamB', {
+    repositoryName: 'upstreamB',
+    domain,
+  });
+  // WHEN
+  new Repository(stack, 'repository', {
+    repositoryName: 'dummy-repo',
+    domain,
+    upstreams: [upstreamA, upstreamB],
+  });
+  // THEN
+  Template.fromStack(stack).hasResource('AWS::CodeArtifact::Repository', {
+    Properties: {
+      RepositoryName: 'dummy-repo',
+      DomainName: { 'Fn::GetAtt': ['domainFBFFA2F6', 'Name'] },
+      DomainOwner: { 'Fn::GetAtt': ['domainFBFFA2F6', 'Owner'] },
+      PermissionsPolicyDocument: Match.absent(),
+      Upstreams: [{ 'Fn::GetAtt': ['upstreamA899206B0', 'Name'] }, { 'Fn::GetAtt': ['upstreamBC1546A27', 'Name'] }],
+      Tags: Match.absent(),
+    },
+  });
+});
+
 function testStack() {
   const newTestStack = new Stack(undefined, undefined, { env: { account: '12345', region: 'us-test-1' } });
   newTestStack.node.setContext('availability-zones:12345:us-test-1', ['us-test-1a', 'us-test-1b']);

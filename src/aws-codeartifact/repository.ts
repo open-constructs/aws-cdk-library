@@ -105,13 +105,21 @@ export interface RepositoryProps {
    */
   readonly description?: string;
   /**
-   * The connections to external repositories
+   * The connections to external repositories (like npmjs, pypi, etc.)
    *
    * You can use the AWS CLI to connect your CodeArtifact repository to an external repository by adding an external connection directly to the repository.
    * This will allow users connected to the CodeArtifact repository, or any of its downstream repositories, to fetch packages from the configured external repository.
    * Each CodeArtifact repository can only have one external connection.
    */
   readonly externalConnection?: RepositoryConnection;
+  /**
+   * A list of upstream Codeartifact repositories to associate with the repository.
+   * The order of the upstream repositories in the list determines their priority order when CodeArtifact looks for a requested package version.
+   * see https://docs.aws.amazon.com/codeartifact/latest/ug/repo-upstream-behavior.html#package-retention-intermediate-repositories
+   *
+   * @default - No upstream repositories
+   */
+  readonly upstreams?: IRepository[];
 }
 
 /**
@@ -258,7 +266,7 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
       domainOwner: props.domain.domainOwner,
       externalConnections: props.externalConnection !== undefined ? [props.externalConnection] : undefined, // only 1 allowed
       permissionsPolicyDocument: Lazy.any({ produce: () => this.policy?.toJSON() }),
-      upstreams: undefined, // TODO: add upstreams
+      upstreams: props.upstreams?.map(repo => repo.repositoryName),
     };
 
     this.cfnResource = this.createCfnResource();
