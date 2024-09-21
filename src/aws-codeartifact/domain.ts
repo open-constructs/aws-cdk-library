@@ -152,13 +152,34 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
     });
   }
 
+  /**
+   * (internal) The CloudFormation resource representing this CodeArtifact domain.
+   */
   protected cfnResource: CfnDomain;
+  /**
+   * The properties used to create the CloudFormation resource for this domain.
+   */
   private cfnResourceProps: CfnDomainProps;
 
+  /**
+   * TagManager to set, remove and format tags
+   */
   readonly cdkTagManager: TagManager;
+  /**
+   * The ARN (Amazon Resource Name) of this CodeArtifact domain.
+   */
   readonly domainArn: string;
+  /**
+   * The name of this CodeArtifact domain.
+   */
   readonly domainName: string;
+  /**
+   * The AWS KMS encryption key associated with this domain, if any.
+   */
   readonly encryptionKey?: IKey;
+  /**
+   * The AWS account ID that owns this domain.
+   */
   readonly domainOwner: string;
   /**
    * Optional policy document that represents the resource policy of this repository
@@ -230,6 +251,17 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
     return thisStack.region !== identityStack.region || thisStack.account !== identityStack.account;
   }
 
+
+  /**
+   * Grants permissions to the specified grantee on this CodeArtifact domain.
+   *
+   * It handles both same-environment and cross-environment scenarios:
+   * - For same-environment grants, it adds the permissions to the principal or resource.
+   * - For cross-environment grants, it adds the permissions to both the principal and the resource.
+   *
+   * @param grantee - The principal to grant permissions to.
+   * @param actions - The actions to grant. These should be valid CodeArtifact actions.
+   */
   public grant(grantee: IGrantable, ...actions: string[]): Grant {
     const crossEnvironment = this.isCrossEnvironmentGrantee(grantee);
     const grantOptions: GrantWithResourceOptions = {
@@ -250,6 +282,11 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
     }
   }
 
+  /**
+   * Grants contribute permissions to the specified grantee on this CodeArtifact domain.
+   *
+   * @param grantee - The principal to grant contribute permissions to.
+   */
   public grantContribute(grantee: IGrantable) {
     return this.grant(
       grantee,
