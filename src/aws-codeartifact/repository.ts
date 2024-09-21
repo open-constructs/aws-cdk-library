@@ -57,9 +57,8 @@ export enum RepositoryConnection {
   /** Maven Spring */
   MAVEN_SPRING = 'public:maven-spring',
   /** Maven Spring Plugins */
-  MAVEN_SPRING_PLUGINS = 'public:maven-spring-plugins'
+  MAVEN_SPRING_PLUGINS = 'public:maven-spring-plugins',
 }
-
 
 /**
  * Represents an Codeartifact Repository
@@ -119,8 +118,17 @@ export interface RepositoryProps {
  * A new or imported Codeartifact Repository.
  */
 abstract class RepositoryBase extends Resource implements IRepository {
+  /**
+   * The ARN of the repository
+   */
   public abstract repositoryArn: string;
+  /**
+   * The name of the repository
+   */
   public abstract repositoryName: string;
+  /**
+   * The domain that contains the repository
+   */
   public abstract domain: IDomain;
 }
 
