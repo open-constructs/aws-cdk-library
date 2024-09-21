@@ -95,6 +95,8 @@ test('repository: can grant access', () => {
   Template.fromStack(stack).hasResource('AWS::CodeArtifact::Repository', {
     Properties: {
       RepositoryName: 'dummy-repo',
+      DomainName: { 'Fn::GetAtt': ['domainFBFFA2F6', 'Name'] },
+      DomainOwner: { 'Fn::GetAtt': ['domainFBFFA2F6', 'Owner'] },
       PermissionsPolicyDocument: {
         Statement: [
           {

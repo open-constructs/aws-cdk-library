@@ -1,4 +1,4 @@
-import { ArnFormat, IResource, ITaggableV2, Resource, Stack, TagManager, TagType } from 'aws-cdk-lib';
+import { ArnFormat, IResource, ITaggableV2, Lazy, Resource, Stack, TagManager, TagType } from 'aws-cdk-lib';
 import { CfnDomain, CfnDomainProps } from 'aws-cdk-lib/aws-codeartifact';
 import {
   AddToResourcePolicyResult,
@@ -204,7 +204,7 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
     this.cfnResourceProps = {
       domainName: props.domainName,
       encryptionKey: encryptionKey?.keyArn,
-      permissionsPolicyDocument: this.policy,
+      permissionsPolicyDocument: Lazy.any({ produce: () => this.policy?.toJSON() }),
     };
     this.cfnResource = this.createCfnResource();
 

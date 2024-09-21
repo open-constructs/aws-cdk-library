@@ -1,4 +1,4 @@
-import { ArnFormat, IResource, ITaggableV2, Resource, Stack, TagManager, TagType } from 'aws-cdk-lib';
+import { ArnFormat, IResource, ITaggableV2, Lazy, Resource, Stack, TagManager, TagType } from 'aws-cdk-lib';
 import { CfnRepository, CfnRepositoryProps } from 'aws-cdk-lib/aws-codeartifact';
 import {
   AddToResourcePolicyResult,
@@ -256,9 +256,8 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
       repositoryName: props.repositoryName,
       description: props.description,
       domainOwner: props.domain.domainOwner,
-      tags: this.cdkTagManager.renderTags(),
       externalConnections: props.externalConnection !== undefined ? [props.externalConnection] : undefined, // only 1 allowed
-      permissionsPolicyDocument: this.policy,
+      permissionsPolicyDocument: Lazy.any({ produce: () => this.policy?.toJSON() }),
       upstreams: undefined, // TODO: add upstreams
     };
 
