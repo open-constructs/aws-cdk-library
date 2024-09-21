@@ -32,6 +32,7 @@ export interface IDomain extends IResource {
 
   /**
    * The key used to encrypt the Domain
+   * TODO: how to expose both the CFN @attribute (srting) and this IKEy? see AWS CDK Design guidelines
    *
    */
   readonly encryptionKey?: IKey;
