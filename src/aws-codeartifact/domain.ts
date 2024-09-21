@@ -204,7 +204,6 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
     this.cfnResourceProps = {
       domainName: props.domainName,
       encryptionKey: encryptionKey?.keyArn,
-      tags: this.cdkTagManager.renderTags(),
       permissionsPolicyDocument: this.policy,
     };
     this.cfnResource = this.createCfnResource();
@@ -250,7 +249,6 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
     const identityStack = Stack.of(grantee.grantPrincipal);
     return thisStack.region !== identityStack.region || thisStack.account !== identityStack.account;
   }
-
 
   /**
    * Grants permissions to the specified grantee on this CodeArtifact domain.
