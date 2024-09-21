@@ -13,7 +13,7 @@ import { IKey, Key } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 
 /**
- * Represents an Codeartifact Domain
+ * Represents a Codeartifact Domain
  */
 export interface IDomain extends IResource {
   /**
@@ -33,7 +33,6 @@ export interface IDomain extends IResource {
   /**
    * The key used to encrypt the Domain
    *
-   * @attribute
    */
   readonly encryptionKey?: IKey;
 
@@ -46,22 +45,57 @@ export interface IDomain extends IResource {
 }
 
 /**
- * A new or imported clustered database.
+ * A new or imported Codeartifact Domain.
  */
 abstract class DomainBase extends Resource implements IDomain {
+  /**
+   * The ARN (Amazon Resource Name) of the CodeArtifact domain.
+   */
   public abstract readonly domainArn: string;
+
+  /**
+   * The name of the CodeArtifact domain.
+   */
   public abstract readonly domainName: string;
+
+  /**
+   * The AWS KMS encryption key associated with the domain, if any.
+   */
   public abstract readonly encryptionKey?: IKey;
+
+  /**
+   * The AWS account ID that owns the domain.
+   */
   public abstract readonly domainOwner: string;
 }
 
+/**
+ * Interface representing the attributes of a CodeArtifact domain.
+ */
 export interface DomainAttributes {
+  /**
+   * The ARN (Amazon Resource Name) of the CodeArtifact domain.
+   */
   readonly domainArn: string;
+
+  /**
+   * The name of the CodeArtifact domain.
+   */
   readonly domainName: string;
+
+  /**
+   * The AWS KMS encryption key associated with the domain, if any.
+   */
   readonly encryptionKey?: IKey;
+
+  /**
+   * The AWS account ID that owns the domain.
+   */
   readonly domainOwner: string;
 }
-
+/**
+ * Construction properties for `Domain`.
+ */
 export interface DomainProps {
   /**
    * The name of the Domain
@@ -73,7 +107,17 @@ export interface DomainProps {
   readonly encryptionKey?: IKey;
 }
 
+/**
+ * Deploys a CodeArtifact domain.
+ */
 export class Domain extends DomainBase implements IDomain, ITaggableV2 {
+  /**
+   * Creates a Domain object from existing domain attributes.
+   *
+   * @param scope The parent construct.
+   * @param id The construct id.
+   * @param attrs The attributes of the domain to import.
+   */
   public static fromDomainAttributes(scope: Construct, id: string, attrs: DomainAttributes): IDomain {
     class Import extends DomainBase {
       public readonly domainArn = attrs.domainArn;
@@ -85,6 +129,13 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
     return new Import(scope, id);
   }
 
+  /**
+   * Creates an IDomain object from an existing CodeArtifact domain ARN.
+   *
+   * @param scope The parent construct.
+   * @param id The construct id.
+   * @param domainArn - The ARN (Amazon Resource Name) of the existing CodeArtifact domain.
+   */
   public static fromDomainArn(scope: Construct, id: string, domainArn: string): IDomain {
     const domainResourceArnParts = Stack.of(scope).splitArn(domainArn, ArnFormat.SLASH_RESOURCE_NAME);
     if (
