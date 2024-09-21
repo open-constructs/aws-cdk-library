@@ -35,7 +35,7 @@ export interface IDomain extends IResource {
    *
    * @attribute
    */
-  readonly encryptionKeyArn?: string;
+  readonly encryptionKey?: IKey;
 
   /**
    * 12-digit account number of the AWS account that owns the domain that contains the Domain.
