@@ -124,7 +124,7 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
 
     const encryptionKey =
       props.encryptionKey ??
-      new Key(this, 'key', {
+      new Key(this, 'Key', {
         description: `Key for CodeArtifact Domain ${props.domainName}`,
         alias: `codeartifact-domain/${props.domainName}`,
       });

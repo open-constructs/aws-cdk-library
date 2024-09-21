@@ -119,7 +119,7 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
 
     const domain = Domain.fromDomainArn(
       scope,
-      'domain',
+      'Domain',
       Stack.of(scope).formatArn({
         resource: 'domain',
         service: 'codeartifact',

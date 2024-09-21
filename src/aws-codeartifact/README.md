@@ -1,6 +1,8 @@
-Constructs for the AWS Codeartifact service
+Constructs for the AWS CodeArtifact service
 
-# Overview
+# CDK Constructs for CodeArtifact Service
+
+## Overview
 
 The `Domain` and `Repository` constructs simplify the creation and management of AWS CodeArtifact domains and repositories within AWS CDK applications. These constructs allow users to manage private repositories for software packages and define domains to group repositories, facilitating secure sharing and version control across teams.
 
@@ -25,7 +27,7 @@ const repository = new Repository(this, 'MyRepo', {
 });
 ```
 
-**Importing existing resources**
+### Importing existing resources
 
 If you need to manage an existing CodeArtifact repository, you can import it into your CDK stack. Since the domain is implicit in the ARN of the repository it will be automatically imported as well.
 
