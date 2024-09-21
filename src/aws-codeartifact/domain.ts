@@ -51,14 +51,14 @@ export interface IDomain extends IResource {
 abstract class DomainBase extends Resource implements IDomain {
   public abstract readonly domainArn: string;
   public abstract readonly domainName: string;
-  public abstract readonly encryptionKeyArn?: string;
+  public abstract readonly encryptionKey?: IKey;
   public abstract readonly domainOwner: string;
 }
 
 export interface DomainAttributes {
   readonly domainArn: string;
   readonly domainName: string;
-  readonly encryptionKeyArn?: string;
+  readonly encryptionKey?: IKey;
   readonly domainOwner: string;
 }
 
@@ -78,7 +78,7 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
     class Import extends DomainBase {
       public readonly domainArn = attrs.domainArn;
       public readonly domainName = attrs.domainName;
-      public readonly encryptionKeyArn = attrs.encryptionKeyArn;
+      public readonly encryptionKey = attrs.encryptionKey;
       public readonly domainOwner = attrs.domainOwner;
     }
 
@@ -107,7 +107,7 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
   readonly cdkTagManager: TagManager;
   readonly domainArn: string;
   readonly domainName: string;
-  readonly encryptionKeyArn?: string;
+  readonly encryptionKey?: IKey;
   readonly domainOwner: string;
   /**
    * Optional policy document that represents the resource policy of this repository
@@ -139,7 +139,7 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
 
     this.domainName = this.cfnResource.attrName;
     this.domainArn = this.cfnResource.attrArn;
-    this.encryptionKeyArn = this.cfnResource.attrEncryptionKey;
+    this.encryptionKey = encryptionKey;
     this.domainOwner = this.cfnResource.attrOwner;
   }
 
