@@ -182,12 +182,17 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
     const repositoryResourceArnParts = Stack.of(scope).splitArn(repositoryArn, ArnFormat.SLASH_RESOURCE_NAME);
     if (
       repositoryResourceArnParts.resource !== 'repository' ||
-      repositoryResourceArnParts.account === undefined ||
+      repositoryResourceArnParts.account === '' ||
       repositoryResourceArnParts.resourceName === undefined
     ) {
       throw new Error(`Expected a repository ARN, but got ${repositoryArn}`);
     }
     const repositoryNameParts = repositoryResourceArnParts.resourceName.split('/');
+    if (repositoryNameParts.length !== 2) {
+      throw new Error(
+        `Expected a repository ARN with a domain and repository name (arn:aws:codeartifact:region-ID:account-ID:repository/my_domain/my_repo), but got ${repositoryArn}`,
+      );
+    }
     const domainName = repositoryNameParts[0];
     const repositoryName = repositoryNameParts[1];
 

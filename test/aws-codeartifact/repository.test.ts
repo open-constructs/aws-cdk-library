@@ -1,6 +1,7 @@
 import { Stack, Tags } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { AccountPrincipal } from 'aws-cdk-lib/aws-iam';
+import { Construct } from 'constructs';
 import { Domain, Repository } from '../../src/aws-codeartifact';
 
 let stack: Stack;
@@ -9,6 +10,56 @@ let domain: Domain;
 beforeEach(() => {
   stack = testStack();
   domain = new Domain(stack, 'domain', { domainName: 'dummy-domain' });
+});
+
+describe('Repository.fromRepositoryArn', () => {
+  let scope: Construct;
+
+  beforeEach(() => {
+    scope = new Construct(stack, 'Scope');
+  });
+
+  it('should create a repository from a valid ARN', () => {
+    const validArn = 'arn:aws:codeartifact:us-west-2:123456789012:repository/my-domain/my-repo';
+    expect(() => {
+      Repository.fromRepositoryArn(scope, 'ValidRepo', validArn);
+    }).not.toThrow();
+  });
+
+  it('should throw an error for an ARN with incorrect resource type', () => {
+    const invalidArn = 'arn:aws:codeartifact:us-west-2:123456789012:not-a-repository/my-domain/my-repo';
+    expect(() => {
+      Repository.fromRepositoryArn(scope, 'InvalidRepo', invalidArn);
+    }).toThrow('Expected a repository ARN, but got');
+  });
+
+  it('should throw an error for an ARN without an account', () => {
+    const invalidArn = 'arn:aws:codeartifact:us-west-2::repository/my-domain/my-repo';
+    expect(() => {
+      Repository.fromRepositoryArn(scope, 'InvalidRepo', invalidArn);
+    }).toThrow('Expected a repository ARN, but got');
+  });
+
+  it('should throw an error for an ARN without a resource name', () => {
+    const invalidArn = 'arn:aws:codeartifact:us-west-2:123456789012:repository';
+    expect(() => {
+      Repository.fromRepositoryArn(scope, 'InvalidRepo', invalidArn);
+    }).toThrow('Expected a repository ARN, but got');
+  });
+
+  it('should throw an error for an ARN with incorrect resource name format', () => {
+    const invalidArn = 'arn:aws:codeartifact:us-west-2:123456789012:repository/my-repo';
+    expect(() => {
+      Repository.fromRepositoryArn(scope, 'InvalidRepo', invalidArn);
+    }).toThrow('Expected a repository ARN with a domain and repository name');
+  });
+
+  it('should throw an error for an ARN with too many parts in the resource name', () => {
+    const invalidArn = 'arn:aws:codeartifact:us-west-2:123456789012:repository/my-domain/my-repo/extra-part';
+    expect(() => {
+      Repository.fromRepositoryArn(scope, 'InvalidRepo', invalidArn);
+    }).toThrow('Expected a repository ARN with a domain and repository name');
+  });
 });
 
 test('repository: Instantiation works and defaults are adhered to', () => {
