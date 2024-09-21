@@ -24,13 +24,42 @@ const READ_ACTIONS = [
   'codeartifact:ReadFromRepository',
 ];
 
-const PUBLUSH_ACTIONS = ['codeartifact:PublishPackageVersion', 'codeartifact:PutPackageMetadata'];
+const PUBLISH_ACTIONS = ['codeartifact:PublishPackageVersion', 'codeartifact:PutPackageMetadata'];
 
+/**
+ * Represents the supported external connections for CodeArtifact repositories.
+ */
 export enum RepositoryConnection {
+  /** Python Package Index (PyPI) */
   PYTHON = 'public:pypi',
+  /** Node Package Manager (npm) */
   NPM = 'public:npmjs',
-  // TODO: add connections from https://docs.aws.amazon.com/codeartifact/latest/ug/external-connection.html#supported-public-repositories
+  /** NuGet Gallery */
+  NUGET = 'public:nuget-org',
+  /** RubyGems */
+  RUBY = 'public:ruby-gems-org',
+  /** Crates.io (Rust) */
+  RUST = 'public:crates-io',
+  /** Maven Central Repository */
+  MAVEN_CENTRAL = 'public:maven-central',
+  /** Gradle Plugins */
+  GRADLE_PLUGINS = 'public:gradle-plugins',
+  /** Maven Google */
+  MAVEN_GOOGLE = 'public:maven-google',
+  /** Maven Apache */
+  MAVEN_APACHE = 'public:maven-apache',
+  /** Maven Atlassian */
+  MAVEN_ATLASSIAN = 'public:maven-atlassian',
+  /** Maven Eclipse */
+  MAVEN_ECLIPSE = 'public:maven-eclipse',
+  /** Maven JBoss */
+  MAVEN_JBOSS = 'public:maven-jboss',
+  /** Maven Spring */
+  MAVEN_SPRING = 'public:maven-spring',
+  /** Maven Spring Plugins */
+  MAVEN_SPRING_PLUGINS = 'public:maven-spring-plugins'
 }
+
 
 /**
  * Represents an Codeartifact Repository
@@ -50,6 +79,8 @@ export interface IRepository extends IResource {
    */
   readonly repositoryName: string;
 
+  // TODO add CFN @attributes domainArn and domainName
+
   /**
    * The domain that contains the repository
    *
@@ -57,6 +88,10 @@ export interface IRepository extends IResource {
   readonly domain: IDomain;
 }
 
+/**
+ * Properties for creating a new CodeArtifact repository.
+ *
+ */
 export interface RepositoryProps {
   /**
    * The name of the repository
@@ -73,13 +108,15 @@ export interface RepositoryProps {
   /**
    * The connections to external repositories
    *
-   * You can use the AWS CLI to connect your CodeArtifact repository to an external repository by adding an external connection directly to the repository. This will allow users connected to the CodeArtifact repository, or any of its downstream repositories, to fetch packages from the configured external repository. Each CodeArtifact repository can only have one external connection.
+   * You can use the AWS CLI to connect your CodeArtifact repository to an external repository by adding an external connection directly to the repository.
+   * This will allow users connected to the CodeArtifact repository, or any of its downstream repositories, to fetch packages from the configured external repository.
+   * Each CodeArtifact repository can only have one external connection.
    */
   readonly externalConnection?: RepositoryConnection;
 }
 
 /**
- * A new or imported Repository.
+ * A new or imported Codeartifact Repository.
  */
 abstract class RepositoryBase extends Resource implements IRepository {
   public abstract repositoryArn: string;
@@ -87,13 +124,35 @@ abstract class RepositoryBase extends Resource implements IRepository {
   public abstract domain: IDomain;
 }
 
+/**
+ * Represents the attributes of an existing CodeArtifact repository.
+ */
 export interface RepositoryAttributes {
+  /**
+   * The ARN (Amazon Resource Name) of the CodeArtifact repository.
+   */
   readonly repositoryArn: string;
+  /**
+   * The name of the CodeArtifact repository.
+   */
   readonly repositoryName: string;
+  /**
+   * The CodeArtifact domain associated with this repository.
+   */
   readonly domain: IDomain;
 }
 
+/**
+ * Deploys a CodeArtifact repository
+ */
 export class Repository extends RepositoryBase implements IRepository, ITaggableV2 {
+  /**
+   * Creates an IRepository object from existing repository attributes.
+   *
+   * @param scope - The parent construct in which to create this repository reference.
+   * @param id - The identifier of the construct.
+   * @param attrs - The attributes of the repository to import.
+   */
   public static fromRepositoryAttributes(scope: Construct, id: string, attrs: RepositoryAttributes): IRepository {
     class Import extends RepositoryBase {
       public readonly repositoryArn = attrs.repositoryArn;
@@ -104,6 +163,13 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
     return new Import(scope, id);
   }
 
+  /**
+   * Creates an IRepository object from an existing repository ARN.
+   *
+   * @param scope - The parent construct in which to create this repository reference.
+   * @param id - The identifier of the construct.
+   * @param repositoryArn - The ARN of the repository to import.
+   */
   public static fromRepositoryArn(scope: Construct, id: string, repositoryArn: string): IRepository {
     const repositoryResourceArnParts = Stack.of(scope).splitArn(repositoryArn, ArnFormat.SLASH_RESOURCE_NAME);
     if (
@@ -134,12 +200,30 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
     });
   }
 
+  /**
+   * (internal) The CloudFormation resource representing this CodeArtifact repository.
+   */
   protected cfnResource: CfnRepository;
+  /**
+   * The properties used to create the CloudFormation resource for this repository.
+   */
   protected cfnResourceProps: CfnRepositoryProps;
 
+  /**
+   * TagManager to set, remove and format tags
+   */
   readonly cdkTagManager: TagManager;
+  /**
+   * The ARN (Amazon Resource Name) of this CodeArtifact repository.
+   */
   readonly repositoryArn: string;
+  /**
+   * The name of this CodeArtifact repository.
+   */
   readonly repositoryName: string;
+  /**
+   * The domain that contains this repository.
+   */
   readonly domain: IDomain;
   /**
    * Optional policy document that represents the resource policy of this repository
@@ -218,6 +302,12 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
     return thisStack.region !== identityStack.region || thisStack.account !== identityStack.account;
   }
 
+  /**
+   * Grants permissions to the specified grantee on this CodeArtifact repository.
+   *
+   * @param grantee The principal to grant permissions to
+   * @param actions The actions to grant
+   */
   public grant(grantee: IGrantable, ...actions: string[]): Grant {
     const crossEnvironment = this.isCrossEnvironmentGrantee(grantee);
     const grantOptions: GrantWithResourceOptions = {
@@ -238,11 +328,21 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
     }
   }
 
+  /**
+   * Grants read permissions to the specified grantee on this CodeArtifact repository.
+   *
+   * @param grantee The principal to grant read permissions to
+   */
   public grantRead(grantee: IGrantable) {
     return this.grant(grantee, ...READ_ACTIONS);
   }
 
+  /**
+   * Grants read and publish permissions to the specified grantee on this CodeArtifact repository.
+   *
+   * @param grantee The principal to grant read and publish permissions to
+   */
   public grantReadAndPublish(grantee: IGrantable) {
-    return this.grant(grantee, ...READ_ACTIONS, ...PUBLUSH_ACTIONS);
+    return this.grant(grantee, ...READ_ACTIONS, ...PUBLISH_ACTIONS);
   }
 }
