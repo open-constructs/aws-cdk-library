@@ -188,11 +188,10 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
    * If specified, addToResourcePolicy can be used to edit this policy.
    * Otherwise this method will no-op.
    */
-  protected readonly policy?: PolicyDocument;
+  protected policy?: PolicyDocument;
 
   constructor(scope: Construct, id: string, props: DomainProps) {
     super(scope, id);
-    this.policy = new PolicyDocument();
     this.cdkTagManager = new TagManager(TagType.KEY_VALUE, 'AWS::CodeArtifact::Domain');
 
     const encryptionKey =
@@ -222,20 +221,10 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
   /**
    * Adds a statement to the KMS key resource policy.
    * @param statement The policy statement to add
-   * @param allowNoOp If this is set to `false` and there is no policy
-   * defined (i.e. external key), the operation will fail. Otherwise, it will
-   * no-op.
    */
-  public addToResourcePolicy(statement: PolicyStatement, allowNoOp = true): AddToResourcePolicyResult {
-    const stack = Stack.of(this);
-
+  public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult {
     if (!this.policy) {
-      if (allowNoOp) {
-        return { statementAdded: false };
-      }
-      throw new Error(
-        `Unable to add statement to IAM resource policy for Codeartifact domain: ${JSON.stringify(stack.resolve(this.domainArn))}`,
-      );
+      this.policy = new PolicyDocument();
     }
 
     this.policy.addStatements(statement);
