@@ -94,6 +94,7 @@ export interface DomainAttributes {
    */
   readonly domainOwner: string;
 }
+
 /**
  * Construction properties for `Domain`.
  */

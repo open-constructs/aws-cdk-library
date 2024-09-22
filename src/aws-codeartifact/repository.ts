@@ -246,12 +246,6 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
    * The domain that contains this repository.
    */
   readonly domain: IDomain;
-  /**
-   * Optional policy document that represents the resource policy of this repository
-   *
-   * If specified, addToResourcePolicy can be used to edit this policy.
-   * Otherwise this method will no-op.
-   */
   protected policy?: PolicyDocument;
 
   constructor(scope: Construct, id: string, props: RepositoryProps) {
@@ -290,7 +284,7 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
   }
 
   /**
-   * Adds a statement to the KMS key resource policy.
+   * Adds a statement to the CodeArtifact repository resource policy.
    * @param statement The policy statement to add
    */
   public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult {
