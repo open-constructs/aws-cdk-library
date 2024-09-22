@@ -1,4 +1,14 @@
-import { ArnFormat, IResource, ITaggableV2, Lazy, Resource, Stack, TagManager, TagType } from 'aws-cdk-lib';
+import {
+  Annotations,
+  ArnFormat,
+  IResource,
+  ITaggableV2,
+  Lazy,
+  Resource,
+  Stack,
+  TagManager,
+  TagType,
+} from 'aws-cdk-lib';
 import { CfnRepository, CfnRepositoryProps } from 'aws-cdk-lib/aws-codeartifact';
 import {
   AddToResourcePolicyResult,
@@ -85,6 +95,38 @@ export interface IRepository extends IResource {
    *
    */
   readonly domain: IDomain;
+
+  /**
+   * Adds a statement to the CodeArtifact repository resource policy.
+   *
+   * @param statement The policy statement to add
+   * @param allowNoOp If this is set to `false` and there is no policy
+   * defined (i.e. external repository), the operation will fail. Otherwise, it will
+   * no-op.
+   */
+  addToResourcePolicy(statement: PolicyStatement, allowNoOp?: boolean): AddToResourcePolicyResult;
+
+  /**
+   * Grants the given principal identity permissions to perform the actions on the repository.
+   *
+   * @param grantee The principal to grant permissions to
+   * @param actions The actions to grant
+   */
+  grant(grantee: IGrantable, ...actions: string[]): Grant;
+
+  /**
+   * Grants the given principal identity permissions to perform the actions on the repository.
+   *
+   * @param grantee The principal to grant permissions to
+   */
+  grantReadAndPublish(grantee: IGrantable): Grant;
+
+  /**
+   * Grants the given principal identity permissions to perform the actions on the repository.
+   *
+   * @param grantee The principal to grant permissions to
+   */
+  grantRead(grantee: IGrantable): Grant;
 }
 
 /**
@@ -138,6 +180,94 @@ abstract class RepositoryBase extends Resource implements IRepository {
    * The domain that contains the repository
    */
   public abstract domain: IDomain;
+
+  /**
+   * Optional policy document that represents the resource policy of this key.
+   *
+   * If specified, addToResourcePolicy can be used to edit this policy.
+   * Otherwise this method will no-op.
+   */
+  protected abstract readonly policy?: PolicyDocument;
+
+  private isCrossEnvironmentGrantee(grantee: IGrantable): boolean {
+    if (!principalIsOwnedResource(grantee.grantPrincipal)) {
+      return false;
+    }
+    const thisStack = Stack.of(this);
+    const identityStack = Stack.of(grantee.grantPrincipal);
+    return thisStack.region !== identityStack.region || thisStack.account !== identityStack.account;
+  }
+
+  /**
+   * Adds a statement to the CodeArtifact repository resource policy.
+   * @param statement The policy statement to add
+   * @param allowNoOp If this is set to `false` and there is no policy
+   * defined (i.e. external key), the operation will fail. Otherwise, it will
+   * no-op and add a warning annotation.
+   */
+  public addToResourcePolicy(statement: PolicyStatement, allowNoOp = true): AddToResourcePolicyResult {
+    const stack = Stack.of(this);
+
+    if (!this.policy) {
+      if (allowNoOp) {
+        Annotations.of(stack).addWarningV2(
+          'NoResourcePolicyStatementAdded',
+          `No statements added to imported resource ${this.repositoryArn}.`,
+        );
+        return { statementAdded: false };
+      }
+      throw new Error(
+        `Unable to add statement to IAM resource policy for Codeartifact Repository: ${this.repositoryArn}`,
+      );
+    }
+
+    this.policy.addStatements(statement);
+    return { statementAdded: true, policyDependable: this.policy };
+  }
+
+  /**
+   * Grants permissions to the specified grantee on this CodeArtifact repository.
+   *
+   * @param grantee The principal to grant permissions to
+   * @param actions The actions to grant
+   */
+  public grant(grantee: IGrantable, ...actions: string[]): Grant {
+    const crossEnvironment = this.isCrossEnvironmentGrantee(grantee);
+    const grantOptions: GrantWithResourceOptions = {
+      grantee,
+      actions,
+      resource: this,
+      resourceArns: [this.repositoryArn],
+      resourceSelfArns: crossEnvironment ? undefined : ['*'],
+    };
+    if (!crossEnvironment) {
+      return Grant.addToPrincipalOrResource(grantOptions);
+    } else {
+      return Grant.addToPrincipalAndResource({
+        ...grantOptions,
+        resourceArns: [this.repositoryArn],
+        resourcePolicyPrincipal: grantee.grantPrincipal,
+      });
+    }
+  }
+
+  /**
+   * Grants read permissions to the specified grantee on this CodeArtifact repository.
+   *
+   * @param grantee The principal to grant read permissions to
+   */
+  public grantRead(grantee: IGrantable) {
+    return this.grant(grantee, ...READ_ACTIONS);
+  }
+
+  /**
+   * Grants read and publish permissions to the specified grantee on this CodeArtifact repository.
+   *
+   * @param grantee The principal to grant read and publish permissions to
+   */
+  public grantReadAndPublish(grantee: IGrantable) {
+    return this.grant(grantee, ...READ_ACTIONS, ...PUBLISH_ACTIONS);
+  }
 }
 
 /**
@@ -174,6 +304,7 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
       public readonly repositoryArn = attrs.repositoryArn;
       public readonly repositoryName = attrs.repositoryName;
       public readonly domain = attrs.domain;
+      protected readonly policy?: PolicyDocument | undefined = undefined;
     }
 
     return new Import(scope, id);
@@ -246,12 +377,13 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
    * The domain that contains this repository.
    */
   readonly domain: IDomain;
-  protected policy?: PolicyDocument;
+  protected readonly policy: PolicyDocument;
 
   constructor(scope: Construct, id: string, props: RepositoryProps) {
     super(scope, id);
 
     this.cdkTagManager = new TagManager(TagType.KEY_VALUE, 'AWS::CodeArtifact::Repository');
+    this.policy = new PolicyDocument();
 
     this.cfnResourceProps = {
       domainName: props.domain.domainName,
@@ -281,71 +413,5 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
 
   protected createCfnResource(): CfnRepository {
     return new CfnRepository(this, 'Resource', this.cfnResourceProps);
-  }
-
-  /**
-   * Adds a statement to the CodeArtifact repository resource policy.
-   * @param statement The policy statement to add
-   */
-  public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult {
-    if (!this.policy) {
-      this.policy = new PolicyDocument();
-    }
-
-    this.policy.addStatements(statement);
-    return { statementAdded: true, policyDependable: this.policy };
-  }
-
-  private isCrossEnvironmentGrantee(grantee: IGrantable): boolean {
-    if (!principalIsOwnedResource(grantee.grantPrincipal)) {
-      return false;
-    }
-    const thisStack = Stack.of(this);
-    const identityStack = Stack.of(grantee.grantPrincipal);
-    return thisStack.region !== identityStack.region || thisStack.account !== identityStack.account;
-  }
-
-  /**
-   * Grants permissions to the specified grantee on this CodeArtifact repository.
-   *
-   * @param grantee The principal to grant permissions to
-   * @param actions The actions to grant
-   */
-  public grant(grantee: IGrantable, ...actions: string[]): Grant {
-    const crossEnvironment = this.isCrossEnvironmentGrantee(grantee);
-    const grantOptions: GrantWithResourceOptions = {
-      grantee,
-      actions,
-      resource: this,
-      resourceArns: [this.repositoryArn],
-      resourceSelfArns: crossEnvironment ? undefined : ['*'],
-    };
-    if (!crossEnvironment) {
-      return Grant.addToPrincipalOrResource(grantOptions);
-    } else {
-      return Grant.addToPrincipalAndResource({
-        ...grantOptions,
-        resourceArns: [this.repositoryArn],
-        resourcePolicyPrincipal: grantee.grantPrincipal,
-      });
-    }
-  }
-
-  /**
-   * Grants read permissions to the specified grantee on this CodeArtifact repository.
-   *
-   * @param grantee The principal to grant read permissions to
-   */
-  public grantRead(grantee: IGrantable) {
-    return this.grant(grantee, ...READ_ACTIONS);
-  }
-
-  /**
-   * Grants read and publish permissions to the specified grantee on this CodeArtifact repository.
-   *
-   * @param grantee The principal to grant read and publish permissions to
-   */
-  public grantReadAndPublish(grantee: IGrantable) {
-    return this.grant(grantee, ...READ_ACTIONS, ...PUBLISH_ACTIONS);
   }
 }

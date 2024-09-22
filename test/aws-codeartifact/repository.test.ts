@@ -1,6 +1,6 @@
-import { Stack, Tags } from 'aws-cdk-lib';
+import { App, Stack, Tags } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
-import { AccountPrincipal } from 'aws-cdk-lib/aws-iam';
+import { AccountPrincipal, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import { Domain, Repository } from '../../src/aws-codeartifact';
 
@@ -152,6 +152,43 @@ test('repository: can add upstream repos', () => {
       PermissionsPolicyDocument: Match.absent(),
       Upstreams: [{ 'Fn::GetAtt': ['upstreamA899206B0', 'Name'] }, { 'Fn::GetAtt': ['upstreamBC1546A27', 'Name'] }],
       Tags: Match.absent(),
+    },
+  });
+});
+
+test('Can import repository and grantRead to a same account principal', () => {
+  // GIVEN
+  const repoArn = 'arn:aws:codeartifact:us-west-2:123456789012:repository/my-domain/my-repo';
+  const importedRepo = Repository.fromRepositoryArn(stack, 'ImportedRepo', repoArn);
+  const functionRole = new Role(stack, 'FunctionRole', {
+    assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+  });
+  // WHEN
+  importedRepo.grantRead(functionRole);
+  // THEN
+  Template.fromStack(stack).hasResource('AWS::IAM::Policy', {
+    Properties: {
+      PolicyDocument: {
+        Statement: [
+          {
+            Action: [
+              'codeartifact:DescribePackageVersion',
+              'codeartifact:DescribeRepository',
+              'codeartifact:GetPackageVersionReadme',
+              'codeartifact:GetRepositoryEndpoint',
+              'codeartifact:ListPackageVersionAssets',
+              'codeartifact:ListPackageVersionDependencies',
+              'codeartifact:ListPackageVersions',
+              'codeartifact:ListPackages',
+              'codeartifact:ReadFromRepository',
+            ],
+            Effect: 'Allow',
+            Resource: repoArn,
+          },
+        ],
+        Version: '2012-10-17',
+      },
+      Roles: [{ Ref: 'FunctionRole111A5701' }],
     },
   });
 });
