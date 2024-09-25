@@ -1,4 +1,4 @@
-import { Resource, Stack, Token, aws_cur, aws_iam, aws_s3 } from 'aws-cdk-lib';
+import { Names, Resource, Stack, Token, aws_cur, aws_iam, aws_s3 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 /**
@@ -56,9 +56,27 @@ export class CurFormat {
  */
 export interface CostReportProps {
   /**
+   * Whether to generate a unique report name automatically if the `costReportName` property
+   * is not specified.
+   *
+   * The default value of the `costReportName` is normally ‘default-cur’, but setting this flag
+   * to true will generate a unique default value.
+   *
+   * This flag is ignored if the `costReportName` property is specified.
+   *
+   * @default false
+   */
+  readonly enableDefaultUniqueReportName?: boolean;
+
+  /**
    * The name of the cost report.
    *
-   * @default - 'default-cur'
+   * The name must be unique, is case sensitive, and can't include spaces.
+   *
+   * The length of this name must be between 1 and 256.
+   *
+   * @default - a unique name automatically generated if `enableDefaultUniqueReportName` is
+   * true, otherwise 'default-cur'.
    */
   readonly costReportName?: string;
 
@@ -99,6 +117,8 @@ export interface CostReportProps {
 export class CostReport extends Resource {
   /** The S3 bucket that stores the cost report */
   public readonly reportBucket: aws_s3.IBucket;
+  /** The name of the cost report */
+  public readonly costReportName: string;
 
   constructor(scope: Construct, id: string, props: CostReportProps) {
     super(scope, id);
@@ -137,11 +157,33 @@ export class CostReport extends Resource {
 
     const format = props.format ?? CurFormat.TEXT_OR_CSV;
 
+    if (props.costReportName !== undefined && !Token.isUnresolved(props.costReportName)) {
+      if (props.costReportName.length < 1 || props.costReportName.length > 256) {
+        throw new Error(
+          `'costReportName' must be between 1 and 256 characters long, got: ${props.costReportName.length}`,
+        );
+      }
+      if (!/^[0-9A-Za-z!\-_.*'()]+$/.test(props.costReportName)) {
+        throw new Error(
+          `'costReportName' must only contain alphanumeric characters and the following special characters: !-_.*'(), got: '${props.costReportName}'`,
+        );
+      }
+    }
+
+    const reportName =
+      props.costReportName ??
+      (props.enableDefaultUniqueReportName
+        ? Names.uniqueResourceName(this, {
+            maxLength: 256,
+            allowedSpecialCharacters: "!-_.*'()",
+          })
+        : 'default-cur');
+
     const reportDefinition = this.createReportDefinition(this, 'Resource', {
       compression: format.compression,
       format: format.format,
       refreshClosedReports: false,
-      reportName: props.costReportName ?? 'default-cur',
+      reportName,
       reportVersioning: 'CREATE_NEW_REPORT',
       s3Bucket: this.reportBucket.bucketName,
       s3Prefix: 'reports',
@@ -150,6 +192,8 @@ export class CostReport extends Resource {
       additionalSchemaElements: ['RESOURCES'],
     });
     reportDefinition.node.addDependency(this.reportBucket.policy!);
+
+    this.costReportName = reportDefinition.ref;
   }
 
   protected createReportBucket(scope: Construct, id: string, props: aws_s3.BucketProps): aws_s3.IBucket {

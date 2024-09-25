@@ -173,6 +173,7 @@ Check whether the given construct is a Resource.
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.costReportName">costReportName</a></code> | <code>string</code> | The name of the cost report. |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.reportBucket">reportBucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | The S3 bucket that stores the cost report. |
 
 ---
@@ -217,6 +218,18 @@ public readonly stack: Stack;
 - *Type:* aws-cdk-lib.Stack
 
 The stack in which this resource is defined.
+
+---
+
+##### `costReportName`<sup>Required</sup> <a name="costReportName" id="@open-constructs/aws-cdk.aws_cur.CostReport.property.costReportName"></a>
+
+```typescript
+public readonly costReportName: string;
+```
+
+- *Type:* string
+
+The name of the cost report.
 
 ---
 
@@ -1255,6 +1268,7 @@ const costReportProps: aws_cur.CostReportProps = { ... }
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReportProps.property.bucket">bucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | The bucket to place the cost report into. |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReportProps.property.costReportName">costReportName</a></code> | <code>string</code> | The name of the cost report. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReportProps.property.enableDefaultUniqueReportName">enableDefaultUniqueReportName</a></code> | <code>boolean</code> | Whether to generate a unique report name automatically if the `costReportName` property is not specified. |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReportProps.property.format">format</a></code> | <code>@open-constructs/aws-cdk.aws_cur.CurFormat</code> | The format to use for the cost and usage report. |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReportProps.property.reportGranularity">reportGranularity</a></code> | <code>@open-constructs/aws-cdk.aws_cur.ReportGranularity</code> | The granularity of the line items in the report. |
 
@@ -1282,9 +1296,31 @@ public readonly costReportName: string;
 ```
 
 - *Type:* string
-- *Default:* 'default-cur'
+- *Default:* a unique name automatically generated if `enableDefaultUniqueReportName` is true, otherwise 'default-cur'.
 
 The name of the cost report.
+
+The name must be unique, is case sensitive, and can't include spaces.
+
+The length of this name must be between 1 and 256.
+
+---
+
+##### `enableDefaultUniqueReportName`<sup>Optional</sup> <a name="enableDefaultUniqueReportName" id="@open-constructs/aws-cdk.aws_cur.CostReportProps.property.enableDefaultUniqueReportName"></a>
+
+```typescript
+public readonly enableDefaultUniqueReportName: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Whether to generate a unique report name automatically if the `costReportName` property is not specified.
+
+The default value of the `costReportName` is normally ‘default-cur’, but setting this flag
+to true will generate a unique default value.
+
+This flag is ignored if the `costReportName` property is specified.
 
 ---
 
