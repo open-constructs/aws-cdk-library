@@ -105,7 +105,7 @@ abstract class DomainBase extends Resource implements IDomain {
   public abstract readonly domainOwner: string;
 
   /**
-   * Optional policy document that represents the resource policy of this key.
+   * Optional policy document that represents the resource policy of this domain.
    */
   protected abstract readonly policy?: PolicyDocument;
 
@@ -302,12 +302,6 @@ export class Domain extends DomainBase implements IDomain {
    */
   readonly domainEncryptionKey?: string;
 
-  /**
-   * Optional policy document that represents the resource policy of this repository
-   *
-   * If specified, addToResourcePolicy can be used to edit this policy.
-   * Otherwise this method will no-op.
-   */
   protected policy?: PolicyDocument;
 
   constructor(scope: Construct, id: string, props: DomainProps) {
