@@ -88,7 +88,19 @@ export interface IRepository extends IResource {
    */
   readonly repositoryName: string;
 
-  // TODO add CFN @attributes domainArn and domainName
+  /**
+   * The domain that contains the repository
+   *
+   * @attribute
+   */
+  readonly repositoryDomainName: string;
+
+  /**
+   * The domain owner of the repository
+   *
+   * @attribute
+   */
+  readonly repositoryDomainOwner: string;
 
   /**
    * The domain that contains the repository
@@ -173,6 +185,14 @@ abstract class RepositoryBase extends Resource implements IRepository {
    * The name of the repository
    */
   public abstract repositoryName: string;
+  /**
+   * The domain that contains the repository
+   */
+  public abstract repositoryDomainName: string;
+  /**
+   * The domain owner of the repository
+   */
+  public abstract repositoryDomainOwner: string;
   /**
    * The domain that contains the repository
    */
@@ -292,6 +312,8 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
     class Import extends RepositoryBase {
       public readonly repositoryArn = attrs.repositoryArn;
       public readonly repositoryName = attrs.repositoryName;
+      public readonly repositoryDomainName = attrs.domain.domainName;
+      public readonly repositoryDomainOwner = attrs.domain.domainOwner;
       public readonly domain = attrs.domain;
       protected readonly policy?: PolicyDocument | undefined = undefined;
     }
@@ -365,6 +387,14 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
   /**
    * The domain that contains this repository.
    */
+  readonly repositoryDomainName: string;
+  /**
+   * The domain owner of this repository.
+   */
+  readonly repositoryDomainOwner: string;
+  /**
+   * The domain that contains this repository.
+   */
   readonly domain: IDomain;
   protected readonly policy: PolicyDocument;
 
@@ -388,14 +418,17 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
 
     this.repositoryArn = this.cfnResource.attrArn;
     this.repositoryName = this.cfnResource.attrName;
+    this.repositoryDomainName = this.cfnResource.attrDomainName;
+    this.repositoryDomainOwner = this.cfnResource.attrDomainOwner;
+
     this.domain = Domain.fromDomainArn(
       this,
       'domain',
       Stack.of(this).formatArn({
         resource: 'domain',
         service: 'codeartifact',
-        account: this.cfnResource.attrDomainOwner,
-        resourceName: this.cfnResource.attrDomainName,
+        account: this.repositoryDomainOwner,
+        resourceName: this.repositoryDomainName,
       }),
     );
   }

@@ -41,11 +41,11 @@ export interface IDomain extends IResource {
   readonly domainName: string;
 
   /**
-   * The key used to encrypt the Domain
-   * TODO: how to expose both the CFN @attribute (srting) and this IKEy? see AWS CDK Design guidelines
+   * The ARN of the key used to encrypt the Domain
    *
+   * @attribute
    */
-  readonly encryptionKey?: IKey;
+  readonly domainEncryptionKey?: string;
 
   /**
    * 12-digit account number of the AWS account that owns the domain that contains the Domain.
@@ -53,6 +53,11 @@ export interface IDomain extends IResource {
    * @attribute
    */
   readonly domainOwner: string;
+
+  /**
+   * The KMS key used to encrypt the Domain
+   */
+  readonly encryptionKey?: IKey;
 
   /**
    * Adds a statement to the Codeartifact domain resource policy.
@@ -98,6 +103,11 @@ abstract class DomainBase extends Resource implements IDomain {
    * The AWS KMS encryption key associated with the domain, if any.
    */
   public abstract readonly encryptionKey?: IKey;
+
+  /**
+   * The ARN of the key used to encrypt the Domain
+   */
+  public abstract readonly domainEncryptionKey?: string;
 
   /**
    * The AWS account ID that owns the domain.
@@ -241,6 +251,7 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
       public readonly domainName = attrs.domainName;
       public readonly encryptionKey = attrs.encryptionKey;
       public readonly domainOwner = attrs.domainOwner;
+      public readonly domainEncryptionKey = attrs.encryptionKey?.keyArn;
       protected readonly policy?: PolicyDocument | undefined = undefined;
     }
 
@@ -299,6 +310,12 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
    * The AWS account ID that owns this domain.
    */
   readonly domainOwner: string;
+
+  /**
+   * The ARN of the key used to encrypt the Domain
+   */
+  readonly domainEncryptionKey?: string;
+
   /**
    * Optional policy document that represents the resource policy of this repository
    *
@@ -330,6 +347,7 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
     this.domainArn = this.cfnResource.attrArn;
     this.encryptionKey = encryptionKey;
     this.domainOwner = this.cfnResource.attrOwner;
+    this.domainEncryptionKey = encryptionKey.keyArn;
   }
 
   protected createCfnResource(): CfnDomain {
