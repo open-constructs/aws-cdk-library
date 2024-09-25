@@ -19,6 +19,7 @@ import { CostReport, ReportGranularity, CurFormat } from '@open-constructs/aws-c
 ```
 
 ### Basic Example
+
 Here's how you can create a monthly cost and usage report in Parquet format:
 
 ```typescript
@@ -47,6 +48,23 @@ new CostReport(stack, 'MyDetailedCostReport', {
   bucket: customBucket,
   reportGranularity: ReportGranularity.HOURLY,
   format: CurFormat.TEXT_OR_CSV,
+});
+```
+
+### Generating Unique Report Name By Default
+
+If you set the `enableDefaultUniqueReportName` property to `true`, the construct will automatically
+generate a unique report name by default.
+
+The cost report name must be unique within your AWS account. So this property is useful when you want
+to create multiple reports without specifying a report name for each one.
+
+If you specify a report name directly via the `costReportName`, the construct will use that name instead
+of generating a unique one.
+
+```typescript
+new CostReport(stack, 'MyCostReport', {
+  enableDefaultUniqueReportName: true,
 });
 ```
 
