@@ -397,12 +397,14 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
    */
   readonly domain: IDomain;
   protected readonly policy: PolicyDocument;
+  protected readonly upstreams: IRepository[];
 
   constructor(scope: Construct, id: string, props: RepositoryProps) {
     super(scope, id);
 
     this.cdkTagManager = new TagManager(TagType.KEY_VALUE, 'AWS::CodeArtifact::Repository');
     this.policy = new PolicyDocument();
+    this.upstreams = props.upstreams ?? [];
 
     this.cfnResourceProps = {
       domainName: props.domain.domainName,
@@ -411,7 +413,7 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
       domainOwner: props.domain.domainOwner,
       externalConnections: props.externalConnection !== undefined ? [props.externalConnection] : undefined, // only 1 allowed
       permissionsPolicyDocument: Lazy.any({ produce: () => this.policy?.toJSON() }),
-      upstreams: props.upstreams?.map(repo => repo.repositoryName),
+      upstreams: Lazy.list({ produce: () => this.renderUpstreams() }),
     };
 
     this.cfnResource = this.createCfnResource();
@@ -435,5 +437,9 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
 
   protected createCfnResource(): CfnRepository {
     return new CfnRepository(this, 'Resource', this.cfnResourceProps);
+  }
+
+  protected renderUpstreams(): string[] {
+    return this.upstreams.map(repo => repo.repositoryName);
   }
 }
