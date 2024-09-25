@@ -1,4 +1,14 @@
-import { ArnFormat, IResource, ITaggableV2, Lazy, Resource, Stack, TagManager, TagType } from 'aws-cdk-lib';
+import {
+  Annotations,
+  ArnFormat,
+  IResource,
+  ITaggableV2,
+  Lazy,
+  Resource,
+  Stack,
+  TagManager,
+  TagType,
+} from 'aws-cdk-lib';
 import { CfnDomain, CfnDomainProps } from 'aws-cdk-lib/aws-codeartifact';
 import {
   AddToResourcePolicyResult,
@@ -43,6 +53,31 @@ export interface IDomain extends IResource {
    * @attribute
    */
   readonly domainOwner: string;
+
+  /**
+   * Adds a statement to the Codeartifact domain resource policy.
+   * @param statement The policy statement to add
+   */
+  addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult;
+
+  /**
+   * Grants permissions to the specified grantee on this CodeArtifact domain.
+   *
+   * It handles both same-environment and cross-environment scenarios:
+   * - For same-environment grants, it adds the permissions to the principal or resource.
+   * - For cross-environment grants, it adds the permissions to both the principal and the resource.
+   *
+   * @param grantee - The principal to grant permissions to.
+   * @param actions - The actions to grant. These should be valid CodeArtifact actions.
+   */
+  grant(grantee: IGrantable, ...actions: string[]): Grant;
+
+  /**
+   * Grants contribute permissions to the specified grantee on this CodeArtifact domain.
+   *
+   * @param grantee - The principal to grant contribute permissions to.
+   */
+  grantContribute(grantee: IGrantable): Grant;
 }
 
 /**
@@ -68,6 +103,86 @@ abstract class DomainBase extends Resource implements IDomain {
    * The AWS account ID that owns the domain.
    */
   public abstract readonly domainOwner: string;
+
+  /**
+   * Optional policy document that represents the resource policy of this key.
+   */
+  protected abstract readonly policy?: PolicyDocument;
+
+  /**
+   * Adds a statement to the Codeartifact domain resource policy.
+   * @param statement The policy statement to add
+   */
+  public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult {
+    const stack = Stack.of(this);
+
+    if (!this.policy) {
+      Annotations.of(stack).addWarningV2(
+        'NoResourcePolicyStatementAdded',
+        `No statements added to imported resource ${this.domainArn}.`,
+      );
+      return { statementAdded: false };
+    }
+
+    this.policy.addStatements(statement);
+    return { statementAdded: true, policyDependable: this.policy };
+  }
+
+  private isCrossEnvironmentGrantee(grantee: IGrantable): boolean {
+    if (!principalIsOwnedResource(grantee.grantPrincipal)) {
+      return false;
+    }
+    const thisStack = Stack.of(this);
+    const identityStack = Stack.of(grantee.grantPrincipal);
+    return thisStack.region !== identityStack.region || thisStack.account !== identityStack.account;
+  }
+
+  /**
+   * Grants permissions to the specified grantee on this CodeArtifact domain.
+   *
+   * It handles both same-environment and cross-environment scenarios:
+   * - For same-environment grants, it adds the permissions to the principal or resource.
+   * - For cross-environment grants, it adds the permissions to both the principal and the resource.
+   *
+   * @param grantee - The principal to grant permissions to.
+   * @param actions - The actions to grant. These should be valid CodeArtifact actions.
+   */
+  public grant(grantee: IGrantable, ...actions: string[]): Grant {
+    const crossEnvironment = this.isCrossEnvironmentGrantee(grantee);
+    const grantOptions: GrantWithResourceOptions = {
+      grantee,
+      actions,
+      resource: this,
+      resourceArns: [this.domainArn],
+      resourceSelfArns: crossEnvironment ? undefined : ['*'],
+    };
+    if (!crossEnvironment) {
+      return Grant.addToPrincipalOrResource(grantOptions);
+    } else {
+      return Grant.addToPrincipalAndResource({
+        ...grantOptions,
+        resourceArns: [this.domainArn],
+        resourcePolicyPrincipal: grantee.grantPrincipal,
+      });
+    }
+  }
+
+  /**
+   * Grants contribute permissions to the specified grantee on this CodeArtifact domain.
+   *
+   * @param grantee - The principal to grant contribute permissions to.
+   */
+  public grantContribute(grantee: IGrantable) {
+    return this.grant(
+      grantee,
+      'codeartifact:CreateRepository',
+      'codeartifact:DescribeDomain',
+      'codeartifact:GetAuthorizationToken',
+      'codeartifact:GetDomainPermissionsPolicy',
+      'codeartifact:ListRepositoriesInDomain',
+      'sts:GetServiceBearerToken',
+    );
+  }
 }
 
 /**
@@ -126,6 +241,7 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
       public readonly domainName = attrs.domainName;
       public readonly encryptionKey = attrs.encryptionKey;
       public readonly domainOwner = attrs.domainOwner;
+      protected readonly policy?: PolicyDocument | undefined = undefined;
     }
 
     return new Import(scope, id);
@@ -194,6 +310,7 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
   constructor(scope: Construct, id: string, props: DomainProps) {
     super(scope, id);
     this.cdkTagManager = new TagManager(TagType.KEY_VALUE, 'AWS::CodeArtifact::Domain');
+    this.policy = new PolicyDocument();
 
     const encryptionKey =
       props.encryptionKey ??
@@ -217,74 +334,5 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
 
   protected createCfnResource(): CfnDomain {
     return new CfnDomain(this, 'Resource', this.cfnResourceProps);
-  }
-
-  /**
-   * Adds a statement to the KMS key resource policy.
-   * @param statement The policy statement to add
-   */
-  public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult {
-    if (!this.policy) {
-      this.policy = new PolicyDocument();
-    }
-
-    this.policy.addStatements(statement);
-    return { statementAdded: true, policyDependable: this.policy };
-  }
-
-  private isCrossEnvironmentGrantee(grantee: IGrantable): boolean {
-    if (!principalIsOwnedResource(grantee.grantPrincipal)) {
-      return false;
-    }
-    const thisStack = Stack.of(this);
-    const identityStack = Stack.of(grantee.grantPrincipal);
-    return thisStack.region !== identityStack.region || thisStack.account !== identityStack.account;
-  }
-
-  /**
-   * Grants permissions to the specified grantee on this CodeArtifact domain.
-   *
-   * It handles both same-environment and cross-environment scenarios:
-   * - For same-environment grants, it adds the permissions to the principal or resource.
-   * - For cross-environment grants, it adds the permissions to both the principal and the resource.
-   *
-   * @param grantee - The principal to grant permissions to.
-   * @param actions - The actions to grant. These should be valid CodeArtifact actions.
-   */
-  public grant(grantee: IGrantable, ...actions: string[]): Grant {
-    const crossEnvironment = this.isCrossEnvironmentGrantee(grantee);
-    const grantOptions: GrantWithResourceOptions = {
-      grantee,
-      actions,
-      resource: this,
-      resourceArns: [this.domainArn],
-      resourceSelfArns: crossEnvironment ? undefined : ['*'],
-    };
-    if (!crossEnvironment) {
-      return Grant.addToPrincipalOrResource(grantOptions);
-    } else {
-      return Grant.addToPrincipalAndResource({
-        ...grantOptions,
-        resourceArns: [this.domainArn],
-        resourcePolicyPrincipal: grantee.grantPrincipal,
-      });
-    }
-  }
-
-  /**
-   * Grants contribute permissions to the specified grantee on this CodeArtifact domain.
-   *
-   * @param grantee - The principal to grant contribute permissions to.
-   */
-  public grantContribute(grantee: IGrantable) {
-    return this.grant(
-      grantee,
-      'codeartifact:CreateRepository',
-      'codeartifact:DescribeDomain',
-      'codeartifact:GetAuthorizationToken',
-      'codeartifact:GetDomainPermissionsPolicy',
-      'codeartifact:ListRepositoriesInDomain',
-      'sts:GetServiceBearerToken',
-    );
   }
 }

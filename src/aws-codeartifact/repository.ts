@@ -100,11 +100,8 @@ export interface IRepository extends IResource {
    * Adds a statement to the CodeArtifact repository resource policy.
    *
    * @param statement The policy statement to add
-   * @param allowNoOp If this is set to `false` and there is no policy
-   * defined (i.e. external repository), the operation will fail. Otherwise, it will
-   * no-op.
    */
-  addToResourcePolicy(statement: PolicyStatement, allowNoOp?: boolean): AddToResourcePolicyResult;
+  addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult;
 
   /**
    * Grants the given principal identity permissions to perform the actions on the repository.
@@ -182,7 +179,7 @@ abstract class RepositoryBase extends Resource implements IRepository {
   public abstract domain: IDomain;
 
   /**
-   * Optional policy document that represents the resource policy of this key.
+   * Optional policy document that represents the resource policy of this repository.
    *
    * If specified, addToResourcePolicy can be used to edit this policy.
    * Otherwise this method will no-op.
@@ -201,24 +198,16 @@ abstract class RepositoryBase extends Resource implements IRepository {
   /**
    * Adds a statement to the CodeArtifact repository resource policy.
    * @param statement The policy statement to add
-   * @param allowNoOp If this is set to `false` and there is no policy
-   * defined (i.e. external key), the operation will fail. Otherwise, it will
-   * no-op and add a warning annotation.
    */
-  public addToResourcePolicy(statement: PolicyStatement, allowNoOp = true): AddToResourcePolicyResult {
+  public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult {
     const stack = Stack.of(this);
 
     if (!this.policy) {
-      if (allowNoOp) {
-        Annotations.of(stack).addWarningV2(
-          'NoResourcePolicyStatementAdded',
-          `No statements added to imported resource ${this.repositoryArn}.`,
-        );
-        return { statementAdded: false };
-      }
-      throw new Error(
-        `Unable to add statement to IAM resource policy for Codeartifact Repository: ${this.repositoryArn}`,
+      Annotations.of(stack).addWarningV2(
+        'NoResourcePolicyStatementAdded',
+        `No statements added to imported resource ${this.repositoryArn}.`,
       );
+      return { statementAdded: false };
     }
 
     this.policy.addStatements(statement);

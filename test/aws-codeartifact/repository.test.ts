@@ -1,4 +1,4 @@
-import { App, Stack, Tags } from 'aws-cdk-lib';
+import { Stack, Tags } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { AccountPrincipal, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
