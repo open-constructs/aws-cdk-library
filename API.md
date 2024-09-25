@@ -250,6 +250,8 @@ The S3 bucket that stores the cost report.
 
 - *Implements:* @open-constructs/aws-cdk.aws_codeartifact.IDomain, aws-cdk-lib.ITaggableV2
 
+Deploys a CodeArtifact domain.
+
 #### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.Initializer"></a>
 
 ```typescript
@@ -290,9 +292,9 @@ new aws_codeartifact.Domain(scope: Construct, id: string, props: DomainProps)
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.toString">toString</a></code> | Returns a string representation of this construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.addToResourcePolicy">addToResourcePolicy</a></code> | Adds a statement to the KMS key resource policy. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.grant">grant</a></code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.grantContribute">grantContribute</a></code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.addToResourcePolicy">addToResourcePolicy</a></code> | Adds a statement to the Codeartifact domain resource policy. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.grant">grant</a></code> | Grants permissions to the specified grantee on this CodeArtifact domain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.grantContribute">grantContribute</a></code> | Grants contribute permissions to the specified grantee on this CodeArtifact domain. |
 
 ---
 
@@ -329,10 +331,10 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 ##### `addToResourcePolicy` <a name="addToResourcePolicy" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.addToResourcePolicy"></a>
 
 ```typescript
-public addToResourcePolicy(statement: PolicyStatement, allowNoOp?: boolean): AddToResourcePolicyResult
+public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult
 ```
 
-Adds a statement to the KMS key resource policy.
+Adds a statement to the Codeartifact domain resource policy.
 
 ###### `statement`<sup>Required</sup> <a name="statement" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.addToResourcePolicy.parameter.statement"></a>
 
@@ -342,29 +344,33 @@ The policy statement to add.
 
 ---
 
-###### `allowNoOp`<sup>Optional</sup> <a name="allowNoOp" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.addToResourcePolicy.parameter.allowNoOp"></a>
-
-- *Type:* boolean
-
-If this is set to `false` and there is no policy defined (i.e. external key), the operation will fail. Otherwise, it will no-op.
-
----
-
 ##### `grant` <a name="grant" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.grant"></a>
 
 ```typescript
 public grant(grantee: IGrantable, actions: ...string[]): Grant
 ```
 
+Grants permissions to the specified grantee on this CodeArtifact domain.
+
+It handles both same-environment and cross-environment scenarios:
+- For same-environment grants, it adds the permissions to the principal or resource.
+- For cross-environment grants, it adds the permissions to both the principal and the resource.
+
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.grant.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant permissions to.
 
 ---
 
 ###### `actions`<sup>Required</sup> <a name="actions" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.grant.parameter.actions"></a>
 
 - *Type:* ...string[]
+
+The actions to grant.
+
+These should be valid CodeArtifact actions.
 
 ---
 
@@ -374,9 +380,13 @@ public grant(grantee: IGrantable, actions: ...string[]): Grant
 public grantContribute(grantee: IGrantable): Grant
 ```
 
+Grants contribute permissions to the specified grantee on this CodeArtifact domain.
+
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.grantContribute.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant contribute permissions to.
 
 ---
 
@@ -387,8 +397,8 @@ public grantContribute(grantee: IGrantable): Grant
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.fromDomainArn">fromDomainArn</a></code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.fromDomainAttributes">fromDomainAttributes</a></code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.fromDomainArn">fromDomainArn</a></code> | Creates an IDomain object from an existing CodeArtifact domain ARN. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.fromDomainAttributes">fromDomainAttributes</a></code> | Creates a Domain object from existing domain attributes. |
 
 ---
 
@@ -464,9 +474,13 @@ import { aws_codeartifact } from '@open-constructs/aws-cdk'
 aws_codeartifact.Domain.fromDomainArn(scope: Construct, id: string, domainArn: string)
 ```
 
+Creates an IDomain object from an existing CodeArtifact domain ARN.
+
 ###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.fromDomainArn.parameter.scope"></a>
 
 - *Type:* constructs.Construct
+
+The parent construct.
 
 ---
 
@@ -474,11 +488,15 @@ aws_codeartifact.Domain.fromDomainArn(scope: Construct, id: string, domainArn: s
 
 - *Type:* string
 
+The construct id.
+
 ---
 
 ###### `domainArn`<sup>Required</sup> <a name="domainArn" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.fromDomainArn.parameter.domainArn"></a>
 
 - *Type:* string
+
+The ARN (Amazon Resource Name) of the existing CodeArtifact domain.
 
 ---
 
@@ -490,9 +508,13 @@ import { aws_codeartifact } from '@open-constructs/aws-cdk'
 aws_codeartifact.Domain.fromDomainAttributes(scope: Construct, id: string, attrs: DomainAttributes)
 ```
 
+Creates a Domain object from existing domain attributes.
+
 ###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.fromDomainAttributes.parameter.scope"></a>
 
 - *Type:* constructs.Construct
+
+The parent construct.
 
 ---
 
@@ -500,11 +522,15 @@ aws_codeartifact.Domain.fromDomainAttributes(scope: Construct, id: string, attrs
 
 - *Type:* string
 
+The construct id.
+
 ---
 
 ###### `attrs`<sup>Required</sup> <a name="attrs" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.fromDomainAttributes.parameter.attrs"></a>
 
 - *Type:* @open-constructs/aws-cdk.aws_codeartifact.DomainAttributes
+
+The attributes of the domain to import.
 
 ---
 
@@ -516,10 +542,11 @@ aws_codeartifact.Domain.fromDomainAttributes(scope: Construct, id: string, attrs
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.cdkTagManager">cdkTagManager</a></code> | <code>aws-cdk-lib.TagManager</code> | TagManager to set, remove and format tags. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainArn">domainArn</a></code> | <code>string</code> | The ARN of the Domain. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainName">domainName</a></code> | <code>string</code> | The name of the Domain. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainOwner">domainOwner</a></code> | <code>string</code> | 12-digit account number of the AWS account that owns the domain that contains the Domain. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.encryptionKeyArn">encryptionKeyArn</a></code> | <code>string</code> | The key used to encrypt the Domain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainArn">domainArn</a></code> | <code>string</code> | The ARN (Amazon Resource Name) of this CodeArtifact domain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainName">domainName</a></code> | <code>string</code> | The name of this CodeArtifact domain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainOwner">domainOwner</a></code> | <code>string</code> | The AWS account ID that owns this domain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainEncryptionKey">domainEncryptionKey</a></code> | <code>string</code> | The ARN of the key used to encrypt the Domain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.encryptionKey">encryptionKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The AWS KMS encryption key associated with this domain, if any. |
 
 ---
 
@@ -586,7 +613,7 @@ public readonly domainArn: string;
 
 - *Type:* string
 
-The ARN of the Domain.
+The ARN (Amazon Resource Name) of this CodeArtifact domain.
 
 ---
 
@@ -598,7 +625,7 @@ public readonly domainName: string;
 
 - *Type:* string
 
-The name of the Domain.
+The name of this CodeArtifact domain.
 
 ---
 
@@ -610,19 +637,31 @@ public readonly domainOwner: string;
 
 - *Type:* string
 
-12-digit account number of the AWS account that owns the domain that contains the Domain.
+The AWS account ID that owns this domain.
 
 ---
 
-##### `encryptionKeyArn`<sup>Optional</sup> <a name="encryptionKeyArn" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.property.encryptionKeyArn"></a>
+##### `domainEncryptionKey`<sup>Optional</sup> <a name="domainEncryptionKey" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainEncryptionKey"></a>
 
 ```typescript
-public readonly encryptionKeyArn: string;
+public readonly domainEncryptionKey: string;
 ```
 
 - *Type:* string
 
-The key used to encrypt the Domain.
+The ARN of the key used to encrypt the Domain.
+
+---
+
+##### `encryptionKey`<sup>Optional</sup> <a name="encryptionKey" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.property.encryptionKey"></a>
+
+```typescript
+public readonly encryptionKey: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+
+The AWS KMS encryption key associated with this domain, if any.
 
 ---
 
@@ -912,6 +951,8 @@ The ID of the EC2 Instance Connect Endpoint.
 
 - *Implements:* @open-constructs/aws-cdk.aws_codeartifact.IRepository, aws-cdk-lib.ITaggableV2
 
+Deploys a CodeArtifact repository.
+
 #### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.Initializer"></a>
 
 ```typescript
@@ -952,10 +993,10 @@ new aws_codeartifact.Repository(scope: Construct, id: string, props: RepositoryP
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.toString">toString</a></code> | Returns a string representation of this construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.addToResourcePolicy">addToResourcePolicy</a></code> | Adds a statement to the KMS key resource policy. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.grant">grant</a></code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.grantRead">grantRead</a></code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.grantReadAndPublish">grantReadAndPublish</a></code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.addToResourcePolicy">addToResourcePolicy</a></code> | Adds a statement to the CodeArtifact repository resource policy. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.grant">grant</a></code> | Grants permissions to the specified grantee on this CodeArtifact repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.grantRead">grantRead</a></code> | Grants read permissions to the specified grantee on this CodeArtifact repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.grantReadAndPublish">grantReadAndPublish</a></code> | Grants read and publish permissions to the specified grantee on this CodeArtifact repository. |
 
 ---
 
@@ -992,10 +1033,10 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 ##### `addToResourcePolicy` <a name="addToResourcePolicy" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.addToResourcePolicy"></a>
 
 ```typescript
-public addToResourcePolicy(statement: PolicyStatement, allowNoOp?: boolean): AddToResourcePolicyResult
+public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult
 ```
 
-Adds a statement to the KMS key resource policy.
+Adds a statement to the CodeArtifact repository resource policy.
 
 ###### `statement`<sup>Required</sup> <a name="statement" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.addToResourcePolicy.parameter.statement"></a>
 
@@ -1005,29 +1046,27 @@ The policy statement to add.
 
 ---
 
-###### `allowNoOp`<sup>Optional</sup> <a name="allowNoOp" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.addToResourcePolicy.parameter.allowNoOp"></a>
-
-- *Type:* boolean
-
-If this is set to `false` and there is no policy defined (i.e. external key), the operation will fail. Otherwise, it will no-op.
-
----
-
 ##### `grant` <a name="grant" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.grant"></a>
 
 ```typescript
 public grant(grantee: IGrantable, actions: ...string[]): Grant
 ```
 
+Grants permissions to the specified grantee on this CodeArtifact repository.
+
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.grant.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant permissions to.
 
 ---
 
 ###### `actions`<sup>Required</sup> <a name="actions" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.grant.parameter.actions"></a>
 
 - *Type:* ...string[]
+
+The actions to grant.
 
 ---
 
@@ -1037,9 +1076,13 @@ public grant(grantee: IGrantable, actions: ...string[]): Grant
 public grantRead(grantee: IGrantable): Grant
 ```
 
+Grants read permissions to the specified grantee on this CodeArtifact repository.
+
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.grantRead.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant read permissions to.
 
 ---
 
@@ -1049,9 +1092,13 @@ public grantRead(grantee: IGrantable): Grant
 public grantReadAndPublish(grantee: IGrantable): Grant
 ```
 
+Grants read and publish permissions to the specified grantee on this CodeArtifact repository.
+
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.grantReadAndPublish.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant read and publish permissions to.
 
 ---
 
@@ -1062,6 +1109,8 @@ public grantReadAndPublish(grantee: IGrantable): Grant
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.fromRepositoryArn">fromRepositoryArn</a></code> | Creates an IRepository object from an existing repository ARN. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.fromRepositoryAttributes">fromRepositoryAttributes</a></code> | Creates an IRepository object from existing repository attributes. |
 
 ---
 
@@ -1129,6 +1178,74 @@ Check whether the given construct is a Resource.
 
 ---
 
+##### `fromRepositoryArn` <a name="fromRepositoryArn" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.fromRepositoryArn"></a>
+
+```typescript
+import { aws_codeartifact } from '@open-constructs/aws-cdk'
+
+aws_codeartifact.Repository.fromRepositoryArn(scope: Construct, id: string, repositoryArn: string)
+```
+
+Creates an IRepository object from an existing repository ARN.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.fromRepositoryArn.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+The parent construct in which to create this repository reference.
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.fromRepositoryArn.parameter.id"></a>
+
+- *Type:* string
+
+The identifier of the construct.
+
+---
+
+###### `repositoryArn`<sup>Required</sup> <a name="repositoryArn" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.fromRepositoryArn.parameter.repositoryArn"></a>
+
+- *Type:* string
+
+The ARN of the repository to import.
+
+---
+
+##### `fromRepositoryAttributes` <a name="fromRepositoryAttributes" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.fromRepositoryAttributes"></a>
+
+```typescript
+import { aws_codeartifact } from '@open-constructs/aws-cdk'
+
+aws_codeartifact.Repository.fromRepositoryAttributes(scope: Construct, id: string, attrs: RepositoryAttributes)
+```
+
+Creates an IRepository object from existing repository attributes.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.fromRepositoryAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+The parent construct in which to create this repository reference.
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.fromRepositoryAttributes.parameter.id"></a>
+
+- *Type:* string
+
+The identifier of the construct.
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.fromRepositoryAttributes.parameter.attrs"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_codeartifact.RepositoryAttributes
+
+The attributes of the repository to import.
+
+---
+
 #### Properties <a name="Properties" id="Properties"></a>
 
 | **Name** | **Type** | **Description** |
@@ -1137,10 +1254,11 @@ Check whether the given construct is a Resource.
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.cdkTagManager">cdkTagManager</a></code> | <code>aws-cdk-lib.TagManager</code> | TagManager to set, remove and format tags. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.domainName">domainName</a></code> | <code>string</code> | The domain name that contains the repository. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.domainOwner">domainOwner</a></code> | <code>string</code> | 12-digit account number of the AWS account that owns the domain that contains the repository. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.repositoryArn">repositoryArn</a></code> | <code>string</code> | The ARN of the repository. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.repositoryName">repositoryName</a></code> | <code>string</code> | The name of the repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.domain">domain</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.IDomain</code> | The domain that contains this repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.repositoryArn">repositoryArn</a></code> | <code>string</code> | The ARN (Amazon Resource Name) of this CodeArtifact repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.repositoryDomainName">repositoryDomainName</a></code> | <code>string</code> | The domain that contains this repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.repositoryDomainOwner">repositoryDomainOwner</a></code> | <code>string</code> | The domain owner of this repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.repositoryName">repositoryName</a></code> | <code>string</code> | The name of this CodeArtifact repository. |
 
 ---
 
@@ -1199,27 +1317,15 @@ TagManager to set, remove and format tags.
 
 ---
 
-##### `domainName`<sup>Required</sup> <a name="domainName" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.property.domainName"></a>
+##### `domain`<sup>Required</sup> <a name="domain" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.property.domain"></a>
 
 ```typescript
-public readonly domainName: string;
+public readonly domain: IDomain;
 ```
 
-- *Type:* string
+- *Type:* @open-constructs/aws-cdk.aws_codeartifact.IDomain
 
-The domain name that contains the repository.
-
----
-
-##### `domainOwner`<sup>Required</sup> <a name="domainOwner" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.property.domainOwner"></a>
-
-```typescript
-public readonly domainOwner: string;
-```
-
-- *Type:* string
-
-12-digit account number of the AWS account that owns the domain that contains the repository.
+The domain that contains this repository.
 
 ---
 
@@ -1231,7 +1337,31 @@ public readonly repositoryArn: string;
 
 - *Type:* string
 
-The ARN of the repository.
+The ARN (Amazon Resource Name) of this CodeArtifact repository.
+
+---
+
+##### `repositoryDomainName`<sup>Required</sup> <a name="repositoryDomainName" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.property.repositoryDomainName"></a>
+
+```typescript
+public readonly repositoryDomainName: string;
+```
+
+- *Type:* string
+
+The domain that contains this repository.
+
+---
+
+##### `repositoryDomainOwner`<sup>Required</sup> <a name="repositoryDomainOwner" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.property.repositoryDomainOwner"></a>
+
+```typescript
+public readonly repositoryDomainOwner: string;
+```
+
+- *Type:* string
+
+The domain owner of this repository.
 
 ---
 
@@ -1243,7 +1373,7 @@ public readonly repositoryName: string;
 
 - *Type:* string
 
-The name of the repository.
+The name of this CodeArtifact repository.
 
 ---
 
@@ -1352,6 +1482,8 @@ The granularity of the line items in the report.
 
 ### DomainAttributes <a name="DomainAttributes" id="@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes"></a>
 
+Interface representing the attributes of a CodeArtifact domain.
+
 #### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes.Initializer"></a>
 
 ```typescript
@@ -1364,10 +1496,10 @@ const domainAttributes: aws_codeartifact.DomainAttributes = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes.property.domainArn">domainArn</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes.property.domainName">domainName</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes.property.domainOwner">domainOwner</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes.property.encryptionKeyArn">encryptionKeyArn</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes.property.domainArn">domainArn</a></code> | <code>string</code> | The ARN (Amazon Resource Name) of the CodeArtifact domain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes.property.domainName">domainName</a></code> | <code>string</code> | The name of the CodeArtifact domain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes.property.domainOwner">domainOwner</a></code> | <code>string</code> | The AWS account ID that owns the domain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes.property.encryptionKey">encryptionKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The AWS KMS encryption key associated with the domain, if any. |
 
 ---
 
@@ -1379,6 +1511,8 @@ public readonly domainArn: string;
 
 - *Type:* string
 
+The ARN (Amazon Resource Name) of the CodeArtifact domain.
+
 ---
 
 ##### `domainName`<sup>Required</sup> <a name="domainName" id="@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes.property.domainName"></a>
@@ -1388,6 +1522,8 @@ public readonly domainName: string;
 ```
 
 - *Type:* string
+
+The name of the CodeArtifact domain.
 
 ---
 
@@ -1399,19 +1535,25 @@ public readonly domainOwner: string;
 
 - *Type:* string
 
+The AWS account ID that owns the domain.
+
 ---
 
-##### `encryptionKeyArn`<sup>Optional</sup> <a name="encryptionKeyArn" id="@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes.property.encryptionKeyArn"></a>
+##### `encryptionKey`<sup>Optional</sup> <a name="encryptionKey" id="@open-constructs/aws-cdk.aws_codeartifact.DomainAttributes.property.encryptionKey"></a>
 
 ```typescript
-public readonly encryptionKeyArn: string;
+public readonly encryptionKey: IKey;
 ```
 
-- *Type:* string
+- *Type:* aws-cdk-lib.aws_kms.IKey
+
+The AWS KMS encryption key associated with the domain, if any.
 
 ---
 
 ### DomainProps <a name="DomainProps" id="@open-constructs/aws-cdk.aws_codeartifact.DomainProps"></a>
+
+Construction properties for `Domain`.
 
 #### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_codeartifact.DomainProps.Initializer"></a>
 
@@ -1576,7 +1718,67 @@ The security groups to associate with the EC2 Instance Connect Endpoint.
 
 ---
 
+### RepositoryAttributes <a name="RepositoryAttributes" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryAttributes"></a>
+
+Represents the attributes of an existing CodeArtifact repository.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryAttributes.Initializer"></a>
+
+```typescript
+import { aws_codeartifact } from '@open-constructs/aws-cdk'
+
+const repositoryAttributes: aws_codeartifact.RepositoryAttributes = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryAttributes.property.domain">domain</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.IDomain</code> | The CodeArtifact domain associated with this repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryAttributes.property.repositoryArn">repositoryArn</a></code> | <code>string</code> | The ARN (Amazon Resource Name) of the CodeArtifact repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryAttributes.property.repositoryName">repositoryName</a></code> | <code>string</code> | The name of the CodeArtifact repository. |
+
+---
+
+##### `domain`<sup>Required</sup> <a name="domain" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryAttributes.property.domain"></a>
+
+```typescript
+public readonly domain: IDomain;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_codeartifact.IDomain
+
+The CodeArtifact domain associated with this repository.
+
+---
+
+##### `repositoryArn`<sup>Required</sup> <a name="repositoryArn" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryAttributes.property.repositoryArn"></a>
+
+```typescript
+public readonly repositoryArn: string;
+```
+
+- *Type:* string
+
+The ARN (Amazon Resource Name) of the CodeArtifact repository.
+
+---
+
+##### `repositoryName`<sup>Required</sup> <a name="repositoryName" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryAttributes.property.repositoryName"></a>
+
+```typescript
+public readonly repositoryName: string;
+```
+
+- *Type:* string
+
+The name of the CodeArtifact repository.
+
+---
+
 ### RepositoryProps <a name="RepositoryProps" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps"></a>
+
+Properties for creating a new CodeArtifact repository.
 
 #### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.Initializer"></a>
 
@@ -1593,7 +1795,8 @@ const repositoryProps: aws_codeartifact.RepositoryProps = { ... }
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.domain">domain</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.IDomain</code> | The domain that contains the repository. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.repositoryName">repositoryName</a></code> | <code>string</code> | The name of the repository. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.description">description</a></code> | <code>string</code> | The description of the repository. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.externalConnection">externalConnection</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection</code> | The connections to external repositories. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.externalConnection">externalConnection</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection</code> | The connections to external repositories (like npmjs, pypi, etc.). |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.upstreams">upstreams</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.IRepository[]</code> | A list of upstream Codeartifact repositories to associate with the repository. |
 
 ---
 
@@ -1641,9 +1844,27 @@ public readonly externalConnection: RepositoryConnection;
 
 - *Type:* @open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection
 
-The connections to external repositories.
+The connections to external repositories (like npmjs, pypi, etc.).
 
-You can use the AWS CLI to connect your CodeArtifact repository to an external repository by adding an external connection directly to the repository. This will allow users connected to the CodeArtifact repository, or any of its downstream repositories, to fetch packages from the configured external repository. Each CodeArtifact repository can only have one external connection.
+You can use the AWS CLI to connect your CodeArtifact repository to an external repository by adding an external connection directly to the repository.
+This will allow users connected to the CodeArtifact repository, or any of its downstream repositories, to fetch packages from the configured external repository.
+Each CodeArtifact repository can only have one external connection.
+
+---
+
+##### `upstreams`<sup>Optional</sup> <a name="upstreams" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.upstreams"></a>
+
+```typescript
+public readonly upstreams: IRepository[];
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_codeartifact.IRepository[]
+- *Default:* No upstream repositories
+
+A list of upstream Codeartifact repositories to associate with the repository.
+
+The order of the upstream repositories in the list determines their priority order when CodeArtifact looks for a requested package version.
+see https://docs.aws.amazon.com/codeartifact/latest/ug/repo-upstream-behavior.html#package-retention-intermediate-repositories
 
 ---
 
@@ -1900,8 +2121,79 @@ Weekly granularity.
 
 - *Implemented By:* @open-constructs/aws-cdk.aws_codeartifact.Domain, @open-constructs/aws-cdk.aws_codeartifact.IDomain
 
-Represents an Codeartifact Domain.
+Represents a Codeartifact Domain.
 
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.addToResourcePolicy">addToResourcePolicy</a></code> | Adds a statement to the Codeartifact domain resource policy. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.grant">grant</a></code> | Grants permissions to the specified grantee on this CodeArtifact domain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.grantContribute">grantContribute</a></code> | Grants contribute permissions to the specified grantee on this CodeArtifact domain. |
+
+---
+
+##### `addToResourcePolicy` <a name="addToResourcePolicy" id="@open-constructs/aws-cdk.aws_codeartifact.IDomain.addToResourcePolicy"></a>
+
+```typescript
+public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult
+```
+
+Adds a statement to the Codeartifact domain resource policy.
+
+###### `statement`<sup>Required</sup> <a name="statement" id="@open-constructs/aws-cdk.aws_codeartifact.IDomain.addToResourcePolicy.parameter.statement"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement
+
+The policy statement to add.
+
+---
+
+##### `grant` <a name="grant" id="@open-constructs/aws-cdk.aws_codeartifact.IDomain.grant"></a>
+
+```typescript
+public grant(grantee: IGrantable, actions: ...string[]): Grant
+```
+
+Grants permissions to the specified grantee on this CodeArtifact domain.
+
+It handles both same-environment and cross-environment scenarios:
+- For same-environment grants, it adds the permissions to the principal or resource.
+- For cross-environment grants, it adds the permissions to both the principal and the resource.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_codeartifact.IDomain.grant.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant permissions to.
+
+---
+
+###### `actions`<sup>Required</sup> <a name="actions" id="@open-constructs/aws-cdk.aws_codeartifact.IDomain.grant.parameter.actions"></a>
+
+- *Type:* ...string[]
+
+The actions to grant.
+
+These should be valid CodeArtifact actions.
+
+---
+
+##### `grantContribute` <a name="grantContribute" id="@open-constructs/aws-cdk.aws_codeartifact.IDomain.grantContribute"></a>
+
+```typescript
+public grantContribute(grantee: IGrantable): Grant
+```
+
+Grants contribute permissions to the specified grantee on this CodeArtifact domain.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_codeartifact.IDomain.grantContribute.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant contribute permissions to.
+
+---
 
 #### Properties <a name="Properties" id="Properties"></a>
 
@@ -1913,7 +2205,8 @@ Represents an Codeartifact Domain.
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.domainArn">domainArn</a></code> | <code>string</code> | The ARN of the Domain. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.domainName">domainName</a></code> | <code>string</code> | The name of the Domain. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.domainOwner">domainOwner</a></code> | <code>string</code> | 12-digit account number of the AWS account that owns the domain that contains the Domain. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.encryptionKeyArn">encryptionKeyArn</a></code> | <code>string</code> | The key used to encrypt the Domain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.domainEncryptionKey">domainEncryptionKey</a></code> | <code>string</code> | The ARN of the key used to encrypt the Domain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.encryptionKey">encryptionKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The KMS key used to encrypt the Domain. |
 
 ---
 
@@ -1996,15 +2289,27 @@ public readonly domainOwner: string;
 
 ---
 
-##### `encryptionKeyArn`<sup>Optional</sup> <a name="encryptionKeyArn" id="@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.encryptionKeyArn"></a>
+##### `domainEncryptionKey`<sup>Optional</sup> <a name="domainEncryptionKey" id="@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.domainEncryptionKey"></a>
 
 ```typescript
-public readonly encryptionKeyArn: string;
+public readonly domainEncryptionKey: string;
 ```
 
 - *Type:* string
 
-The key used to encrypt the Domain.
+The ARN of the key used to encrypt the Domain.
+
+---
+
+##### `encryptionKey`<sup>Optional</sup> <a name="encryptionKey" id="@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.encryptionKey"></a>
+
+```typescript
+public readonly encryptionKey: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+
+The KMS key used to encrypt the Domain.
 
 ---
 
@@ -2104,6 +2409,88 @@ The ID of the EC2 Instance Connect Endpoint.
 
 Represents an Codeartifact Repository.
 
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.addToResourcePolicy">addToResourcePolicy</a></code> | Adds a statement to the CodeArtifact repository resource policy. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.grant">grant</a></code> | Grants the given principal identity permissions to perform the actions on the repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.grantRead">grantRead</a></code> | Grants the given principal identity permissions to perform the actions on the repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.grantReadAndPublish">grantReadAndPublish</a></code> | Grants the given principal identity permissions to perform the actions on the repository. |
+
+---
+
+##### `addToResourcePolicy` <a name="addToResourcePolicy" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.addToResourcePolicy"></a>
+
+```typescript
+public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult
+```
+
+Adds a statement to the CodeArtifact repository resource policy.
+
+###### `statement`<sup>Required</sup> <a name="statement" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.addToResourcePolicy.parameter.statement"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.PolicyStatement
+
+The policy statement to add.
+
+---
+
+##### `grant` <a name="grant" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.grant"></a>
+
+```typescript
+public grant(grantee: IGrantable, actions: ...string[]): Grant
+```
+
+Grants the given principal identity permissions to perform the actions on the repository.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.grant.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant permissions to.
+
+---
+
+###### `actions`<sup>Required</sup> <a name="actions" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.grant.parameter.actions"></a>
+
+- *Type:* ...string[]
+
+The actions to grant.
+
+---
+
+##### `grantRead` <a name="grantRead" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.grantRead"></a>
+
+```typescript
+public grantRead(grantee: IGrantable): Grant
+```
+
+Grants the given principal identity permissions to perform the actions on the repository.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.grantRead.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant permissions to.
+
+---
+
+##### `grantReadAndPublish` <a name="grantReadAndPublish" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.grantReadAndPublish"></a>
+
+```typescript
+public grantReadAndPublish(grantee: IGrantable): Grant
+```
+
+Grants the given principal identity permissions to perform the actions on the repository.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.grantReadAndPublish.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant permissions to.
+
+---
 
 #### Properties <a name="Properties" id="Properties"></a>
 
@@ -2112,9 +2499,10 @@ Represents an Codeartifact Repository.
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.domainName">domainName</a></code> | <code>string</code> | The domain name that contains the repository. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.domainOwner">domainOwner</a></code> | <code>string</code> | 12-digit account number of the AWS account that owns the domain that contains the repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.domain">domain</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.IDomain</code> | The domain that contains the repository. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.repositoryArn">repositoryArn</a></code> | <code>string</code> | The ARN of the repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.repositoryDomainName">repositoryDomainName</a></code> | <code>string</code> | The domain that contains the repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.repositoryDomainOwner">repositoryDomainOwner</a></code> | <code>string</code> | The domain owner of the repository. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.repositoryName">repositoryName</a></code> | <code>string</code> | The name of the repository. |
 
 ---
@@ -2162,27 +2550,15 @@ The stack in which this resource is defined.
 
 ---
 
-##### `domainName`<sup>Required</sup> <a name="domainName" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.domainName"></a>
+##### `domain`<sup>Required</sup> <a name="domain" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.domain"></a>
 
 ```typescript
-public readonly domainName: string;
+public readonly domain: IDomain;
 ```
 
-- *Type:* string
+- *Type:* @open-constructs/aws-cdk.aws_codeartifact.IDomain
 
-The domain name that contains the repository.
-
----
-
-##### `domainOwner`<sup>Required</sup> <a name="domainOwner" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.domainOwner"></a>
-
-```typescript
-public readonly domainOwner: string;
-```
-
-- *Type:* string
-
-12-digit account number of the AWS account that owns the domain that contains the repository.
+The domain that contains the repository.
 
 ---
 
@@ -2195,6 +2571,30 @@ public readonly repositoryArn: string;
 - *Type:* string
 
 The ARN of the repository.
+
+---
+
+##### `repositoryDomainName`<sup>Required</sup> <a name="repositoryDomainName" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.repositoryDomainName"></a>
+
+```typescript
+public readonly repositoryDomainName: string;
+```
+
+- *Type:* string
+
+The domain that contains the repository.
+
+---
+
+##### `repositoryDomainOwner`<sup>Required</sup> <a name="repositoryDomainOwner" id="@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.repositoryDomainOwner"></a>
+
+```typescript
+public readonly repositoryDomainOwner: string;
+```
+
+- *Type:* string
+
+The domain owner of the repository.
 
 ---
 
@@ -2214,21 +2614,123 @@ The name of the repository.
 
 ### RepositoryConnection <a name="RepositoryConnection" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection"></a>
 
+Represents the supported external connections for CodeArtifact repositories.
+
 #### Members <a name="Members" id="Members"></a>
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.PYTHON">PYTHON</a></code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.NPM">NPM</a></code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.PYTHON">PYTHON</a></code> | Python Package Index (PyPI). |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.NPM">NPM</a></code> | Node Package Manager (npm). |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.NUGET">NUGET</a></code> | NuGet Gallery. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.RUBY">RUBY</a></code> | RubyGems. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.RUST">RUST</a></code> | Crates.io (Rust). |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_CENTRAL">MAVEN_CENTRAL</a></code> | Maven Central Repository. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.GRADLE_PLUGINS">GRADLE_PLUGINS</a></code> | Gradle Plugins. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_GOOGLE">MAVEN_GOOGLE</a></code> | Maven Google. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_APACHE">MAVEN_APACHE</a></code> | Maven Apache. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_ATLASSIAN">MAVEN_ATLASSIAN</a></code> | Maven Atlassian. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_ECLIPSE">MAVEN_ECLIPSE</a></code> | Maven Eclipse. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_JBOSS">MAVEN_JBOSS</a></code> | Maven JBoss. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_SPRING">MAVEN_SPRING</a></code> | Maven Spring. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_SPRING_PLUGINS">MAVEN_SPRING_PLUGINS</a></code> | Maven Spring Plugins. |
 
 ---
 
 ##### `PYTHON` <a name="PYTHON" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.PYTHON"></a>
 
+Python Package Index (PyPI).
+
 ---
 
 
 ##### `NPM` <a name="NPM" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.NPM"></a>
+
+Node Package Manager (npm).
+
+---
+
+
+##### `NUGET` <a name="NUGET" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.NUGET"></a>
+
+NuGet Gallery.
+
+---
+
+
+##### `RUBY` <a name="RUBY" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.RUBY"></a>
+
+RubyGems.
+
+---
+
+
+##### `RUST` <a name="RUST" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.RUST"></a>
+
+Crates.io (Rust).
+
+---
+
+
+##### `MAVEN_CENTRAL` <a name="MAVEN_CENTRAL" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_CENTRAL"></a>
+
+Maven Central Repository.
+
+---
+
+
+##### `GRADLE_PLUGINS` <a name="GRADLE_PLUGINS" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.GRADLE_PLUGINS"></a>
+
+Gradle Plugins.
+
+---
+
+
+##### `MAVEN_GOOGLE` <a name="MAVEN_GOOGLE" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_GOOGLE"></a>
+
+Maven Google.
+
+---
+
+
+##### `MAVEN_APACHE` <a name="MAVEN_APACHE" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_APACHE"></a>
+
+Maven Apache.
+
+---
+
+
+##### `MAVEN_ATLASSIAN` <a name="MAVEN_ATLASSIAN" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_ATLASSIAN"></a>
+
+Maven Atlassian.
+
+---
+
+
+##### `MAVEN_ECLIPSE` <a name="MAVEN_ECLIPSE" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_ECLIPSE"></a>
+
+Maven Eclipse.
+
+---
+
+
+##### `MAVEN_JBOSS` <a name="MAVEN_JBOSS" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_JBOSS"></a>
+
+Maven JBoss.
+
+---
+
+
+##### `MAVEN_SPRING` <a name="MAVEN_SPRING" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_SPRING"></a>
+
+Maven Spring.
+
+---
+
+
+##### `MAVEN_SPRING_PLUGINS` <a name="MAVEN_SPRING_PLUGINS" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection.MAVEN_SPRING_PLUGINS"></a>
+
+Maven Spring Plugins.
 
 ---
 
