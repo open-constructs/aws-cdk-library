@@ -1,11 +1,4 @@
-import {
-  Annotations,
-  ArnFormat,
-  IResource,
-  Lazy,
-  Resource,
-  Stack,
-} from 'aws-cdk-lib';
+import { Annotations, ArnFormat, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
 import { CfnRepository, CfnRepositoryProps } from 'aws-cdk-lib/aws-codeartifact';
 import {
   AddToResourcePolicyResult,
