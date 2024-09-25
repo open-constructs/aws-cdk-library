@@ -2,12 +2,9 @@ import {
   Annotations,
   ArnFormat,
   IResource,
-  ITaggableV2,
   Lazy,
   Resource,
   Stack,
-  TagManager,
-  TagType,
 } from 'aws-cdk-lib';
 import { CfnRepository, CfnRepositoryProps } from 'aws-cdk-lib/aws-codeartifact';
 import {
@@ -300,7 +297,7 @@ export interface RepositoryAttributes {
 /**
  * Deploys a CodeArtifact repository
  */
-export class Repository extends RepositoryBase implements IRepository, ITaggableV2 {
+export class Repository extends RepositoryBase implements IRepository {
   /**
    * Creates an IRepository object from existing repository attributes.
    *
@@ -373,10 +370,6 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
   protected cfnResourceProps: CfnRepositoryProps;
 
   /**
-   * TagManager to set, remove and format tags
-   */
-  readonly cdkTagManager: TagManager;
-  /**
    * The ARN (Amazon Resource Name) of this CodeArtifact repository.
    */
   readonly repositoryArn: string;
@@ -402,7 +395,6 @@ export class Repository extends RepositoryBase implements IRepository, ITaggable
   constructor(scope: Construct, id: string, props: RepositoryProps) {
     super(scope, id);
 
-    this.cdkTagManager = new TagManager(TagType.KEY_VALUE, 'AWS::CodeArtifact::Repository');
     this.policy = new PolicyDocument();
     this.upstreams = props.upstreams ?? [];
 

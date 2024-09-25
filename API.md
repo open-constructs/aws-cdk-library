@@ -248,7 +248,7 @@ The S3 bucket that stores the cost report.
 
 ### Domain <a name="Domain" id="@open-constructs/aws-cdk.aws_codeartifact.Domain"></a>
 
-- *Implements:* @open-constructs/aws-cdk.aws_codeartifact.IDomain, aws-cdk-lib.ITaggableV2
+- *Implements:* @open-constructs/aws-cdk.aws_codeartifact.IDomain
 
 Deploys a CodeArtifact domain.
 
@@ -541,7 +541,6 @@ The attributes of the domain to import.
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.cdkTagManager">cdkTagManager</a></code> | <code>aws-cdk-lib.TagManager</code> | TagManager to set, remove and format tags. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainArn">domainArn</a></code> | <code>string</code> | The ARN (Amazon Resource Name) of this CodeArtifact domain. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainName">domainName</a></code> | <code>string</code> | The name of this CodeArtifact domain. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainOwner">domainOwner</a></code> | <code>string</code> | The AWS account ID that owns this domain. |
@@ -590,18 +589,6 @@ public readonly stack: Stack;
 - *Type:* aws-cdk-lib.Stack
 
 The stack in which this resource is defined.
-
----
-
-##### `cdkTagManager`<sup>Required</sup> <a name="cdkTagManager" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.property.cdkTagManager"></a>
-
-```typescript
-public readonly cdkTagManager: TagManager;
-```
-
-- *Type:* aws-cdk-lib.TagManager
-
-TagManager to set, remove and format tags.
 
 ---
 
@@ -949,7 +936,7 @@ The ID of the EC2 Instance Connect Endpoint.
 
 ### Repository <a name="Repository" id="@open-constructs/aws-cdk.aws_codeartifact.Repository"></a>
 
-- *Implements:* @open-constructs/aws-cdk.aws_codeartifact.IRepository, aws-cdk-lib.ITaggableV2
+- *Implements:* @open-constructs/aws-cdk.aws_codeartifact.IRepository
 
 Deploys a CodeArtifact repository.
 
@@ -1253,7 +1240,6 @@ The attributes of the repository to import.
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.cdkTagManager">cdkTagManager</a></code> | <code>aws-cdk-lib.TagManager</code> | TagManager to set, remove and format tags. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.domain">domain</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.IDomain</code> | The domain that contains this repository. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.repositoryArn">repositoryArn</a></code> | <code>string</code> | The ARN (Amazon Resource Name) of this CodeArtifact repository. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.repositoryDomainName">repositoryDomainName</a></code> | <code>string</code> | The domain that contains this repository. |
@@ -1302,18 +1288,6 @@ public readonly stack: Stack;
 - *Type:* aws-cdk-lib.Stack
 
 The stack in which this resource is defined.
-
----
-
-##### `cdkTagManager`<sup>Required</sup> <a name="cdkTagManager" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.property.cdkTagManager"></a>
-
-```typescript
-public readonly cdkTagManager: TagManager;
-```
-
-- *Type:* aws-cdk-lib.TagManager
-
-TagManager to set, remove and format tags.
 
 ---
 

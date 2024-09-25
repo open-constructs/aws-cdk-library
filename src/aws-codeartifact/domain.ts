@@ -2,12 +2,9 @@ import {
   Annotations,
   ArnFormat,
   IResource,
-  ITaggableV2,
   Lazy,
   Resource,
   Stack,
-  TagManager,
-  TagType,
 } from 'aws-cdk-lib';
 import { CfnDomain, CfnDomainProps } from 'aws-cdk-lib/aws-codeartifact';
 import {
@@ -237,7 +234,7 @@ export interface DomainProps {
 /**
  * Deploys a CodeArtifact domain.
  */
-export class Domain extends DomainBase implements IDomain, ITaggableV2 {
+export class Domain extends DomainBase implements IDomain {
   /**
    * Creates a Domain object from existing domain attributes.
    *
@@ -291,10 +288,6 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
   private cfnResourceProps: CfnDomainProps;
 
   /**
-   * TagManager to set, remove and format tags
-   */
-  readonly cdkTagManager: TagManager;
-  /**
    * The ARN (Amazon Resource Name) of this CodeArtifact domain.
    */
   readonly domainArn: string;
@@ -326,7 +319,6 @@ export class Domain extends DomainBase implements IDomain, ITaggableV2 {
 
   constructor(scope: Construct, id: string, props: DomainProps) {
     super(scope, id);
-    this.cdkTagManager = new TagManager(TagType.KEY_VALUE, 'AWS::CodeArtifact::Domain');
     this.policy = new PolicyDocument();
 
     const encryptionKey =
