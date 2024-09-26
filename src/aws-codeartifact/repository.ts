@@ -151,6 +151,8 @@ export interface RepositoryProps {
    * You can use the AWS CLI to connect your CodeArtifact repository to an external repository by adding an external connection directly to the repository.
    * This will allow users connected to the CodeArtifact repository, or any of its downstream repositories, to fetch packages from the configured external repository.
    * Each CodeArtifact repository can only have one external connection.
+   *
+   * @default - No external connections
    */
   readonly externalConnection?: RepositoryConnection;
   /**

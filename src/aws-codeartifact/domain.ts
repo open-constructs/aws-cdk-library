@@ -220,6 +220,8 @@ export interface DomainProps {
   readonly domainName: string;
   /**
    * The key used to encrypt the Domain
+   *
+   * @default - A new KMS key will be created
    */
   readonly encryptionKey?: IKey;
 }
