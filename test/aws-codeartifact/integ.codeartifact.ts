@@ -3,9 +3,9 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as ocf from '../../src';
 
-class CodeartifactStack extends cdk.Stack {
+class CodeArtifactStack extends cdk.Stack {
   constructor(scope: Construct) {
-    super(scope, 'codeartifact', { env: { region: 'eu-central-1' } });
+    super(scope, 'CodeArtifactDomainAndRepository');
 
     const domain = new ocf.aws_codeartifact.Domain(this, 'domain', {
       domainName: 'test-domain',
@@ -19,8 +19,8 @@ class CodeartifactStack extends cdk.Stack {
 }
 
 const app = new cdk.App();
-const testCase = new CodeartifactStack(app);
-new IntegTest(app, 'ocf-integ-test', {
+const testCase = new CodeArtifactStack(app);
+new IntegTest(app, 'CodeArtifactDomainAndRepositoryInteg', {
   testCases: [testCase],
 });
 
