@@ -104,9 +104,6 @@ abstract class DomainBase extends Resource implements IDomain {
    */
   public abstract readonly domainOwner: string;
 
-  /**
-   * Optional policy document that represents the resource policy of this domain.
-   */
   protected abstract policy?: PolicyDocument;
 
   /**
