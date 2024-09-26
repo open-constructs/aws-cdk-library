@@ -390,7 +390,11 @@ export class Repository extends RepositoryBase implements IRepository {
 
     this.cfnResourceProps = {
       domainName: props.domain.domainName,
-      repositoryName: props.repositoryName,
+      repositoryName:
+        props.repositoryName ??
+        Lazy.string({
+          produce: () => Names.uniqueResourceName(this, { maxLength: 100 }),
+        }),
       description: props.description,
       domainOwner: props.domain.domainOwner,
       externalConnections: props.externalConnection !== undefined ? [props.externalConnection] : undefined, // only 1 allowed
