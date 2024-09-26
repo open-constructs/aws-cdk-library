@@ -1565,6 +1565,7 @@ public readonly encryptionKey: IKey;
 ```
 
 - *Type:* aws-cdk-lib.aws_kms.IKey
+- *Default:* A new KMS key will be created
 
 The key used to encrypt the Domain.
 
@@ -1767,9 +1768,9 @@ const repositoryProps: aws_codeartifact.RepositoryProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.domain">domain</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.IDomain</code> | The domain that contains the repository. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.repositoryName">repositoryName</a></code> | <code>string</code> | The name of the repository. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.description">description</a></code> | <code>string</code> | The description of the repository. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.externalConnection">externalConnection</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection</code> | The connections to external repositories (like npmjs, pypi, etc.). |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.repositoryName">repositoryName</a></code> | <code>string</code> | The name of the repository. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.upstreams">upstreams</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.IRepository[]</code> | A list of upstream Codeartifact repositories to associate with the repository. |
 
 ---
@@ -1783,18 +1784,6 @@ public readonly domain: IDomain;
 - *Type:* @open-constructs/aws-cdk.aws_codeartifact.IDomain
 
 The domain that contains the repository.
-
----
-
-##### `repositoryName`<sup>Required</sup> <a name="repositoryName" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.repositoryName"></a>
-
-```typescript
-public readonly repositoryName: string;
-```
-
-- *Type:* string
-
-The name of the repository.
 
 ---
 
@@ -1817,12 +1806,26 @@ public readonly externalConnection: RepositoryConnection;
 ```
 
 - *Type:* @open-constructs/aws-cdk.aws_codeartifact.RepositoryConnection
+- *Default:* No external connections
 
 The connections to external repositories (like npmjs, pypi, etc.).
 
 You can use the AWS CLI to connect your CodeArtifact repository to an external repository by adding an external connection directly to the repository.
 This will allow users connected to the CodeArtifact repository, or any of its downstream repositories, to fetch packages from the configured external repository.
 Each CodeArtifact repository can only have one external connection.
+
+---
+
+##### `repositoryName`<sup>Optional</sup> <a name="repositoryName" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryProps.property.repositoryName"></a>
+
+```typescript
+public readonly repositoryName: string;
+```
+
+- *Type:* string
+- *Default:* A name is automatically generated
+
+The name of the repository.
 
 ---
 
@@ -2095,7 +2098,7 @@ Weekly granularity.
 
 - *Implemented By:* @open-constructs/aws-cdk.aws_codeartifact.Domain, @open-constructs/aws-cdk.aws_codeartifact.IDomain
 
-Represents a Codeartifact Domain.
+Represents a CodeArtifact Domain.
 
 #### Methods <a name="Methods" id="Methods"></a>
 
@@ -2381,7 +2384,7 @@ The ID of the EC2 Instance Connect Endpoint.
 
 - *Implemented By:* @open-constructs/aws-cdk.aws_codeartifact.Repository, @open-constructs/aws-cdk.aws_codeartifact.IRepository
 
-Represents an Codeartifact Repository.
+Represents an CodeArtifact Repository.
 
 #### Methods <a name="Methods" id="Methods"></a>
 
