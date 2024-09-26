@@ -331,7 +331,7 @@ export class Domain extends DomainBase implements IDomain {
     this.domainEncryptionKey = encryptionKey.keyArn;
   }
 
-  protected createCfnResource(): CfnDomain {
-    return new CfnDomain(this, 'Resource', this.cfnResourceProps);
+  protected createResource(scope: Construct, id: string): CfnDomain {
+    return new CfnDomain(scope, id, this.cfnResourceProps);
   }
 }
