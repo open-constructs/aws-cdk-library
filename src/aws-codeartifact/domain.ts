@@ -13,7 +13,7 @@ import { IKey, Key } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 
 /**
- * Represents a Codeartifact Domain
+ * Represents a CodeArtifact Domain
  */
 export interface IDomain extends IResource {
   /**
@@ -76,7 +76,7 @@ export interface IDomain extends IResource {
 }
 
 /**
- * A new or imported Codeartifact Domain.
+ * A new or imported CodeArtifact Domain.
  */
 abstract class DomainBase extends Resource implements IDomain {
   /**
