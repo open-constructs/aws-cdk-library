@@ -398,7 +398,7 @@ export class Repository extends RepositoryBase implements IRepository {
       upstreams: Lazy.list({ produce: () => this.renderUpstreams() }, { omitEmpty: true })
     };
 
-    this.cfnResource = this.createCfnResource();
+    this.cfnResource = this.createResource(this, 'Resource');
 
     this.repositoryArn = this.cfnResource.attrArn;
     this.repositoryName = this.cfnResource.attrName;
@@ -417,8 +417,8 @@ export class Repository extends RepositoryBase implements IRepository {
     );
   }
 
-  protected createCfnResource(): CfnRepository {
-    return new CfnRepository(this, 'Resource', this.cfnResourceProps);
+  protected createResource(scope: Construct, id: string): CfnRepository {
+    return new CfnRepository(scope, id, this.cfnResourceProps);
   }
 
   protected renderUpstreams(): string[] {

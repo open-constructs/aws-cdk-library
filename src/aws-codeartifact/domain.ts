@@ -322,7 +322,7 @@ export class Domain extends DomainBase implements IDomain {
       encryptionKey: encryptionKey?.keyArn,
       permissionsPolicyDocument: Lazy.any({ produce: () => this.policy?.toJSON() }),
     };
-    this.cfnResource = this.createCfnResource();
+    this.cfnResource = this.createResource(this, 'Resource');
 
     this.domainName = this.cfnResource.attrName;
     this.domainArn = this.cfnResource.attrArn;
