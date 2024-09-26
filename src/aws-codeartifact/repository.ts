@@ -1,4 +1,4 @@
-import { Annotations, ArnFormat, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
+import { Annotations, ArnFormat, IResource, Lazy, Names, Resource, Stack, Token, TokenComparison } from 'aws-cdk-lib';
 import { CfnRepository, CfnRepositoryProps } from 'aws-cdk-lib/aws-codeartifact';
 import {
   AddToResourcePolicyResult,
@@ -135,8 +135,10 @@ export interface IRepository extends IResource {
 export interface RepositoryProps {
   /**
    * The name of the repository
+   *
+   * @default - A name is automatically generated
    */
-  readonly repositoryName: string;
+  readonly repositoryName?: string;
   /**
    * The domain that contains the repository
    */
@@ -190,7 +192,7 @@ abstract class RepositoryBase extends Resource implements IRepository {
    */
   public abstract readonly domain: IDomain;
 
-  protected abstract readonly policy?: PolicyDocument;
+  protected abstract policy?: PolicyDocument;
 
   private isCrossEnvironmentGrantee(grantee: IGrantable): boolean {
     if (!principalIsOwnedResource(grantee.grantPrincipal)) {
@@ -198,7 +200,10 @@ abstract class RepositoryBase extends Resource implements IRepository {
     }
     const thisStack = Stack.of(this);
     const identityStack = Stack.of(grantee.grantPrincipal);
-    return thisStack.region !== identityStack.region || thisStack.account !== identityStack.account;
+    return (
+      Token.compareStrings(thisStack.region, identityStack.region) === TokenComparison.SAME ||
+      Token.compareStrings(thisStack.account, identityStack.account) === TokenComparison.SAME
+    );
   }
 
   /**
@@ -379,13 +384,12 @@ export class Repository extends RepositoryBase implements IRepository {
    * The domain that contains this repository.
    */
   readonly domain: IDomain;
-  protected readonly policy: PolicyDocument;
+  protected readonly policy?: PolicyDocument;
   protected readonly upstreams: IRepository[];
 
   constructor(scope: Construct, id: string, props: RepositoryProps) {
     super(scope, id);
 
-    this.policy = new PolicyDocument();
     this.upstreams = props.upstreams ?? [];
 
     this.cfnResourceProps = {
@@ -399,7 +403,7 @@ export class Repository extends RepositoryBase implements IRepository {
       domainOwner: props.domain.domainOwner,
       externalConnections: props.externalConnection !== undefined ? [props.externalConnection] : undefined, // only 1 allowed
       permissionsPolicyDocument: Lazy.any({ produce: () => this.policy?.toJSON() }),
-      upstreams: Lazy.list({ produce: () => this.renderUpstreams() }, { omitEmpty: true })
+      upstreams: Lazy.list({ produce: () => this.renderUpstreams() }, { omitEmpty: true }),
     };
 
     this.cfnResource = this.createResource(this, 'Resource');

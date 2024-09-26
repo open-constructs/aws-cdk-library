@@ -1,4 +1,4 @@
-import { Annotations, ArnFormat, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
+import { Annotations, ArnFormat, IResource, Lazy, Resource, Stack, Token, TokenComparison } from 'aws-cdk-lib';
 import { CfnDomain, CfnDomainProps } from 'aws-cdk-lib/aws-codeartifact';
 import {
   AddToResourcePolicyResult,
@@ -107,7 +107,7 @@ abstract class DomainBase extends Resource implements IDomain {
   /**
    * Optional policy document that represents the resource policy of this domain.
    */
-  protected abstract readonly policy?: PolicyDocument;
+  protected abstract policy?: PolicyDocument;
 
   /**
    * Adds a statement to the Codeartifact domain resource policy.
@@ -116,7 +116,7 @@ abstract class DomainBase extends Resource implements IDomain {
   public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult {
     const stack = Stack.of(this);
 
-    if (!this.policy) {
+    if (!Resource.isOwnedResource(this)) {
       Annotations.of(stack).addWarningV2(
         'NoResourcePolicyStatementAdded',
         `No statements added to imported resource ${this.domainArn}.`,
@@ -124,6 +124,9 @@ abstract class DomainBase extends Resource implements IDomain {
       return { statementAdded: false };
     }
 
+    if (!this.policy) {
+      this.policy = new PolicyDocument();
+    }
     this.policy.addStatements(statement);
     return { statementAdded: true, policyDependable: this.policy };
   }
@@ -134,7 +137,10 @@ abstract class DomainBase extends Resource implements IDomain {
     }
     const thisStack = Stack.of(this);
     const identityStack = Stack.of(grantee.grantPrincipal);
-    return thisStack.region !== identityStack.region || thisStack.account !== identityStack.account;
+    return (
+      Token.compareStrings(thisStack.region, identityStack.region) === TokenComparison.SAME ||
+      Token.compareStrings(thisStack.account, identityStack.account) === TokenComparison.SAME
+    );
   }
 
   /**
@@ -308,7 +314,6 @@ export class Domain extends DomainBase implements IDomain {
 
   constructor(scope: Construct, id: string, props: DomainProps) {
     super(scope, id);
-    this.policy = new PolicyDocument();
 
     const encryptionKey =
       props.encryptionKey ??
