@@ -61,7 +61,7 @@ export enum RepositoryConnection {
 }
 
 /**
- * Represents an Codeartifact Repository
+ * Represents an CodeArtifact Repository
  */
 export interface IRepository extends IResource {
   /**
@@ -170,30 +170,24 @@ abstract class RepositoryBase extends Resource implements IRepository {
   /**
    * The ARN of the repository
    */
-  public abstract repositoryArn: string;
+  public abstract readonly repositoryArn: string;
   /**
    * The name of the repository
    */
-  public abstract repositoryName: string;
+  public abstract readonly repositoryName: string;
   /**
    * The domain that contains the repository
    */
-  public abstract repositoryDomainName: string;
+  public abstract readonly repositoryDomainName: string;
   /**
    * The domain owner of the repository
    */
-  public abstract repositoryDomainOwner: string;
+  public abstract readonly repositoryDomainOwner: string;
   /**
    * The domain that contains the repository
    */
-  public abstract domain: IDomain;
+  public abstract readonly domain: IDomain;
 
-  /**
-   * Optional policy document that represents the resource policy of this repository.
-   *
-   * If specified, addToResourcePolicy can be used to edit this policy.
-   * Otherwise this method will no-op.
-   */
   protected abstract readonly policy?: PolicyDocument;
 
   private isCrossEnvironmentGrantee(grantee: IGrantable): boolean {
@@ -210,16 +204,17 @@ abstract class RepositoryBase extends Resource implements IRepository {
    * @param statement The policy statement to add
    */
   public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult {
-    const stack = Stack.of(this);
-
-    if (!this.policy) {
-      Annotations.of(stack).addWarningV2(
+    if (!Resource.isOwnedResource(this)) {
+      Annotations.of(this).addWarningV2(
         'NoResourcePolicyStatementAdded',
         `No statements added to imported resource ${this.repositoryArn}.`,
       );
       return { statementAdded: false };
     }
 
+    if (!this.policy) {
+      this.policy = new PolicyDocument();
+    }
     this.policy.addStatements(statement);
     return { statementAdded: true, policyDependable: this.policy };
   }
@@ -305,7 +300,7 @@ export class Repository extends RepositoryBase implements IRepository {
       public readonly repositoryDomainName = attrs.domain.domainName;
       public readonly repositoryDomainOwner = attrs.domain.domainOwner;
       public readonly domain = attrs.domain;
-      protected readonly policy?: PolicyDocument | undefined = undefined;
+      protected readonly policy?: PolicyDocument;
     }
 
     return new Import(scope, id);
@@ -398,7 +393,7 @@ export class Repository extends RepositoryBase implements IRepository {
       domainOwner: props.domain.domainOwner,
       externalConnections: props.externalConnection !== undefined ? [props.externalConnection] : undefined, // only 1 allowed
       permissionsPolicyDocument: Lazy.any({ produce: () => this.policy?.toJSON() }),
-      upstreams: Lazy.list({ produce: () => this.renderUpstreams() }),
+      upstreams: Lazy.list({ produce: () => this.renderUpstreams() }, { omitEmpty: true })
     };
 
     this.cfnResource = this.createCfnResource();
@@ -410,7 +405,7 @@ export class Repository extends RepositoryBase implements IRepository {
 
     this.domain = Domain.fromDomainArn(
       this,
-      'domain',
+      'Domain',
       Stack.of(this).formatArn({
         resource: 'domain',
         service: 'codeartifact',
