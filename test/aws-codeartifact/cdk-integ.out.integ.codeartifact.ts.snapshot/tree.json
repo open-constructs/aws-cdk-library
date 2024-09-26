@@ -4,21 +4,21 @@
     "id": "App",
     "path": "",
     "children": {
-      "codeartifact": {
-        "id": "codeartifact",
-        "path": "codeartifact",
+      "CodeArtifactDomainAndRepository": {
+        "id": "CodeArtifactDomainAndRepository",
+        "path": "CodeArtifactDomainAndRepository",
         "children": {
           "domain": {
             "id": "domain",
-            "path": "codeartifact/domain",
+            "path": "CodeArtifactDomainAndRepository/domain",
             "children": {
               "Key": {
                 "id": "Key",
-                "path": "codeartifact/domain/Key",
+                "path": "CodeArtifactDomainAndRepository/domain/Key",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "codeartifact/domain/Key/Resource",
+                    "path": "CodeArtifactDomainAndRepository/domain/Key/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::KMS::Key",
                       "aws:cdk:cloudformation:props": {
@@ -33,7 +33,11 @@
                                   "Fn::Join": [
                                     "",
                                     [
-                                      "arn:aws:iam::",
+                                      "arn:",
+                                      {
+                                        "Ref": "AWS::Partition"
+                                      },
+                                      ":iam::",
                                       {
                                         "Ref": "AWS::AccountId"
                                       },
@@ -56,11 +60,11 @@
                   },
                   "Alias": {
                     "id": "Alias",
-                    "path": "codeartifact/domain/Key/Alias",
+                    "path": "CodeArtifactDomainAndRepository/domain/Key/Alias",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "codeartifact/domain/Key/Alias/Resource",
+                        "path": "CodeArtifactDomainAndRepository/domain/Key/Alias/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::KMS::Alias",
                           "aws:cdk:cloudformation:props": {
@@ -92,7 +96,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "codeartifact/domain/Resource",
+                "path": "CodeArtifactDomainAndRepository/domain/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::CodeArtifact::Domain",
                   "aws:cdk:cloudformation:props": {
@@ -118,11 +122,11 @@
           },
           "repository": {
             "id": "repository",
-            "path": "codeartifact/repository",
+            "path": "CodeArtifactDomainAndRepository/repository",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "codeartifact/repository/Resource",
+                "path": "CodeArtifactDomainAndRepository/repository/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::CodeArtifact::Repository",
                   "aws:cdk:cloudformation:props": {
@@ -138,8 +142,7 @@
                         "Owner"
                       ]
                     },
-                    "repositoryName": "repo1",
-                    "upstreams": []
+                    "repositoryName": "repo1"
                   }
                 },
                 "constructInfo": {
@@ -147,9 +150,9 @@
                   "version": "2.120.0"
                 }
               },
-              "domain": {
-                "id": "domain",
-                "path": "codeartifact/repository/domain",
+              "Domain": {
+                "id": "Domain",
+                "path": "CodeArtifactDomainAndRepository/repository/Domain",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.120.0"
@@ -163,7 +166,7 @@
           },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
-            "path": "codeartifact/BootstrapVersion",
+            "path": "CodeArtifactDomainAndRepository/BootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnParameter",
               "version": "2.120.0"
@@ -171,7 +174,7 @@
           },
           "CheckBootstrapVersion": {
             "id": "CheckBootstrapVersion",
-            "path": "codeartifact/CheckBootstrapVersion",
+            "path": "CodeArtifactDomainAndRepository/CheckBootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnRule",
               "version": "2.120.0"
@@ -183,17 +186,17 @@
           "version": "2.120.0"
         }
       },
-      "ocf-integ-test": {
-        "id": "ocf-integ-test",
-        "path": "ocf-integ-test",
+      "CodeArtifactDomainAndRepositoryInteg": {
+        "id": "CodeArtifactDomainAndRepositoryInteg",
+        "path": "CodeArtifactDomainAndRepositoryInteg",
         "children": {
           "DefaultTest": {
             "id": "DefaultTest",
-            "path": "ocf-integ-test/DefaultTest",
+            "path": "CodeArtifactDomainAndRepositoryInteg/DefaultTest",
             "children": {
               "Default": {
                 "id": "Default",
-                "path": "ocf-integ-test/DefaultTest/Default",
+                "path": "CodeArtifactDomainAndRepositoryInteg/DefaultTest/Default",
                 "constructInfo": {
                   "fqn": "constructs.Construct",
                   "version": "10.3.0"
@@ -201,11 +204,11 @@
               },
               "DeployAssert": {
                 "id": "DeployAssert",
-                "path": "ocf-integ-test/DefaultTest/DeployAssert",
+                "path": "CodeArtifactDomainAndRepositoryInteg/DefaultTest/DeployAssert",
                 "children": {
                   "BootstrapVersion": {
                     "id": "BootstrapVersion",
-                    "path": "ocf-integ-test/DefaultTest/DeployAssert/BootstrapVersion",
+                    "path": "CodeArtifactDomainAndRepositoryInteg/DefaultTest/DeployAssert/BootstrapVersion",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnParameter",
                       "version": "2.120.0"
@@ -213,7 +216,7 @@
                   },
                   "CheckBootstrapVersion": {
                     "id": "CheckBootstrapVersion",
-                    "path": "ocf-integ-test/DefaultTest/DeployAssert/CheckBootstrapVersion",
+                    "path": "CodeArtifactDomainAndRepositoryInteg/DefaultTest/DeployAssert/CheckBootstrapVersion",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnRule",
                       "version": "2.120.0"

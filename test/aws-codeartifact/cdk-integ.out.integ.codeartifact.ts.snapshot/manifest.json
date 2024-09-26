@@ -1,100 +1,28 @@
 {
   "version": "36.0.0",
   "artifacts": {
-    "codeartifact.assets": {
+    "CodeArtifactDomainAndRepository.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "codeartifact.assets.json",
+        "file": "CodeArtifactDomainAndRepository.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "codeartifact": {
-      "type": "aws:cloudformation:stack",
-      "environment": "aws://unknown-account/eu-central-1",
-      "properties": {
-        "templateFile": "codeartifact.template.json",
-        "terminationProtection": false,
-        "validateOnSynth": false,
-        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-eu-central-1",
-        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-eu-central-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-eu-central-1/4e36b7447ead9663cc62515c9ed4aec040482cee3fa5a855bf12d5a12443161e.json",
-        "requiresBootstrapStackVersion": 6,
-        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
-        "additionalDependencies": [
-          "codeartifact.assets"
-        ],
-        "lookupRole": {
-          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-eu-central-1",
-          "requiresBootstrapStackVersion": 8,
-          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
-        }
-      },
-      "dependencies": [
-        "codeartifact.assets"
-      ],
-      "metadata": {
-        "/codeartifact/domain/Key/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "domainKey3A7D694C"
-          }
-        ],
-        "/codeartifact/domain/Key/Alias/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "domainKeyAlias042CB1A3"
-          }
-        ],
-        "/codeartifact/domain/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "domainFBFFA2F6"
-          }
-        ],
-        "/codeartifact/repository/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "repository9F1A3F0B"
-          }
-        ],
-        "/codeartifact/BootstrapVersion": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "BootstrapVersion"
-          }
-        ],
-        "/codeartifact/CheckBootstrapVersion": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CheckBootstrapVersion"
-          }
-        ]
-      },
-      "displayName": "codeartifact"
-    },
-    "ocfintegtestDefaultTestDeployAssert1DC1A58D.assets": {
-      "type": "cdk:asset-manifest",
-      "properties": {
-        "file": "ocfintegtestDefaultTestDeployAssert1DC1A58D.assets.json",
-        "requiresBootstrapStackVersion": 6,
-        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
-      }
-    },
-    "ocfintegtestDefaultTestDeployAssert1DC1A58D": {
+    "CodeArtifactDomainAndRepository": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
-        "templateFile": "ocfintegtestDefaultTestDeployAssert1DC1A58D.template.json",
+        "templateFile": "CodeArtifactDomainAndRepository.template.json",
         "terminationProtection": false,
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/21fbb51d7b23f6a6c262b46a9caee79d744a3ac019fd45422d988b96d44b2a22.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/78f11092c4fc6daa02956541fba6fe3f4974cfa70a5bd5336501be887b614674.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "ocfintegtestDefaultTestDeployAssert1DC1A58D.assets"
+          "CodeArtifactDomainAndRepository.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
@@ -103,23 +31,95 @@
         }
       },
       "dependencies": [
-        "ocfintegtestDefaultTestDeployAssert1DC1A58D.assets"
+        "CodeArtifactDomainAndRepository.assets"
       ],
       "metadata": {
-        "/ocf-integ-test/DefaultTest/DeployAssert/BootstrapVersion": [
+        "/CodeArtifactDomainAndRepository/domain/Key/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "domainKey3A7D694C"
+          }
+        ],
+        "/CodeArtifactDomainAndRepository/domain/Key/Alias/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "domainKeyAlias042CB1A3"
+          }
+        ],
+        "/CodeArtifactDomainAndRepository/domain/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "domainFBFFA2F6"
+          }
+        ],
+        "/CodeArtifactDomainAndRepository/repository/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "repository9F1A3F0B"
+          }
+        ],
+        "/CodeArtifactDomainAndRepository/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BootstrapVersion"
           }
         ],
-        "/ocf-integ-test/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+        "/CodeArtifactDomainAndRepository/CheckBootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
         ]
       },
-      "displayName": "ocf-integ-test/DefaultTest/DeployAssert"
+      "displayName": "CodeArtifactDomainAndRepository"
+    },
+    "CodeArtifactDomainAndRepositoryIntegDefaultTestDeployAssert135F1932.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "CodeArtifactDomainAndRepositoryIntegDefaultTestDeployAssert135F1932.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "CodeArtifactDomainAndRepositoryIntegDefaultTestDeployAssert135F1932": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "CodeArtifactDomainAndRepositoryIntegDefaultTestDeployAssert135F1932.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/21fbb51d7b23f6a6c262b46a9caee79d744a3ac019fd45422d988b96d44b2a22.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "CodeArtifactDomainAndRepositoryIntegDefaultTestDeployAssert135F1932.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "CodeArtifactDomainAndRepositoryIntegDefaultTestDeployAssert135F1932.assets"
+      ],
+      "metadata": {
+        "/CodeArtifactDomainAndRepositoryInteg/DefaultTest/DeployAssert/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/CodeArtifactDomainAndRepositoryInteg/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "CodeArtifactDomainAndRepositoryInteg/DefaultTest/DeployAssert"
     },
     "Tree": {
       "type": "cdk:tree",

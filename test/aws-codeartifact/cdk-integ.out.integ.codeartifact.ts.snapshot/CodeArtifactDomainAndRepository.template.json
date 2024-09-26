@@ -14,7 +14,11 @@
          "Fn::Join": [
           "",
           [
-           "arn:aws:iam::",
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
            {
             "Ref": "AWS::AccountId"
            },
@@ -71,8 +75,7 @@
       "Owner"
      ]
     },
-    "RepositoryName": "repo1",
-    "Upstreams": []
+    "RepositoryName": "repo1"
    }
   }
  },
