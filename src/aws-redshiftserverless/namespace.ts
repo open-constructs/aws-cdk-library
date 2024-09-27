@@ -198,15 +198,7 @@ export class Namespace extends Resource implements INamespace {
     this.validateDefaultIamRole();
     this.validateNamespaceName();
 
-    const namespace = this.createNamespace();
-
-    this.namespaceArn = namespace.attrNamespaceNamespaceArn;
-    this.namespaceName = namespace.attrNamespaceNamespaceName;
-    this.namespaceId = namespace.attrNamespaceNamespaceId;
-  }
-
-  protected createNamespace(): aws_redshiftserverless.CfnNamespace {
-    return new aws_redshiftserverless.CfnNamespace(this, 'Resource', {
+    const namespace = this.createNamespace(this, 'Resource', {
       adminUsername: this.props.adminUsername,
       adminUserPassword: this.props.adminUserPassword?.unsafeUnwrap(),
       dbName: this.props.dbName,
@@ -218,6 +210,18 @@ export class Namespace extends Resource implements INamespace {
       logExports: this.props.logExports,
       namespaceName: this.physicalName,
     });
+
+    this.namespaceArn = namespace.attrNamespaceNamespaceArn;
+    this.namespaceName = namespace.attrNamespaceNamespaceName;
+    this.namespaceId = namespace.attrNamespaceNamespaceId;
+  }
+
+  protected createNamespace(
+    scope: Construct,
+    id: string,
+    props: aws_redshiftserverless.CfnNamespaceProps,
+  ): aws_redshiftserverless.CfnNamespace {
+    return new aws_redshiftserverless.CfnNamespace(scope, id, props);
   }
 
   /**

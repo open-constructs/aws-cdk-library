@@ -229,9 +229,16 @@ export class Workgroup extends Resource implements IWorkgroup {
     });
     this.props = props;
 
-    this.securityGroups = props.securityGroups ?? [this.createSecurityGroup()];
+    this.securityGroups = props.securityGroups ?? [
+      this.createSecurityGroup(this, 'SecurityGroup', {
+        vpc: this.props.vpc,
+        description: 'Automatic generated security group for Redshift Serverless Security Group',
+      }),
+    ];
 
-    this.connections = this.createConnections();
+    this.connections = new aws_ec2.Connections({
+      securityGroups: this.securityGroups,
+    });
 
     this.vpcSubnets = props.vpcSubnets ?? {
       subnetType: aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
@@ -242,17 +249,7 @@ export class Workgroup extends Resource implements IWorkgroup {
     this.validatePort();
     this.validateSubnet();
 
-    const workgroup = this.createWorkgroup();
-
-    this.workgroupArn = workgroup.attrWorkgroupWorkgroupArn;
-    this.workgroupName = workgroup.attrWorkgroupWorkgroupName;
-    this.workgroupId = workgroup.attrWorkgroupWorkgroupId;
-    this.endpointAddress = workgroup.attrWorkgroupEndpointAddress;
-    this.port = workgroup.attrWorkgroupEndpointPort;
-  }
-
-  protected createWorkgroup(): aws_redshiftserverless.CfnWorkgroup {
-    return new aws_redshiftserverless.CfnWorkgroup(this, 'Resource', {
+    const workgroup = this.createWorkgroup(this, 'Resource', {
       baseCapacity: this.props.baseCapacity,
       configParameters: this.props.configParameters
         ? Object.entries(this.props.configParameters).map(([key, value]) => ({
@@ -268,19 +265,28 @@ export class Workgroup extends Resource implements IWorkgroup {
       subnetIds: Lazy.list({ produce: () => this.props.vpc.selectSubnets(this.vpcSubnets).subnetIds }),
       workgroupName: this.physicalName,
     });
+
+    this.workgroupArn = workgroup.attrWorkgroupWorkgroupArn;
+    this.workgroupName = workgroup.attrWorkgroupWorkgroupName;
+    this.workgroupId = workgroup.attrWorkgroupWorkgroupId;
+    this.endpointAddress = workgroup.attrWorkgroupEndpointAddress;
+    this.port = workgroup.attrWorkgroupEndpointPort;
   }
 
-  protected createSecurityGroup(): aws_ec2.SecurityGroup {
-    return new aws_ec2.SecurityGroup(this, 'SecurityGroup', {
-      vpc: this.props.vpc,
-      description: 'Automatic generated security group for Redshift Serverless Security Group',
-    });
+  protected createWorkgroup(
+    scope: Construct,
+    id: string,
+    props: aws_redshiftserverless.CfnWorkgroupProps,
+  ): aws_redshiftserverless.CfnWorkgroup {
+    return new aws_redshiftserverless.CfnWorkgroup(scope, id, props);
   }
 
-  protected createConnections(): aws_ec2.Connections {
-    return new aws_ec2.Connections({
-      securityGroups: this.securityGroups,
-    });
+  protected createSecurityGroup(
+    scope: Construct,
+    id: string,
+    props: aws_ec2.SecurityGroupProps,
+  ): aws_ec2.SecurityGroup {
+    return new aws_ec2.SecurityGroup(scope, id, props);
   }
 
   /**
