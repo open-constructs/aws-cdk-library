@@ -104,14 +104,14 @@ export interface WorkgroupProps {
   readonly vpc: aws_ec2.IVpc;
 
   /**
-   * Where to place the workgroup within the VPC
+   * Where to place the workgroup within the VPC.
    *
    * @default - private subnets
    */
   readonly vpcSubnets?: aws_ec2.SubnetSelection;
 
   /**
-   * The name of the cost report.
+   * The workgroup name.
    *
    * @default - auto generate
    */

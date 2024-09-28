@@ -97,7 +97,7 @@ export interface NamespaceProps {
   readonly logExports?: LogExport[];
 
   /**
-   * The name of the cost report.
+   * The namespace name.
    */
   readonly namespaceName?: string;
 }
