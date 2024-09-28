@@ -58,9 +58,7 @@ const workgroup = new redshiftserverless.Workgroup(stack, 'MyWorkgroup', {
 Creating a namespace and a workgroup with custom settings:
 
 ```ts
-
 declare const workgroupSecurityGroup: ec2.ISecurityGroup;
-
 
 const namespace = new redshiftserverless.Namespace(stack, 'MyCustomNamespace', {
   namespaceName: 'my-custom-namespace',
