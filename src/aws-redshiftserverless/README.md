@@ -1,4 +1,4 @@
-Constructs for thw Amazon Redshift Serverlss
+Constructs for the Amazon Redshift Serverlss
 
 # Redshift Serverless CDK Construct
 
