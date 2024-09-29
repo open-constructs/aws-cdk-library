@@ -32,7 +32,7 @@ export enum OntapDeploymentType {
 }
 
 /**
- * The configuration for the Amazon FSx for NeetApp ONTAP file system.
+ * The configuration for the Amazon FSx for NetApp ONTAP file system.
  *
  * @see https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-ontapconfiguration.html
  */
