@@ -77,7 +77,7 @@ export interface NamespaceProps {
   /**
    * How long days to retain the final snapshot.
    *
-   * You must set finalSnapshotName when you specify finalSnapshotRetentionPeriod.
+   * You must set `finalSnapshotName` when you specify `finalSnapshotRetentionPeriod`.
    *
    * @default - Retained indefinitely if finalSnapshotName is specified, otherwise no final snapshot
    */
