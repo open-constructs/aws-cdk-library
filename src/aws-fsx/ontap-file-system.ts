@@ -91,6 +91,7 @@ export interface OntapConfiguration {
 
   /**
    * How many high-availability (HA) pairs of file servers will power your file system.
+   * 
    * First-generation file systems are powered by 1 HA pair.
    * Second-generation multi-AZ file systems are powered by 1 HA pair.
    * Second generation single-AZ file systems are powered by up to 12 HA pairs.
