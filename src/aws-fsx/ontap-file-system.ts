@@ -110,7 +110,7 @@ export interface OntapConfiguration {
   /**
    * The subnet in which you want the preferred file server to be located.
    *
-   * This value is required when DeploymentType is set to MULTI_AZ_1 or MULTI_AZ_2.
+   * This value is required when `deploymentType` is set to `MULTI_AZ_1` or `MULTI_AZ_2`.
    *
    * @default - no default value (This value is not used for single-AZ file systems, but it is required for multi-AZ file systems)
    */
