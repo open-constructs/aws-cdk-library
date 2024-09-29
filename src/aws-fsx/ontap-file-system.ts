@@ -155,7 +155,9 @@ export interface OntapConfiguration {
   readonly throughputCapacityPerHaPair?: number;
 
   /**
-   * The preferred day and time to perform weekly maintenance. The first digit is the day of the week, starting at 1
+   * The preferred day and time to perform weekly maintenance.
+   *
+   * The first digit is the day of the week, starting at 1
    * for Monday, then the following are hours and minutes in the UTC time zone, 24 hour clock. For example: '2:20:30'
    * is Tuesdays at 20:30.
    *
