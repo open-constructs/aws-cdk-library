@@ -45,7 +45,7 @@ export interface WorkgroupProps {
   /**
    * The base compute capacity of the workgroup in Redshift Processing Units (RPUs).
    *
-   * You can adjust the Base capacity setting from 8 RPUs to 512 RPUs in units of 8.
+   * You can adjust the base capacity setting from 8 RPUs to 512 RPUs in units of 8.
    * Also you can increment or decrement RPUs in units of 32 when setting a base capacity between 512-1024.
    *
    * @default 128
