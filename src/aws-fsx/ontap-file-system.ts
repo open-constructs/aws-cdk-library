@@ -1,5 +1,6 @@
 import { Aws, Duration, Token, aws_ec2, aws_fsx } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import { DailyAutomaticBackupStartTime } from './daily-automatic-backup-start-time';
 import { MaintenanceTime } from './maintenance-time';
 
 /**
@@ -52,7 +53,7 @@ export interface OntapConfiguration {
    *
    * @default - no backup window
    */
-  readonly dailyAutomaticBackupStartTime?: aws_fsx.DailyAutomaticBackupStartTime;
+  readonly dailyAutomaticBackupStartTime?: DailyAutomaticBackupStartTime;
 
   /**
    * The FSx for ONTAP file system deployment type to use in creating the file system.
@@ -275,7 +276,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
   }
 
   protected createOntapFileSystem(
-    securityGroup: aws_ec2.ISecurityGroup,
+    fileSystemSecurityGroup: aws_ec2.ISecurityGroup,
     props: OntapFileSystemProps,
   ): aws_fsx.CfnFileSystem {
     const ontapConfiguration = props.ontapConfiguration;
@@ -302,7 +303,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
         throughputCapacityPerHaPair: ontapConfiguration.throughputCapacityPerHaPair,
         weeklyMaintenanceStartTime: ontapConfiguration.weeklyMaintenanceStartTime?.toTimestamp(),
       },
-      securityGroupIds: [securityGroup.securityGroupId],
+      securityGroupIds: [fileSystemSecurityGroup.securityGroupId],
       storageCapacity: props.storageCapacityGiB,
     });
 
@@ -356,7 +357,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
 
   private validateDailyAutomaticBackupStartTime(
     automaticBackupRetention?: Duration,
-    dailyAutomaticBackupStartTime?: aws_fsx.DailyAutomaticBackupStartTime,
+    dailyAutomaticBackupStartTime?: DailyAutomaticBackupStartTime,
   ): void {
     if (!dailyAutomaticBackupStartTime) {
       return;

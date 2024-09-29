@@ -1,6 +1,7 @@
-import { App, Duration, RemovalPolicy, Stack, aws_ec2, aws_fsx } from 'aws-cdk-lib';
 import * as integ from '@aws-cdk/integ-tests-alpha';
+import { App, Duration, RemovalPolicy, Stack, aws_ec2, aws_fsx } from 'aws-cdk-lib';
 import * as ocf from '../../src';
+import { DailyAutomaticBackupStartTime } from '../../src/aws-fsx/daily-automatic-backup-start-time';
 
 const app = new App();
 
@@ -14,7 +15,7 @@ new ocf.aws_fsx.OntapFileSystem(stack, 'OntapMultiAzFileSystem', {
   storageCapacityGiB: 5120,
   ontapConfiguration: {
     automaticBackupRetention: Duration.days(7),
-    dailyAutomaticBackupStartTime: new aws_fsx.DailyAutomaticBackupStartTime({
+    dailyAutomaticBackupStartTime: new DailyAutomaticBackupStartTime({
       hour: 1,
       minute: 0,
     }),
@@ -41,7 +42,7 @@ new ocf.aws_fsx.OntapFileSystem(stack, 'OntapSingleAzFileSystem', {
   storageCapacityGiB: 5120,
   ontapConfiguration: {
     automaticBackupRetention: Duration.days(7),
-    dailyAutomaticBackupStartTime: new aws_fsx.DailyAutomaticBackupStartTime({
+    dailyAutomaticBackupStartTime: new DailyAutomaticBackupStartTime({
       hour: 1,
       minute: 0,
     }),

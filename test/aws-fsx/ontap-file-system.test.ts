@@ -1,7 +1,13 @@
 import { strictEqual } from 'assert';
 import { Aws, Duration, RemovalPolicy, Stack, aws_ec2, aws_fsx, aws_kms } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import { MaintenanceTime, OntapFileSystem, OntapConfiguration, OntapDeploymentType } from '../../src/aws-fsx';
+import {
+  MaintenanceTime,
+  OntapFileSystem,
+  OntapConfiguration,
+  OntapDeploymentType,
+  DailyAutomaticBackupStartTime,
+} from '../../src/aws-fsx';
 
 describe('FSx for NetApp ONTAP File System', () => {
   let ontapConfiguration: OntapConfiguration;
@@ -61,7 +67,7 @@ describe('FSx for NetApp ONTAP File System', () => {
 
     ontapConfiguration = {
       automaticBackupRetention: Duration.days(7),
-      dailyAutomaticBackupStartTime: new aws_fsx.DailyAutomaticBackupStartTime({
+      dailyAutomaticBackupStartTime: new DailyAutomaticBackupStartTime({
         hour: 1,
         minute: 0,
       }),
@@ -185,7 +191,7 @@ describe('FSx for NetApp ONTAP File System', () => {
 
     ontapConfiguration = {
       automaticBackupRetention: Duration.days(7),
-      dailyAutomaticBackupStartTime: new aws_fsx.DailyAutomaticBackupStartTime({
+      dailyAutomaticBackupStartTime: new DailyAutomaticBackupStartTime({
         hour: 1,
         minute: 0,
       }),
@@ -317,7 +323,7 @@ describe('FSx for NetApp ONTAP File System', () => {
       });
     });
 
-    test.each([Duration.millis(1), Duration.minutes(1), Duration.hours(23), Duration.days(91)])(
+    test.each([Duration.millis(1), Duration.minutes(1), Duration.hours(23)])(
       'throw error for invalid automatic backup retention days %s',
       duration => {
         ontapConfiguration = {
@@ -332,15 +338,31 @@ describe('FSx for NetApp ONTAP File System', () => {
             vpc,
             vpcSubnets: vpc.privateSubnets,
           });
-        }).toThrow('automaticBackupRetention must be between 1 and 90 days or be equal to 0');
+        }).toThrow('automaticBackupRetention must be between 1 and 90 days or 0 for disabled');
       },
     );
+
+    test('throw error for longer automatic backup retention days', () => {
+      ontapConfiguration = {
+        deploymentType: OntapDeploymentType.SINGLE_AZ_2,
+        automaticBackupRetention: Duration.days(91),
+      };
+
+      expect(() => {
+        new OntapFileSystem(stack, 'FsxFileSystem', {
+          ontapConfiguration,
+          storageCapacityGiB: 1200,
+          vpc,
+          vpcSubnets: vpc.privateSubnets,
+        });
+      }).toThrow('automaticBackupRetention must be between 1 and 90 days or 0 for disabled. got: 91 days');
+    });
   });
 
   test('throw error for spcifying `dailyAutomaticBackupStartTime` when automatic backup is disabled', () => {
     ontapConfiguration = {
       deploymentType: OntapDeploymentType.SINGLE_AZ_2,
-      dailyAutomaticBackupStartTime: new aws_fsx.DailyAutomaticBackupStartTime({
+      dailyAutomaticBackupStartTime: new DailyAutomaticBackupStartTime({
         hour: 1,
         minute: 0,
       }),
