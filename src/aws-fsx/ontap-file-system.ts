@@ -118,6 +118,7 @@ export interface OntapConfiguration {
 
   /**
    * The route tables in which Amazon FSx creates the rules for routing traffic to the correct file server.
+   *
    * You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located.
    *
    * Amazon FSx manages VPC route tables for Multi-AZ file systems using tag-based authentication.
