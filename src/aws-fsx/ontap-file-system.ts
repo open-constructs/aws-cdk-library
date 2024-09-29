@@ -431,7 +431,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
         deploymentType,
       )
     ) {
-      throw new Error(`\'haPairs\' must be 1 for deployment type ${deploymentType}`);
+      throw new Error(`\'haPairs\' must be 1 for deployment type ${deploymentType}, got ${haPairs}`);
     }
   }
 
