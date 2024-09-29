@@ -360,7 +360,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
       return;
     }
 
-    const automaticBackupDisabled = !automaticBackupRetention || automaticBackupRetention?.toDays() === 0;
+    const automaticBackupDisabled = !automaticBackupRetention || automaticBackupRetention.toDays() === 0;
 
     if (dailyAutomaticBackupStartTime && automaticBackupDisabled) {
       throw new Error(
