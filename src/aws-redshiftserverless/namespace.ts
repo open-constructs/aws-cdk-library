@@ -229,7 +229,7 @@ export class Namespace extends Resource implements INamespace {
     this.namespaceId = namespace.attrNamespaceNamespaceId;
   }
 
-  protected createNamespace(
+  protected createResource(
     scope: Construct,
     id: string,
     props: aws_redshiftserverless.CfnNamespaceProps,
