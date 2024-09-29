@@ -45,7 +45,7 @@ export interface NamespaceProps {
   /**
    * The password of the administrator for the primary database created in the namespace.
    *
-   * You must specify both adminUsername and adminUserPassword, or neither.
+   * You must specify both `adminUsername` and `adminUserPassword`, or neither.
    *
    * @default - no admin user
    */
