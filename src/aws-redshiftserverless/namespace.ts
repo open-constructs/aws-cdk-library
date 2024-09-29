@@ -36,12 +36,16 @@ export interface NamespaceProps {
   /**
    * The username of the administrator for the primary database created in the namespace.
    *
+   * You must specify both adminUsername and adminUserPassword, or neither.
+   *
    * @default - no admin user
    */
   readonly adminUsername?: string;
 
   /**
    * The password of the administrator for the primary database created in the namespace.
+   *
+   * You must specify both adminUsername and adminUserPassword, or neither.
    *
    * @default - no admin user
    */
@@ -50,7 +54,7 @@ export interface NamespaceProps {
   /**
    * The name of the primary database created in the namespace.
    *
-   * @default - dev
+   * @default - 'dev'
    */
   readonly dbName?: string;
 
@@ -64,12 +68,16 @@ export interface NamespaceProps {
   /**
    * The name of the snapshot to be created before the namespace is deleted.
    *
+   * If not specified, the final snapshot will not be taken.
+   *
    * @default - no final snapshot
    */
   readonly finalSnapshotName?: string;
 
   /**
    * How long days to retain the final snapshot.
+   *
+   * You must set finalSnapshotName when you specify finalSnapshotRetentionPeriod.
    *
    * @default - Retained indefinitely if finalSnapshotName is specified, otherwise no final snapshot
    */
@@ -98,6 +106,8 @@ export interface NamespaceProps {
 
   /**
    * The namespace name.
+   *
+   * @default - auto generate
    */
   readonly namespaceName?: string;
 }
