@@ -586,6 +586,7 @@ new aws_redshiftserverless.Namespace(scope: Construct, id: string, props: Namesp
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.toString">toString</a></code> | Returns a string representation of this construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.addIamRole">addIamRole</a></code> | Adds a role to the namespace. |
 
 ---
 
@@ -616,6 +617,22 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 ###### `policy`<sup>Required</sup> <a name="policy" id="@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.applyRemovalPolicy.parameter.policy"></a>
 
 - *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `addIamRole` <a name="addIamRole" id="@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.addIamRole"></a>
+
+```typescript
+public addIamRole(role: IRole): void
+```
+
+Adds a role to the namespace.
+
+###### `role`<sup>Required</sup> <a name="role" id="@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.addIamRole.parameter.role"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IRole
+
+the role to add.
 
 ---
 
@@ -1441,7 +1458,7 @@ const namespaceProps: aws_redshiftserverless.NamespaceProps = { ... }
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.iamRoles">iamRoles</a></code> | <code>aws-cdk-lib.aws_iam.IRole[]</code> | A list of IAM roles to associate with the namespace. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.kmsKey">kmsKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | A Customer Managed Key used to encrypt your data. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.logExports">logExports</a></code> | <code>@open-constructs/aws-cdk.aws_redshiftserverless.LogExport[]</code> | The types of logs the namespace can export. |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.namespaceName">namespaceName</a></code> | <code>string</code> | The name of the cost report. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.namespaceName">namespaceName</a></code> | <code>string</code> | The namespace name. |
 
 ---
 
@@ -1456,6 +1473,8 @@ public readonly adminUsername: string;
 
 The username of the administrator for the primary database created in the namespace.
 
+You must specify both adminUsername and adminUserPassword, or neither.
+
 ---
 
 ##### `adminUserPassword`<sup>Optional</sup> <a name="adminUserPassword" id="@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.adminUserPassword"></a>
@@ -1469,6 +1488,8 @@ public readonly adminUserPassword: SecretValue;
 
 The password of the administrator for the primary database created in the namespace.
 
+You must specify both adminUsername and adminUserPassword, or neither.
+
 ---
 
 ##### `dbName`<sup>Optional</sup> <a name="dbName" id="@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.dbName"></a>
@@ -1478,7 +1499,7 @@ public readonly dbName: string;
 ```
 
 - *Type:* string
-- *Default:* dev
+- *Default:* 'dev'
 
 The name of the primary database created in the namespace.
 
@@ -1508,6 +1529,8 @@ public readonly finalSnapshotName: string;
 
 The name of the snapshot to be created before the namespace is deleted.
 
+If not specified, the final snapshot will not be taken.
+
 ---
 
 ##### `finalSnapshotRetentionPeriod`<sup>Optional</sup> <a name="finalSnapshotRetentionPeriod" id="@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.finalSnapshotRetentionPeriod"></a>
@@ -1520,6 +1543,8 @@ public readonly finalSnapshotRetentionPeriod: number;
 - *Default:* Retained indefinitely if finalSnapshotName is specified, otherwise no final snapshot
 
 How long days to retain the final snapshot.
+
+You must set finalSnapshotName when you specify finalSnapshotRetentionPeriod.
 
 ---
 
@@ -1569,8 +1594,9 @@ public readonly namespaceName: string;
 ```
 
 - *Type:* string
+- *Default:* auto generate
 
-The name of the cost report.
+The namespace name.
 
 ---
 
@@ -1683,7 +1709,7 @@ const workgroupProps: aws_redshiftserverless.WorkgroupProps = { ... }
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.publiclyAccessible">publiclyAccessible</a></code> | <code>boolean</code> | A value that specifies whether the workgroup can be accessible from a public network. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The name of the primary database created in the workgroup. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.vpcSubnets">vpcSubnets</a></code> | <code>aws-cdk-lib.aws_ec2.SubnetSelection</code> | Where to place the workgroup within the VPC. |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.workgroupName">workgroupName</a></code> | <code>string</code> | The name of the cost report. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.workgroupName">workgroupName</a></code> | <code>string</code> | The workgroup name. |
 
 ---
 
@@ -1821,7 +1847,7 @@ public readonly workgroupName: string;
 - *Type:* string
 - *Default:* auto generate
 
-The name of the cost report.
+The workgroup name.
 
 ---
 

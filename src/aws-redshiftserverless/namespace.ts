@@ -192,6 +192,8 @@ export class Namespace extends Resource implements INamespace {
 
   private readonly props: NamespaceProps;
 
+  private readonly iamRoles: IRole[];
+
   constructor(scope: Construct, id: string, props: NamespaceProps) {
     super(scope, id, {
       physicalName:
@@ -201,6 +203,7 @@ export class Namespace extends Resource implements INamespace {
         }),
     });
     this.props = props;
+    this.iamRoles = props.iamRoles ?? [];
 
     this.validateAdmin();
     this.validateDbName();
@@ -215,7 +218,7 @@ export class Namespace extends Resource implements INamespace {
       defaultIamRoleArn: this.props.defaultIamRole?.roleArn,
       finalSnapshotName: this.props.finalSnapshotName,
       finalSnapshotRetentionPeriod: this.props.finalSnapshotRetentionPeriod,
-      iamRoles: Lazy.list({ produce: () => this.props.iamRoles?.map(role => role.roleArn) }, { omitEmpty: true }),
+      iamRoles: Lazy.list({ produce: () => this.iamRoles.map(role => role.roleArn) }, { omitEmpty: true }),
       kmsKeyId: this.props.kmsKey?.keyId,
       logExports: this.props.logExports,
       namespaceName: this.physicalName,
@@ -336,5 +339,18 @@ export class Namespace extends Resource implements INamespace {
         `\`namespaceName\` must be between 3 and 64 characters, consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`,
       );
     }
+  }
+
+  /**
+   * Adds a role to the namespace
+   *
+   * @param role the role to add
+   */
+  public addIamRole(role: IRole): void {
+    if (this.iamRoles.includes(role)) {
+      throw new Error('An adding IAM Role is already attached to the namespace');
+    }
+
+    this.iamRoles.push(role);
   }
 }

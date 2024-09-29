@@ -192,4 +192,34 @@ describe('Redshift Serverless Namespace', () => {
       },
     );
   });
+
+  describe('test addIamRole method', () => {
+    test('add IAM Role after creation', () => {
+      const namespace = new Namespace(stack, 'Namespace', {});
+
+      const addRole = new Role(stack, 'AddRole', {
+        assumedBy: new ServicePrincipal('redshift.amazonaws.com'),
+      });
+
+      namespace.addIamRole(addRole);
+
+      Template.fromStack(stack).hasResourceProperties('AWS::RedshiftServerless::Namespace', {
+        IamRoles: [stack.resolve(addRole.roleArn)],
+      });
+    });
+
+    test('throws when an adding IAM role is already attached to the namespace', () => {
+      expect(() => {
+        const addRole = new Role(stack, 'AddRole', {
+          assumedBy: new ServicePrincipal('redshift.amazonaws.com'),
+        });
+
+        const namespace = new Namespace(stack, 'Namespace', {
+          iamRoles: [addRole],
+        });
+
+        namespace.addIamRole(addRole);
+      }).toThrow('An adding IAM Role is already attached to the namespace');
+    });
+  });
 });

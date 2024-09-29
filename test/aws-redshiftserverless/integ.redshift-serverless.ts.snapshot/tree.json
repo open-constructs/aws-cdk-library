@@ -1064,6 +1064,12 @@
                           "AnotherRoleE13C44E8",
                           "Arn"
                         ]
+                      },
+                      {
+                        "Fn::GetAtt": [
+                          "AddRole65E43A1F",
+                          "Arn"
+                        ]
                       }
                     ],
                     "logExports": [
@@ -1082,6 +1088,49 @@
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.Resource",
+              "version": "2.120.0"
+            }
+          },
+          "AddRole": {
+            "id": "AddRole",
+            "path": "RedshiftServerlessStack/AddRole",
+            "children": {
+              "ImportAddRole": {
+                "id": "ImportAddRole",
+                "path": "RedshiftServerlessStack/AddRole/ImportAddRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.120.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "RedshiftServerlessStack/AddRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "redshift.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.120.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
               "version": "2.120.0"
             }
           },

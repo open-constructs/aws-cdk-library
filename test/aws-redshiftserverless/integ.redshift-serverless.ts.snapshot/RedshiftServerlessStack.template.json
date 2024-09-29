@@ -688,6 +688,12 @@
        "AnotherRoleE13C44E8",
        "Arn"
       ]
+     },
+     {
+      "Fn::GetAtt": [
+       "AddRole65E43A1F",
+       "Arn"
+      ]
      }
     ],
     "LogExports": [
@@ -696,6 +702,23 @@
      "useractivitylog"
     ],
     "NamespaceName": "redshiftserverlessstacknamespace96a02cb7"
+   }
+  },
+  "AddRole65E43A1F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "redshift.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
    }
   },
   "WorkGroupSecurityGroup82E81D37": {

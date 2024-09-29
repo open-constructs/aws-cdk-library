@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::12345678:role/cdk-hnb659fds-deploy-role-12345678-test-region",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::12345678:role/cdk-hnb659fds-cfn-exec-role-12345678-test-region",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-12345678-test-region/a3b55bd2a328ce07708cdc1ce9592e1dab2d3040ec254c12265c74e8e5d2ab8d.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-12345678-test-region/2a8884775baa3e4bf727739558ab42431a52a7c219439b077c8484fad5cd293f.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -266,6 +266,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "Namespace9B63B8C8"
+          }
+        ],
+        "/RedshiftServerlessStack/AddRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AddRole65E43A1F"
           }
         ],
         "/RedshiftServerlessStack/WorkGroup/SecurityGroup/Resource": [

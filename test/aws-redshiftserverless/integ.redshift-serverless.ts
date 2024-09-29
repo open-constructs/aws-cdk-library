@@ -32,6 +32,12 @@ class RedshiftServerlessStack extends cdk.Stack {
       ],
     });
 
+    const addRole = new Role(this, 'AddRole', {
+      assumedBy: new ServicePrincipal('redshift.amazonaws.com'),
+    });
+
+    namespace.addIamRole(addRole);
+
     const workgroup = new ocf.aws_redshiftserverless.Workgroup(this, 'WorkGroup', {
       baseCapacity: 8,
       configParameters: {
