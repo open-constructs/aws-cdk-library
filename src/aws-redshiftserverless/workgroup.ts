@@ -66,7 +66,7 @@ export interface WorkgroupProps {
    * The value that specifies whether to enable enhanced virtual private cloud (VPC) routing,
    * which forces Amazon Redshift Serverless to route traffic through your VPC.
    *
-   * @default - false
+   * @default false
    */
   readonly enhancedVpcRouting?: boolean;
 
