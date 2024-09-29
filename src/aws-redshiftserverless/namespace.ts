@@ -79,7 +79,7 @@ export interface NamespaceProps {
    *
    * You must set `finalSnapshotName` when you specify `finalSnapshotRetentionPeriod`.
    *
-   * @default - Retained indefinitely if finalSnapshotName is specified, otherwise no final snapshot
+   * @default - Retained indefinitely if `finalSnapshotName` is specified, otherwise no final snapshot
    */
   readonly finalSnapshotRetentionPeriod?: number;
 
