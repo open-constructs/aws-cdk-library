@@ -80,14 +80,14 @@ export interface WorkgroupProps {
   /**
    * The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215.
    *
-   * @default - 5439
+   * @default 5439
    */
   readonly port?: number;
 
   /**
    * A value that specifies whether the workgroup can be accessible from a public network.
    *
-   * @default - false
+   * @default false
    */
   readonly publiclyAccessible?: boolean;
 
