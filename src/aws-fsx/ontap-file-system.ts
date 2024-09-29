@@ -39,6 +39,7 @@ export enum OntapDeploymentType {
 export interface OntapConfiguration {
   /**
    * The number of days to retain automatic backups.
+   *
    * Setting this property to 0 disables automatic backups.
    * You can retain automatic backups for a maximum of 90 days.
    *
