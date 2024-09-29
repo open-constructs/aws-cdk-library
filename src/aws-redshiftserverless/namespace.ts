@@ -61,6 +61,8 @@ export interface NamespaceProps {
   /**
    * The IAM role to set as a default in the namespace.
    *
+   * `defaultIamRole` must be included in `iamRoles`.
+   *
    * @default - no default IAM role
    */
   readonly defaultIamRole?: IRole;
@@ -211,7 +213,7 @@ export class Namespace extends Resource implements INamespace {
     this.validateDefaultIamRole();
     this.validateNamespaceName();
 
-    const namespace = this.createNamespace(this, 'Resource', {
+    const namespace = this.createResource(this, 'Resource', {
       adminUsername: this.props.adminUsername,
       adminUserPassword: this.props.adminUserPassword?.unsafeUnwrap(),
       dbName: this.props.dbName,
@@ -272,10 +274,14 @@ export class Namespace extends Resource implements INamespace {
       return;
     }
 
-    if (!/^[a-zA-Z][a-zA-Z_0-9+.@-]*$/.test(dbName) || dbName.length > 127) {
+    if (!/^[a-zA-Z][a-zA-Z_0-9+.@-]*$/.test(dbName)) {
       throw new Error(
-        `\`dbName\` must start with a letter, can only contain letters, numbers, and the special characters: _, +, ., @, -, and must not exceed 127 characters, got: ${dbName}.`,
+        `\`dbName\` must start with a letter, can only contain letters, numbers, and the special characters: _, +, ., @, -, got: ${dbName}.`,
       );
+    }
+
+    if (dbName.length > 127) {
+      throw new Error(`\`dbName\` must not exceed 127 characters, got: ${dbName.length} characters.`);
     }
   }
 
@@ -289,24 +295,32 @@ export class Namespace extends Resource implements INamespace {
     if (Token.isUnresolved(finalSnapshotName)) return;
 
     if (finalSnapshotName !== undefined) {
-      if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(finalSnapshotName) || finalSnapshotName.length > 255) {
+      if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(finalSnapshotName)) {
         throw new Error(
-          `\`finalSnapshotName\` must be between 1 and 255, consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`,
+          `\`finalSnapshotName\` must consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`,
+        );
+      }
+
+      if (finalSnapshotName.length > 255) {
+        throw new Error(
+          `\`finalSnapshotName\` must not exceed 255 characters, got: ${finalSnapshotName.length} characters.`,
         );
       }
     }
 
-    if (!Token.isUnresolved(finalSnapshotRetentionPeriod) && finalSnapshotRetentionPeriod !== undefined) {
-      if (!finalSnapshotName) {
-        throw new Error('You must set `finalSnapshotName` when you specify `finalSnapshotRetentionPeriod`.');
-      }
+    if (Token.isUnresolved(finalSnapshotRetentionPeriod) || finalSnapshotRetentionPeriod === undefined) {
+      return;
+    }
 
-      if (finalSnapshotRetentionPeriod < 1 || finalSnapshotRetentionPeriod > 3653) {
-        {
-          throw new Error(
-            `\`finalSnapshotRetentionPeriod\` must be between 1 and 3653, got: ${finalSnapshotRetentionPeriod}.`,
-          );
-        }
+    if (!finalSnapshotName) {
+      throw new Error('You must set `finalSnapshotName` when you specify `finalSnapshotRetentionPeriod`.');
+    }
+
+    if (finalSnapshotRetentionPeriod < 1 || finalSnapshotRetentionPeriod > 3653) {
+      {
+        throw new Error(
+          `\`finalSnapshotRetentionPeriod\` must be between 1 and 3653, got: ${finalSnapshotRetentionPeriod}.`,
+        );
       }
     }
   }
@@ -334,9 +348,15 @@ export class Namespace extends Resource implements INamespace {
       return;
     }
 
-    if (!/^[a-z0-9-]+$/.test(namespaceName) || namespaceName.length < 3 || namespaceName.length > 64) {
+    if (!/^[a-z0-9-]+$/.test(namespaceName)) {
       throw new Error(
-        `\`namespaceName\` must be between 3 and 64 characters, consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`,
+        `\`namespaceName\` must consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`,
+      );
+    }
+
+    if (namespaceName.length < 3 || namespaceName.length > 64) {
+      throw new Error(
+        `\`namespaceName\` must be between 3 and 64 characters, got: ${namespaceName.length} characters.`,
       );
     }
   }
@@ -348,7 +368,9 @@ export class Namespace extends Resource implements INamespace {
    */
   public addIamRole(role: IRole): void {
     if (this.iamRoles.includes(role)) {
-      throw new Error('An adding IAM Role is already attached to the namespace');
+      throw new Error(
+        `An adding IAM Role is already attached to the namespace, name: ${role.roleName}, ARN: ${role.roleArn}.`,
+      );
     }
 
     this.iamRoles.push(role);

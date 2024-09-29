@@ -147,17 +147,24 @@ describe('Redshift Serverless Workgroup', () => {
   });
 
   describe('validateWorkgroupName test', () => {
-    test.each(['ABC', 'name with spaces', 'a'.repeat(2), 'a'.repeat(100)])(
-      'throws when workgroupName is invalid, got %s',
+    test.each(['ABC', 'name with spaces'])('throws when workgroupName is invalid, got %s', workgroupName => {
+      expect(() => {
+        new Workgroup(stack, 'Workgroup', {
+          workgroupName,
+          vpc,
+        });
+      }).toThrow(`\`workgroupName\` must contain only lowercase letters, numbers, and hyphens, got: ${workgroupName}.`);
+    });
+
+    test.each(['a'.repeat(2), 'a'.repeat(100)])(
+      'throws when workgroupName length is invalid, got %s',
       workgroupName => {
         expect(() => {
           new Workgroup(stack, 'Workgroup', {
             workgroupName,
             vpc,
           });
-        }).toThrow(
-          `\`workgroupName\` must be between 3 and 64 characters long, contain only lowercase letters, numbers, and hyphens, got: ${workgroupName}.`,
-        );
+        }).toThrow(`\`workgroupName\` must be between 3 and 64 characters, got: ${workgroupName.length} characters.`);
       },
     );
   });
@@ -176,16 +183,33 @@ describe('Redshift Serverless Workgroup', () => {
   });
 
   describe('validateSubnet test', () => {
-    test('throws when vpc has only 2 AZs', () => {
+    test('throws when vpc has over 3 subnets but has only 2 AZs', () => {
       const vpcFor2Az = new aws_ec2.Vpc(stack, 'VPCfor2Az', {
         maxAzs: 2,
+        subnetConfiguration: [
+          {
+            cidrMask: 24,
+            name: 'Public',
+            subnetType: aws_ec2.SubnetType.PUBLIC,
+          },
+          {
+            cidrMask: 24,
+            name: 'Private',
+            subnetType: aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
+          },
+          {
+            cidrMask: 24,
+            name: 'AnotherPrivate',
+            subnetType: aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
+          },
+        ],
       });
 
       expect(() => {
         new Workgroup(stack, 'Workgroup', {
           vpc: vpcFor2Az,
         });
-      }).toThrow('`vpc` must have at least three subnets, and they must span across three Availability Zones.');
+      }).toThrow('`vpc` must have at least 3 subnets, and they must span across 3 Availability Zones, got: 2 AZs.');
     });
   });
 });

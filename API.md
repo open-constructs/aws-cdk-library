@@ -1473,7 +1473,7 @@ public readonly adminUsername: string;
 
 The username of the administrator for the primary database created in the namespace.
 
-You must specify both adminUsername and adminUserPassword, or neither.
+You must specify both `adminUsername` and `adminUserPassword`, or neither.
 
 ---
 
@@ -1488,7 +1488,7 @@ public readonly adminUserPassword: SecretValue;
 
 The password of the administrator for the primary database created in the namespace.
 
-You must specify both adminUsername and adminUserPassword, or neither.
+You must specify both `adminUsername` and `adminUserPassword`, or neither.
 
 ---
 
@@ -1516,6 +1516,8 @@ public readonly defaultIamRole: IRole;
 
 The IAM role to set as a default in the namespace.
 
+`defaultIamRole` must be included in `iamRoles`.
+
 ---
 
 ##### `finalSnapshotName`<sup>Optional</sup> <a name="finalSnapshotName" id="@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceProps.property.finalSnapshotName"></a>
@@ -1540,11 +1542,11 @@ public readonly finalSnapshotRetentionPeriod: number;
 ```
 
 - *Type:* number
-- *Default:* Retained indefinitely if finalSnapshotName is specified, otherwise no final snapshot
+- *Default:* Retained indefinitely if `finalSnapshotName` is specified, otherwise no final snapshot
 
 How long days to retain the final snapshot.
 
-You must set finalSnapshotName when you specify finalSnapshotRetentionPeriod.
+You must set `finalSnapshotName` when you specify `finalSnapshotRetentionPeriod`.
 
 ---
 
@@ -1707,7 +1709,7 @@ const workgroupProps: aws_redshiftserverless.WorkgroupProps = { ... }
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.namespace">namespace</a></code> | <code>@open-constructs/aws-cdk.aws_redshiftserverless.INamespace</code> | The namespace the workgroup is associated with. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.port">port</a></code> | <code>number</code> | The custom port to use when connecting to a workgroup. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.publiclyAccessible">publiclyAccessible</a></code> | <code>boolean</code> | A value that specifies whether the workgroup can be accessible from a public network. |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The name of the primary database created in the workgroup. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The security groups to associate with the workgroup. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.vpcSubnets">vpcSubnets</a></code> | <code>aws-cdk-lib.aws_ec2.SubnetSelection</code> | Where to place the workgroup within the VPC. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.workgroupName">workgroupName</a></code> | <code>string</code> | The workgroup name. |
 
@@ -1723,6 +1725,8 @@ public readonly vpc: IVpc;
 
 The VPC to place the workgroup in.
 
+`vpc` must have at least 3 subnets, and they must span across 3 Availability Zones.
+
 ---
 
 ##### `baseCapacity`<sup>Optional</sup> <a name="baseCapacity" id="@open-constructs/aws-cdk.aws_redshiftserverless.WorkgroupProps.property.baseCapacity"></a>
@@ -1736,7 +1740,7 @@ public readonly baseCapacity: number;
 
 The base compute capacity of the workgroup in Redshift Processing Units (RPUs).
 
-You can adjust the Base capacity setting from 8 RPUs to 512 RPUs in units of 8.
+You can adjust the base capacity setting from 8 RPUs to 512 RPUs in units of 8.
 Also you can increment or decrement RPUs in units of 32 when setting a base capacity between 512-1024.
 
 > [https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-capacity.html](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-capacity.html)
@@ -1819,9 +1823,9 @@ public readonly securityGroups: ISecurityGroup[];
 ```
 
 - *Type:* aws-cdk-lib.aws_ec2.ISecurityGroup[]
-- *Default:* no database created
+- *Default:* a new security group is created
 
-The name of the primary database created in the workgroup.
+The security groups to associate with the workgroup.
 
 ---
 
@@ -1848,6 +1852,8 @@ public readonly workgroupName: string;
 - *Default:* auto generate
 
 The workgroup name.
+
+\`workgroupName\` must be between 3 and 64 characters long, contain only lowercase letters, numbers, and hyphens.
 
 ---
 

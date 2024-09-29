@@ -92,14 +92,16 @@ export interface WorkgroupProps {
   readonly publiclyAccessible?: boolean;
 
   /**
-   * The name of the primary database created in the workgroup.
+   * The security groups to associate with the workgroup.
    *
-   * @default - no database created
+   * @default - a new security group is created
    */
   readonly securityGroups?: aws_ec2.ISecurityGroup[];
 
   /**
    * The VPC to place the workgroup in.
+   *
+   * `vpc` must have at least 3 subnets, and they must span across 3 Availability Zones.
    */
   readonly vpc: aws_ec2.IVpc;
 
@@ -112,6 +114,8 @@ export interface WorkgroupProps {
 
   /**
    * The workgroup name.
+   *
+   * \`workgroupName\` must be between 3 and 64 characters long, contain only lowercase letters, numbers, and hyphens.
    *
    * @default - auto generate
    */
@@ -249,7 +253,7 @@ export class Workgroup extends Resource implements IWorkgroup {
     this.validatePort();
     this.validateSubnet();
 
-    const workgroup = this.createWorkgroup(this, 'Resource', {
+    const workgroup = this.createResource(this, 'Resource', {
       baseCapacity: this.props.baseCapacity,
       configParameters: this.props.configParameters
         ? Object.entries(this.props.configParameters).map(([key, value]) => ({
@@ -261,8 +265,8 @@ export class Workgroup extends Resource implements IWorkgroup {
       namespaceName: this.props.namespace?.namespaceName,
       publiclyAccessible: this.props.publiclyAccessible,
       port: this.props.port,
-      securityGroupIds: Lazy.list({ produce: () => this.securityGroups.map(sg => sg.securityGroupId) }),
-      subnetIds: Lazy.list({ produce: () => this.props.vpc.selectSubnets(this.vpcSubnets).subnetIds }),
+      securityGroupIds: this.securityGroups.map(sg => sg.securityGroupId),
+      subnetIds: this.props.vpc.selectSubnets(this.vpcSubnets).subnetIds,
       workgroupName: this.physicalName,
     });
 
@@ -273,7 +277,7 @@ export class Workgroup extends Resource implements IWorkgroup {
     this.port = workgroup.attrWorkgroupEndpointPort;
   }
 
-  protected createWorkgroup(
+  protected createResource(
     scope: Construct,
     id: string,
     props: aws_redshiftserverless.CfnWorkgroupProps,
@@ -319,9 +323,15 @@ export class Workgroup extends Resource implements IWorkgroup {
       return;
     }
 
-    if (!/^[a-z0-9-]{3,64}$/.test(workgroupName)) {
+    if (!/^[a-z0-9-]+$/.test(workgroupName)) {
       throw new Error(
-        `\`workgroupName\` must be between 3 and 64 characters long, contain only lowercase letters, numbers, and hyphens, got: ${workgroupName}.`,
+        `\`workgroupName\` must contain only lowercase letters, numbers, and hyphens, got: ${workgroupName}.`,
+      );
+    }
+
+    if (workgroupName.length < 3 || workgroupName.length > 64) {
+      throw new Error(
+        `\`workgroupName\` must be between 3 and 64 characters, got: ${workgroupName.length} characters.`,
       );
     }
   }
@@ -350,8 +360,11 @@ export class Workgroup extends Resource implements IWorkgroup {
    * @see https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-usage-considerations.html
    */
   private validateSubnet(): void {
-    if (this.props.vpc.availabilityZones.length < 3) {
-      throw new Error('`vpc` must have at least three subnets, and they must span across three Availability Zones.');
+    const azLength = this.props.vpc.availabilityZones.length;
+    if (azLength < 3) {
+      throw new Error(
+        `\`vpc\` must have at least 3 subnets, and they must span across 3 Availability Zones, got: ${azLength} AZs.`,
+      );
     }
   }
 }

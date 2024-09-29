@@ -113,27 +113,39 @@ describe('Redshift Serverless Namespace', () => {
           dbName,
         });
       }).toThrow(
-        `\`dbName\` must start with a letter, can only contain letters, numbers, and the special characters: _, +, ., @, -, and must not exceed 127 characters, got: ${dbName}.`,
+        `\`dbName\` must start with a letter, can only contain letters, numbers, and the special characters: _, +, ., @, -, got: ${dbName}.`,
       );
+    });
+
+    test('throws when dbName length is invalid, got %s', () => {
+      expect(() => {
+        new Namespace(stack, 'Namespace', {
+          dbName: 'a'.repeat(128),
+        });
+      }).toThrow('`dbName` must not exceed 127 characters, got: 128 characters.');
     });
   });
 
   describe('validateFinalSnapshot test', () => {
-    test.each([
-      '123abc',
-      'UpperName',
-      'invalid$name',
-      'end-with-a-hyphen-',
-      'two--consecutive-hyphens',
-      'a'.repeat(256),
-    ])('throws when finalSnapshotName is invalid, got %s', finalSnapshotName => {
+    test.each(['123abc', 'UpperName', 'invalid$name', 'end-with-a-hyphen-', 'two--consecutive-hyphens'])(
+      'throws when finalSnapshotName is invalid, got %s',
+      finalSnapshotName => {
+        expect(() => {
+          new Namespace(stack, 'Namespace', {
+            finalSnapshotName,
+          });
+        }).toThrow(
+          `\`finalSnapshotName\` must consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`,
+        );
+      },
+    );
+
+    test('throws when finalSnapshotName length is invalid, got %s', () => {
       expect(() => {
         new Namespace(stack, 'Namespace', {
-          finalSnapshotName,
+          finalSnapshotName: 'a'.repeat(256),
         });
-      }).toThrow(
-        `\`finalSnapshotName\` must be between 1 and 255, consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`,
-      );
+      }).toThrow('`finalSnapshotName` must not exceed 255 characters, got: 256 characters.');
     });
 
     test('throws when finalSnapshotRetentionPeriod is set without finalSnapshotName', () => {
@@ -179,18 +191,23 @@ describe('Redshift Serverless Namespace', () => {
   });
 
   describe('validateNamespaceName test', () => {
-    test.each(['UpperName', 'invalid$name', 'a'.repeat(2), 'a'.repeat(65)])(
-      'throws when namespaceName is invalid, got %s',
-      namespaceName => {
-        expect(() => {
-          new Namespace(stack, 'Namespace', {
-            namespaceName,
-          });
-        }).toThrow(
-          `\`namespaceName\` must be between 3 and 64 characters, consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`,
-        );
-      },
-    );
+    test.each(['UpperName', 'invalid$name'])('throws when namespaceName is invalid , got %s', namespaceName => {
+      expect(() => {
+        new Namespace(stack, 'Namespace', {
+          namespaceName,
+        });
+      }).toThrow(
+        `\`namespaceName\` must consist only of lowercase alphanumeric characters or hyphens, got: ${namespaceName}.`,
+      );
+    });
+
+    test.each(['a'.repeat(2), 'a'.repeat(65)])('throws when namespaceName length is invalid, got %s', namespaceName => {
+      expect(() => {
+        new Namespace(stack, 'Namespace', {
+          namespaceName,
+        });
+      }).toThrow(`\`namespaceName\` must be between 3 and 64 characters, got: ${namespaceName.length} characters.`);
+    });
   });
 
   describe('test addIamRole method', () => {
@@ -209,17 +226,18 @@ describe('Redshift Serverless Namespace', () => {
     });
 
     test('throws when an adding IAM role is already attached to the namespace', () => {
-      expect(() => {
-        const addRole = new Role(stack, 'AddRole', {
-          assumedBy: new ServicePrincipal('redshift.amazonaws.com'),
-        });
+      const addRole = new Role(stack, 'AddRole', {
+        assumedBy: new ServicePrincipal('redshift.amazonaws.com'),
+      });
 
+      expect(() => {
         const namespace = new Namespace(stack, 'Namespace', {
           iamRoles: [addRole],
         });
-
         namespace.addIamRole(addRole);
-      }).toThrow('An adding IAM Role is already attached to the namespace');
+      }).toThrow(
+        `An adding IAM Role is already attached to the namespace, name: ${addRole.roleName}, ARN: ${addRole.roleArn}.`,
+      );
     });
   });
 });
