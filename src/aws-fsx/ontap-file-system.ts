@@ -96,7 +96,7 @@ export interface OntapConfiguration {
    * Second-generation multi-AZ file systems are powered by 1 HA pair.
    * Second generation single-AZ file systems are powered by up to 12 HA pairs.
    *
-   * The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity.
+   * The value of this property affects the values of `storageCapacity`, `iops`, and `throughputCapacity`.
    *
    * Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs.
    *
