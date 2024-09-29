@@ -288,7 +288,7 @@ export class Namespace extends Resource implements INamespace {
 
     if (Token.isUnresolved(finalSnapshotName)) return;
 
-    if (finalSnapshotName) {
+    if (finalSnapshotName !== undefined) {
       if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(finalSnapshotName) || finalSnapshotName.length > 255) {
         throw new Error(
           `\`finalSnapshotName\` must be between 1 and 255, consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`,
