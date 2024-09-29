@@ -21,7 +21,7 @@ new ocf.aws_fsx.OntapFileSystem(stack, 'OntapMultiAzFileSystem', {
     deploymentType: ocf.aws_fsx.OntapDeploymentType.MULTI_AZ_2,
     diskIops: 15360,
     endpointIpAddressRange: '192.168.39.0/24',
-    fsxAdminPassword: 'fsxPassword1',
+    fsxAdminPassword: 'f'.repeat(129),
     haPairs: 1,
     preferredSubnet: vpc.privateSubnets[0],
     routeTables: [vpc.privateSubnets[0].routeTable, vpc.privateSubnets[1].routeTable],
@@ -47,7 +47,7 @@ new ocf.aws_fsx.OntapFileSystem(stack, 'OntapSingleAzFileSystem', {
     }),
     deploymentType: ocf.aws_fsx.OntapDeploymentType.SINGLE_AZ_2,
     diskIops: 76800,
-    fsxAdminPassword: 'fsxPassword1',
+    fsxAdminPassword: 'f'.repeat(129),
     haPairs: 5,
     throughputCapacityPerHaPair: 1536,
     weeklyMaintenanceStartTime: new ocf.aws_fsx.MaintenanceTime({

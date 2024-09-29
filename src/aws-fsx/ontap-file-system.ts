@@ -92,7 +92,7 @@ export interface OntapConfiguration {
 
   /**
    * How many high-availability (HA) pairs of file servers will power your file system.
-   * 
+   *
    * First-generation file systems are powered by 1 HA pair.
    * Second-generation multi-AZ file systems are powered by 1 HA pair.
    * Second generation single-AZ file systems are powered by up to 12 HA pairs.
@@ -344,11 +344,13 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     ) {
       return;
     }
-    if (
-      automaticBackupRetention.toMilliseconds() < Duration.days(1).toMilliseconds() ||
-      automaticBackupRetention.toDays() > 90
-    ) {
+    if (automaticBackupRetention.toMilliseconds() < Duration.days(1).toMilliseconds()) {
       throw new Error('automaticBackupRetention must be between 1 and 90 days or 0 for disabled');
+    }
+    if (automaticBackupRetention.toDays() > 90) {
+      throw new Error(
+        `automaticBackupRetention must be between 1 and 90 days or 0 for disabled. got: ${automaticBackupRetention.toDays()} days`,
+      );
     }
   }
 
