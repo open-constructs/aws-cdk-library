@@ -348,7 +348,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
       automaticBackupRetention.toMilliseconds() < Duration.days(1).toMilliseconds() ||
       automaticBackupRetention.toDays() > 90
     ) {
-      throw new Error('automaticBackupRetention must be between 1 and 90 days or be equal to 0');
+      throw new Error('automaticBackupRetention must be between 1 and 90 days or 0 for disabled');
     }
   }
 
