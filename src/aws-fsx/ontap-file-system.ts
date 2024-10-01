@@ -139,7 +139,7 @@ export interface OntapConfiguration {
    *
    * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html
    *
-   * @default - recommended throughput capacity based on the storage capacity
+   * @default - Amazon FSx determines the throughput capacity based on the storage capacity
    */
   readonly throughputCapacity?: number;
 
