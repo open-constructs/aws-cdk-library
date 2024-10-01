@@ -1,5 +1,5 @@
 import * as integ from '@aws-cdk/integ-tests-alpha';
-import { App, Duration, RemovalPolicy, Stack, aws_ec2, aws_fsx } from 'aws-cdk-lib';
+import { App, Duration, RemovalPolicy, SecretValue, Stack, aws_ec2, aws_fsx } from 'aws-cdk-lib';
 import * as ocf from '../../src';
 import { DailyAutomaticBackupStartTime } from '../../src/aws-fsx/daily-automatic-backup-start-time';
 
@@ -22,7 +22,7 @@ new ocf.aws_fsx.OntapFileSystem(stack, 'OntapMultiAzFileSystem', {
     deploymentType: ocf.aws_fsx.OntapDeploymentType.MULTI_AZ_2,
     diskIops: 15360,
     endpointIpAddressRange: '192.168.39.0/24',
-    fsxAdminPassword: 'f'.repeat(129),
+    fsxAdminPassword: SecretValue.unsafePlainText('fsxPassword1'),
     haPairs: 1,
     preferredSubnet: vpc.privateSubnets[0],
     routeTables: [vpc.privateSubnets[0].routeTable, vpc.privateSubnets[1].routeTable],
@@ -48,7 +48,7 @@ new ocf.aws_fsx.OntapFileSystem(stack, 'OntapSingleAzFileSystem', {
     }),
     deploymentType: ocf.aws_fsx.OntapDeploymentType.SINGLE_AZ_2,
     diskIops: 76800,
-    fsxAdminPassword: 'f'.repeat(129),
+    fsxAdminPassword: SecretValue.unsafePlainText('fsxPassword1'),
     haPairs: 5,
     throughputCapacityPerHaPair: 1536,
     weeklyMaintenanceStartTime: new ocf.aws_fsx.MaintenanceTime({

@@ -1,5 +1,5 @@
 import { strictEqual } from 'assert';
-import { Aws, Duration, RemovalPolicy, Stack, aws_ec2, aws_fsx, aws_kms } from 'aws-cdk-lib';
+import { Aws, Duration, RemovalPolicy, SecretValue, Stack, aws_ec2, aws_fsx, aws_kms } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import {
   MaintenanceTime,
@@ -74,7 +74,7 @@ describe('FSx for NetApp ONTAP File System', () => {
       deploymentType: OntapDeploymentType.MULTI_AZ_2,
       diskIops: 15360,
       endpointIpAddressRange: '192.168.12.0/24',
-      fsxAdminPassword: 'fsxPassword2',
+      fsxAdminPassword: SecretValue.unsafePlainText('fsxPassword2'),
       haPairs: 1,
       preferredSubnet: vpc.privateSubnets[0],
       routeTables: vpc.privateSubnets.map(subnet => subnet.routeTable),
@@ -197,7 +197,7 @@ describe('FSx for NetApp ONTAP File System', () => {
       }),
       deploymentType: OntapDeploymentType.SINGLE_AZ_2,
       diskIops: 442368,
-      fsxAdminPassword: 'fsxPassword1',
+      fsxAdminPassword: SecretValue.unsafePlainText('fsxPassword1'),
       haPairs: 12,
       throughputCapacity: 1536 * 12,
       weeklyMaintenanceStartTime: new MaintenanceTime({
@@ -485,52 +485,6 @@ describe('FSx for NetApp ONTAP File System', () => {
         "'endpointIpAddressRange' must be between 9 and 17 characters long and not contain any of the following characters: \\u0000, \\u0085, \\u2028, \\u2029, \\r, or \\n",
       );
     });
-  });
-
-  describe('fsx admin password', () => {
-    test.each(['', 'a'.repeat(7), 'a'.repeat(51), '\u0000', '\u0085', '\u2028', '\u2029', '\r', '\n'])(
-      "throw error for invalid fsx admin password '%s'",
-      fsxAdminPassword => {
-        ontapConfiguration = {
-          deploymentType: OntapDeploymentType.MULTI_AZ_2,
-          fsxAdminPassword,
-          preferredSubnet: vpc.privateSubnets[0],
-        };
-
-        expect(() => {
-          new OntapFileSystem(stack, 'FsxFileSystem', {
-            ontapConfiguration,
-            storageCapacityGiB: 1200,
-            vpc,
-            vpcSubnets: vpc.privateSubnets,
-          });
-        }).toThrow(
-          "'fsxAdminPassword' must be between 8 and 50 characters long and not contain any of the following characters: \\u0000, \\u0085, \\u2028, \\u2029, \\r, or \\n",
-        );
-      },
-    );
-
-    test.each(['1'.repeat(8), 'a'.repeat(8), 'adminadmin'])(
-      "throw error for invalid fsx admin password '%s'",
-      fsxAdminPassword => {
-        ontapConfiguration = {
-          deploymentType: OntapDeploymentType.MULTI_AZ_2,
-          fsxAdminPassword,
-          preferredSubnet: vpc.privateSubnets[0],
-        };
-
-        expect(() => {
-          new OntapFileSystem(stack, 'FsxFileSystem', {
-            ontapConfiguration,
-            storageCapacityGiB: 1200,
-            vpc,
-            vpcSubnets: vpc.privateSubnets,
-          });
-        }).toThrow(
-          "'fsxAdminPassword' must contain at least one English letter and one number, and must not contain the word 'admin'",
-        );
-      },
-    );
   });
 
   describe('subnet settings', () => {

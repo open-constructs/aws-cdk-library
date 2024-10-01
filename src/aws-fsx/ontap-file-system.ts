@@ -1,4 +1,4 @@
-import { Aws, Duration, Token, aws_ec2, aws_fsx } from 'aws-cdk-lib';
+import { Aws, Duration, SecretValue, Token, aws_ec2, aws_fsx } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { DailyAutomaticBackupStartTime } from './daily-automatic-backup-start-time';
 import { MaintenanceTime } from './maintenance-time';
@@ -89,7 +89,7 @@ export interface OntapConfiguration {
    *
    * @default - do not set an admin password
    */
-  readonly fsxAdminPassword?: string;
+  readonly fsxAdminPassword?: SecretValue;
 
   /**
    * How many high-availability (HA) pairs of file servers will power your file system.
@@ -105,7 +105,7 @@ export interface OntapConfiguration {
    * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs
    * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage
    *
-   * @default - 1 HA pair
+   * @default 1
    */
   readonly haPairs?: number;
 
@@ -291,7 +291,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
           iops: ontapConfiguration.diskIops,
         },
         endpointIpAddressRange: ontapConfiguration.endpointIpAddressRange,
-        fsxAdminPassword: ontapConfiguration.fsxAdminPassword,
+        fsxAdminPassword: ontapConfiguration.fsxAdminPassword?.unsafeUnwrap(),
         haPairs: ontapConfiguration.haPairs,
         preferredSubnetId: ontapConfiguration.preferredSubnet?.subnetId,
         routeTableIds: ontapConfiguration.routeTables?.map(routeTable => routeTable.routeTableId),
@@ -321,7 +321,6 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     );
     this.validateDiskIops(props.storageCapacityGiB, ontapConfiguration.diskIops, ontapConfiguration.haPairs);
     this.validateEndpointIpAddressRange(deploymentType, ontapConfiguration.endpointIpAddressRange);
-    this.validateFsxAdminPassword(ontapConfiguration.fsxAdminPassword);
     this.validateSubnets(deploymentType, props.vpcSubnets, ontapConfiguration.preferredSubnet);
     this.validateRouteTables(deploymentType, ontapConfiguration.routeTables);
     this.validateThroughputCapacity(
@@ -396,23 +395,6 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     if (!/^[^\u0000\u0085\u2028\u2029\r\n]{9,17}$/.test(endpointIpAddressRange)) {
       throw new Error(
         "'endpointIpAddressRange' must be between 9 and 17 characters long and not contain any of the following characters: \\u0000, \\u0085, \\u2028, \\u2029, \\r, or \\n",
-      );
-    }
-  }
-
-  private validateFsxAdminPassword(fsxAdminPassword?: string): void {
-    if (fsxAdminPassword == null || Token.isUnresolved(fsxAdminPassword)) {
-      return;
-    }
-    if (!/^[^\u0000\u0085\u2028\u2029\r\n]{8,50}$/.test(fsxAdminPassword)) {
-      throw new Error(
-        "'fsxAdminPassword' must be between 8 and 50 characters long and not contain any of the following characters: \\u0000, \\u0085, \\u2028, \\u2029, \\r, or \\n",
-      );
-    }
-    // must contain at least one English letter and one number, and must not contain the word 'admin'.
-    if (!/[a-zA-Z]/.test(fsxAdminPassword) || !/\d/.test(fsxAdminPassword) || /admin/i.test(fsxAdminPassword)) {
-      throw new Error(
-        "'fsxAdminPassword' must contain at least one English letter and one number, and must not contain the word 'admin'",
       );
     }
   }
