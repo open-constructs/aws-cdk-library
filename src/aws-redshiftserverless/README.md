@@ -62,9 +62,9 @@ declare const workgroupSecurityGroup: ec2.ISecurityGroup;
 
 const namespace = new redshiftserverless.Namespace(stack, 'MyCustomNamespace', {
   namespaceName: 'my-custom-namespace',
-  dbName: 'mydb', // Spacify user-defined database name
+  dbName: 'mydb', // Specify user-defined database name
   adminUsername: 'admin', // Specify user-defined admin username
-  adminUserpassword: SecretValue.unsafePlainText('My-password-123!'), // Spacify user-defined admin password
+  adminUserPassword: SecretValue.unsafePlainText('My-password-123!'), // Specify user-defined admin password
   logExports: [redshiftserverless.LogExport.USER_LOG], // Log export settings
 });
 
