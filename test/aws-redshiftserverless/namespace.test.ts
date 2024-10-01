@@ -2,7 +2,7 @@ import { App, SecretValue, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Key } from 'aws-cdk-lib/aws-kms';
-import { LogExport, Namespace } from '../../src/aws-redshiftserverless';
+import { INamespace, LogExport, Namespace } from '../../src/aws-redshiftserverless';
 
 describe('Redshift Serverless Namespace', () => {
   let app: App;
@@ -60,13 +60,21 @@ describe('Redshift Serverless Namespace', () => {
   });
 
   describe('test import method', () => {
-    test('import from namespaceId', () => {
-      const existingNamespace = Namespace.fromNamespaceAttributes(stack, 'ImportedNamespace', {
+    let existingNamespace: INamespace;
+
+    beforeEach(() => {
+      stack = new Stack();
+      existingNamespace = Namespace.fromNamespaceAttributes(stack, 'ImportedNamespace', {
         namespaceId: 'my-namespace-id',
         namespaceName: 'my-namespace-name',
       });
+    });
 
+    test('should correctly set namespaceId', () => {
       expect(existingNamespace.namespaceId).toEqual('my-namespace-id');
+    });
+
+    test('should correctly format namespaceArn', () => {
       expect(existingNamespace.namespaceArn).toEqual(
         Stack.of(stack).formatArn({
           resource: 'redshift-serverless',
@@ -235,9 +243,7 @@ describe('Redshift Serverless Namespace', () => {
           iamRoles: [addRole],
         });
         namespace.addIamRole(addRole);
-      }).toThrow(
-        `An adding IAM Role is already attached to the namespace, name: ${addRole.roleName}, ARN: ${addRole.roleArn}.`,
-      );
+      }).toThrow(`An adding IAM Role is already attached to the namespace, ARN: ${addRole.roleArn}.`);
     });
   });
 });

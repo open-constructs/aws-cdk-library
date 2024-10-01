@@ -4,17 +4,17 @@
     "id": "App",
     "path": "",
     "children": {
-      "RedshiftServerlessStack": {
-        "id": "RedshiftServerlessStack",
-        "path": "RedshiftServerlessStack",
+      "RedshiftServerlessNamespaceWorkgroupStack": {
+        "id": "RedshiftServerlessNamespaceWorkgroupStack",
+        "path": "RedshiftServerlessNamespaceWorkgroupStack",
         "children": {
           "VPC": {
             "id": "VPC",
-            "path": "RedshiftServerlessStack/VPC",
+            "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "RedshiftServerlessStack/VPC/Resource",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::EC2::VPC",
                   "aws:cdk:cloudformation:props": {
@@ -25,7 +25,7 @@
                     "tags": [
                       {
                         "key": "Name",
-                        "value": "RedshiftServerlessStack/VPC"
+                        "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC"
                       }
                     ]
                   }
@@ -37,11 +37,11 @@
               },
               "PublicSubnet1": {
                 "id": "PublicSubnet1",
-                "path": "RedshiftServerlessStack/VPC/PublicSubnet1",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1",
                 "children": {
                   "Subnet": {
                     "id": "Subnet",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet1/Subnet",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1/Subnet",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                       "aws:cdk:cloudformation:props": {
@@ -59,7 +59,7 @@
                           },
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PublicSubnet1"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1"
                           }
                         ],
                         "vpcId": {
@@ -74,7 +74,7 @@
                   },
                   "Acl": {
                     "id": "Acl",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet1/Acl",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1/Acl",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.120.0"
@@ -82,14 +82,14 @@
                   },
                   "RouteTable": {
                     "id": "RouteTable",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet1/RouteTable",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1/RouteTable",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                       "aws:cdk:cloudformation:props": {
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PublicSubnet1"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1"
                           }
                         ],
                         "vpcId": {
@@ -104,7 +104,7 @@
                   },
                   "RouteTableAssociation": {
                     "id": "RouteTableAssociation",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet1/RouteTableAssociation",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1/RouteTableAssociation",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                       "aws:cdk:cloudformation:props": {
@@ -123,7 +123,7 @@
                   },
                   "DefaultRoute": {
                     "id": "DefaultRoute",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet1/DefaultRoute",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1/DefaultRoute",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                       "aws:cdk:cloudformation:props": {
@@ -143,7 +143,7 @@
                   },
                   "EIP": {
                     "id": "EIP",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet1/EIP",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1/EIP",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::EIP",
                       "aws:cdk:cloudformation:props": {
@@ -151,7 +151,7 @@
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PublicSubnet1"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1"
                           }
                         ]
                       }
@@ -163,7 +163,7 @@
                   },
                   "NATGateway": {
                     "id": "NATGateway",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet1/NATGateway",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1/NATGateway",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::NatGateway",
                       "aws:cdk:cloudformation:props": {
@@ -179,7 +179,7 @@
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PublicSubnet1"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1"
                           }
                         ]
                       }
@@ -197,11 +197,11 @@
               },
               "PublicSubnet2": {
                 "id": "PublicSubnet2",
-                "path": "RedshiftServerlessStack/VPC/PublicSubnet2",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2",
                 "children": {
                   "Subnet": {
                     "id": "Subnet",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet2/Subnet",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2/Subnet",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                       "aws:cdk:cloudformation:props": {
@@ -219,7 +219,7 @@
                           },
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PublicSubnet2"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2"
                           }
                         ],
                         "vpcId": {
@@ -234,7 +234,7 @@
                   },
                   "Acl": {
                     "id": "Acl",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet2/Acl",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2/Acl",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.120.0"
@@ -242,14 +242,14 @@
                   },
                   "RouteTable": {
                     "id": "RouteTable",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet2/RouteTable",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2/RouteTable",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                       "aws:cdk:cloudformation:props": {
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PublicSubnet2"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2"
                           }
                         ],
                         "vpcId": {
@@ -264,7 +264,7 @@
                   },
                   "RouteTableAssociation": {
                     "id": "RouteTableAssociation",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet2/RouteTableAssociation",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2/RouteTableAssociation",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                       "aws:cdk:cloudformation:props": {
@@ -283,7 +283,7 @@
                   },
                   "DefaultRoute": {
                     "id": "DefaultRoute",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet2/DefaultRoute",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2/DefaultRoute",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                       "aws:cdk:cloudformation:props": {
@@ -303,7 +303,7 @@
                   },
                   "EIP": {
                     "id": "EIP",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet2/EIP",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2/EIP",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::EIP",
                       "aws:cdk:cloudformation:props": {
@@ -311,7 +311,7 @@
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PublicSubnet2"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2"
                           }
                         ]
                       }
@@ -323,7 +323,7 @@
                   },
                   "NATGateway": {
                     "id": "NATGateway",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet2/NATGateway",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2/NATGateway",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::NatGateway",
                       "aws:cdk:cloudformation:props": {
@@ -339,7 +339,7 @@
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PublicSubnet2"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2"
                           }
                         ]
                       }
@@ -357,11 +357,11 @@
               },
               "PublicSubnet3": {
                 "id": "PublicSubnet3",
-                "path": "RedshiftServerlessStack/VPC/PublicSubnet3",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3",
                 "children": {
                   "Subnet": {
                     "id": "Subnet",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet3/Subnet",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3/Subnet",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                       "aws:cdk:cloudformation:props": {
@@ -379,7 +379,7 @@
                           },
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PublicSubnet3"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3"
                           }
                         ],
                         "vpcId": {
@@ -394,7 +394,7 @@
                   },
                   "Acl": {
                     "id": "Acl",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet3/Acl",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3/Acl",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.120.0"
@@ -402,14 +402,14 @@
                   },
                   "RouteTable": {
                     "id": "RouteTable",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet3/RouteTable",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3/RouteTable",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                       "aws:cdk:cloudformation:props": {
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PublicSubnet3"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3"
                           }
                         ],
                         "vpcId": {
@@ -424,7 +424,7 @@
                   },
                   "RouteTableAssociation": {
                     "id": "RouteTableAssociation",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet3/RouteTableAssociation",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3/RouteTableAssociation",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                       "aws:cdk:cloudformation:props": {
@@ -443,7 +443,7 @@
                   },
                   "DefaultRoute": {
                     "id": "DefaultRoute",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet3/DefaultRoute",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3/DefaultRoute",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                       "aws:cdk:cloudformation:props": {
@@ -463,7 +463,7 @@
                   },
                   "EIP": {
                     "id": "EIP",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet3/EIP",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3/EIP",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::EIP",
                       "aws:cdk:cloudformation:props": {
@@ -471,7 +471,7 @@
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PublicSubnet3"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3"
                           }
                         ]
                       }
@@ -483,7 +483,7 @@
                   },
                   "NATGateway": {
                     "id": "NATGateway",
-                    "path": "RedshiftServerlessStack/VPC/PublicSubnet3/NATGateway",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3/NATGateway",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::NatGateway",
                       "aws:cdk:cloudformation:props": {
@@ -499,7 +499,7 @@
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PublicSubnet3"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3"
                           }
                         ]
                       }
@@ -517,11 +517,11 @@
               },
               "PrivateSubnet1": {
                 "id": "PrivateSubnet1",
-                "path": "RedshiftServerlessStack/VPC/PrivateSubnet1",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet1",
                 "children": {
                   "Subnet": {
                     "id": "Subnet",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet1/Subnet",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet1/Subnet",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                       "aws:cdk:cloudformation:props": {
@@ -539,7 +539,7 @@
                           },
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PrivateSubnet1"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet1"
                           }
                         ],
                         "vpcId": {
@@ -554,7 +554,7 @@
                   },
                   "Acl": {
                     "id": "Acl",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet1/Acl",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet1/Acl",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.120.0"
@@ -562,14 +562,14 @@
                   },
                   "RouteTable": {
                     "id": "RouteTable",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet1/RouteTable",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet1/RouteTable",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                       "aws:cdk:cloudformation:props": {
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PrivateSubnet1"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet1"
                           }
                         ],
                         "vpcId": {
@@ -584,7 +584,7 @@
                   },
                   "RouteTableAssociation": {
                     "id": "RouteTableAssociation",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet1/RouteTableAssociation",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet1/RouteTableAssociation",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                       "aws:cdk:cloudformation:props": {
@@ -603,7 +603,7 @@
                   },
                   "DefaultRoute": {
                     "id": "DefaultRoute",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet1/DefaultRoute",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet1/DefaultRoute",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                       "aws:cdk:cloudformation:props": {
@@ -629,11 +629,11 @@
               },
               "PrivateSubnet2": {
                 "id": "PrivateSubnet2",
-                "path": "RedshiftServerlessStack/VPC/PrivateSubnet2",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet2",
                 "children": {
                   "Subnet": {
                     "id": "Subnet",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet2/Subnet",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet2/Subnet",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                       "aws:cdk:cloudformation:props": {
@@ -651,7 +651,7 @@
                           },
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PrivateSubnet2"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet2"
                           }
                         ],
                         "vpcId": {
@@ -666,7 +666,7 @@
                   },
                   "Acl": {
                     "id": "Acl",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet2/Acl",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet2/Acl",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.120.0"
@@ -674,14 +674,14 @@
                   },
                   "RouteTable": {
                     "id": "RouteTable",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet2/RouteTable",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet2/RouteTable",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                       "aws:cdk:cloudformation:props": {
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PrivateSubnet2"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet2"
                           }
                         ],
                         "vpcId": {
@@ -696,7 +696,7 @@
                   },
                   "RouteTableAssociation": {
                     "id": "RouteTableAssociation",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet2/RouteTableAssociation",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet2/RouteTableAssociation",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                       "aws:cdk:cloudformation:props": {
@@ -715,7 +715,7 @@
                   },
                   "DefaultRoute": {
                     "id": "DefaultRoute",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet2/DefaultRoute",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet2/DefaultRoute",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                       "aws:cdk:cloudformation:props": {
@@ -741,11 +741,11 @@
               },
               "PrivateSubnet3": {
                 "id": "PrivateSubnet3",
-                "path": "RedshiftServerlessStack/VPC/PrivateSubnet3",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet3",
                 "children": {
                   "Subnet": {
                     "id": "Subnet",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet3/Subnet",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet3/Subnet",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
                       "aws:cdk:cloudformation:props": {
@@ -763,7 +763,7 @@
                           },
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PrivateSubnet3"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet3"
                           }
                         ],
                         "vpcId": {
@@ -778,7 +778,7 @@
                   },
                   "Acl": {
                     "id": "Acl",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet3/Acl",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet3/Acl",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.120.0"
@@ -786,14 +786,14 @@
                   },
                   "RouteTable": {
                     "id": "RouteTable",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet3/RouteTable",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet3/RouteTable",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
                       "aws:cdk:cloudformation:props": {
                         "tags": [
                           {
                             "key": "Name",
-                            "value": "RedshiftServerlessStack/VPC/PrivateSubnet3"
+                            "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet3"
                           }
                         ],
                         "vpcId": {
@@ -808,7 +808,7 @@
                   },
                   "RouteTableAssociation": {
                     "id": "RouteTableAssociation",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet3/RouteTableAssociation",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet3/RouteTableAssociation",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
                       "aws:cdk:cloudformation:props": {
@@ -827,7 +827,7 @@
                   },
                   "DefaultRoute": {
                     "id": "DefaultRoute",
-                    "path": "RedshiftServerlessStack/VPC/PrivateSubnet3/DefaultRoute",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet3/DefaultRoute",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Route",
                       "aws:cdk:cloudformation:props": {
@@ -853,14 +853,14 @@
               },
               "IGW": {
                 "id": "IGW",
-                "path": "RedshiftServerlessStack/VPC/IGW",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/IGW",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::EC2::InternetGateway",
                   "aws:cdk:cloudformation:props": {
                     "tags": [
                       {
                         "key": "Name",
-                        "value": "RedshiftServerlessStack/VPC"
+                        "value": "RedshiftServerlessNamespaceWorkgroupStack/VPC"
                       }
                     ]
                   }
@@ -872,7 +872,7 @@
               },
               "VPCGW": {
                 "id": "VPCGW",
-                "path": "RedshiftServerlessStack/VPC/VPCGW",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/VPCGW",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::EC2::VPCGatewayAttachment",
                   "aws:cdk:cloudformation:props": {
@@ -891,11 +891,11 @@
               },
               "RestrictDefaultSecurityGroupCustomResource": {
                 "id": "RestrictDefaultSecurityGroupCustomResource",
-                "path": "RedshiftServerlessStack/VPC/RestrictDefaultSecurityGroupCustomResource",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/RestrictDefaultSecurityGroupCustomResource",
                 "children": {
                   "Default": {
                     "id": "Default",
-                    "path": "RedshiftServerlessStack/VPC/RestrictDefaultSecurityGroupCustomResource/Default",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/VPC/RestrictDefaultSecurityGroupCustomResource/Default",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnResource",
                       "version": "2.120.0"
@@ -915,11 +915,11 @@
           },
           "Custom::VpcRestrictDefaultSGCustomResourceProvider": {
             "id": "Custom::VpcRestrictDefaultSGCustomResourceProvider",
-            "path": "RedshiftServerlessStack/Custom::VpcRestrictDefaultSGCustomResourceProvider",
+            "path": "RedshiftServerlessNamespaceWorkgroupStack/Custom::VpcRestrictDefaultSGCustomResourceProvider",
             "children": {
               "Staging": {
                 "id": "Staging",
-                "path": "RedshiftServerlessStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Staging",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Staging",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.AssetStaging",
                   "version": "2.120.0"
@@ -927,7 +927,7 @@
               },
               "Role": {
                 "id": "Role",
-                "path": "RedshiftServerlessStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
                   "version": "2.120.0"
@@ -935,7 +935,7 @@
               },
               "Handler": {
                 "id": "Handler",
-                "path": "RedshiftServerlessStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
                   "version": "2.120.0"
@@ -949,11 +949,11 @@
           },
           "DefaultRole": {
             "id": "DefaultRole",
-            "path": "RedshiftServerlessStack/DefaultRole",
+            "path": "RedshiftServerlessNamespaceWorkgroupStack/DefaultRole",
             "children": {
               "ImportDefaultRole": {
                 "id": "ImportDefaultRole",
-                "path": "RedshiftServerlessStack/DefaultRole/ImportDefaultRole",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/DefaultRole/ImportDefaultRole",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.120.0"
@@ -961,7 +961,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "RedshiftServerlessStack/DefaultRole/Resource",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/DefaultRole/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                   "aws:cdk:cloudformation:props": {
@@ -992,11 +992,11 @@
           },
           "AnotherRole": {
             "id": "AnotherRole",
-            "path": "RedshiftServerlessStack/AnotherRole",
+            "path": "RedshiftServerlessNamespaceWorkgroupStack/AnotherRole",
             "children": {
               "ImportAnotherRole": {
                 "id": "ImportAnotherRole",
-                "path": "RedshiftServerlessStack/AnotherRole/ImportAnotherRole",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/AnotherRole/ImportAnotherRole",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.120.0"
@@ -1004,7 +1004,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "RedshiftServerlessStack/AnotherRole/Resource",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/AnotherRole/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                   "aws:cdk:cloudformation:props": {
@@ -1035,11 +1035,11 @@
           },
           "Namespace": {
             "id": "Namespace",
-            "path": "RedshiftServerlessStack/Namespace",
+            "path": "RedshiftServerlessNamespaceWorkgroupStack/Namespace",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "RedshiftServerlessStack/Namespace/Resource",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/Namespace/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::RedshiftServerless::Namespace",
                   "aws:cdk:cloudformation:props": {
@@ -1077,7 +1077,7 @@
                       "connectionlog",
                       "useractivitylog"
                     ],
-                    "namespaceName": "redshiftserverlessstacknamespace96a02cb7"
+                    "namespaceName": "redshiftserverlessnamespaceworkgroupstacknamespace9213ae95"
                   }
                 },
                 "constructInfo": {
@@ -1093,11 +1093,11 @@
           },
           "AddRole": {
             "id": "AddRole",
-            "path": "RedshiftServerlessStack/AddRole",
+            "path": "RedshiftServerlessNamespaceWorkgroupStack/AddRole",
             "children": {
               "ImportAddRole": {
                 "id": "ImportAddRole",
-                "path": "RedshiftServerlessStack/AddRole/ImportAddRole",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/AddRole/ImportAddRole",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.120.0"
@@ -1105,7 +1105,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "RedshiftServerlessStack/AddRole/Resource",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/AddRole/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                   "aws:cdk:cloudformation:props": {
@@ -1136,15 +1136,15 @@
           },
           "WorkGroup": {
             "id": "WorkGroup",
-            "path": "RedshiftServerlessStack/WorkGroup",
+            "path": "RedshiftServerlessNamespaceWorkgroupStack/WorkGroup",
             "children": {
               "SecurityGroup": {
                 "id": "SecurityGroup",
-                "path": "RedshiftServerlessStack/WorkGroup/SecurityGroup",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/WorkGroup/SecurityGroup",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "RedshiftServerlessStack/WorkGroup/SecurityGroup/Resource",
+                    "path": "RedshiftServerlessNamespaceWorkgroupStack/WorkGroup/SecurityGroup/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
                       "aws:cdk:cloudformation:props": {
@@ -1174,7 +1174,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "RedshiftServerlessStack/WorkGroup/Resource",
+                "path": "RedshiftServerlessNamespaceWorkgroupStack/WorkGroup/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::RedshiftServerless::Workgroup",
                   "aws:cdk:cloudformation:props": {
@@ -1233,7 +1233,7 @@
                         "Ref": "VPCPrivateSubnet3Subnet3EDCD457"
                       }
                     ],
-                    "workgroupName": "redshiftserverlessstackworkgroupcfbe5e7c"
+                    "workgroupName": "redshiftserverlessnamespaceworkgroupstackworkgroup276abff0"
                   }
                 },
                 "constructInfo": {
@@ -1249,7 +1249,7 @@
           },
           "endpointAddress": {
             "id": "endpointAddress",
-            "path": "RedshiftServerlessStack/endpointAddress",
+            "path": "RedshiftServerlessNamespaceWorkgroupStack/endpointAddress",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.120.0"
@@ -1257,7 +1257,7 @@
           },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
-            "path": "RedshiftServerlessStack/BootstrapVersion",
+            "path": "RedshiftServerlessNamespaceWorkgroupStack/BootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnParameter",
               "version": "2.120.0"
@@ -1265,7 +1265,7 @@
           },
           "CheckBootstrapVersion": {
             "id": "CheckBootstrapVersion",
-            "path": "RedshiftServerlessStack/CheckBootstrapVersion",
+            "path": "RedshiftServerlessNamespaceWorkgroupStack/CheckBootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnRule",
               "version": "2.120.0"
@@ -1277,17 +1277,17 @@
           "version": "2.120.0"
         }
       },
-      "RedshiftServerless": {
-        "id": "RedshiftServerless",
-        "path": "RedshiftServerless",
+      "RedshiftServerlessNamespaceWorkgroupTest": {
+        "id": "RedshiftServerlessNamespaceWorkgroupTest",
+        "path": "RedshiftServerlessNamespaceWorkgroupTest",
         "children": {
           "DefaultTest": {
             "id": "DefaultTest",
-            "path": "RedshiftServerless/DefaultTest",
+            "path": "RedshiftServerlessNamespaceWorkgroupTest/DefaultTest",
             "children": {
               "Default": {
                 "id": "Default",
-                "path": "RedshiftServerless/DefaultTest/Default",
+                "path": "RedshiftServerlessNamespaceWorkgroupTest/DefaultTest/Default",
                 "constructInfo": {
                   "fqn": "constructs.Construct",
                   "version": "10.3.0"
@@ -1295,11 +1295,11 @@
               },
               "DeployAssert": {
                 "id": "DeployAssert",
-                "path": "RedshiftServerless/DefaultTest/DeployAssert",
+                "path": "RedshiftServerlessNamespaceWorkgroupTest/DefaultTest/DeployAssert",
                 "children": {
                   "BootstrapVersion": {
                     "id": "BootstrapVersion",
-                    "path": "RedshiftServerless/DefaultTest/DeployAssert/BootstrapVersion",
+                    "path": "RedshiftServerlessNamespaceWorkgroupTest/DefaultTest/DeployAssert/BootstrapVersion",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnParameter",
                       "version": "2.120.0"
@@ -1307,7 +1307,7 @@
                   },
                   "CheckBootstrapVersion": {
                     "id": "CheckBootstrapVersion",
-                    "path": "RedshiftServerless/DefaultTest/DeployAssert/CheckBootstrapVersion",
+                    "path": "RedshiftServerlessNamespaceWorkgroupTest/DefaultTest/DeployAssert/CheckBootstrapVersion",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnRule",
                       "version": "2.120.0"

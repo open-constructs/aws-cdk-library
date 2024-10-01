@@ -368,9 +368,7 @@ export class Namespace extends Resource implements INamespace {
    */
   public addIamRole(role: IRole): void {
     if (this.iamRoles.includes(role)) {
-      throw new Error(
-        `An adding IAM Role is already attached to the namespace, name: ${role.roleName}, ARN: ${role.roleArn}.`,
-      );
+      throw new Error(`An adding IAM Role is already attached to the namespace, ARN: ${role.roleArn}.`);
     }
 
     this.iamRoles.push(role);

@@ -64,9 +64,9 @@ const env = {
   region: process.env.CDK_INTEG_REGION || process.env.CDK_DEFAULT_REGION,
 };
 
-const testCase = new RedshiftServerlessStack(app, 'RedshiftServerlessStack', { env });
+const testCase = new RedshiftServerlessStack(app, 'RedshiftServerlessNamespaceWorkgroupStack', { env });
 
-new IntegTest(app, 'RedshiftServerless', {
+new IntegTest(app, 'RedshiftServerlessNamespaceWorkgroupTest', {
   testCases: [testCase],
   enableLookups: true,
   stackUpdateWorkflow: false,

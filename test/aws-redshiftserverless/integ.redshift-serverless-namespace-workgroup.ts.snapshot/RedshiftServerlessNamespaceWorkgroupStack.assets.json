@@ -15,15 +15,15 @@
         }
       }
     },
-    "2a8884775baa3e4bf727739558ab42431a52a7c219439b077c8484fad5cd293f": {
+    "4a8832c353aec7c387162f2dce3cb6290e83346da06b1ecbcc2f4b8a5794133d": {
       "source": {
-        "path": "RedshiftServerlessStack.template.json",
+        "path": "RedshiftServerlessNamespaceWorkgroupStack.template.json",
         "packaging": "file"
       },
       "destinations": {
         "12345678-test-region": {
           "bucketName": "cdk-hnb659fds-assets-12345678-test-region",
-          "objectKey": "2a8884775baa3e4bf727739558ab42431a52a7c219439b077c8484fad5cd293f.json",
+          "objectKey": "4a8832c353aec7c387162f2dce3cb6290e83346da06b1ecbcc2f4b8a5794133d.json",
           "region": "test-region",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::12345678:role/cdk-hnb659fds-file-publishing-role-12345678-test-region"
         }

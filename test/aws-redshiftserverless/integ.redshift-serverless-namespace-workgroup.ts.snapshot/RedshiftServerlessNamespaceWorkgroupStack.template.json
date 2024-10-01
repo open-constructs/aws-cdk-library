@@ -10,7 +10,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC"
      }
     ]
    }
@@ -32,7 +32,7 @@
      },
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PublicSubnet1"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1"
      }
     ],
     "VpcId": {
@@ -46,7 +46,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PublicSubnet1"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1"
      }
     ],
     "VpcId": {
@@ -87,7 +87,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PublicSubnet1"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1"
      }
     ]
    }
@@ -107,7 +107,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PublicSubnet1"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet1"
      }
     ]
    },
@@ -133,7 +133,7 @@
      },
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PublicSubnet2"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2"
      }
     ],
     "VpcId": {
@@ -147,7 +147,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PublicSubnet2"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2"
      }
     ],
     "VpcId": {
@@ -188,7 +188,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PublicSubnet2"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2"
      }
     ]
    }
@@ -208,7 +208,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PublicSubnet2"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet2"
      }
     ]
    },
@@ -234,7 +234,7 @@
      },
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PublicSubnet3"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3"
      }
     ],
     "VpcId": {
@@ -248,7 +248,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PublicSubnet3"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3"
      }
     ],
     "VpcId": {
@@ -289,7 +289,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PublicSubnet3"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3"
      }
     ]
    }
@@ -309,7 +309,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PublicSubnet3"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PublicSubnet3"
      }
     ]
    },
@@ -335,7 +335,7 @@
      },
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PrivateSubnet1"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet1"
      }
     ],
     "VpcId": {
@@ -349,7 +349,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PrivateSubnet1"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet1"
      }
     ],
     "VpcId": {
@@ -397,7 +397,7 @@
      },
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PrivateSubnet2"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet2"
      }
     ],
     "VpcId": {
@@ -411,7 +411,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PrivateSubnet2"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet2"
      }
     ],
     "VpcId": {
@@ -459,7 +459,7 @@
      },
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PrivateSubnet3"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet3"
      }
     ],
     "VpcId": {
@@ -473,7 +473,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC/PrivateSubnet3"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC/PrivateSubnet3"
      }
     ],
     "VpcId": {
@@ -510,7 +510,7 @@
     "Tags": [
      {
       "Key": "Name",
-      "Value": "RedshiftServerlessStack/VPC"
+      "Value": "RedshiftServerlessNamespaceWorkgroupStack/VPC"
      }
     ]
    }
@@ -701,7 +701,7 @@
      "connectionlog",
      "useractivitylog"
     ],
-    "NamespaceName": "redshiftserverlessstacknamespace96a02cb7"
+    "NamespaceName": "redshiftserverlessnamespaceworkgroupstacknamespace9213ae95"
    }
   },
   "AddRole65E43A1F": {
@@ -795,7 +795,7 @@
       "Ref": "VPCPrivateSubnet3Subnet3EDCD457"
      }
     ],
-    "WorkgroupName": "redshiftserverlessstackworkgroupcfbe5e7c"
+    "WorkgroupName": "redshiftserverlessnamespaceworkgroupstackworkgroup276abff0"
    }
   }
  },

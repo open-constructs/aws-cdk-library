@@ -1,6 +1,6 @@
 import { App, Stack, aws_ec2 } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import { Namespace, Workgroup } from '../../src/aws-redshiftserverless';
+import { IWorkgroup, Namespace, Workgroup } from '../../src/aws-redshiftserverless';
 
 describe('Redshift Serverless Workgroup', () => {
   let app: App;
@@ -85,26 +85,38 @@ describe('Redshift Serverless Workgroup', () => {
   });
 
   describe('import method', () => {
-    test('imports Workgroup correctly', () => {
-      const securityGroup = aws_ec2.SecurityGroup.fromSecurityGroupId(stack, 'SG', 'sg-123456789');
-      const importedWorkgroup = Workgroup.fromWorkgroupAttributes(stack, 'ImportedWorkgroup', {
+    let securityGroup: aws_ec2.ISecurityGroup;
+    let importedWorkgroup: IWorkgroup;
+
+    beforeEach(() => {
+      stack = new Stack();
+      securityGroup = aws_ec2.SecurityGroup.fromSecurityGroupId(stack, 'SG', 'sg-123456789');
+      importedWorkgroup = Workgroup.fromWorkgroupAttributes(stack, 'ImportedWorkgroup', {
         workgroupName: 'my-workgroup',
         workgroupId: 'my-workgroup-id',
         endpointAddress: 'my-workgroup.endpoint.com',
         port: 5439,
         securityGroups: [securityGroup],
       });
+    });
 
+    test('should correctly set workgroupName', () => {
       expect(importedWorkgroup.workgroupName).toEqual('my-workgroup');
+    });
 
+    test('should correctly set workgroupId', () => {
       expect(importedWorkgroup.workgroupId).toEqual('my-workgroup-id');
+    });
 
+    test('should correctly set endpointAddress', () => {
       expect(importedWorkgroup.endpointAddress).toEqual('my-workgroup.endpoint.com');
+    });
 
+    test('should correctly set port', () => {
       expect(importedWorkgroup.port).toEqual(5439);
+    });
 
-      expect(importedWorkgroup.workgroupName).toEqual('my-workgroup');
-
+    test('should correctly format workgroupArn', () => {
       expect(importedWorkgroup.workgroupArn).toEqual(
         Stack.of(stack).formatArn({
           resource: 'redshift-serverless',
@@ -112,7 +124,9 @@ describe('Redshift Serverless Workgroup', () => {
           resourceName: 'my-workgroup-id',
         }),
       );
+    });
 
+    test('should correctly set security groups', () => {
       expect(importedWorkgroup.connections.securityGroups).toEqual([securityGroup]);
     });
   });
