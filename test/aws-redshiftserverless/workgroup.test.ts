@@ -15,7 +15,7 @@ describe('Redshift Serverless Workgroup', () => {
     vpc = new aws_ec2.Vpc(stack, 'VPC');
   });
 
-  test('Create namsepace with minimal properties ', () => {
+  test('Create workgroup with minimal properties ', () => {
     new Workgroup(stack, 'Namespace', {
       vpc,
     });
