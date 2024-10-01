@@ -44,7 +44,7 @@ export interface OntapConfiguration {
    * Setting this property to 0 disables automatic backups.
    * You can retain automatic backups for a maximum of 90 days.
    *
-   * @default - disable automatic backups
+   * @default - 30 days
    */
   readonly automaticBackupRetention?: Duration;
 
@@ -57,8 +57,10 @@ export interface OntapConfiguration {
 
   /**
    * The FSx for ONTAP file system deployment type to use in creating the file system.
+   *
+   * @default OntapDeploymentType.MULTI_AZ_2
    */
-  readonly deploymentType: OntapDeploymentType;
+  readonly deploymentType?: OntapDeploymentType;
 
   /**
    * The total number of SSD IOPS provisioned for the file system.
@@ -248,8 +250,15 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
    */
   private readonly fileSystem: aws_fsx.CfnFileSystem;
 
+  /**
+   * The deployment type of the file system.
+   */
+  private readonly deploymentType: OntapDeploymentType;
+
   constructor(scope: Construct, id: string, props: OntapFileSystemProps) {
     super(scope, id);
+
+    this.deploymentType = props.ontapConfiguration.deploymentType ?? OntapDeploymentType.MULTI_AZ_2;
 
     this.validateProps(props);
 
@@ -283,9 +292,9 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
       backupId: props.backupId,
       kmsKeyId: props.kmsKey?.keyId,
       ontapConfiguration: {
-        automaticBackupRetentionDays: ontapConfiguration.automaticBackupRetention?.toDays() ?? 0,
+        automaticBackupRetentionDays: ontapConfiguration.automaticBackupRetention?.toDays() ?? 30,
         dailyAutomaticBackupStartTime: ontapConfiguration.dailyAutomaticBackupStartTime?.toTimestamp(),
-        deploymentType: ontapConfiguration.deploymentType ?? OntapDeploymentType.MULTI_AZ_2,
+        deploymentType: this.deploymentType,
         diskIopsConfiguration: {
           mode: ontapConfiguration.diskIops ? 'USER_PROVISIONED' : 'AUTOMATIC',
           iops: ontapConfiguration.diskIops,
@@ -311,20 +320,18 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
    */
   private validateProps(props: OntapFileSystemProps) {
     const ontapConfiguration = props.ontapConfiguration;
-    const deploymentType = ontapConfiguration.deploymentType;
 
-    this.validateHaPairs(deploymentType, ontapConfiguration.haPairs);
+    this.validateHaPairs(ontapConfiguration.haPairs);
     this.validateAutomaticBackupRetention(ontapConfiguration.automaticBackupRetention);
     this.validateDailyAutomaticBackupStartTime(
       ontapConfiguration.automaticBackupRetention,
       ontapConfiguration.dailyAutomaticBackupStartTime,
     );
     this.validateDiskIops(props.storageCapacityGiB, ontapConfiguration.diskIops, ontapConfiguration.haPairs);
-    this.validateEndpointIpAddressRange(deploymentType, ontapConfiguration.endpointIpAddressRange);
-    this.validateSubnets(deploymentType, props.vpcSubnets, ontapConfiguration.preferredSubnet);
-    this.validateRouteTables(deploymentType, ontapConfiguration.routeTables);
+    this.validateEndpointIpAddressRange(ontapConfiguration.endpointIpAddressRange);
+    this.validateSubnets(props.vpcSubnets, ontapConfiguration.preferredSubnet);
+    this.validateRouteTables(ontapConfiguration.routeTables);
     this.validateThroughputCapacity(
-      deploymentType,
       ontapConfiguration.throughputCapacity,
       ontapConfiguration.throughputCapacityPerHaPair,
       ontapConfiguration.haPairs,
@@ -385,11 +392,14 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     }
   }
 
-  private validateEndpointIpAddressRange(deploymentType: OntapDeploymentType, endpointIpAddressRange?: string): void {
+  private validateEndpointIpAddressRange(endpointIpAddressRange?: string): void {
     if (endpointIpAddressRange == null || Token.isUnresolved(endpointIpAddressRange)) {
       return;
     }
-    if (deploymentType !== OntapDeploymentType.MULTI_AZ_1 && deploymentType !== OntapDeploymentType.MULTI_AZ_2) {
+    if (
+      this.deploymentType !== OntapDeploymentType.MULTI_AZ_1 &&
+      this.deploymentType !== OntapDeploymentType.MULTI_AZ_2
+    ) {
       throw new Error("'endpointIpAddressRange' can only be specified for multi-AZ file systems");
     }
     if (!/^[^\u0000\u0085\u2028\u2029\r\n]{9,17}$/.test(endpointIpAddressRange)) {
@@ -399,7 +409,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     }
   }
 
-  private validateHaPairs(deploymentType: OntapDeploymentType, haPairs?: number): void {
+  private validateHaPairs(haPairs?: number): void {
     if (haPairs == null || Token.isUnresolved(haPairs)) {
       return;
     }
@@ -409,26 +419,24 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     if (
       haPairs > 1 &&
       [OntapDeploymentType.SINGLE_AZ_1, OntapDeploymentType.MULTI_AZ_1, OntapDeploymentType.MULTI_AZ_2].includes(
-        deploymentType,
+        this.deploymentType,
       )
     ) {
-      throw new Error(`\'haPairs\' must be 1 for deployment type ${deploymentType}, got ${haPairs}`);
+      throw new Error(`\'haPairs\' must be 1 for deployment type ${this.deploymentType}, got ${haPairs}`);
     }
   }
 
-  private validateSubnets(
-    deploymentType: OntapDeploymentType,
-    vpcSubnets: aws_ec2.ISubnet[],
-    preferredSubnet?: aws_ec2.ISubnet,
-  ): void {
+  private validateSubnets(vpcSubnets: aws_ec2.ISubnet[], preferredSubnet?: aws_ec2.ISubnet): void {
     if (
-      (deploymentType === OntapDeploymentType.MULTI_AZ_1 || deploymentType === OntapDeploymentType.MULTI_AZ_2) &&
+      (this.deploymentType === OntapDeploymentType.MULTI_AZ_1 ||
+        this.deploymentType === OntapDeploymentType.MULTI_AZ_2) &&
       !preferredSubnet
     ) {
       throw new Error("'preferredSubnet' must be specified for multi-AZ file systems");
     }
     if (
-      (deploymentType === OntapDeploymentType.SINGLE_AZ_1 || deploymentType === OntapDeploymentType.SINGLE_AZ_2) &&
+      (this.deploymentType === OntapDeploymentType.SINGLE_AZ_1 ||
+        this.deploymentType === OntapDeploymentType.SINGLE_AZ_2) &&
       preferredSubnet
     ) {
       throw new Error("'preferredSubnet' can only be specified for multi-AZ file systems");
@@ -438,17 +446,19 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     }
   }
 
-  private validateRouteTables(deploymentType: OntapDeploymentType, routeTables?: aws_ec2.IRouteTable[]): void {
+  private validateRouteTables(routeTables?: aws_ec2.IRouteTable[]): void {
     if (routeTables == null || routeTables.length === 0) {
       return;
     }
-    if (deploymentType !== OntapDeploymentType.MULTI_AZ_1 && deploymentType !== OntapDeploymentType.MULTI_AZ_2) {
+    if (
+      this.deploymentType !== OntapDeploymentType.MULTI_AZ_1 &&
+      this.deploymentType !== OntapDeploymentType.MULTI_AZ_2
+    ) {
       throw new Error("'routeTables' can only be specified for multi-AZ file systems");
     }
   }
 
   private validateThroughputCapacity(
-    deploymentType: OntapDeploymentType,
     throughputCapacity?: number,
     throughputCapacityPerHaPair?: number,
     haPair: number = 1,
@@ -481,10 +491,10 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
       MULTI_AZ_2: [384, 768, 1536, 3072, 6144],
     };
 
-    const validRange = validValues[deploymentType];
+    const validRange = validValues[this.deploymentType];
     if (!validRange.includes(throughputPerHaPair)) {
       throw new Error(
-        `'throughputCapacityPerHaPair' and 'throughputCapacity' / haPairs must be one of the following values for ${deploymentType}: ${validRange.join(', ')}`,
+        `'throughputCapacityPerHaPair' and 'throughputCapacity' / haPairs must be one of the following values for ${this.deploymentType}: ${validRange.join(', ')}`,
       );
     }
   }
