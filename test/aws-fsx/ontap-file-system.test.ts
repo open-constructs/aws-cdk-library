@@ -669,7 +669,7 @@ describe('FSx for NetApp ONTAP File System', () => {
     test.each(testCases)('valid throughput capacity per HA pair for %s', config => {
       ontapConfiguration = {
         deploymentType: config.deploymentType,
-        throughputCapacityPerHaPair: ThroughputCapacityPerHaPair.of(config.throughput),
+        throughputCapacityPerHaPair: ThroughputCapacityPerHaPair.mbPerSec(config.throughput),
         haPairs: 1,
       };
 
@@ -805,7 +805,7 @@ describe('FSx for NetApp ONTAP File System', () => {
           vpcSubnets: vpc.privateSubnets,
         });
       }).toThrow(
-        `'throughputCapacityPerHaPair' and 'throughputCapacity' / haPairs must be one of the following values for SINGLE_AZ_2: ${validValues[OntapDeploymentType.SINGLE_AZ_2].join(', ')}. got: ${config.throughput} MB/s/HA pair`,
+        `'throughputCapacityPerHaPair' and 'throughputCapacity' / haPairs must be one of the following values for SINGLE_AZ_2: ${validValues[OntapDeploymentType.SINGLE_AZ_2].join(', ')}. got: ${config.throughput / config.haPairs} MB/s/HA pair`,
       );
     });
   });

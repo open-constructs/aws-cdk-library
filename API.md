@@ -2978,26 +2978,26 @@ Check if the throughput capacity is valid for the given deployment type.
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.of">of</a></code> | Create a throughput capacity per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.mbPerSec">mbPerSec</a></code> | Create a throughput capacity per HA pair. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.validValuesForDeploymentType">validValuesForDeploymentType</a></code> | Get the valid throughput capacity for the given deployment type. |
 
 ---
 
-##### `of` <a name="of" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.of"></a>
+##### `mbPerSec` <a name="mbPerSec" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.mbPerSec"></a>
 
 ```typescript
 import { aws_fsx } from '@open-constructs/aws-cdk'
 
-aws_fsx.ThroughputCapacityPerHaPair.of(capacity: number)
+aws_fsx.ThroughputCapacityPerHaPair.mbPerSec(capacity: number)
 ```
 
 Create a throughput capacity per HA pair.
 
-###### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.of.parameter.capacity"></a>
+###### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.mbPerSec.parameter.capacity"></a>
 
 - *Type:* number
 
-The throughput capacity MB per HA pair.
+The throughput capacity MB/s/HA pair.
 
 ---
 
