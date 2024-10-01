@@ -1165,7 +1165,7 @@ const ontapConfiguration: aws_fsx.OntapConfiguration = { ... }
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.dailyAutomaticBackupStartTime">dailyAutomaticBackupStartTime</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTime</code> | Start time for 30-minute daily automatic backup window in Coordinated Universal Time (UTC). |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.diskIops">diskIops</a></code> | <code>number</code> | The total number of SSD IOPS provisioned for the file system. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.endpointIpAddressRange">endpointIpAddressRange</a></code> | <code>string</code> | The IP address range in which the endpoints to access your file system will be created. |
-| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.fsxAdminPassword">fsxAdminPassword</a></code> | <code>string</code> | The ONTAP administrative password for the `fsxadmin` user with which you administer your file system using the NetApp ONTAP CLI and REST API. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.fsxAdminPassword">fsxAdminPassword</a></code> | <code>aws-cdk-lib.SecretValue</code> | The ONTAP administrative password for the `fsxadmin` user with which you administer your file system using the NetApp ONTAP CLI and REST API. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.haPairs">haPairs</a></code> | <code>number</code> | How many high-availability (HA) pairs of file servers will power your file system. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.preferredSubnet">preferredSubnet</a></code> | <code>aws-cdk-lib.aws_ec2.ISubnet</code> | The subnet in which you want the preferred file server to be located. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.routeTables">routeTables</a></code> | <code>aws-cdk-lib.aws_ec2.IRouteTable[]</code> | The route tables in which Amazon FSx creates the rules for routing traffic to the correct file server. |
@@ -1251,10 +1251,10 @@ You can have overlapping endpoint IP addresses for file systems deployed in the 
 ##### `fsxAdminPassword`<sup>Optional</sup> <a name="fsxAdminPassword" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.fsxAdminPassword"></a>
 
 ```typescript
-public readonly fsxAdminPassword: string;
+public readonly fsxAdminPassword: SecretValue;
 ```
 
-- *Type:* string
+- *Type:* aws-cdk-lib.SecretValue
 - *Default:* do not set an admin password
 
 The ONTAP administrative password for the `fsxadmin` user with which you administer your file system using the NetApp ONTAP CLI and REST API.
@@ -1272,7 +1272,7 @@ public readonly haPairs: number;
 ```
 
 - *Type:* number
-- *Default:* 1 HA pair
+- *Default:* 1
 
 How many high-availability (HA) pairs of file servers will power your file system.
 
@@ -1330,7 +1330,7 @@ public readonly throughputCapacity: number;
 ```
 
 - *Type:* number
-- *Default:* recommended throughput capacity based on the storage capacity
+- *Default:* Amazon FSx determines the throughput capacity based on the storage capacity
 
 The throughput capacity for the file system that you're creating in megabytes per second (MBps).
 
