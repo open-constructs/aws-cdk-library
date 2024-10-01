@@ -2011,9 +2011,9 @@ const ontapConfiguration: aws_fsx.OntapConfiguration = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.deploymentType">deploymentType</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType</code> | The FSx for ONTAP file system deployment type to use in creating the file system. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.automaticBackupRetention">automaticBackupRetention</a></code> | <code>aws-cdk-lib.Duration</code> | The number of days to retain automatic backups. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.dailyAutomaticBackupStartTime">dailyAutomaticBackupStartTime</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTime</code> | Start time for 30-minute daily automatic backup window in Coordinated Universal Time (UTC). |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.deploymentType">deploymentType</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType</code> | The FSx for ONTAP file system deployment type to use in creating the file system. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.diskIops">diskIops</a></code> | <code>number</code> | The total number of SSD IOPS provisioned for the file system. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.endpointIpAddressRange">endpointIpAddressRange</a></code> | <code>string</code> | The IP address range in which the endpoints to access your file system will be created. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.fsxAdminPassword">fsxAdminPassword</a></code> | <code>aws-cdk-lib.SecretValue</code> | The ONTAP administrative password for the `fsxadmin` user with which you administer your file system using the NetApp ONTAP CLI and REST API. |
@@ -2021,20 +2021,8 @@ const ontapConfiguration: aws_fsx.OntapConfiguration = { ... }
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.preferredSubnet">preferredSubnet</a></code> | <code>aws-cdk-lib.aws_ec2.ISubnet</code> | The subnet in which you want the preferred file server to be located. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.routeTables">routeTables</a></code> | <code>aws-cdk-lib.aws_ec2.IRouteTable[]</code> | The route tables in which Amazon FSx creates the rules for routing traffic to the correct file server. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.throughputCapacity">throughputCapacity</a></code> | <code>number</code> | The throughput capacity for the file system that you're creating in megabytes per second (MBps). |
-| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.throughputCapacityPerHaPair">throughputCapacityPerHaPair</a></code> | <code>number</code> | The throughput capacity per HA pair, rather than the total throughput for the file system. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.throughputCapacityPerHaPair">throughputCapacityPerHaPair</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity per HA pair, rather than the total throughput for the file system. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.weeklyMaintenanceStartTime">weeklyMaintenanceStartTime</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MaintenanceTime</code> | The preferred day and time to perform weekly maintenance. |
-
----
-
-##### `deploymentType`<sup>Required</sup> <a name="deploymentType" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.deploymentType"></a>
-
-```typescript
-public readonly deploymentType: OntapDeploymentType;
-```
-
-- *Type:* @open-constructs/aws-cdk.aws_fsx.OntapDeploymentType
-
-The FSx for ONTAP file system deployment type to use in creating the file system.
 
 ---
 
@@ -2045,7 +2033,7 @@ public readonly automaticBackupRetention: Duration;
 ```
 
 - *Type:* aws-cdk-lib.Duration
-- *Default:* disable automatic backups
+- *Default:* 30 days
 
 The number of days to retain automatic backups.
 
@@ -2064,6 +2052,19 @@ public readonly dailyAutomaticBackupStartTime: DailyAutomaticBackupStartTime;
 - *Default:* no backup window
 
 Start time for 30-minute daily automatic backup window in Coordinated Universal Time (UTC).
+
+---
+
+##### `deploymentType`<sup>Optional</sup> <a name="deploymentType" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.deploymentType"></a>
+
+```typescript
+public readonly deploymentType: OntapDeploymentType;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.OntapDeploymentType
+- *Default:* OntapDeploymentType.MULTI_AZ_2
+
+The FSx for ONTAP file system deployment type to use in creating the file system.
 
 ---
 
@@ -2194,10 +2195,10 @@ You can define either the `throughputCapacityPerHaPair` or the `throughputCapaci
 ##### `throughputCapacityPerHaPair`<sup>Optional</sup> <a name="throughputCapacityPerHaPair" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.throughputCapacityPerHaPair"></a>
 
 ```typescript
-public readonly throughputCapacityPerHaPair: number;
+public readonly throughputCapacityPerHaPair: ThroughputCapacityPerHaPair;
 ```
 
-- *Type:* number
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
 - *Default:* recommended throughput capacity based on the storage capacity
 
 The throughput capacity per HA pair, rather than the total throughput for the file system.
@@ -2355,7 +2356,9 @@ public readonly vpcSubnets: ISubnet[];
 The subnet that the file system will be accessible from.
 
 For MULTI_AZ_1 deployment types,
-this subnet is for the standby file server and you have to specify a `prefferredSubnet` for the preffered file server.
+provide exactly two subnet IDs, one for the preferred file server and one for the standby file server.
+
+You specify one of these subnets as the preferred subnet using `OntapConfiguration.preferredSubnet` property for multi-AZ file system.
 
 ---
 
@@ -2942,6 +2945,245 @@ public readonly MONTHLY: ReportGranularity;
 - *Type:* @open-constructs/aws-cdk.aws_cur.ReportGranularity
 
 Weekly granularity.
+
+---
+
+### ThroughputCapacityPerHaPair <a name="ThroughputCapacityPerHaPair" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair"></a>
+
+The throughput capacity of an Amazon FSx for NetApp ONTAP file system.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.isValidForDeploymentType">isValidForDeploymentType</a></code> | Check if the throughput capacity is valid for the given deployment type. |
+
+---
+
+##### `isValidForDeploymentType` <a name="isValidForDeploymentType" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.isValidForDeploymentType"></a>
+
+```typescript
+public isValidForDeploymentType(deploymentType: OntapDeploymentType): boolean
+```
+
+Check if the throughput capacity is valid for the given deployment type.
+
+###### `deploymentType`<sup>Required</sup> <a name="deploymentType" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.isValidForDeploymentType.parameter.deploymentType"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.OntapDeploymentType
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.of">of</a></code> | Create a throughput capacity per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.validValuesForDeploymentType">validValuesForDeploymentType</a></code> | Get the valid throughput capacity for the given deployment type. |
+
+---
+
+##### `of` <a name="of" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.of"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+aws_fsx.ThroughputCapacityPerHaPair.of(capacity: number)
+```
+
+Create a throughput capacity per HA pair.
+
+###### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.of.parameter.capacity"></a>
+
+- *Type:* number
+
+The throughput capacity MB per HA pair.
+
+---
+
+##### `validValuesForDeploymentType` <a name="validValuesForDeploymentType" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.validValuesForDeploymentType"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+aws_fsx.ThroughputCapacityPerHaPair.validValuesForDeploymentType(deploymentType: OntapDeploymentType)
+```
+
+Get the valid throughput capacity for the given deployment type.
+
+###### `deploymentType`<sup>Required</sup> <a name="deploymentType" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.validValuesForDeploymentType.parameter.deploymentType"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.OntapDeploymentType
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.capacity">capacity</a></code> | <code>number</code> | The throughput capacity MB per HA pair. |
+
+---
+
+##### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.capacity"></a>
+
+```typescript
+public readonly capacity: number;
+```
+
+- *Type:* number
+
+The throughput capacity MB per HA pair.
+
+---
+
+#### Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_1024">MB_PER_SEC_1024</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity of 1024 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_128">MB_PER_SEC_128</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity of 128 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_1536">MB_PER_SEC_1536</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity of 1536 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_2048">MB_PER_SEC_2048</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity of 2048 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_256">MB_PER_SEC_256</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity of 256 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_3072">MB_PER_SEC_3072</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity of 3072 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_384">MB_PER_SEC_384</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity of 384 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_4096">MB_PER_SEC_4096</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity of 4096 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_512">MB_PER_SEC_512</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity of 512 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_6144">MB_PER_SEC_6144</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity of 6144 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_768">MB_PER_SEC_768</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity of 768 MBps per HA pair. |
+
+---
+
+##### `MB_PER_SEC_1024`<sup>Required</sup> <a name="MB_PER_SEC_1024" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_1024"></a>
+
+```typescript
+public readonly MB_PER_SEC_1024: ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
+
+The throughput capacity of 1024 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_128`<sup>Required</sup> <a name="MB_PER_SEC_128" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_128"></a>
+
+```typescript
+public readonly MB_PER_SEC_128: ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
+
+The throughput capacity of 128 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_1536`<sup>Required</sup> <a name="MB_PER_SEC_1536" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_1536"></a>
+
+```typescript
+public readonly MB_PER_SEC_1536: ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
+
+The throughput capacity of 1536 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_2048`<sup>Required</sup> <a name="MB_PER_SEC_2048" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_2048"></a>
+
+```typescript
+public readonly MB_PER_SEC_2048: ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
+
+The throughput capacity of 2048 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_256`<sup>Required</sup> <a name="MB_PER_SEC_256" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_256"></a>
+
+```typescript
+public readonly MB_PER_SEC_256: ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
+
+The throughput capacity of 256 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_3072`<sup>Required</sup> <a name="MB_PER_SEC_3072" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_3072"></a>
+
+```typescript
+public readonly MB_PER_SEC_3072: ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
+
+The throughput capacity of 3072 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_384`<sup>Required</sup> <a name="MB_PER_SEC_384" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_384"></a>
+
+```typescript
+public readonly MB_PER_SEC_384: ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
+
+The throughput capacity of 384 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_4096`<sup>Required</sup> <a name="MB_PER_SEC_4096" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_4096"></a>
+
+```typescript
+public readonly MB_PER_SEC_4096: ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
+
+The throughput capacity of 4096 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_512`<sup>Required</sup> <a name="MB_PER_SEC_512" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_512"></a>
+
+```typescript
+public readonly MB_PER_SEC_512: ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
+
+The throughput capacity of 512 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_6144`<sup>Required</sup> <a name="MB_PER_SEC_6144" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_6144"></a>
+
+```typescript
+public readonly MB_PER_SEC_6144: ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
+
+The throughput capacity of 6144 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_768`<sup>Required</sup> <a name="MB_PER_SEC_768" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.MB_PER_SEC_768"></a>
+
+```typescript
+public readonly MB_PER_SEC_768: ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
+
+The throughput capacity of 768 MBps per HA pair.
 
 ---
 

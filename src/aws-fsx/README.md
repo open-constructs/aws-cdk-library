@@ -176,8 +176,8 @@ const fileSystem = new OntapFileSystem(this, 'FsxOntapFileSystem', {
     haPairs: 4,
     // Set the throughput capacity to 1536 MiB/s
     throughputCapacity: 6144,
-    // This is equivalent to setting throughputCapacity to 1536 MiB/s
-    // throughputCapacityPerHaPair: 1536,
+    // This is equivalent to setting throughputCapacity to 1536 MB/s
+    // throughputCapacityPerHaPair: ThroughputCapacityPerHaPair.MB_PER_SEC_1536,
   },
   storageCapacityGiB: 4096,
   vpc,

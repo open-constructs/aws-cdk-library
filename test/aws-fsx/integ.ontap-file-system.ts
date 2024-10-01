@@ -50,7 +50,7 @@ new ocf.aws_fsx.OntapFileSystem(stack, 'OntapSingleAzFileSystem', {
     diskIops: 76800,
     fsxAdminPassword: SecretValue.unsafePlainText('fsxPassword1'),
     haPairs: 5,
-    throughputCapacityPerHaPair: 1536,
+    throughputCapacityPerHaPair: ocf.aws_fsx.ThroughputCapacityPerHaPair.MB_PER_SEC_1536,
     weeklyMaintenanceStartTime: new ocf.aws_fsx.MaintenanceTime({
       day: aws_fsx.Weekday.SUNDAY,
       hour: 1,
