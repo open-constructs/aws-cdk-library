@@ -34,7 +34,7 @@ describe('Redshift Serverless Workgroup', () => {
     });
   });
 
-  test('Create namsepace with maximum properties ', () => {
+  test('Create workgroup with maximum properties ', () => {
     const namespace = new Namespace(stack, 'Namespace', {});
     const securityGroup = aws_ec2.SecurityGroup.fromSecurityGroupId(stack, 'SG', 'sg-123456789');
 
