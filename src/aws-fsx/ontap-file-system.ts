@@ -67,7 +67,7 @@ export interface OntapConfiguration {
    * The minimum value is calculated as StorageCapacity * 3 * HAPairs (3 IOPS per GB of StorageCapacity).
    * The maximum value is calculated as 200,000 * HAPairs.
    *
-   * @default - 3 IOPS per GB of storage capacity
+   * @default - 3 IOPS * GB of storage capacity * HAPairs
    */
   readonly diskIops?: number;
 
@@ -159,11 +159,7 @@ export interface OntapConfiguration {
   /**
    * The preferred day and time to perform weekly maintenance.
    *
-   * The first digit is the day of the week, starting at 1
-   * for Monday, then the following are hours and minutes in the UTC time zone, 24 hour clock. For example: '2:20:30'
-   * is Tuesdays at 20:30.
-   *
-   * @default - no preference
+   * @default - automatically set by Amazon FSx
    */
   readonly weeklyMaintenanceStartTime?: MaintenanceTime;
 }

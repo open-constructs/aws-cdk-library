@@ -111,6 +111,84 @@ describe('CostReport', () => {
     template.resourceCountIs('AWS::CUR::ReportDefinition', 2);
   });
 
+  test('unique report name is generated if costReportName is not specified and enableDefaultUniqueReportName is true', () => {
+    new CostReport(stack, 'MyCostReport', {
+      enableDefaultUniqueReportName: true,
+    });
+
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::CUR::ReportDefinition', {
+      ReportName: 'TestStackMyCostReportF831D765',
+    });
+  });
+
+  test('fixed report name is generated if costReportName is not specified and enableDefaultUniqueReportName is false', () => {
+    new CostReport(stack, 'MyCostReport', {
+      enableDefaultUniqueReportName: false,
+    });
+
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::CUR::ReportDefinition', {
+      ReportName: 'default-cur',
+    });
+  });
+
+  test('report name can be specified even if enableDefaultUniqueReportName is true', () => {
+    new CostReport(stack, 'MyCostReport', {
+      enableDefaultUniqueReportName: true,
+      costReportName: 'custom-cur',
+    });
+
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::CUR::ReportDefinition', {
+      ReportName: 'custom-cur',
+    });
+  });
+
+  test('report name can have special characters', () => {
+    new CostReport(stack, 'Report', {
+      costReportName: "report1!-_.*'()",
+    });
+
+    const template = Template.fromStack(stack);
+
+    template.hasResourceProperties('AWS::CUR::ReportDefinition', {
+      ReportName: "report1!-_.*'()",
+    });
+  });
+
+  test('throws if the report name has spaces', () => {
+    expect(
+      () =>
+        new CostReport(stack, 'MyCostReport', {
+          costReportName: 'report with spaces',
+        }),
+    ).toThrow(
+      "'costReportName' must only contain alphanumeric characters and the following special characters: !-_.*'(), got: 'report with spaces'",
+    );
+  });
+
+  test('throws if the length of the report name is greater than 256 characters', () => {
+    expect(
+      () =>
+        new CostReport(stack, 'MyCostReport', {
+          costReportName: 'a'.repeat(257),
+        }),
+    ).toThrow("'costReportName' must be between 1 and 256 characters long, got: 257");
+  });
+
+  test('throws if the length of the report name is less than 1 character', () => {
+    expect(
+      () =>
+        new CostReport(stack, 'MyCostReport', {
+          costReportName: '',
+        }),
+    ).toThrow("'costReportName' must be between 1 and 256 characters long, got: 0");
+  });
+
   test('regions other than us-east-1', () => {
     const regionOtherStack = new Stack(app, 'OtherRegionStack', {
       env: { region: 'ap-northeast-1' },
@@ -126,5 +204,19 @@ describe('CostReport', () => {
     ).toThrow(
       `The \`CostReport\` construct is only available in the us-east-1 region, got: ${regionOtherStack.region} region`,
     );
+  });
+
+  test('skip validation if no region is specified (i.e. it is a token)', () => {
+    // Default region is used if region is not specified.
+    const stackWithRegionToken = new Stack(app, 'OtherRegionStack');
+
+    expect(
+      () =>
+        new CostReport(stackWithRegionToken, 'MyCustomCostReport', {
+          costReportName: 'custom-cur',
+          reportGranularity: ReportGranularity.DAILY,
+          format: CurFormat.PARQUET,
+        }),
+    ).not.toThrow();
   });
 });
