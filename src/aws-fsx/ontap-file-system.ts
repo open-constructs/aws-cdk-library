@@ -277,9 +277,9 @@ export interface OntapFileSystemProps extends aws_fsx.FileSystemProps {
    * The subnet that the file system will be accessible from.
    *
    * For MULTI_AZ_1 deployment types,
-   * provide exactly two subnet IDs, one for the preferred file server and one for the standby file server.
+   * provide exactly two subnets, one for the preferred file server and one for the standby file server.
    *
-   * You specify one of these subnets as the preferred subnet using `OntapConfiguration.preferredSubnet` property for multi-AZ file system.
+   * Specify one of these subnets as the preferred subnet using `OntapConfiguration.preferredSubnet` property for multi-AZ file system.
    */
   readonly vpcSubnets: aws_ec2.ISubnet[];
 }
