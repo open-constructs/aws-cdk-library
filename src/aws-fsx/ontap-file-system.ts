@@ -39,64 +39,64 @@ export class ThroughputCapacityPerHaPair {
   /**
    * The throughput capacity of 128 MBps per HA pair.
    */
-  public static readonly MB_PER_SEC_128 = ThroughputCapacityPerHaPair.of(128);
+  public static readonly MB_PER_SEC_128 = ThroughputCapacityPerHaPair.MbPerSec(128);
 
   /**
    * The throughput capacity of 256 MBps per HA pair.
    */
-  public static readonly MB_PER_SEC_256 = ThroughputCapacityPerHaPair.of(256);
+  public static readonly MB_PER_SEC_256 = ThroughputCapacityPerHaPair.MbPerSec(256);
 
   /**
    * The throughput capacity of 384 MBps per HA pair.
    */
-  public static readonly MB_PER_SEC_384 = ThroughputCapacityPerHaPair.of(384);
+  public static readonly MB_PER_SEC_384 = ThroughputCapacityPerHaPair.MbPerSec(384);
 
   /**
    * The throughput capacity of 512 MBps per HA pair.
    */
-  public static readonly MB_PER_SEC_512 = ThroughputCapacityPerHaPair.of(512);
+  public static readonly MB_PER_SEC_512 = ThroughputCapacityPerHaPair.MbPerSec(512);
 
   /**
    * The throughput capacity of 768 MBps per HA pair.
    */
-  public static readonly MB_PER_SEC_768 = ThroughputCapacityPerHaPair.of(768);
+  public static readonly MB_PER_SEC_768 = ThroughputCapacityPerHaPair.MbPerSec(768);
 
   /**
    * The throughput capacity of 1024 MBps per HA pair.
    */
-  public static readonly MB_PER_SEC_1024 = ThroughputCapacityPerHaPair.of(1024);
+  public static readonly MB_PER_SEC_1024 = ThroughputCapacityPerHaPair.MbPerSec(1024);
 
   /**
    * The throughput capacity of 1536 MBps per HA pair.
    */
-  public static readonly MB_PER_SEC_1536 = ThroughputCapacityPerHaPair.of(1536);
+  public static readonly MB_PER_SEC_1536 = ThroughputCapacityPerHaPair.MbPerSec(1536);
 
   /**
    * The throughput capacity of 2048 MBps per HA pair.
    */
-  public static readonly MB_PER_SEC_2048 = ThroughputCapacityPerHaPair.of(2048);
+  public static readonly MB_PER_SEC_2048 = ThroughputCapacityPerHaPair.MbPerSec(2048);
 
   /**
    * The throughput capacity of 3072 MBps per HA pair.
    */
-  public static readonly MB_PER_SEC_3072 = ThroughputCapacityPerHaPair.of(3072);
+  public static readonly MB_PER_SEC_3072 = ThroughputCapacityPerHaPair.MbPerSec(3072);
 
   /**
    * The throughput capacity of 4096 MBps per HA pair.
    */
-  public static readonly MB_PER_SEC_4096 = ThroughputCapacityPerHaPair.of(4096);
+  public static readonly MB_PER_SEC_4096 = ThroughputCapacityPerHaPair.MbPerSec(4096);
 
   /**
    * The throughput capacity of 6144 MBps per HA pair.
    */
-  public static readonly MB_PER_SEC_6144 = ThroughputCapacityPerHaPair.of(6144);
+  public static readonly MB_PER_SEC_6144 = ThroughputCapacityPerHaPair.MbPerSec(6144);
 
   /**
    * Create a throughput capacity per HA pair.
    *
-   * @param capacity The throughput capacity MB per HA pair.
+   * @param capacity The throughput capacity MB/s/HA pair.
    */
-  public static of(capacity: number) {
+  public static MbPerSec(capacity: number) {
     return new ThroughputCapacityPerHaPair(capacity);
   }
 
@@ -579,7 +579,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     // Calculate the throughput per HaPair and use it for validation,
     // regardless of whether `throughputCapacity` or `throughputCapacityPerHaPair` is defined.
     const throughputPerHaPair =
-      throughputCapacityPerHaPair ?? ThroughputCapacityPerHaPair.of(throughputCapacity! / haPair);
+      throughputCapacityPerHaPair ?? ThroughputCapacityPerHaPair.MbPerSec(throughputCapacity! / haPair);
 
     const validRange = ThroughputCapacityPerHaPair.validValuesForDeploymentType(this.deploymentType);
     if (!throughputPerHaPair.isValidForDeploymentType(this.deploymentType)) {
