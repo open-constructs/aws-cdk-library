@@ -1223,7 +1223,7 @@ public readonly diskIops: number;
 ```
 
 - *Type:* number
-- *Default:* 3 IOPS per GB of storage capacity
+- *Default:* 3 IOPS * GB of storage capacity * HAPairs
 
 The total number of SSD IOPS provisioned for the file system.
 
@@ -1366,13 +1366,9 @@ public readonly weeklyMaintenanceStartTime: MaintenanceTime;
 ```
 
 - *Type:* @open-constructs/aws-cdk.aws_fsx.MaintenanceTime
-- *Default:* no preference
+- *Default:* automatically set by Amazon FSx
 
 The preferred day and time to perform weekly maintenance.
-
-The first digit is the day of the week, starting at 1
-for Monday, then the following are hours and minutes in the UTC time zone, 24 hour clock. For example: '2:20:30'
-is Tuesdays at 20:30.
 
 ---
 
