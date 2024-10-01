@@ -1,0 +1,14 @@
+{
+  "enableLookups": true,
+  "version": "36.0.0",
+  "testCases": {
+    "RedshiftServerlessNamespaceWorkgroupTest/DefaultTest": {
+      "stacks": [
+        "RedshiftServerlessNamespaceWorkgroupStack"
+      ],
+      "stackUpdateWorkflow": false,
+      "assertionStack": "RedshiftServerlessNamespaceWorkgroupTest/DefaultTest/DeployAssert",
+      "assertionStackName": "RedshiftServerlessNamespaceWorkgroupTestDefaultTestDeployAssertE2D901CB"
+    }
+  }
+}
