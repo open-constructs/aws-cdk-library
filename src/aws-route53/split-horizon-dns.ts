@@ -45,6 +45,16 @@ export interface ISplitHorizonDns {
   records: Array<ARecordArray>;
 }
 
+interface createHostedZoneProps {
+  zoneName: string;
+  vpcs?: Array<ec2.IVpc>;
+}
+
+interface createCertificateProps {
+
+  domainName: string;
+  subjectAlternativeNames?: Array<string>;
+}
 /**
  * Creates a public and private zone for a given domain name, and creates A records for the given targets.
  * @property publicZone The public zone created
@@ -77,13 +87,13 @@ export class SplitHorizonDns extends Construct implements ISplitHorizonDns {
     if (existingPublicZone) {
       this.publicZone = existingPublicZone;
     } else {
-      this.publicZone = new route53.HostedZone(this, 'PublicZone', {
+      this.publicZone = this.createHostedZone('PublicZone', {
         zoneName: zoneName,
       });
     }
 
     if (includeCertificate) {
-      this.certificate = new acm.Certificate(this, 'Certificate', {
+      this.certificate = this.createCertificate('Certificate', {
         domainName: zoneName,
         subjectAlternativeNames: certAlternateNames,
       });
@@ -94,7 +104,7 @@ export class SplitHorizonDns extends Construct implements ISplitHorizonDns {
     } else if (existingPrivateZone) {
       this.privateZone = existingPrivateZone;
     } else {
-      this.privateZone = new route53.HostedZone(this, 'PrivateZone', {
+      this.privateZone = this.createHostedZone('PrivateZone', {
         zoneName: zoneName,
         vpcs: privateZoneVpcs,
       });
@@ -140,5 +150,16 @@ export class SplitHorizonDns extends Construct implements ISplitHorizonDns {
       accu.push(records);
       return accu;
     }, [] as Array<ARecordArray>);
+  }
+
+  protected createHostedZone(zoneId: string, props: createHostedZoneProps): route53.IHostedZone {
+    return new route53.HostedZone(this, zoneId, {
+      zoneName: props.zoneName,
+      vpcs: props.vpcs?.length ? props.vpcs : undefined, // if no vpc is provided, the zone will be public
+    });
+  }
+
+  protected createCertificate(certId: string, props: createCertificateProps): acm.ICertificate {
+    return new acm.Certificate(this, certId, props);
   }
 }
