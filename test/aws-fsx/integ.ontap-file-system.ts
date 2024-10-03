@@ -26,7 +26,7 @@ new ocf.aws_fsx.OntapFileSystem(stack, 'OntapMultiAzFileSystem', {
     haPairs: 1,
     preferredSubnet: vpc.privateSubnets[0],
     routeTables: [vpc.privateSubnets[0].routeTable, vpc.privateSubnets[1].routeTable],
-    throughputCapacity: 384,
+    throughputCapacityPerHaPair: ocf.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.MB_PER_SEC_384,
     weeklyMaintenanceStartTime: new ocf.aws_fsx.MaintenanceTime({
       day: aws_fsx.Weekday.SUNDAY,
       hour: 1,
@@ -50,7 +50,7 @@ new ocf.aws_fsx.OntapFileSystem(stack, 'OntapSingleAzFileSystem', {
     diskIops: 76800,
     fsxAdminPassword: SecretValue.unsafePlainText('fsxPassword1'),
     haPairs: 5,
-    throughputCapacityPerHaPair: ocf.aws_fsx.ThroughputCapacityPerHaPair.MB_PER_SEC_1536,
+    throughputCapacityPerHaPair: ocf.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.MB_PER_SEC_1536,
     weeklyMaintenanceStartTime: new ocf.aws_fsx.MaintenanceTime({
       day: aws_fsx.Weekday.SUNDAY,
       hour: 1,

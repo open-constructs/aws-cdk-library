@@ -137,7 +137,7 @@ describe('FSx for NetApp ONTAP File System', () => {
             Ref: 'VPCPrivateSubnet2RouteTable0A19E10E',
           },
         ],
-        ThroughputCapacityPerHaPair: 384,
+        ThroughputCapacityPerHAPair: 384,
         WeeklyMaintenanceStartTime: '7:05:00',
       },
       BackupId: 'backupId',
@@ -247,7 +247,7 @@ describe('FSx for NetApp ONTAP File System', () => {
         },
         FsxAdminPassword: 'fsxPassword1',
         HAPairs: 12,
-        ThroughputCapacityPerHaPair: 1536,
+        ThroughputCapacityPerHAPair: 1536,
         WeeklyMaintenanceStartTime: '7:05:00',
       },
       BackupId: 'backupId',
@@ -670,7 +670,7 @@ describe('FSx for NetApp ONTAP File System', () => {
       Template.fromStack(stack).hasResourceProperties('AWS::FSx::FileSystem', {
         OntapConfiguration: {
           DeploymentType: config.deploymentType,
-          ThroughputCapacity: config.throughput,
+          ThroughputCapacityPerHAPair: config.throughput.capacity,
           HAPairs: 1,
         },
       });
