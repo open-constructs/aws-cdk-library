@@ -33,101 +33,179 @@ export enum OntapDeploymentType {
 }
 
 /**
- * The throughput capacity of an Amazon FSx for NetApp ONTAP file system.
+ * The throughput capacity per HA pair for an Amazon FSx for NetApp ONTAP file system.
  */
-export class ThroughputCapacityPerHaPair {
-  /**
-   * The throughput capacity of 128 MBps per HA pair.
-   */
-  public static readonly MB_PER_SEC_128 = ThroughputCapacityPerHaPair.mbPerSec(128);
-
-  /**
-   * The throughput capacity of 256 MBps per HA pair.
-   */
-  public static readonly MB_PER_SEC_256 = ThroughputCapacityPerHaPair.mbPerSec(256);
-
-  /**
-   * The throughput capacity of 384 MBps per HA pair.
-   */
-  public static readonly MB_PER_SEC_384 = ThroughputCapacityPerHaPair.mbPerSec(384);
-
-  /**
-   * The throughput capacity of 512 MBps per HA pair.
-   */
-  public static readonly MB_PER_SEC_512 = ThroughputCapacityPerHaPair.mbPerSec(512);
-
-  /**
-   * The throughput capacity of 768 MBps per HA pair.
-   */
-  public static readonly MB_PER_SEC_768 = ThroughputCapacityPerHaPair.mbPerSec(768);
-
-  /**
-   * The throughput capacity of 1024 MBps per HA pair.
-   */
-  public static readonly MB_PER_SEC_1024 = ThroughputCapacityPerHaPair.mbPerSec(1024);
-
-  /**
-   * The throughput capacity of 1536 MBps per HA pair.
-   */
-  public static readonly MB_PER_SEC_1536 = ThroughputCapacityPerHaPair.mbPerSec(1536);
-
-  /**
-   * The throughput capacity of 2048 MBps per HA pair.
-   */
-  public static readonly MB_PER_SEC_2048 = ThroughputCapacityPerHaPair.mbPerSec(2048);
-
-  /**
-   * The throughput capacity of 3072 MBps per HA pair.
-   */
-  public static readonly MB_PER_SEC_3072 = ThroughputCapacityPerHaPair.mbPerSec(3072);
-
-  /**
-   * The throughput capacity of 4096 MBps per HA pair.
-   */
-  public static readonly MB_PER_SEC_4096 = ThroughputCapacityPerHaPair.mbPerSec(4096);
-
-  /**
-   * The throughput capacity of 6144 MBps per HA pair.
-   */
-  public static readonly MB_PER_SEC_6144 = ThroughputCapacityPerHaPair.mbPerSec(6144);
-
-  /**
-   * Create a throughput capacity per HA pair.
-   *
-   * @param capacity The throughput capacity MB/s/HA pair.
-   */
-  public static mbPerSec(capacity: number) {
-    return new ThroughputCapacityPerHaPair(capacity);
+export abstract class ThroughputCapacityPerHaPair {
+  protected static calculateThroughputCapacityPerHaPair(throughputCapacity: number, haPairs: number): number {
+    if (haPairs <= 0 || !Number.isInteger(haPairs)) {
+      throw new Error(`'haPairs' must be a positive integer, got ${haPairs}`);
+    }
+    return throughputCapacity / haPairs;
   }
 
   /**
-   * Get the valid throughput capacity for the given deployment type.
+   * The deployment type of the throughput capacity.
    */
-  public static validValuesForDeploymentType(deploymentType: OntapDeploymentType): number[] {
-    return this.validValues[deploymentType];
-  }
-
-  /**
-   * The valid throughput capacity values for each deployment type.
-   */
-  private static readonly validValues: { [key in OntapDeploymentType]: number[] } = {
-    SINGLE_AZ_1: [128, 256, 512, 1024, 2048, 4096],
-    MULTI_AZ_1: [128, 256, 512, 1024, 2048, 4096],
-    SINGLE_AZ_2: [1536, 3072, 6144],
-    MULTI_AZ_2: [384, 768, 1536, 3072, 6144],
-  };
-
-  /**
-   * @param capacity The throughput capacity MB per HA pair.
-   */
-  private constructor(public readonly capacity: number) {}
+  public abstract readonly deploymentType: OntapDeploymentType;
+  protected abstract readonly allowedCapacity: number[];
+  protected constructor(public readonly capacity: number) {}
 
   /**
    * Check if the throughput capacity is valid for the given deployment type.
    */
-  public isValidForDeploymentType(deploymentType: OntapDeploymentType): boolean {
-    return ThroughputCapacityPerHaPair.validValues[deploymentType].includes(this.capacity);
+  public validateCapacity(): void {
+    if (!this.allowedCapacity.includes(this.capacity)) {
+      throw new Error(
+        `'throughputCapacity / haPairs' must be one of the following values for ${
+          this.deploymentType
+        }: ${this.allowedCapacity.join(', ')}. got: ${this.capacity} MB/s/HA pair`,
+      );
+    }
   }
+}
+
+/**
+ * The throughput capacity for the Single-AZ 1 deployment type.
+ */
+export class SingleAz1ThroughputCapacityPerHaPair extends ThroughputCapacityPerHaPair {
+  /**
+   * The throughput capacity of 128 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_128 = new SingleAz1ThroughputCapacityPerHaPair(128);
+
+  /**
+   * The throughput capacity of 256 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_256 = new SingleAz1ThroughputCapacityPerHaPair(256);
+
+  /**
+   * The throughput capacity of 512 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_512 = new SingleAz1ThroughputCapacityPerHaPair(512);
+
+  /**
+   * The throughput capacity of 1024 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_1024 = new SingleAz1ThroughputCapacityPerHaPair(1024);
+
+  /**
+   * The throughput capacity of 2048 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_2048 = new SingleAz1ThroughputCapacityPerHaPair(2048);
+
+  /**
+   * The throughput capacity of 4096 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_4096 = new SingleAz1ThroughputCapacityPerHaPair(4096);
+
+  /**
+   * The deployment type of the throughput capacity.
+   */
+  public readonly deploymentType = OntapDeploymentType.SINGLE_AZ_1;
+  protected readonly allowedCapacity = [128, 256, 512, 1024, 2048, 4096];
+}
+
+/**
+ * The throughput capacity for the Multi-AZ 1 deployment type.
+ */
+export class MultiAz1ThroughputCapacityPerHaPair extends ThroughputCapacityPerHaPair {
+  /**
+   * The throughput capacity of 128 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_128 = new MultiAz1ThroughputCapacityPerHaPair(128);
+
+  /**
+   * The throughput capacity of 256 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_256 = new MultiAz1ThroughputCapacityPerHaPair(256);
+
+  /**
+   * The throughput capacity of 512 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_512 = new MultiAz1ThroughputCapacityPerHaPair(512);
+
+  /**
+   * The throughput capacity of 1024 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_1024 = new MultiAz1ThroughputCapacityPerHaPair(1024);
+
+  /**
+   * The throughput capacity of 2048 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_2048 = new MultiAz1ThroughputCapacityPerHaPair(2048);
+
+  /**
+   * The throughput capacity of 4096 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_4096 = new MultiAz1ThroughputCapacityPerHaPair(4096);
+
+  /**
+   * The deployment type of the throughput capacity.
+   */
+  public readonly deploymentType = OntapDeploymentType.MULTI_AZ_1;
+  protected readonly allowedCapacity = [128, 256, 512, 1024, 2048, 4096];
+}
+
+/**
+ * The throughput capacity for the Single-AZ 2 deployment type.
+ */
+export class SingleAz2ThroughputCapacityPerHaPair extends ThroughputCapacityPerHaPair {
+  /**
+   * The throughput capacity of 1536 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_1536 = new SingleAz2ThroughputCapacityPerHaPair(1536);
+
+  /**
+   * The throughput capacity of 3072 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_3072 = new SingleAz2ThroughputCapacityPerHaPair(3072);
+
+  /**
+   * The throughput capacity of 6144 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_6144 = new SingleAz2ThroughputCapacityPerHaPair(6144);
+
+  /**
+   * The deployment type of the throughput capacity.
+   */
+  public readonly deploymentType = OntapDeploymentType.SINGLE_AZ_2;
+  protected readonly allowedCapacity = [1536, 3072, 6144];
+}
+
+/**
+ * The throughput capacity for the Multi-AZ 2 deployment type.
+ */
+export class MultiAz2ThroughputCapacityPerHaPair extends ThroughputCapacityPerHaPair {
+  /**
+   * The throughput capacity of 384 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_384 = new MultiAz2ThroughputCapacityPerHaPair(384);
+
+  /**
+   * The throughput capacity of 768 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_768 = new MultiAz2ThroughputCapacityPerHaPair(768);
+
+  /**
+   * The throughput capacity of 1536 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_1536 = new MultiAz2ThroughputCapacityPerHaPair(1536);
+
+  /**
+   * The throughput capacity of 3072 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_3072 = new MultiAz2ThroughputCapacityPerHaPair(3072);
+
+  /**
+   * The throughput capacity of 6144 MBps per HA pair.
+   */
+  public static readonly MB_PER_SEC_6144 = new MultiAz2ThroughputCapacityPerHaPair(6144);
+
+  /**
+   * The deployment type of the throughput capacity.
+   */
+  public readonly deploymentType = OntapDeploymentType.MULTI_AZ_2;
+  protected readonly allowedCapacity = [384, 768, 1536, 3072, 6144];
 }
 
 /**
@@ -233,26 +311,15 @@ export interface OntapConfiguration {
   readonly routeTables?: aws_ec2.IRouteTable[];
 
   /**
-   * The throughput capacity for the file system that you're creating in megabytes per second (MBps).
-   *
-   * You can define either the `throughputCapacityPerHaPair` or the `throughputCapacity` when creating a file system, but not both.
-   *
-   * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html
-   *
-   * @default - Amazon FSx determines the throughput capacity based on the storage capacity
-   */
-  readonly throughputCapacity?: number;
-
-  /**
-   * The throughput capacity per HA pair, rather than the total throughput for the file system.
-   *
-   * You can define either the `throughputCapacityPerHaPair` or the `throughputCapacity` when creating a file system, but not both.
+   * The throughput capacity per HA pair for the file system.
    *
    * For SINGLE_AZ_1 and MULTI_AZ_1 file systems, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.
    * For SINGLE_AZ_2, valid values are 1536, 3072, or 6144 MBps.
    * For MULTI_AZ_2, valid values are 384, 768, 1536, 3072, or 6144 MBps.
    *
-   * @default - recommended throughput capacity based on the storage capacity
+   * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html
+   *
+   * @default - Amazon FSx determines the throughput capacity based on the storage capacity
    */
   readonly throughputCapacityPerHaPair?: ThroughputCapacityPerHaPair;
 
@@ -404,7 +471,6 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
         haPairs: ontapConfiguration.haPairs,
         preferredSubnetId: ontapConfiguration.preferredSubnet?.subnetId,
         routeTableIds: ontapConfiguration.routeTables?.map(routeTable => routeTable.routeTableId),
-        throughputCapacity: ontapConfiguration.throughputCapacity,
         throughputCapacityPerHaPair: ontapConfiguration.throughputCapacityPerHaPair?.capacity,
         weeklyMaintenanceStartTime: ontapConfiguration.weeklyMaintenanceStartTime?.toTimestamp(),
       },
@@ -431,11 +497,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     this.validateEndpointIpAddressRange(ontapConfiguration.endpointIpAddressRange);
     this.validateSubnets(props.vpcSubnets, ontapConfiguration.preferredSubnet);
     this.validateRouteTables(ontapConfiguration.routeTables);
-    this.validateThroughputCapacity(
-      ontapConfiguration.throughputCapacity,
-      ontapConfiguration.throughputCapacityPerHaPair,
-      ontapConfiguration.haPairs,
-    );
+    this.validateThroughputCapacity(ontapConfiguration.throughputCapacityPerHaPair);
     this.validateStorageCapacity(ontapConfiguration.haPairs, props.storageCapacityGiB);
   }
 
@@ -558,35 +620,16 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     }
   }
 
-  private validateThroughputCapacity(
-    throughputCapacity?: number,
-    throughputCapacityPerHaPair?: ThroughputCapacityPerHaPair,
-    haPair: number = 1,
-  ): void {
-    if (Token.isUnresolved(throughputCapacity) || Token.isUnresolved(haPair)) {
+  private validateThroughputCapacity(throughputCapacityPerHaPair?: ThroughputCapacityPerHaPair): void {
+    if (throughputCapacityPerHaPair == null) {
       return;
     }
-    if (throughputCapacity == null && throughputCapacityPerHaPair == null) {
-      return;
-    }
-    if (throughputCapacity != null && throughputCapacityPerHaPair != null) {
-      throw new Error("'throughputCapacity' and 'throughputCapacityPerHaPair' cannot be specified at the same time");
-    }
-    if (haPair <= 0 || !Number.isInteger(haPair)) {
-      throw new Error(`'haPair' must be a positive integer, got ${haPair}`);
-    }
-
-    // Calculate the throughput per HaPair and use it for validation,
-    // regardless of whether `throughputCapacity` or `throughputCapacityPerHaPair` is defined.
-    const throughputPerHaPair =
-      throughputCapacityPerHaPair ?? ThroughputCapacityPerHaPair.mbPerSec(throughputCapacity! / haPair);
-
-    const validRange = ThroughputCapacityPerHaPair.validValuesForDeploymentType(this.deploymentType);
-    if (!throughputPerHaPair.isValidForDeploymentType(this.deploymentType)) {
+    if (throughputCapacityPerHaPair && throughputCapacityPerHaPair.deploymentType !== this.deploymentType) {
       throw new Error(
-        `'throughputCapacityPerHaPair' and 'throughputCapacity' / haPairs must be one of the following values for ${this.deploymentType}: ${validRange.join(', ')}. got: ${throughputPerHaPair.capacity} MB/s/HA pair`,
+        `'throughputCapacityPerHaPair' must be compatible with the deployment type, deployment type: ${this.deploymentType}, deployment type from throughput capacity: ${throughputCapacityPerHaPair.deploymentType}`,
       );
     }
+    throughputCapacityPerHaPair.validateCapacity();
   }
 
   private validateStorageCapacity(haPairs: number = 1, storageCapacityGiB: number): void {
