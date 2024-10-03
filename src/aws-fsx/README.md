@@ -161,9 +161,7 @@ Keep in mind that your file system requires a specific configuration to achieve 
 
 For more information, see [Managing throughput capacity](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html).
 
-To specify the throughput capacity, set the `throughputCapacity`  or `throughputCapacityPreHaPair` property in the `ontapConfiguration`. These properties are mutually exclusive and cannot be specified together.
-
-`throughputCapacity` sets the total throughput amount, and `throughputCapacityPreHaPair` sets the throughput amount per HA pair. Setting `throughputCapacity` to `X` and setting `throughputCapacityPreHaPair` to `X / HA pair` have the same meaning.
+To specify the throughput capacity, set the `throughputCapacityPreHaPair` property in the `ontapConfiguration`.
 
 This example sets the throughput capacity to 1536 MiB/s per HA pair:
 
@@ -174,10 +172,8 @@ const fileSystem = new OntapFileSystem(this, 'FsxOntapFileSystem', {
   ontapConfiguration: {
     deploymentType: OntapDeploymentType.SINGLE_AZ_2,
     haPairs: 4,
-    // Set the throughput capacity to 1536 MiB/s
-    throughputCapacity: 6144,
-    // This is equivalent to setting throughputCapacity to 1536 MB/s
-    // throughputCapacityPerHaPair: ThroughputCapacityPerHaPair.MB_PER_SEC_1536,
+    // Set the total throughput capacity to 6144 MiB/s
+    throughputCapacity: SingleAz2ThroughputCapacityPerHaPair.MB_PER_SEC_1536,
   },
   storageCapacityGiB: 4096,
   vpc,
