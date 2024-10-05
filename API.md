@@ -832,6 +832,294 @@ The namespace name.
 ---
 
 
+### OntapFileSystem <a name="OntapFileSystem" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem"></a>
+
+The FSx for NetApp ONTAP File System implementation of IFileSystem.
+
+> [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-fsx-filesystem.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-fsx-filesystem.html)
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.Initializer"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+new aws_fsx.OntapFileSystem(scope: Construct, id: string, props: OntapFileSystemProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.Initializer.parameter.props">props</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.Initializer.parameter.props"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+
+---
+
+##### `toString` <a name="toString" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.fromOntapFileSystemAttributes">fromOntapFileSystemAttributes</a></code> | Import an existing FSx for NetApp ONTAP file system from the given properties. |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.isConstruct"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+aws_fsx.OntapFileSystem.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isOwnedResource` <a name="isOwnedResource" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.isOwnedResource"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+aws_fsx.OntapFileSystem.isOwnedResource(construct: IConstruct)
+```
+
+Returns true if the construct was created by CDK, and false otherwise.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.isOwnedResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `isResource` <a name="isResource" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.isResource"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+aws_fsx.OntapFileSystem.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `fromOntapFileSystemAttributes` <a name="fromOntapFileSystemAttributes" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.fromOntapFileSystemAttributes"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+aws_fsx.OntapFileSystem.fromOntapFileSystemAttributes(scope: Construct, id: string, attrs: FileSystemAttributes)
+```
+
+Import an existing FSx for NetApp ONTAP file system from the given properties.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.fromOntapFileSystemAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.fromOntapFileSystemAttributes.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.fromOntapFileSystemAttributes.parameter.attrs"></a>
+
+- *Type:* aws-cdk-lib.aws_fsx.FileSystemAttributes
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The security groups/rules used to allow network connections to the file system. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.dnsName">dnsName</a></code> | <code>string</code> | The management endpoint DNS name assigned to this file system. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.fileSystemId">fileSystemId</a></code> | <code>string</code> | The ID that AWS assigns to the file system. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.interClusterDnsName">interClusterDnsName</a></code> | <code>string</code> | The inter cluster endpoint DNS name assigned to this file system. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `connections`<sup>Required</sup> <a name="connections" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.connections"></a>
+
+```typescript
+public readonly connections: Connections;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.Connections
+
+The security groups/rules used to allow network connections to the file system.
+
+---
+
+##### `dnsName`<sup>Required</sup> <a name="dnsName" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.dnsName"></a>
+
+```typescript
+public readonly dnsName: string;
+```
+
+- *Type:* string
+
+The management endpoint DNS name assigned to this file system.
+
+---
+
+##### `fileSystemId`<sup>Required</sup> <a name="fileSystemId" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.fileSystemId"></a>
+
+```typescript
+public readonly fileSystemId: string;
+```
+
+- *Type:* string
+
+The ID that AWS assigns to the file system.
+
+---
+
+##### `interClusterDnsName`<sup>Required</sup> <a name="interClusterDnsName" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.interClusterDnsName"></a>
+
+```typescript
+public readonly interClusterDnsName: string;
+```
+
+- *Type:* string
+
+The inter cluster endpoint DNS name assigned to this file system.
+
+---
+
+
 ### Workgroup <a name="Workgroup" id="@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup"></a>
 
 - *Implements:* @open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup
@@ -1266,6 +1554,51 @@ The granularity of the line items in the report.
 
 ---
 
+### DailyAutomaticBackupStartTimeProps <a name="DailyAutomaticBackupStartTimeProps" id="@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTimeProps"></a>
+
+Properties required for setting up a daily automatic backup time.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTimeProps.Initializer"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+const dailyAutomaticBackupStartTimeProps: aws_fsx.DailyAutomaticBackupStartTimeProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTimeProps.property.hour">hour</a></code> | <code>number</code> | The hour of the day (from 0-23) for automatic backup starts. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTimeProps.property.minute">minute</a></code> | <code>number</code> | The minute of the hour (from 0-59) for automatic backup starts. |
+
+---
+
+##### `hour`<sup>Required</sup> <a name="hour" id="@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTimeProps.property.hour"></a>
+
+```typescript
+public readonly hour: number;
+```
+
+- *Type:* number
+
+The hour of the day (from 0-23) for automatic backup starts.
+
+---
+
+##### `minute`<sup>Required</sup> <a name="minute" id="@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTimeProps.property.minute"></a>
+
+```typescript
+public readonly minute: number;
+```
+
+- *Type:* number
+
+The minute of the hour (from 0-59) for automatic backup starts.
+
+---
+
 ### InstanceConnectEndpointAttributes <a name="InstanceConnectEndpointAttributes" id="@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpointAttributes"></a>
 
 Attributes for importing an EC2 Instance Connect Endpoint.
@@ -1385,6 +1718,64 @@ public readonly securityGroups: ISecurityGroup[];
 - *Default:* a new security group is created
 
 The security groups to associate with the EC2 Instance Connect Endpoint.
+
+---
+
+### MaintenanceTimeProps <a name="MaintenanceTimeProps" id="@open-constructs/aws-cdk.aws_fsx.MaintenanceTimeProps"></a>
+
+Properties required for setting up a weekly maintenance time.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_fsx.MaintenanceTimeProps.Initializer"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+const maintenanceTimeProps: aws_fsx.MaintenanceTimeProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MaintenanceTimeProps.property.day">day</a></code> | <code>aws-cdk-lib.aws_fsx.Weekday</code> | The day of the week for maintenance to be performed. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MaintenanceTimeProps.property.hour">hour</a></code> | <code>number</code> | The hour of the day (from 0-23) for maintenance to be performed. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MaintenanceTimeProps.property.minute">minute</a></code> | <code>number</code> | The minute of the hour (from 0-59) for maintenance to be performed. |
+
+---
+
+##### `day`<sup>Required</sup> <a name="day" id="@open-constructs/aws-cdk.aws_fsx.MaintenanceTimeProps.property.day"></a>
+
+```typescript
+public readonly day: Weekday;
+```
+
+- *Type:* aws-cdk-lib.aws_fsx.Weekday
+
+The day of the week for maintenance to be performed.
+
+---
+
+##### `hour`<sup>Required</sup> <a name="hour" id="@open-constructs/aws-cdk.aws_fsx.MaintenanceTimeProps.property.hour"></a>
+
+```typescript
+public readonly hour: number;
+```
+
+- *Type:* number
+
+The hour of the day (from 0-23) for maintenance to be performed.
+
+---
+
+##### `minute`<sup>Required</sup> <a name="minute" id="@open-constructs/aws-cdk.aws_fsx.MaintenanceTimeProps.property.minute"></a>
+
+```typescript
+public readonly minute: number;
+```
+
+- *Type:* number
+
+The minute of the hour (from 0-59) for maintenance to be performed.
 
 ---
 
@@ -1599,6 +1990,353 @@ public readonly namespaceName: string;
 - *Default:* auto generate
 
 The namespace name.
+
+---
+
+### OntapConfiguration <a name="OntapConfiguration" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration"></a>
+
+The configuration for the Amazon FSx for NetApp ONTAP file system.
+
+> [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-ontapconfiguration.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-fsx-filesystem-ontapconfiguration.html)
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.Initializer"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+const ontapConfiguration: aws_fsx.OntapConfiguration = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.automaticBackupRetention">automaticBackupRetention</a></code> | <code>aws-cdk-lib.Duration</code> | The number of days to retain automatic backups. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.dailyAutomaticBackupStartTime">dailyAutomaticBackupStartTime</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTime</code> | Start time for 30-minute daily automatic backup window in Coordinated Universal Time (UTC). |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.deploymentType">deploymentType</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType</code> | The FSx for ONTAP file system deployment type to use in creating the file system. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.diskIops">diskIops</a></code> | <code>number</code> | The total number of SSD IOPS provisioned for the file system. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.endpointIpAddressRange">endpointIpAddressRange</a></code> | <code>string</code> | The IP address range in which the endpoints to access your file system will be created. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.fsxAdminPassword">fsxAdminPassword</a></code> | <code>aws-cdk-lib.SecretValue</code> | The ONTAP administrative password for the `fsxadmin` user with which you administer your file system using the NetApp ONTAP CLI and REST API. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.haPairs">haPairs</a></code> | <code>number</code> | How many high-availability (HA) pairs of file servers will power your file system. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.preferredSubnet">preferredSubnet</a></code> | <code>aws-cdk-lib.aws_ec2.ISubnet</code> | The subnet in which you want the preferred file server to be located. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.routeTables">routeTables</a></code> | <code>aws-cdk-lib.aws_ec2.IRouteTable[]</code> | The route tables in which Amazon FSx creates the rules for routing traffic to the correct file server. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.throughputCapacityPerHaPair">throughputCapacityPerHaPair</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair</code> | The throughput capacity per HA pair for the file system. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.weeklyMaintenanceStartTime">weeklyMaintenanceStartTime</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MaintenanceTime</code> | The preferred day and time to perform weekly maintenance. |
+
+---
+
+##### `automaticBackupRetention`<sup>Optional</sup> <a name="automaticBackupRetention" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.automaticBackupRetention"></a>
+
+```typescript
+public readonly automaticBackupRetention: Duration;
+```
+
+- *Type:* aws-cdk-lib.Duration
+- *Default:* 30 days
+
+The number of days to retain automatic backups.
+
+Setting this property to 0 disables automatic backups.
+You can retain automatic backups for a maximum of 90 days.
+
+---
+
+##### `dailyAutomaticBackupStartTime`<sup>Optional</sup> <a name="dailyAutomaticBackupStartTime" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.dailyAutomaticBackupStartTime"></a>
+
+```typescript
+public readonly dailyAutomaticBackupStartTime: DailyAutomaticBackupStartTime;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTime
+- *Default:* no backup window
+
+Start time for 30-minute daily automatic backup window in Coordinated Universal Time (UTC).
+
+---
+
+##### `deploymentType`<sup>Optional</sup> <a name="deploymentType" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.deploymentType"></a>
+
+```typescript
+public readonly deploymentType: OntapDeploymentType;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.OntapDeploymentType
+- *Default:* OntapDeploymentType.MULTI_AZ_2
+
+The FSx for ONTAP file system deployment type to use in creating the file system.
+
+---
+
+##### `diskIops`<sup>Optional</sup> <a name="diskIops" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.diskIops"></a>
+
+```typescript
+public readonly diskIops: number;
+```
+
+- *Type:* number
+- *Default:* 3 IOPS * GB of storage capacity * HAPairs
+
+The total number of SSD IOPS provisioned for the file system.
+
+The minimum and maximum values for this property depend on the value of HAPairs and StorageCapacity.
+The minimum value is calculated as StorageCapacity * 3 * HAPairs (3 IOPS per GB of StorageCapacity).
+The maximum value is calculated as 200,000 * HAPairs.
+
+---
+
+##### `endpointIpAddressRange`<sup>Optional</sup> <a name="endpointIpAddressRange" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.endpointIpAddressRange"></a>
+
+```typescript
+public readonly endpointIpAddressRange: string;
+```
+
+- *Type:* string
+- *Default:* an unused IP address range from the 198.19.* range
+
+The IP address range in which the endpoints to access your file system will be created.
+
+You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+
+---
+
+##### `fsxAdminPassword`<sup>Optional</sup> <a name="fsxAdminPassword" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.fsxAdminPassword"></a>
+
+```typescript
+public readonly fsxAdminPassword: SecretValue;
+```
+
+- *Type:* aws-cdk-lib.SecretValue
+- *Default:* do not set an admin password
+
+The ONTAP administrative password for the `fsxadmin` user with which you administer your file system using the NetApp ONTAP CLI and REST API.
+
+If you don't specify a password, Amazon FSx will not set one. In that case, the user will not be able to log in.
+
+You can change the admin password at any time through the management console.
+
+---
+
+##### `haPairs`<sup>Optional</sup> <a name="haPairs" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.haPairs"></a>
+
+```typescript
+public readonly haPairs: number;
+```
+
+- *Type:* number
+- *Default:* 1
+
+How many high-availability (HA) pairs of file servers will power your file system.
+
+First-generation file systems are powered by 1 HA pair.
+Second-generation multi-AZ file systems are powered by 1 HA pair.
+Second generation single-AZ file systems are powered by up to 12 HA pairs.
+
+The value of this property affects the values of `storageCapacity`, `iops`, and `throughputCapacity`.
+
+Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs.
+
+> [https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage)
+
+---
+
+##### `preferredSubnet`<sup>Optional</sup> <a name="preferredSubnet" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.preferredSubnet"></a>
+
+```typescript
+public readonly preferredSubnet: ISubnet;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.ISubnet
+- *Default:* no default value (This value is not used for single-AZ file systems, but it is required for multi-AZ file systems)
+
+The subnet in which you want the preferred file server to be located.
+
+This value is required when `deploymentType` is set to `MULTI_AZ_1` or `MULTI_AZ_2`.
+
+---
+
+##### `routeTables`<sup>Optional</sup> <a name="routeTables" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.routeTables"></a>
+
+```typescript
+public readonly routeTables: IRouteTable[];
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.IRouteTable[]
+- *Default:* Amazon FSx selects your VPC's default route table.
+
+The route tables in which Amazon FSx creates the rules for routing traffic to the correct file server.
+
+You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located.
+
+Amazon FSx manages VPC route tables for Multi-AZ file systems using tag-based authentication.
+These route tables are tagged with Key: AmazonFSx; Value: ManagedByAmazonFSx.
+
+> [https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/unable-to-access.html#vpc-route-tables-not-tagged](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/unable-to-access.html#vpc-route-tables-not-tagged)
+
+---
+
+##### `throughputCapacityPerHaPair`<sup>Optional</sup> <a name="throughputCapacityPerHaPair" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.throughputCapacityPerHaPair"></a>
+
+```typescript
+public readonly throughputCapacityPerHaPair: ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair
+- *Default:* Amazon FSx determines the throughput capacity based on the storage capacity
+
+The throughput capacity per HA pair for the file system.
+
+> [https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html)
+
+---
+
+##### `weeklyMaintenanceStartTime`<sup>Optional</sup> <a name="weeklyMaintenanceStartTime" id="@open-constructs/aws-cdk.aws_fsx.OntapConfiguration.property.weeklyMaintenanceStartTime"></a>
+
+```typescript
+public readonly weeklyMaintenanceStartTime: MaintenanceTime;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MaintenanceTime
+- *Default:* automatically set by Amazon FSx
+
+The preferred day and time to perform weekly maintenance.
+
+---
+
+### OntapFileSystemProps <a name="OntapFileSystemProps" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps"></a>
+
+Properties specific to the NetApp ONTAP version of the FSx file system.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.Initializer"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+const ontapFileSystemProps: aws_fsx.OntapFileSystemProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.storageCapacityGiB">storageCapacityGiB</a></code> | <code>number</code> | The storage capacity of the file system being created. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | The VPC to launch the file system in. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.backupId">backupId</a></code> | <code>string</code> | The ID of the backup. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.kmsKey">kmsKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The KMS key used for encryption to protect your data at rest. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.removalPolicy">removalPolicy</a></code> | <code>aws-cdk-lib.RemovalPolicy</code> | Policy to apply when the file system is removed from the stack. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.securityGroup">securityGroup</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup</code> | Security Group to assign to this file system. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.ontapConfiguration">ontapConfiguration</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.OntapConfiguration</code> | Additional configuration for FSx specific to NetApp ONTAP. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.vpcSubnets">vpcSubnets</a></code> | <code>aws-cdk-lib.aws_ec2.ISubnet[]</code> | The subnet that the file system will be accessible from. |
+
+---
+
+##### `storageCapacityGiB`<sup>Required</sup> <a name="storageCapacityGiB" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.storageCapacityGiB"></a>
+
+```typescript
+public readonly storageCapacityGiB: number;
+```
+
+- *Type:* number
+
+The storage capacity of the file system being created.
+
+For Windows file systems, valid values are 32 GiB to 65,536 GiB.
+For SCRATCH_1 deployment types, valid values are 1,200, 2,400, 3,600, then continuing in increments of 3,600 GiB.
+For SCRATCH_2 and PERSISTENT_1 types, valid values are 1,200, 2,400, then continuing in increments of 2,400 GiB.
+
+---
+
+##### `vpc`<sup>Required</sup> <a name="vpc" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.vpc"></a>
+
+```typescript
+public readonly vpc: IVpc;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.IVpc
+
+The VPC to launch the file system in.
+
+---
+
+##### `backupId`<sup>Optional</sup> <a name="backupId" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.backupId"></a>
+
+```typescript
+public readonly backupId: string;
+```
+
+- *Type:* string
+- *Default:* no backup will be used.
+
+The ID of the backup.
+
+Specifies the backup to use if you're creating a file system from an existing backup.
+
+---
+
+##### `kmsKey`<sup>Optional</sup> <a name="kmsKey" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.kmsKey"></a>
+
+```typescript
+public readonly kmsKey: IKey;
+```
+
+- *Type:* aws-cdk-lib.aws_kms.IKey
+- *Default:* the aws/fsx default KMS key for the AWS account being deployed into.
+
+The KMS key used for encryption to protect your data at rest.
+
+---
+
+##### `removalPolicy`<sup>Optional</sup> <a name="removalPolicy" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.removalPolicy"></a>
+
+```typescript
+public readonly removalPolicy: RemovalPolicy;
+```
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+- *Default:* RemovalPolicy.RETAIN
+
+Policy to apply when the file system is removed from the stack.
+
+---
+
+##### `securityGroup`<sup>Optional</sup> <a name="securityGroup" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.securityGroup"></a>
+
+```typescript
+public readonly securityGroup: ISecurityGroup;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.ISecurityGroup
+- *Default:* creates new security group which allows all outbound traffic.
+
+Security Group to assign to this file system.
+
+---
+
+##### `ontapConfiguration`<sup>Required</sup> <a name="ontapConfiguration" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.ontapConfiguration"></a>
+
+```typescript
+public readonly ontapConfiguration: OntapConfiguration;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.OntapConfiguration
+
+Additional configuration for FSx specific to NetApp ONTAP.
+
+---
+
+##### `vpcSubnets`<sup>Required</sup> <a name="vpcSubnets" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.vpcSubnets"></a>
+
+```typescript
+public readonly vpcSubnets: ISubnet[];
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.ISubnet[]
+
+The subnet that the file system will be accessible from.
+
+For MULTI_AZ_1 deployment types,
+provide exactly two subnets, one for the preferred file server and one for the standby file server.
+
+Specify one of these subnets as the preferred subnet using `OntapConfiguration.preferredSubnet` property for multi-AZ file system.
 
 ---
 
@@ -1987,6 +2725,363 @@ GZIP compressed text or CSV format.
 
 ---
 
+### DailyAutomaticBackupStartTime <a name="DailyAutomaticBackupStartTime" id="@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTime"></a>
+
+Class for scheduling a daily automatic backup time.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTime.Initializer"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+new aws_fsx.DailyAutomaticBackupStartTime(props: DailyAutomaticBackupStartTimeProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTime.Initializer.parameter.props">props</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTimeProps</code> | *No description.* |
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTime.Initializer.parameter.props"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTimeProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTime.toTimestamp">toTimestamp</a></code> | Converts an hour, and minute into HH:MM string. |
+
+---
+
+##### `toTimestamp` <a name="toTimestamp" id="@open-constructs/aws-cdk.aws_fsx.DailyAutomaticBackupStartTime.toTimestamp"></a>
+
+```typescript
+public toTimestamp(): string
+```
+
+Converts an hour, and minute into HH:MM string.
+
+
+
+
+### MaintenanceTime <a name="MaintenanceTime" id="@open-constructs/aws-cdk.aws_fsx.MaintenanceTime"></a>
+
+Class for scheduling a weekly maintenance time.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_fsx.MaintenanceTime.Initializer"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+new aws_fsx.MaintenanceTime(props: MaintenanceTimeProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MaintenanceTime.Initializer.parameter.props">props</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MaintenanceTimeProps</code> | *No description.* |
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_fsx.MaintenanceTime.Initializer.parameter.props"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MaintenanceTimeProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MaintenanceTime.toTimestamp">toTimestamp</a></code> | Converts a day, hour, and minute into a timestamp as used by FSx for Lustre's weeklyMaintenanceStartTime field. |
+
+---
+
+##### `toTimestamp` <a name="toTimestamp" id="@open-constructs/aws-cdk.aws_fsx.MaintenanceTime.toTimestamp"></a>
+
+```typescript
+public toTimestamp(): string
+```
+
+Converts a day, hour, and minute into a timestamp as used by FSx for Lustre's weeklyMaintenanceStartTime field.
+
+
+
+
+### MultiAz1ThroughputCapacityPerHaPair <a name="MultiAz1ThroughputCapacityPerHaPair" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair"></a>
+
+The throughput capacity for the Multi-AZ 1 deployment type.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.Initializer"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+new aws_fsx.MultiAz1ThroughputCapacityPerHaPair(capacity: number)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.Initializer.parameter.capacity">capacity</a></code> | <code>number</code> | *No description.* |
+
+---
+
+##### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.Initializer.parameter.capacity"></a>
+
+- *Type:* number
+
+---
+
+
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.capacity">capacity</a></code> | <code>number</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.deploymentType">deploymentType</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType</code> | The deployment type of the throughput capacity. |
+
+---
+
+##### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.capacity"></a>
+
+```typescript
+public readonly capacity: number;
+```
+
+- *Type:* number
+
+---
+
+##### `deploymentType`<sup>Required</sup> <a name="deploymentType" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.deploymentType"></a>
+
+```typescript
+public readonly deploymentType: OntapDeploymentType;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.OntapDeploymentType
+
+The deployment type of the throughput capacity.
+
+---
+
+#### Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_1024">MB_PER_SEC_1024</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair</code> | The throughput capacity of 1024 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_128">MB_PER_SEC_128</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair</code> | The throughput capacity of 128 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_2048">MB_PER_SEC_2048</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair</code> | The throughput capacity of 2048 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_256">MB_PER_SEC_256</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair</code> | The throughput capacity of 256 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_4096">MB_PER_SEC_4096</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair</code> | The throughput capacity of 4096 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_512">MB_PER_SEC_512</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair</code> | The throughput capacity of 512 MBps per HA pair. |
+
+---
+
+##### `MB_PER_SEC_1024`<sup>Required</sup> <a name="MB_PER_SEC_1024" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_1024"></a>
+
+```typescript
+public readonly MB_PER_SEC_1024: MultiAz1ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair
+
+The throughput capacity of 1024 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_128`<sup>Required</sup> <a name="MB_PER_SEC_128" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_128"></a>
+
+```typescript
+public readonly MB_PER_SEC_128: MultiAz1ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair
+
+The throughput capacity of 128 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_2048`<sup>Required</sup> <a name="MB_PER_SEC_2048" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_2048"></a>
+
+```typescript
+public readonly MB_PER_SEC_2048: MultiAz1ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair
+
+The throughput capacity of 2048 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_256`<sup>Required</sup> <a name="MB_PER_SEC_256" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_256"></a>
+
+```typescript
+public readonly MB_PER_SEC_256: MultiAz1ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair
+
+The throughput capacity of 256 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_4096`<sup>Required</sup> <a name="MB_PER_SEC_4096" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_4096"></a>
+
+```typescript
+public readonly MB_PER_SEC_4096: MultiAz1ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair
+
+The throughput capacity of 4096 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_512`<sup>Required</sup> <a name="MB_PER_SEC_512" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_512"></a>
+
+```typescript
+public readonly MB_PER_SEC_512: MultiAz1ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair
+
+The throughput capacity of 512 MBps per HA pair.
+
+---
+
+### MultiAz2ThroughputCapacityPerHaPair <a name="MultiAz2ThroughputCapacityPerHaPair" id="@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair"></a>
+
+The throughput capacity for the Multi-AZ 2 deployment type.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.Initializer"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+new aws_fsx.MultiAz2ThroughputCapacityPerHaPair(capacity: number)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.Initializer.parameter.capacity">capacity</a></code> | <code>number</code> | *No description.* |
+
+---
+
+##### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.Initializer.parameter.capacity"></a>
+
+- *Type:* number
+
+---
+
+
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.capacity">capacity</a></code> | <code>number</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.deploymentType">deploymentType</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType</code> | The deployment type of the throughput capacity. |
+
+---
+
+##### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.capacity"></a>
+
+```typescript
+public readonly capacity: number;
+```
+
+- *Type:* number
+
+---
+
+##### `deploymentType`<sup>Required</sup> <a name="deploymentType" id="@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.deploymentType"></a>
+
+```typescript
+public readonly deploymentType: OntapDeploymentType;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.OntapDeploymentType
+
+The deployment type of the throughput capacity.
+
+---
+
+#### Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_1536">MB_PER_SEC_1536</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair</code> | The throughput capacity of 1536 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_3072">MB_PER_SEC_3072</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair</code> | The throughput capacity of 3072 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_384">MB_PER_SEC_384</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair</code> | The throughput capacity of 384 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_6144">MB_PER_SEC_6144</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair</code> | The throughput capacity of 6144 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_768">MB_PER_SEC_768</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair</code> | The throughput capacity of 768 MBps per HA pair. |
+
+---
+
+##### `MB_PER_SEC_1536`<sup>Required</sup> <a name="MB_PER_SEC_1536" id="@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_1536"></a>
+
+```typescript
+public readonly MB_PER_SEC_1536: MultiAz2ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair
+
+The throughput capacity of 1536 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_3072`<sup>Required</sup> <a name="MB_PER_SEC_3072" id="@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_3072"></a>
+
+```typescript
+public readonly MB_PER_SEC_3072: MultiAz2ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair
+
+The throughput capacity of 3072 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_384`<sup>Required</sup> <a name="MB_PER_SEC_384" id="@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_384"></a>
+
+```typescript
+public readonly MB_PER_SEC_384: MultiAz2ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair
+
+The throughput capacity of 384 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_6144`<sup>Required</sup> <a name="MB_PER_SEC_6144" id="@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_6144"></a>
+
+```typescript
+public readonly MB_PER_SEC_6144: MultiAz2ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair
+
+The throughput capacity of 6144 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_768`<sup>Required</sup> <a name="MB_PER_SEC_768" id="@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_768"></a>
+
+```typescript
+public readonly MB_PER_SEC_768: MultiAz2ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair
+
+The throughput capacity of 768 MBps per HA pair.
+
+---
+
 ### ReportGranularity <a name="ReportGranularity" id="@open-constructs/aws-cdk.aws_cur.ReportGranularity"></a>
 
 Enum for the possible granularities of a cost report.
@@ -2101,6 +3196,309 @@ public readonly MONTHLY: ReportGranularity;
 Weekly granularity.
 
 ---
+
+### SingleAz1ThroughputCapacityPerHaPair <a name="SingleAz1ThroughputCapacityPerHaPair" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair"></a>
+
+The throughput capacity for the Single-AZ 1 deployment type.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.Initializer"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+new aws_fsx.SingleAz1ThroughputCapacityPerHaPair(capacity: number)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.Initializer.parameter.capacity">capacity</a></code> | <code>number</code> | *No description.* |
+
+---
+
+##### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.Initializer.parameter.capacity"></a>
+
+- *Type:* number
+
+---
+
+
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.capacity">capacity</a></code> | <code>number</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.deploymentType">deploymentType</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType</code> | The deployment type of the throughput capacity. |
+
+---
+
+##### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.capacity"></a>
+
+```typescript
+public readonly capacity: number;
+```
+
+- *Type:* number
+
+---
+
+##### `deploymentType`<sup>Required</sup> <a name="deploymentType" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.deploymentType"></a>
+
+```typescript
+public readonly deploymentType: OntapDeploymentType;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.OntapDeploymentType
+
+The deployment type of the throughput capacity.
+
+---
+
+#### Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_1024">MB_PER_SEC_1024</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair</code> | The throughput capacity of 1024 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_128">MB_PER_SEC_128</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair</code> | The throughput capacity of 128 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_2048">MB_PER_SEC_2048</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair</code> | The throughput capacity of 2048 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_256">MB_PER_SEC_256</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair</code> | The throughput capacity of 256 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_4096">MB_PER_SEC_4096</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair</code> | The throughput capacity of 4096 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_512">MB_PER_SEC_512</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair</code> | The throughput capacity of 512 MBps per HA pair. |
+
+---
+
+##### `MB_PER_SEC_1024`<sup>Required</sup> <a name="MB_PER_SEC_1024" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_1024"></a>
+
+```typescript
+public readonly MB_PER_SEC_1024: SingleAz1ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair
+
+The throughput capacity of 1024 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_128`<sup>Required</sup> <a name="MB_PER_SEC_128" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_128"></a>
+
+```typescript
+public readonly MB_PER_SEC_128: SingleAz1ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair
+
+The throughput capacity of 128 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_2048`<sup>Required</sup> <a name="MB_PER_SEC_2048" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_2048"></a>
+
+```typescript
+public readonly MB_PER_SEC_2048: SingleAz1ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair
+
+The throughput capacity of 2048 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_256`<sup>Required</sup> <a name="MB_PER_SEC_256" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_256"></a>
+
+```typescript
+public readonly MB_PER_SEC_256: SingleAz1ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair
+
+The throughput capacity of 256 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_4096`<sup>Required</sup> <a name="MB_PER_SEC_4096" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_4096"></a>
+
+```typescript
+public readonly MB_PER_SEC_4096: SingleAz1ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair
+
+The throughput capacity of 4096 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_512`<sup>Required</sup> <a name="MB_PER_SEC_512" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.property.MB_PER_SEC_512"></a>
+
+```typescript
+public readonly MB_PER_SEC_512: SingleAz1ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair
+
+The throughput capacity of 512 MBps per HA pair.
+
+---
+
+### SingleAz2ThroughputCapacityPerHaPair <a name="SingleAz2ThroughputCapacityPerHaPair" id="@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair"></a>
+
+The throughput capacity for the Single-AZ 2 deployment type.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.Initializer"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+new aws_fsx.SingleAz2ThroughputCapacityPerHaPair(capacity: number)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.Initializer.parameter.capacity">capacity</a></code> | <code>number</code> | *No description.* |
+
+---
+
+##### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.Initializer.parameter.capacity"></a>
+
+- *Type:* number
+
+---
+
+
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.property.capacity">capacity</a></code> | <code>number</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.property.deploymentType">deploymentType</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType</code> | The deployment type of the throughput capacity. |
+
+---
+
+##### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.property.capacity"></a>
+
+```typescript
+public readonly capacity: number;
+```
+
+- *Type:* number
+
+---
+
+##### `deploymentType`<sup>Required</sup> <a name="deploymentType" id="@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.property.deploymentType"></a>
+
+```typescript
+public readonly deploymentType: OntapDeploymentType;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.OntapDeploymentType
+
+The deployment type of the throughput capacity.
+
+---
+
+#### Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_1536">MB_PER_SEC_1536</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair</code> | The throughput capacity of 1536 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_3072">MB_PER_SEC_3072</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair</code> | The throughput capacity of 3072 MBps per HA pair. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_6144">MB_PER_SEC_6144</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair</code> | The throughput capacity of 6144 MBps per HA pair. |
+
+---
+
+##### `MB_PER_SEC_1536`<sup>Required</sup> <a name="MB_PER_SEC_1536" id="@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_1536"></a>
+
+```typescript
+public readonly MB_PER_SEC_1536: SingleAz2ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair
+
+The throughput capacity of 1536 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_3072`<sup>Required</sup> <a name="MB_PER_SEC_3072" id="@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_3072"></a>
+
+```typescript
+public readonly MB_PER_SEC_3072: SingleAz2ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair
+
+The throughput capacity of 3072 MBps per HA pair.
+
+---
+
+##### `MB_PER_SEC_6144`<sup>Required</sup> <a name="MB_PER_SEC_6144" id="@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.property.MB_PER_SEC_6144"></a>
+
+```typescript
+public readonly MB_PER_SEC_6144: SingleAz2ThroughputCapacityPerHaPair;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair
+
+The throughput capacity of 6144 MBps per HA pair.
+
+---
+
+### ThroughputCapacityPerHaPair <a name="ThroughputCapacityPerHaPair" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair"></a>
+
+The throughput capacity per HA pair for an Amazon FSx for NetApp ONTAP file system.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.Initializer"></a>
+
+```typescript
+import { aws_fsx } from '@open-constructs/aws-cdk'
+
+new aws_fsx.ThroughputCapacityPerHaPair(capacity: number)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.Initializer.parameter.capacity">capacity</a></code> | <code>number</code> | *No description.* |
+
+---
+
+##### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.Initializer.parameter.capacity"></a>
+
+- *Type:* number
+
+---
+
+
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.capacity">capacity</a></code> | <code>number</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.deploymentType">deploymentType</a></code> | <code>@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType</code> | The deployment type of the throughput capacity. |
+
+---
+
+##### `capacity`<sup>Required</sup> <a name="capacity" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.capacity"></a>
+
+```typescript
+public readonly capacity: number;
+```
+
+- *Type:* number
+
+---
+
+##### `deploymentType`<sup>Required</sup> <a name="deploymentType" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.property.deploymentType"></a>
+
+```typescript
+public readonly deploymentType: OntapDeploymentType;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_fsx.OntapDeploymentType
+
+The deployment type of the throughput capacity.
+
+---
+
 
 ## Protocols <a name="Protocols" id="Protocols"></a>
 
@@ -2466,6 +3864,57 @@ Connection log.
 ##### `USER_ACTIVITY_LOG` <a name="USER_ACTIVITY_LOG" id="@open-constructs/aws-cdk.aws_redshiftserverless.LogExport.USER_ACTIVITY_LOG"></a>
 
 User activity log.
+
+---
+
+
+### OntapDeploymentType <a name="OntapDeploymentType" id="@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType"></a>
+
+The different kinds of file system deployments used by NetApp ONTAP.
+
+#### Members <a name="Members" id="Members"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType.MULTI_AZ_1">MULTI_AZ_1</a></code> | A high availability file system configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType.MULTI_AZ_2">MULTI_AZ_2</a></code> | A high availability file system configured for Multi-AZ redundancy to tolerate temporary AZ unavailability. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType.SINGLE_AZ_1">SINGLE_AZ_1</a></code> | A file system configured for Single-AZ redundancy. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType.SINGLE_AZ_2">SINGLE_AZ_2</a></code> | A file system configured with multiple high-availability (HA) pairs for Single-AZ redundancy. |
+
+---
+
+##### `MULTI_AZ_1` <a name="MULTI_AZ_1" id="@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType.MULTI_AZ_1"></a>
+
+A high availability file system configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability.
+
+This is a first-generation FSx for ONTAP file system.
+
+---
+
+
+##### `MULTI_AZ_2` <a name="MULTI_AZ_2" id="@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType.MULTI_AZ_2"></a>
+
+A high availability file system configured for Multi-AZ redundancy to tolerate temporary AZ unavailability.
+
+This is a second-generation FSx for ONTAP file system.
+
+---
+
+
+##### `SINGLE_AZ_1` <a name="SINGLE_AZ_1" id="@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType.SINGLE_AZ_1"></a>
+
+A file system configured for Single-AZ redundancy.
+
+This is a first-generation FSx for ONTAP file system.
+
+---
+
+
+##### `SINGLE_AZ_2` <a name="SINGLE_AZ_2" id="@open-constructs/aws-cdk.aws_fsx.OntapDeploymentType.SINGLE_AZ_2"></a>
+
+A file system configured with multiple high-availability (HA) pairs for Single-AZ redundancy.
+
+This is a second-generation FSx for ONTAP file system.
 
 ---
 
