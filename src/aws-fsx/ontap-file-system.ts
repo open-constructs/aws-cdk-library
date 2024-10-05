@@ -36,32 +36,12 @@ export enum OntapDeploymentType {
  * The throughput capacity per HA pair for an Amazon FSx for NetApp ONTAP file system.
  */
 export abstract class ThroughputCapacityPerHaPair {
-  protected static calculateThroughputCapacityPerHaPair(throughputCapacity: number, haPairs: number): number {
-    if (haPairs <= 0 || !Number.isInteger(haPairs)) {
-      throw new Error(`'haPairs' must be a positive integer, got ${haPairs}`);
-    }
-    return throughputCapacity / haPairs;
-  }
-
   /**
    * The deployment type of the throughput capacity.
    */
   public abstract readonly deploymentType: OntapDeploymentType;
   protected abstract readonly allowedCapacity: number[];
   protected constructor(public readonly capacity: number) {}
-
-  /**
-   * Check if the throughput capacity is valid for the given deployment type.
-   */
-  public validateCapacity(): void {
-    if (!this.allowedCapacity.includes(this.capacity)) {
-      throw new Error(
-        `'throughputCapacity / haPairs' must be one of the following values for ${
-          this.deploymentType
-        }: ${this.allowedCapacity.join(', ')}. got: ${this.capacity} MB/s/HA pair`,
-      );
-    }
-  }
 }
 
 /**
@@ -629,7 +609,6 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
         `'throughputCapacityPerHaPair' must be compatible with the deployment type, deployment type: ${this.deploymentType}, deployment type from throughput capacity: ${throughputCapacityPerHaPair.deploymentType}`,
       );
     }
-    throughputCapacityPerHaPair.validateCapacity();
   }
 
   private validateStorageCapacity(haPairs: number = 1, storageCapacityGiB: number): void {
