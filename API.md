@@ -2185,10 +2185,6 @@ public readonly throughputCapacityPerHaPair: ThroughputCapacityPerHaPair;
 
 The throughput capacity per HA pair for the file system.
 
-For SINGLE_AZ_1 and MULTI_AZ_1 file systems, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.
-For SINGLE_AZ_2, valid values are 1536, 3072, or 6144 MBps.
-For MULTI_AZ_2, valid values are 384, 768, 1536, 3072, or 6144 MBps.
-
 > [https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html)
 
 ---
@@ -2839,21 +2835,6 @@ new aws_fsx.MultiAz1ThroughputCapacityPerHaPair(capacity: number)
 
 ---
 
-#### Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.validateCapacity">validateCapacity</a></code> | Check if the throughput capacity is valid for the given deployment type. |
-
----
-
-##### `validateCapacity` <a name="validateCapacity" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair.validateCapacity"></a>
-
-```typescript
-public validateCapacity(): void
-```
-
-Check if the throughput capacity is valid for the given deployment type.
 
 
 #### Properties <a name="Properties" id="Properties"></a>
@@ -2996,21 +2977,6 @@ new aws_fsx.MultiAz2ThroughputCapacityPerHaPair(capacity: number)
 
 ---
 
-#### Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.validateCapacity">validateCapacity</a></code> | Check if the throughput capacity is valid for the given deployment type. |
-
----
-
-##### `validateCapacity` <a name="validateCapacity" id="@open-constructs/aws-cdk.aws_fsx.MultiAz2ThroughputCapacityPerHaPair.validateCapacity"></a>
-
-```typescript
-public validateCapacity(): void
-```
-
-Check if the throughput capacity is valid for the given deployment type.
 
 
 #### Properties <a name="Properties" id="Properties"></a>
@@ -3255,21 +3221,6 @@ new aws_fsx.SingleAz1ThroughputCapacityPerHaPair(capacity: number)
 
 ---
 
-#### Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.validateCapacity">validateCapacity</a></code> | Check if the throughput capacity is valid for the given deployment type. |
-
----
-
-##### `validateCapacity` <a name="validateCapacity" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair.validateCapacity"></a>
-
-```typescript
-public validateCapacity(): void
-```
-
-Check if the throughput capacity is valid for the given deployment type.
 
 
 #### Properties <a name="Properties" id="Properties"></a>
@@ -3412,21 +3363,6 @@ new aws_fsx.SingleAz2ThroughputCapacityPerHaPair(capacity: number)
 
 ---
 
-#### Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.validateCapacity">validateCapacity</a></code> | Check if the throughput capacity is valid for the given deployment type. |
-
----
-
-##### `validateCapacity` <a name="validateCapacity" id="@open-constructs/aws-cdk.aws_fsx.SingleAz2ThroughputCapacityPerHaPair.validateCapacity"></a>
-
-```typescript
-public validateCapacity(): void
-```
-
-Check if the throughput capacity is valid for the given deployment type.
 
 
 #### Properties <a name="Properties" id="Properties"></a>
@@ -3530,21 +3466,6 @@ new aws_fsx.ThroughputCapacityPerHaPair(capacity: number)
 
 ---
 
-#### Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.validateCapacity">validateCapacity</a></code> | Check if the throughput capacity is valid for the given deployment type. |
-
----
-
-##### `validateCapacity` <a name="validateCapacity" id="@open-constructs/aws-cdk.aws_fsx.ThroughputCapacityPerHaPair.validateCapacity"></a>
-
-```typescript
-public validateCapacity(): void
-```
-
-Check if the throughput capacity is valid for the given deployment type.
 
 
 #### Properties <a name="Properties" id="Properties"></a>
