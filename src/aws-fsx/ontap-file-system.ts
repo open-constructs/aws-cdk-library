@@ -40,7 +40,6 @@ export abstract class ThroughputCapacityPerHaPair {
    * The deployment type of the throughput capacity.
    */
   public abstract readonly deploymentType: OntapDeploymentType;
-  protected abstract readonly allowedCapacity: number[];
   protected constructor(public readonly capacity: number) {}
 }
 
@@ -82,7 +81,6 @@ export class SingleAz1ThroughputCapacityPerHaPair extends ThroughputCapacityPerH
    * The deployment type of the throughput capacity.
    */
   public readonly deploymentType = OntapDeploymentType.SINGLE_AZ_1;
-  protected readonly allowedCapacity = [128, 256, 512, 1024, 2048, 4096];
 }
 
 /**
@@ -123,7 +121,6 @@ export class MultiAz1ThroughputCapacityPerHaPair extends ThroughputCapacityPerHa
    * The deployment type of the throughput capacity.
    */
   public readonly deploymentType = OntapDeploymentType.MULTI_AZ_1;
-  protected readonly allowedCapacity = [128, 256, 512, 1024, 2048, 4096];
 }
 
 /**
@@ -149,7 +146,6 @@ export class SingleAz2ThroughputCapacityPerHaPair extends ThroughputCapacityPerH
    * The deployment type of the throughput capacity.
    */
   public readonly deploymentType = OntapDeploymentType.SINGLE_AZ_2;
-  protected readonly allowedCapacity = [1536, 3072, 6144];
 }
 
 /**
@@ -185,7 +181,6 @@ export class MultiAz2ThroughputCapacityPerHaPair extends ThroughputCapacityPerHa
    * The deployment type of the throughput capacity.
    */
   public readonly deploymentType = OntapDeploymentType.MULTI_AZ_2;
-  protected readonly allowedCapacity = [384, 768, 1536, 3072, 6144];
 }
 
 /**
