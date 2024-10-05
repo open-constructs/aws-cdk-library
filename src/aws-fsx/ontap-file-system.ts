@@ -293,10 +293,6 @@ export interface OntapConfiguration {
   /**
    * The throughput capacity per HA pair for the file system.
    *
-   * For SINGLE_AZ_1 and MULTI_AZ_1 file systems, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.
-   * For SINGLE_AZ_2, valid values are 1536, 3072, or 6144 MBps.
-   * For MULTI_AZ_2, valid values are 384, 768, 1536, 3072, or 6144 MBps.
-   *
    * @see https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html
    *
    * @default - Amazon FSx determines the throughput capacity based on the storage capacity
@@ -604,7 +600,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
     if (throughputCapacityPerHaPair == null) {
       return;
     }
-    if (throughputCapacityPerHaPair && throughputCapacityPerHaPair.deploymentType !== this.deploymentType) {
+    if (throughputCapacityPerHaPair.deploymentType !== this.deploymentType) {
       throw new Error(
         `'throughputCapacityPerHaPair' must be compatible with the deployment type, deployment type: ${this.deploymentType}, deployment type from throughput capacity: ${throughputCapacityPerHaPair.deploymentType}`,
       );
