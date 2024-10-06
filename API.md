@@ -1565,7 +1565,7 @@ public readonly encryptionKey: IKey;
 ```
 
 - *Type:* aws-cdk-lib.aws_kms.IKey
-- *Default:* A new KMS key will be created
+- *Default:* An AWS managed KMS key is used
 
 The key used to encrypt the Domain.
 
@@ -1794,6 +1794,7 @@ public readonly description: string;
 ```
 
 - *Type:* string
+- *Default:* No description
 
 The description of the repository.
 
