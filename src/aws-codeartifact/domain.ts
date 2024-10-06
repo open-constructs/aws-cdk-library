@@ -111,10 +111,8 @@ abstract class DomainBase extends Resource implements IDomain {
    * @param statement The policy statement to add
    */
   public addToResourcePolicy(statement: PolicyStatement): AddToResourcePolicyResult {
-    const stack = Stack.of(this);
-
     if (!Resource.isOwnedResource(this)) {
-      Annotations.of(stack).addWarningV2(
+      Annotations.of(this).addWarningV2(
         'NoResourcePolicyStatementAdded',
         `No statements added to imported resource ${this.domainArn}.`,
       );
