@@ -222,7 +222,7 @@ export interface DomainProps {
   /**
    * The key used to encrypt the Domain
    *
-   * @default - A new KMS key will be created
+   * @default - An AWS managed KMS key is used
    */
   readonly encryptionKey?: IKey;
 }
@@ -310,12 +310,7 @@ export class Domain extends DomainBase implements IDomain {
   constructor(scope: Construct, id: string, props: DomainProps) {
     super(scope, id);
 
-    const encryptionKey =
-      props.encryptionKey ??
-      new Key(this, 'Key', {
-        description: `Key for CodeArtifact Domain ${props.domainName}`,
-        alias: `codeartifact-domain/${props.domainName}`,
-      });
+    const encryptionKey = props.encryptionKey;
 
     this.cfnResourceProps = {
       domainName: props.domainName,
@@ -328,7 +323,7 @@ export class Domain extends DomainBase implements IDomain {
     this.domainArn = this.cfnResource.attrArn;
     this.encryptionKey = encryptionKey;
     this.domainOwner = this.cfnResource.attrOwner;
-    this.domainEncryptionKey = encryptionKey.keyArn;
+    this.domainEncryptionKey = this.cfnResource.attrEncryptionKey;
   }
 
   protected createResource(scope: Construct, id: string): CfnDomain {
