@@ -9,7 +9,7 @@ import {
   PolicyStatement,
   principalIsOwnedResource,
 } from 'aws-cdk-lib/aws-iam';
-import { IKey, Key } from 'aws-cdk-lib/aws-kms';
+import { IKey } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 
 /**

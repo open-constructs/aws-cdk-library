@@ -20,9 +20,7 @@ test('Domain: Instantiation works and defaults are adhered to', () => {
   Template.fromStack(stack).hasResource('AWS::CodeArtifact::Domain', {
     Properties: {
       DomainName: 'dummy',
-      EncryptionKey: {
-        'Fn::GetAtt': ['domainKey3A7D694C', 'Arn'],
-      },
+      EncryptionKey: Match.absent(),
       PermissionsPolicyDocument: Match.absent(),
       Tags: [{ Key: 'tag1', Value: 'value1' }],
     },
@@ -72,9 +70,7 @@ test('Domain: can grant access', () => {
   Template.fromStack(stack).hasResource('AWS::CodeArtifact::Domain', {
     Properties: {
       DomainName: 'dummy',
-      EncryptionKey: {
-        'Fn::GetAtt': ['domainKey3A7D694C', 'Arn'],
-      },
+      EncryptionKey: Match.absent(),
       PermissionsPolicyDocument: {
         Statement: [
           {
