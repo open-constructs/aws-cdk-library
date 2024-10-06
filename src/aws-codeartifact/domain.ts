@@ -133,8 +133,8 @@ abstract class DomainBase extends Resource implements IDomain {
     const thisStack = Stack.of(this);
     const identityStack = Stack.of(grantee.grantPrincipal);
     return (
-      Token.compareStrings(thisStack.region, identityStack.region) === TokenComparison.SAME ||
-      Token.compareStrings(thisStack.account, identityStack.account) === TokenComparison.SAME
+      Token.compareStrings(thisStack.region, identityStack.region) === TokenComparison.DIFFERENT ||
+      Token.compareStrings(thisStack.account, identityStack.account) === TokenComparison.DIFFERENT
     );
   }
 

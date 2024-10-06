@@ -145,6 +145,8 @@ export interface RepositoryProps {
   readonly domain: IDomain;
   /**
    * The description of the repository
+   *
+   * @default - No description
    */
   readonly description?: string;
   /**
@@ -201,8 +203,8 @@ abstract class RepositoryBase extends Resource implements IRepository {
     const thisStack = Stack.of(this);
     const identityStack = Stack.of(grantee.grantPrincipal);
     return (
-      Token.compareStrings(thisStack.region, identityStack.region) === TokenComparison.SAME ||
-      Token.compareStrings(thisStack.account, identityStack.account) === TokenComparison.SAME
+      Token.compareStrings(thisStack.region, identityStack.region) === TokenComparison.DIFFERENT ||
+      Token.compareStrings(thisStack.account, identityStack.account) === TokenComparison.DIFFERENT
     );
   }
 
