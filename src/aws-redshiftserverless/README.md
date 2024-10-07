@@ -1,4 +1,4 @@
-Constructs for the Amazon Redshift Serverlss
+Constructs for the Amazon Redshift Serverless
 
 # Redshift Serverless CDK Construct
 
@@ -28,7 +28,7 @@ const vpc = new ec2.Vpc(stack, 'MyVpc');
 
 The environment-agnostic stacks will be created with access to only 2 AZs (Ref: [`maxAzs` property docs](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.Vpc.html#maxazs))
 
-For more infomation about Redshift Serverles's limitations, see [Considerations when using Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-usage-considerations.html).
+For more information about Redshift Serverless's limitations, see [Considerations when using Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-usage-considerations.html).
 
 ### Basic Example
 
