@@ -1,0 +1,14 @@
+{
+  "enableLookups": true,
+  "version": "36.0.0",
+  "testCases": {
+    "ElastiCacheServerlessCacheTest/DefaultTest": {
+      "stacks": [
+        "ElastiCacheServerlessCacheStack"
+      ],
+      "stackUpdateWorkflow": false,
+      "assertionStack": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert",
+      "assertionStackName": "ElastiCacheServerlessCacheTestDefaultTestDeployAssertB226C8E2"
+    }
+  }
+}
