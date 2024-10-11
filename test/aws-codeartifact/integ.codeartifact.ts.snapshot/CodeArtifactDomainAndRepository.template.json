@@ -1,0 +1,62 @@
+{
+ "Resources": {
+  "domainFBFFA2F6": {
+   "Type": "AWS::CodeArtifact::Domain",
+   "Properties": {
+    "DomainName": "test-domain"
+   }
+  },
+  "repository9F1A3F0B": {
+   "Type": "AWS::CodeArtifact::Repository",
+   "Properties": {
+    "DomainName": {
+     "Fn::GetAtt": [
+      "domainFBFFA2F6",
+      "Name"
+     ]
+    },
+    "DomainOwner": {
+     "Fn::GetAtt": [
+      "domainFBFFA2F6",
+      "Owner"
+     ]
+    },
+    "RepositoryName": "repo1"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

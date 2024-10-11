@@ -1,0 +1,12 @@
+{
+  "version": "36.0.0",
+  "testCases": {
+    "CodeArtifactDomainAndRepositoryInteg/DefaultTest": {
+      "stacks": [
+        "CodeArtifactDomainAndRepository"
+      ],
+      "assertionStack": "CodeArtifactDomainAndRepositoryInteg/DefaultTest/DeployAssert",
+      "assertionStackName": "CodeArtifactDomainAndRepositoryIntegDefaultTestDeployAssert135F1932"
+    }
+  }
+}
