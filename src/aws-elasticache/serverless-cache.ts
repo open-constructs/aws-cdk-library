@@ -218,6 +218,7 @@ export interface ServerlessCacheAttributes {
  * Represents a ElastiCache Serverless Cache construct in AWS CDK.
  *
  * @example
+ * declare const vpc: aws_ec2.IVpc;
  *
  * const serverlessCache = new ServerlessCache(
  *   stack,
@@ -225,6 +226,7 @@ export interface ServerlessCacheAttributes {
  *   {
  *     serverlessCacheName: 'my-serverlessCache',
  *     engine: Engine.VALKEY,
+ *     vpc,
  *   },
  * );
  */

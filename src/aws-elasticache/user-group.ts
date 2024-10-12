@@ -60,12 +60,13 @@ export interface UserGroupAttributes {
  * Represents an user group construct in AWS CDK.
  *
  * @example
+ * declare const user: User;
  *
  * const userGroup = new UserGroup(
  *   stack,
  *   'UserGroup',
  *   {
- *     engine: Engine.VALKEY,
+ *      user: [user],
  *   },
  * );
  */
