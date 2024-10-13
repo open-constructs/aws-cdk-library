@@ -1954,12 +1954,15 @@ Represents a ElastiCache Serverless Cache construct in AWS CDK.
 *Example*
 
 ```typescript
+declare const vpc: aws_ec2.IVpc;
+
 const serverlessCache = new ServerlessCache(
   stack,
   'ServerlessCache',
   {
     serverlessCacheName: 'my-serverlessCache',
     engine: Engine.VALKEY,
+    vpc,
   },
 );
 ```
@@ -2334,6 +2337,381 @@ The serverless cache name.
 ---
 
 
+### SeverlessCacheBase <a name="SeverlessCacheBase" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase"></a>
+
+- *Implements:* @open-constructs/aws-cdk.aws_elasticache.IServerlessCache
+
+A new or imported serverless cache.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.Initializer"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+new aws_elasticache.SeverlessCacheBase(scope: Construct, id: string, props?: ResourceProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.Initializer.parameter.props">props</a></code> | <code>aws-cdk-lib.ResourceProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.Initializer.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.ResourceProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.grant">grant</a></code> | Grant the given identity the specified actions. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.grantConnect">grantConnect</a></code> | Permits an IAM principal to perform connect to the serverless cache. |
+
+---
+
+##### `toString` <a name="toString" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `grant` <a name="grant" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.grant"></a>
+
+```typescript
+public grant(grantee: IGrantable, actions: ...string[]): Grant
+```
+
+Grant the given identity the specified actions.
+
+> [https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticache.html](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticache.html)
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.grant.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+the identity to be granted the actions.
+
+---
+
+###### `actions`<sup>Required</sup> <a name="actions" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.grant.parameter.actions"></a>
+
+- *Type:* ...string[]
+
+the data-access actions.
+
+---
+
+##### `grantConnect` <a name="grantConnect" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.grantConnect"></a>
+
+```typescript
+public grantConnect(grantee: IGrantable): Grant
+```
+
+Permits an IAM principal to perform connect to the serverless cache.
+
+Actions: Connect
+
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy)
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.grantConnect.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant access to.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.fromServerlessCacheAttributes">fromServerlessCacheAttributes</a></code> | Imports an existing ServerlessCache from attributes. |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.isConstruct"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.SeverlessCacheBase.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isOwnedResource` <a name="isOwnedResource" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.isOwnedResource"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.SeverlessCacheBase.isOwnedResource(construct: IConstruct)
+```
+
+Returns true if the construct was created by CDK, and false otherwise.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.isOwnedResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `isResource` <a name="isResource" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.isResource"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.SeverlessCacheBase.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `fromServerlessCacheAttributes` <a name="fromServerlessCacheAttributes" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.fromServerlessCacheAttributes"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.SeverlessCacheBase.fromServerlessCacheAttributes(scope: Construct, id: string, attrs: ServerlessCacheAttributes)
+```
+
+Imports an existing ServerlessCache from attributes.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.fromServerlessCacheAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.fromServerlessCacheAttributes.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.fromServerlessCacheAttributes.parameter.attrs"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.ServerlessCacheAttributes
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The connection object associated with the ElastiCache Serverless Cache. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.endpointPort">endpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.readerEndpointAddress">readerEndpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.readerEndpointPort">readerEndpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.serverlessCacheArn">serverlessCacheArn</a></code> | <code>string</code> | The serverless cache ARN. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.serverlessCacheName">serverlessCacheName</a></code> | <code>string</code> | The serverless cache name. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `connections`<sup>Required</sup> <a name="connections" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.connections"></a>
+
+```typescript
+public readonly connections: Connections;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.Connections
+
+The connection object associated with the ElastiCache Serverless Cache.
+
+---
+
+##### `endpointAddress`<sup>Required</sup> <a name="endpointAddress" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.endpointAddress"></a>
+
+```typescript
+public readonly endpointAddress: string;
+```
+
+- *Type:* string
+
+The DNS hostname of the cache node.
+
+---
+
+##### `endpointPort`<sup>Required</sup> <a name="endpointPort" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.endpointPort"></a>
+
+```typescript
+public readonly endpointPort: number;
+```
+
+- *Type:* number
+
+The port number that the cache engine is listening on.
+
+---
+
+##### `readerEndpointAddress`<sup>Required</sup> <a name="readerEndpointAddress" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.readerEndpointAddress"></a>
+
+```typescript
+public readonly readerEndpointAddress: string;
+```
+
+- *Type:* string
+
+The DNS hostname of the cache node.
+
+---
+
+##### `readerEndpointPort`<sup>Required</sup> <a name="readerEndpointPort" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.readerEndpointPort"></a>
+
+```typescript
+public readonly readerEndpointPort: number;
+```
+
+- *Type:* number
+
+The port number that the cache engine is listening on.
+
+---
+
+##### `serverlessCacheArn`<sup>Required</sup> <a name="serverlessCacheArn" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.serverlessCacheArn"></a>
+
+```typescript
+public readonly serverlessCacheArn: string;
+```
+
+- *Type:* string
+
+The serverless cache ARN.
+
+---
+
+##### `serverlessCacheName`<sup>Required</sup> <a name="serverlessCacheName" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.serverlessCacheName"></a>
+
+```typescript
+public readonly serverlessCacheName: string;
+```
+
+- *Type:* string
+
+The serverless cache name.
+
+---
+
+
 ### User <a name="User" id="@open-constructs/aws-cdk.aws_elasticache.User"></a>
 
 - *Implements:* @open-constructs/aws-cdk.aws_elasticache.IUser
@@ -2657,6 +3035,316 @@ The ID of the user.
 ---
 
 
+### UserBase <a name="UserBase" id="@open-constructs/aws-cdk.aws_elasticache.UserBase"></a>
+
+- *Implements:* @open-constructs/aws-cdk.aws_elasticache.IUser
+
+A new or imported user group.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+new aws_elasticache.UserBase(scope: Construct, id: string, props?: ResourceProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer.parameter.props">props</a></code> | <code>aws-cdk-lib.ResourceProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.ResourceProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.grant">grant</a></code> | Grant the given identity the specified actions. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.grantConnect">grantConnect</a></code> | Permits an IAM principal to perform connect to the user. |
+
+---
+
+##### `toString` <a name="toString" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `grant` <a name="grant" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.grant"></a>
+
+```typescript
+public grant(grantee: IGrantable, actions: ...string[]): Grant
+```
+
+Grant the given identity the specified actions.
+
+> [https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticache.html](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticache.html)
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.grant.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+the identity to be granted the actions.
+
+---
+
+###### `actions`<sup>Required</sup> <a name="actions" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.grant.parameter.actions"></a>
+
+- *Type:* ...string[]
+
+the data-access actions.
+
+---
+
+##### `grantConnect` <a name="grantConnect" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.grantConnect"></a>
+
+```typescript
+public grantConnect(grantee: IGrantable): Grant
+```
+
+Permits an IAM principal to perform connect to the user.
+
+Actions: Connect
+
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy)
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.grantConnect.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The principal to grant access to.
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserId">fromUserId</a></code> | Imports an existing User from attributes. |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.isConstruct"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.UserBase.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isOwnedResource` <a name="isOwnedResource" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.isOwnedResource"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.UserBase.isOwnedResource(construct: IConstruct)
+```
+
+Returns true if the construct was created by CDK, and false otherwise.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.isOwnedResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `isResource` <a name="isResource" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.isResource"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.UserBase.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `fromUserId` <a name="fromUserId" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserId"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.UserBase.fromUserId(scope: Construct, id: string, userId: string)
+```
+
+Imports an existing User from attributes.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserId.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserId.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `userId`<sup>Required</sup> <a name="userId" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserId.parameter.userId"></a>
+
+- *Type:* string
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `userArn`<sup>Required</sup> <a name="userArn" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userArn"></a>
+
+```typescript
+public readonly userArn: string;
+```
+
+- *Type:* string
+
+The ARN of the user.
+
+---
+
+##### `userId`<sup>Required</sup> <a name="userId" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userId"></a>
+
+```typescript
+public readonly userId: string;
+```
+
+- *Type:* string
+
+The ID of the user.
+
+---
+
+
 ### UserGroup <a name="UserGroup" id="@open-constructs/aws-cdk.aws_elasticache.UserGroup"></a>
 
 - *Implements:* @open-constructs/aws-cdk.aws_elasticache.IUserGroup
@@ -2666,11 +3354,13 @@ Represents an user group construct in AWS CDK.
 *Example*
 
 ```typescript
+declare const user: User;
+
 const userGroup = new UserGroup(
   stack,
   'UserGroup',
   {
-    engine: Engine.VALKEY,
+     user: [user],
   },
 );
 ```
@@ -6818,10 +7508,52 @@ The name of the repository.
 
 - *Extends:* aws-cdk-lib.IResource
 
-- *Implemented By:* @open-constructs/aws-cdk.aws_elasticache.ServerlessCache, @open-constructs/aws-cdk.aws_elasticache.IServerlessCache
+- *Implemented By:* @open-constructs/aws-cdk.aws_elasticache.ServerlessCache, @open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase, @open-constructs/aws-cdk.aws_elasticache.IServerlessCache
 
 A ElastiCache Serverless Cache.
 
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.grant">grant</a></code> | Grant the given identity the specified actions. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.grantConnect">grantConnect</a></code> | Grant the given identity connection access to the cache. |
+
+---
+
+##### `grant` <a name="grant" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.grant"></a>
+
+```typescript
+public grant(grantee: IGrantable, actions: ...string[]): Grant
+```
+
+Grant the given identity the specified actions.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.grant.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+###### `actions`<sup>Required</sup> <a name="actions" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.grant.parameter.actions"></a>
+
+- *Type:* ...string[]
+
+---
+
+##### `grantConnect` <a name="grantConnect" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.grantConnect"></a>
+
+```typescript
+public grantConnect(grantee: IGrantable): Grant
+```
+
+Grant the given identity connection access to the cache.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.grantConnect.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
 
 #### Properties <a name="Properties" id="Properties"></a>
 
@@ -6958,10 +7690,52 @@ The serverless cache name.
 
 - *Extends:* aws-cdk-lib.IResource
 
-- *Implemented By:* @open-constructs/aws-cdk.aws_elasticache.User, @open-constructs/aws-cdk.aws_elasticache.IUser
+- *Implemented By:* @open-constructs/aws-cdk.aws_elasticache.User, @open-constructs/aws-cdk.aws_elasticache.UserBase, @open-constructs/aws-cdk.aws_elasticache.IUser
 
 An User.
 
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUser.grant">grant</a></code> | Grant the given identity the specified actions. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUser.grantConnect">grantConnect</a></code> | Grant the given identity connection access to the cache. |
+
+---
+
+##### `grant` <a name="grant" id="@open-constructs/aws-cdk.aws_elasticache.IUser.grant"></a>
+
+```typescript
+public grant(grantee: IGrantable, actions: ...string[]): Grant
+```
+
+Grant the given identity the specified actions.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.IUser.grant.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+###### `actions`<sup>Required</sup> <a name="actions" id="@open-constructs/aws-cdk.aws_elasticache.IUser.grant.parameter.actions"></a>
+
+- *Type:* ...string[]
+
+---
+
+##### `grantConnect` <a name="grantConnect" id="@open-constructs/aws-cdk.aws_elasticache.IUser.grantConnect"></a>
+
+```typescript
+public grantConnect(grantee: IGrantable): Grant
+```
+
+Grant the given identity connection access to the cache.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.IUser.grantConnect.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
 
 #### Properties <a name="Properties" id="Properties"></a>
 

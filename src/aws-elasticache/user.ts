@@ -30,15 +30,15 @@ export interface IUser extends IResource {
    */
   readonly userId: string;
 
-  // /**
-  //  * Grant the given identity the specified actions
-  //  */
-  // grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant;
+  /**
+   * Grant the given identity the specified actions
+   */
+  grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant;
 
-  // /**
-  //  * Grant the given identity connection access to the cache.
-  //  */
-  // grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant;
+  /**
+   * Grant the given identity connection access to the cache.
+   */
+  grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant;
 }
 
 /**
@@ -124,6 +124,70 @@ export interface UserAttributes {
 }
 
 /**
+ * A new or imported user group.
+ */
+export abstract class UserBase extends Resource implements IUser {
+  /**
+   * Imports an existing User from attributes
+   */
+  public static fromUserId(scope: Construct, id: string, userId: string): IUser {
+    class Import extends UserBase implements IUser {
+      public readonly userId = userId;
+      public readonly userArn = Stack.of(this).formatArn({
+        resource: 'elasticache',
+        service: 'user',
+        resourceName: userId,
+      });
+    }
+    return new Import(scope, id);
+  }
+
+  /**
+   * The ARN of the user.
+   */
+  public abstract readonly userArn: string;
+
+  /**
+   * The ID of the user.
+   */
+  public abstract readonly userId: string;
+
+  /**
+   * Grant the given identity the specified actions
+   * @param grantee the identity to be granted the actions
+   * @param actions the data-access actions
+   *
+   * @see https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticache.html
+   */
+  public grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant {
+    return aws_iam.Grant.addToPrincipal({
+      grantee,
+      actions,
+      resourceArns: [
+        Stack.of(this).formatArn({
+          service: 'elasticache',
+          resource: 'user',
+          resourceName: this.userId,
+          arnFormat: ArnFormat.COLON_RESOURCE_NAME,
+        }),
+      ],
+    });
+  }
+
+  /**
+   * Permits an IAM principal to perform connect to the user.
+   *
+   * Actions: Connect
+   *
+   * @param grantee The principal to grant access to.
+   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy
+   */
+  public grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant {
+    return this.grant(grantee, 'elasticache:Connect');
+  }
+}
+
+/**
  * Represents an User construct in AWS CDK.
  *
  * @example
@@ -136,22 +200,7 @@ export interface UserAttributes {
  *   },
  * );
  */
-export class User extends Resource implements IUser {
-  /**
-   * Imports an existing User from attributes
-   */
-  public static fromUserId(scope: Construct, id: string, userId: string): IUser {
-    class Import extends Resource implements IUser {
-      public readonly userId = userId;
-      public readonly userArn = Stack.of(this).formatArn({
-        resource: 'elasticache',
-        service: 'user',
-        resourceName: userId,
-      });
-    }
-    return new Import(scope, id);
-  }
-
+export class User extends UserBase implements IUser {
   /**
    * The ARN of the user.
    */
@@ -281,39 +330,5 @@ export class User extends Resource implements IUser {
         `\`userId\` and \`userName\` must be same When \`authenticationType\` is set to \`AuthenticationType.IAM\`, got userId: ${userId}, userName: ${userName}.`,
       );
     }
-  }
-
-  /**
-   * Grant the given identity the specified actions
-   * @param grantee the identity to be granted the actions
-   * @param actions the data-access actions
-   *
-   * @see https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticache.html
-   */
-  public grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant {
-    return aws_iam.Grant.addToPrincipal({
-      grantee,
-      actions,
-      resourceArns: [
-        Stack.of(this).formatArn({
-          service: 'elasticache',
-          resource: 'user',
-          resourceName: this.userId,
-          arnFormat: ArnFormat.COLON_RESOURCE_NAME,
-        }),
-      ],
-    });
-  }
-
-  /**
-   * Permits an IAM principal to perform connect to the user.
-   *
-   * Actions: Connect
-   *
-   * @param grantee The principal to grant access to.
-   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy
-   */
-  public grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant {
-    return this.grant(grantee, 'elasticache:Connect');
   }
 }

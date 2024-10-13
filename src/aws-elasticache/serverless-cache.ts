@@ -62,15 +62,15 @@ export interface IServerlessCache extends IResource {
    */
   readonly readerEndpointPort: number;
 
-  // /**
-  //  * Grant the given identity the specified actions
-  //  */
-  // grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant;
+  /**
+   * Grant the given identity the specified actions
+   */
+  grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant;
 
-  // /**
-  //  * Grant the given identity connection access to the cache.
-  //  */
-  // grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant;
+  /**
+   * Grant the given identity connection access to the cache.
+   */
+  grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant;
 }
 
 /**
@@ -215,22 +215,9 @@ export interface ServerlessCacheAttributes {
 }
 
 /**
- * Represents a ElastiCache Serverless Cache construct in AWS CDK.
- *
- * @example
- * declare const vpc: aws_ec2.IVpc;
- *
- * const serverlessCache = new ServerlessCache(
- *   stack,
- *   'ServerlessCache',
- *   {
- *     serverlessCacheName: 'my-serverlessCache',
- *     engine: Engine.VALKEY,
- *     vpc,
- *   },
- * );
+ * A new or imported serverless cache.
  */
-export class ServerlessCache extends Resource implements IServerlessCache {
+export abstract class SeverlessCacheBase extends Resource implements IServerlessCache {
   /**
    * Imports an existing ServerlessCache from attributes
    */
@@ -239,7 +226,7 @@ export class ServerlessCache extends Resource implements IServerlessCache {
     id: string,
     attrs: ServerlessCacheAttributes,
   ): IServerlessCache {
-    class Import extends Resource implements IServerlessCache {
+    class Import extends SeverlessCacheBase implements IServerlessCache {
       public readonly serverlessCacheName = attrs.serverlessCacheName;
       public readonly endpointAddress = attrs.endpointAddress;
       public readonly endpointPort = attrs.endpointPort;
@@ -255,10 +242,95 @@ export class ServerlessCache extends Resource implements IServerlessCache {
         resourceName: attrs.serverlessCacheName,
       });
     }
-
     return new Import(scope, id);
   }
+  /**
+   * The serverless cache ARN
+   */
+  public abstract readonly serverlessCacheArn: string;
 
+  /**
+   * The serverless cache name
+   */
+  public abstract readonly serverlessCacheName: string;
+
+  /**
+   * The DNS hostname of the cache node
+   */
+  public abstract readonly endpointAddress: string;
+
+  /**
+   * The port number that the cache engine is listening on
+   */
+  public abstract readonly endpointPort: number;
+
+  /**
+   * The DNS hostname of the cache node
+   */
+  public abstract readonly readerEndpointAddress: string;
+
+  /**
+   * The port number that the cache engine is listening on
+   */
+  public abstract readonly readerEndpointPort: number;
+
+  /**
+   * The connection object associated with the ElastiCache Serverless Cache.
+   */
+  public abstract readonly connections: aws_ec2.Connections;
+
+  /**
+   * Grant the given identity the specified actions
+   * @param grantee the identity to be granted the actions
+   * @param actions the data-access actions
+   *
+   * @see https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticache.html
+   */
+  public grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant {
+    return aws_iam.Grant.addToPrincipal({
+      grantee,
+      actions,
+      resourceArns: [
+        Stack.of(this).formatArn({
+          service: 'elasticache',
+          resource: 'serverlesscache',
+          resourceName: this.serverlessCacheName,
+          arnFormat: ArnFormat.COLON_RESOURCE_NAME,
+        }),
+      ],
+    });
+  }
+
+  /**
+   * Permits an IAM principal to perform connect to the serverless cache.
+   *
+   * Actions: Connect
+   *
+   * @param grantee The principal to grant access to.
+   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy
+   */
+  public grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant {
+    return this.grant(grantee, 'elasticache:Connect');
+  }
+}
+
+/**
+ * Represents a ElastiCache Serverless Cache construct in AWS CDK.
+ *
+ * @example
+ * declare const vpc: aws_ec2.IVpc;
+ *
+ * const serverlessCache = new ServerlessCache(
+ *   stack,
+ *   'ServerlessCache',
+ *   {
+ *     serverlessCacheName: 'my-serverlessCache',
+ *     engine: Engine.VALKEY,
+ *     vpc,
+ *   },
+ * );
+ */
+export class ServerlessCache extends SeverlessCacheBase implements IServerlessCache {
   /**
    * The serverless cache ARN
    */
@@ -433,39 +505,5 @@ export class ServerlessCache extends Resource implements IServerlessCache {
     if (![Engine.REDIS, Engine.VALKEY].includes(this.props.engine)) {
       throw new Error(`\`userGroup\` is available for Valkey and Redis OSS only, got engine: ${this.props.engine}.`);
     }
-  }
-
-  /**
-   * Grant the given identity the specified actions
-   * @param grantee the identity to be granted the actions
-   * @param actions the data-access actions
-   *
-   * @see https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticache.html
-   */
-  public grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant {
-    return aws_iam.Grant.addToPrincipal({
-      grantee,
-      actions,
-      resourceArns: [
-        Stack.of(this).formatArn({
-          service: 'elasticache',
-          resource: 'serverlesscache',
-          resourceName: this.serverlessCacheName,
-          arnFormat: ArnFormat.COLON_RESOURCE_NAME,
-        }),
-      ],
-    });
-  }
-
-  /**
-   * Permits an IAM principal to perform connect to the serverless cache.
-   *
-   * Actions: Connect
-   *
-   * @param grantee The principal to grant access to.
-   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy
-   */
-  public grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant {
-    return this.grant(grantee, 'elasticache:Connect');
   }
 }
