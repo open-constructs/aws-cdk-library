@@ -77,8 +77,8 @@ describe('Redshift Serverless Namespace', () => {
     test('should correctly format namespaceArn', () => {
       expect(existingNamespace.namespaceArn).toEqual(
         Stack.of(stack).formatArn({
-          resource: 'redshift-serverless',
-          service: 'namespace',
+          service: 'redshift-serverless',
+          resource: 'namespace',
           resourceName: 'my-namespace-id',
         }),
       );
