@@ -307,7 +307,7 @@ export abstract class SeverlessCacheBase extends Resource implements IServerless
    * Actions: Connect
    *
    * @param grantee The principal to grant access to.
-   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy
+   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html
    */
   public grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant {
     return this.grant(grantee, 'elasticache:Connect');
@@ -448,7 +448,7 @@ export class ServerlessCache extends SeverlessCacheBase implements IServerlessCa
     }
 
     if (/\s/.test(serverlessCacheName)) {
-      throw new Error(`\`serverlessCacheName\` ust not contain spaces, got: ${serverlessCacheName}.`);
+      throw new Error(`\`serverlessCacheName\` must not contain spaces, got: ${serverlessCacheName}.`);
     }
 
     if (serverlessCacheName.length > 40) {
@@ -469,7 +469,7 @@ export class ServerlessCache extends SeverlessCacheBase implements IServerlessCa
     }
 
     if (snapshotRetentionLimit < 1 || snapshotRetentionLimit > 35) {
-      throw new Error(`\`snapshotRetentionLimit\` must be between 3 and 64, got: ${snapshotRetentionLimit}.`);
+      throw new Error(`\`snapshotRetentionLimit\` must be between 1 and 35, got: ${snapshotRetentionLimit}.`);
     }
   }
 

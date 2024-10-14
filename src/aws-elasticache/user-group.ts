@@ -37,7 +37,7 @@ export interface UserGroupProps {
   readonly userGroupId?: string;
 
   /**
-   * The list of Iser that belong to the user group.
+   * The list of User that belong to the user group.
    *
    * `default` user is automatically added to the user group.
    *
@@ -157,6 +157,10 @@ export class UserGroup extends Resource implements IUserGroup {
    * @param user the user to add
    */
   public addUser(user: IUser): void {
+    if (this.users.includes(user)) {
+      throw new Error(`An adding user is already inclueded in the user group, ARN: ${user.userArn}.`);
+    }
+
     this.users.push(user);
   }
 }

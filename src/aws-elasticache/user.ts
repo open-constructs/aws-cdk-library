@@ -180,7 +180,7 @@ export abstract class UserBase extends Resource implements IUser {
    * Actions: Connect
    *
    * @param grantee The principal to grant access to.
-   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy
+   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html
    */
   public grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant {
     return this.grant(grantee, 'elasticache:Connect');
@@ -275,7 +275,7 @@ export class User extends UserBase implements IUser {
 
     if (!/^[A-Za-z][A-Za-z0-9]*(-[A-Za-z0-9]+)*$/.test(userId)) {
       throw new Error(
-        `\`userGroupId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${userId}.`,
+        `\`userId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${userId}.`,
       );
     }
   }
@@ -289,7 +289,7 @@ export class User extends UserBase implements IUser {
       return;
     }
 
-    if (userName.length < 0 || userName.length > 120) {
+    if (userName.length < 1 || userName.length > 120) {
       throw new Error(`\`userName\` must be between 1 and 120 characters, got ${userName.length}`);
     }
 
@@ -307,13 +307,13 @@ export class User extends UserBase implements IUser {
     const userId = this.props.userId;
     const userName = this.props.userName;
 
-    if (authenticationType === AuthenticationType.PASSWORD && !passwords) {
+    if (authenticationType === AuthenticationType.PASSWORD && passwords && passwords.length === 0) {
       throw new Error(
         'At least one password must be set to `passwords` when `authenticationType` is set to `AuthenticationType.PASSWORD`',
       );
     }
 
-    if (authenticationType !== AuthenticationType.PASSWORD && passwords) {
+    if (authenticationType !== AuthenticationType.PASSWORD && passwords && passwords.length !== 0) {
       throw new Error('`passwords` can only be set when `authenticationType` is set to `AuthenticationType.PASSWORD`');
     }
 
