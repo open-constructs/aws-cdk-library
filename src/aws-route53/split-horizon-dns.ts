@@ -153,10 +153,7 @@ export class SplitHorizonDns extends Construct implements ISplitHorizonDns {
   }
 
   protected createHostedZone(zoneId: string, props: createHostedZoneProps): route53.IHostedZone {
-    return new route53.HostedZone(this, zoneId, {
-      zoneName: props.zoneName,
-      vpcs: props.vpcs?.length ? props.vpcs : undefined, // if no vpc is provided, the zone will be public
-    });
+    return new route53.HostedZone(this, zoneId, props);
   }
 
   protected createCertificate(certId: string, props: createCertificateProps): acm.ICertificate {
