@@ -78,8 +78,8 @@ export class UserGroup extends Resource implements IUserGroup {
     class Import extends Resource implements IUserGroup {
       public readonly userGroupId = userGroupId;
       public readonly userGroupArn = Stack.of(this).formatArn({
-        resource: 'elasticache',
-        service: 'usergroup',
+        service: 'elasticache',
+        resource: 'usergroup',
         resourceName: userGroupId,
       });
     }

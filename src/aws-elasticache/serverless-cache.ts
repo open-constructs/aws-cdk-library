@@ -237,8 +237,8 @@ export abstract class SeverlessCacheBase extends Resource implements IServerless
         defaultPort: aws_ec2.Port.tcp(attrs.endpointPort),
       });
       public readonly serverlessCacheArn = Stack.of(this).formatArn({
-        resource: 'elasticache',
-        service: 'serverlesscache',
+        service: 'elasticache',
+        resource: 'serverlesscache',
         resourceName: attrs.serverlessCacheName,
       });
     }

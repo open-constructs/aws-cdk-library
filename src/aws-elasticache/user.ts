@@ -134,8 +134,8 @@ export abstract class UserBase extends Resource implements IUser {
     class Import extends UserBase implements IUser {
       public readonly userId = userId;
       public readonly userArn = Stack.of(this).formatArn({
-        resource: 'elasticache',
-        service: 'user',
+        service: 'elasticache',
+        resource: 'user',
         resourceName: userId,
       });
     }
@@ -270,7 +270,7 @@ export class User extends UserBase implements IUser {
     }
 
     if (userId.length < 1 || userId.length > 40) {
-      throw new Error(`\`userId\` must be between 1 and 40 characters, got ${userId.length}`);
+      throw new Error(`\`userId\` must be between 1 and 40 characters, got ${userId.length}.`);
     }
 
     if (!/^[A-Za-z][A-Za-z0-9]*(-[A-Za-z0-9]+)*$/.test(userId)) {
@@ -290,11 +290,11 @@ export class User extends UserBase implements IUser {
     }
 
     if (userName.length < 1 || userName.length > 120) {
-      throw new Error(`\`userName\` must be between 1 and 120 characters, got ${userName.length}`);
+      throw new Error(`\`userName\` must be between 1 and 120 characters, got ${userName.length}.`);
     }
 
     if (/\s/.test(userName)) {
-      throw new Error(`\`userName\` must not contain spaces. got: ${userName}`);
+      throw new Error(`\`userName\` must not contain spaces. got: ${userName}.`);
     }
   }
 
@@ -307,14 +307,14 @@ export class User extends UserBase implements IUser {
     const userId = this.props.userId;
     const userName = this.props.userName;
 
-    if (authenticationType === AuthenticationType.PASSWORD && passwords && passwords.length === 0) {
+    if (authenticationType === AuthenticationType.PASSWORD && !passwords) {
       throw new Error(
-        'At least one password must be set to `passwords` when `authenticationType` is set to `AuthenticationType.PASSWORD`',
+        'At least one password must be set to `passwords` when `authenticationType` is set to `AuthenticationType.PASSWORD`.',
       );
     }
 
-    if (authenticationType !== AuthenticationType.PASSWORD && passwords && passwords.length !== 0) {
-      throw new Error('`passwords` can only be set when `authenticationType` is set to `AuthenticationType.PASSWORD`');
+    if (authenticationType !== AuthenticationType.PASSWORD && passwords) {
+      throw new Error('`passwords` can only be set when `authenticationType` is set to `AuthenticationType.PASSWORD`.');
     }
 
     if (
