@@ -119,8 +119,8 @@ describe('Redshift Serverless Workgroup', () => {
     test('should correctly format workgroupArn', () => {
       expect(importedWorkgroup.workgroupArn).toEqual(
         Stack.of(stack).formatArn({
-          resource: 'redshift-serverless',
-          service: 'workgroup',
+          service: 'redshift-serverless',
+          resource: 'workgroup',
           resourceName: 'my-workgroup-id',
         }),
       );

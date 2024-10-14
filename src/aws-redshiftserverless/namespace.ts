@@ -170,8 +170,8 @@ export class Namespace extends Resource implements INamespace {
       public readonly namespaceName = attrs.namespaceName;
       public readonly namespaceId = attrs.namespaceId;
       public readonly namespaceArn = Stack.of(this).formatArn({
-        resource: 'redshift-serverless',
-        service: 'namespace',
+        service: 'redshift-serverless',
+        resource: 'namespace',
         resourceName: attrs.namespaceId,
       });
     }
