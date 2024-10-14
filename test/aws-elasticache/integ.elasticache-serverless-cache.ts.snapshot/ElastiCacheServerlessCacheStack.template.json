@@ -3,7 +3,7 @@
   "IamUser83DA77ED": {
    "Type": "AWS::ElastiCache::User",
    "Properties": {
-    "AccessString": "off -@all",
+    "AccessString": "on ~* +@all",
     "AuthenticationMode": {
      "Type": "iam"
     },
@@ -15,7 +15,7 @@
   "NoPasswordRequiredUser09EED42D": {
    "Type": "AWS::ElastiCache::User",
    "Properties": {
-    "AccessString": "off -@all",
+    "AccessString": "on ~* +@all",
     "AuthenticationMode": {
      "Type": "no-password-required"
     },
@@ -27,7 +27,7 @@
   "PasswordUserFEC7CA81": {
    "Type": "AWS::ElastiCache::User",
    "Properties": {
-    "AccessString": "off -@all",
+    "AccessString": "on ~* +@all",
     "AuthenticationMode": {
      "Type": "password",
      "Passwords": [
@@ -36,7 +36,7 @@
      ]
     },
     "Engine": "redis",
-    "UserId": "password-user-id",
+    "UserId": "password-user",
     "UserName": "password-user-names"
    }
   },
@@ -44,7 +44,7 @@
    "Type": "AWS::ElastiCache::UserGroup",
    "Properties": {
     "Engine": "redis",
-    "UserGroupId": "user-group-id",
+    "UserGroupId": "my-user-group",
     "UserIds": [
      "default",
      {
@@ -701,10 +701,45 @@
     "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
    ]
   },
-  "ElastiCacheServerlessClusterSecurityGroup261CA6C4": {
+  "Key961B73FD": {
+   "Type": "AWS::KMS::Key",
+   "Properties": {
+    "KeyPolicy": {
+     "Statement": [
+      {
+       "Action": "kms:*",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       },
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SecurityGroupDD263621": {
    "Type": "AWS::EC2::SecurityGroup",
    "Properties": {
-    "GroupDescription": "Automatic generated security group for ElastiCache Serverless Security Group",
+    "GroupDescription": "ElastiCacheServerlessCacheStack/SecurityGroup",
     "SecurityGroupEgress": [
      {
       "CidrIp": "0.0.0.0/0",
@@ -723,16 +758,24 @@
     "DailySnapshotTime": "12:00",
     "Description": "my serverless cache",
     "Engine": "valkey",
-    "FinalSnapshotName": "my-final-snapshot",
+    "FinalSnapshotName": "my-finalsnapshot",
+    "KmsKeyId": {
+     "Fn::GetAtt": [
+      "Key961B73FD",
+      "Arn"
+     ]
+    },
+    "MajorEngineVersion": "7",
     "SecurityGroupIds": [
      {
       "Fn::GetAtt": [
-       "ElastiCacheServerlessClusterSecurityGroup261CA6C4",
+       "SecurityGroupDD263621",
        "GroupId"
       ]
      }
     ],
     "ServerlessCacheName": "my-serverless-cache",
+    "SnapshotRetentionLimit": 6,
     "SubnetIds": [
      {
       "Ref": "VPCPrivateSubnet1Subnet8BCA10E0"

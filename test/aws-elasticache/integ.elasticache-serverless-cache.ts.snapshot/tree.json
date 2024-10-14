@@ -18,7 +18,7 @@
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::ElastiCache::User",
                   "aws:cdk:cloudformation:props": {
-                    "accessString": "off -@all",
+                    "accessString": "on ~* +@all",
                     "authenticationMode": {
                       "Type": "iam"
                     },
@@ -48,7 +48,7 @@
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::ElastiCache::User",
                   "aws:cdk:cloudformation:props": {
-                    "accessString": "off -@all",
+                    "accessString": "on ~* +@all",
                     "authenticationMode": {
                       "Type": "no-password-required"
                     },
@@ -78,7 +78,7 @@
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::ElastiCache::User",
                   "aws:cdk:cloudformation:props": {
-                    "accessString": "off -@all",
+                    "accessString": "on ~* +@all",
                     "authenticationMode": {
                       "Type": "password",
                       "Passwords": [
@@ -87,7 +87,7 @@
                       ]
                     },
                     "engine": "redis",
-                    "userId": "password-user-id",
+                    "userId": "password-user",
                     "userName": "password-user-names"
                   }
                 },
@@ -113,7 +113,7 @@
                   "aws:cdk:cloudformation:type": "AWS::ElastiCache::UserGroup",
                   "aws:cdk:cloudformation:props": {
                     "engine": "redis",
-                    "userGroupId": "user-group-id",
+                    "userGroupId": "my-user-group",
                     "userIds": [
                       "default",
                       {
@@ -1078,44 +1078,95 @@
               "version": "2.120.0"
             }
           },
-          "ElastiCacheServerlessCluster": {
-            "id": "ElastiCacheServerlessCluster",
-            "path": "ElastiCacheServerlessCacheStack/ElastiCacheServerlessCluster",
+          "Key": {
+            "id": "Key",
+            "path": "ElastiCacheServerlessCacheStack/Key",
             "children": {
-              "SecurityGroup": {
-                "id": "SecurityGroup",
-                "path": "ElastiCacheServerlessCacheStack/ElastiCacheServerlessCluster/SecurityGroup",
-                "children": {
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "ElastiCacheServerlessCacheStack/ElastiCacheServerlessCluster/SecurityGroup/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
-                      "aws:cdk:cloudformation:props": {
-                        "groupDescription": "Automatic generated security group for ElastiCache Serverless Security Group",
-                        "securityGroupEgress": [
-                          {
-                            "cidrIp": "0.0.0.0/0",
-                            "description": "Allow all outbound traffic by default",
-                            "ipProtocol": "-1"
-                          }
-                        ],
-                        "vpcId": {
-                          "Ref": "VPCB9E5F0B4"
+              "Resource": {
+                "id": "Resource",
+                "path": "ElastiCacheServerlessCacheStack/Key/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::KMS::Key",
+                  "aws:cdk:cloudformation:props": {
+                    "keyPolicy": {
+                      "Statement": [
+                        {
+                          "Action": "kms:*",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "AWS": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":iam::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":root"
+                                ]
+                              ]
+                            }
+                          },
+                          "Resource": "*"
                         }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
-                      "version": "2.120.0"
+                      ],
+                      "Version": "2012-10-17"
                     }
                   }
                 },
                 "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+                  "fqn": "aws-cdk-lib.aws_kms.CfnKey",
                   "version": "2.120.0"
                 }
-              },
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_kms.Key",
+              "version": "2.120.0"
+            }
+          },
+          "SecurityGroup": {
+            "id": "SecurityGroup",
+            "path": "ElastiCacheServerlessCacheStack/SecurityGroup",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ElastiCacheServerlessCacheStack/SecurityGroup/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::EC2::SecurityGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "groupDescription": "ElastiCacheServerlessCacheStack/SecurityGroup",
+                    "securityGroupEgress": [
+                      {
+                        "cidrIp": "0.0.0.0/0",
+                        "description": "Allow all outbound traffic by default",
+                        "ipProtocol": "-1"
+                      }
+                    ],
+                    "vpcId": {
+                      "Ref": "VPCB9E5F0B4"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ec2.CfnSecurityGroup",
+                  "version": "2.120.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ec2.SecurityGroup",
+              "version": "2.120.0"
+            }
+          },
+          "ElastiCacheServerlessCluster": {
+            "id": "ElastiCacheServerlessCluster",
+            "path": "ElastiCacheServerlessCacheStack/ElastiCacheServerlessCluster",
+            "children": {
               "Resource": {
                 "id": "Resource",
                 "path": "ElastiCacheServerlessCacheStack/ElastiCacheServerlessCluster/Resource",
@@ -1125,16 +1176,24 @@
                     "dailySnapshotTime": "12:00",
                     "description": "my serverless cache",
                     "engine": "valkey",
-                    "finalSnapshotName": "my-final-snapshot",
+                    "finalSnapshotName": "my-finalsnapshot",
+                    "kmsKeyId": {
+                      "Fn::GetAtt": [
+                        "Key961B73FD",
+                        "Arn"
+                      ]
+                    },
+                    "majorEngineVersion": "7",
                     "securityGroupIds": [
                       {
                         "Fn::GetAtt": [
-                          "ElastiCacheServerlessClusterSecurityGroup261CA6C4",
+                          "SecurityGroupDD263621",
                           "GroupId"
                         ]
                       }
                     ],
                     "serverlessCacheName": "my-serverless-cache",
+                    "snapshotRetentionLimit": 6,
                     "subnetIds": [
                       {
                         "Ref": "VPCPrivateSubnet1Subnet8BCA10E0"
