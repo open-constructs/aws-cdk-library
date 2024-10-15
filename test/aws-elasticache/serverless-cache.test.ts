@@ -202,7 +202,39 @@ describe('ElastiCache Serverless Cache', () => {
     );
   });
 
-  describe('validateSnapshotRetentionLimit test', () => {
+  describe('validateDescription test', () => {
+    test.each(['>', '<'])('throws an error when description includes %s', description => {
+      expect(() => {
+        new ServerlessCache(stack, 'ServerlessCache', {
+          description,
+          engine: Engine.VALKEY,
+          vpc,
+        });
+      }).toThrow(`\`description\` must not contain < and >, got: ${description}`);
+    });
+
+    test('throws when serverlessCacheName length is invalid', () => {
+      expect(() => {
+        new ServerlessCache(stack, 'ServerlessCache', {
+          description: 'a'.repeat(256),
+          engine: Engine.VALKEY,
+          vpc,
+        });
+      }).toThrow('`description` must not exceed 255 characters, got: 256 characters.');
+    });
+  });
+
+  describe('validateAutomaticBackupSettings test', () => {
+    test('throws when dailySnapshotTime is set without snapshotRetentionLimit', () => {
+      expect(() => {
+        new ServerlessCache(stack, 'ServerlessCache', {
+          engine: Engine.VALKEY,
+          vpc,
+          dailySnapshotTime: new DailySnapshotTime({ hour: 12, minute: 0 }),
+        });
+      }).toThrow('`snapshotRetentionLimit` must be specified when `dailySnapshotTime` is set.');
+    });
+
     test.each([0, 36])('throws when snapshotRetentionLimit is invalid, got %s', snapshotRetentionLimit => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {

@@ -87,18 +87,17 @@ export interface ServerlessCacheProps {
   readonly serverlessCacheName?: string;
 
   /**
-   * The daily time that a cache snapshot will be created.
-   * The description can have up to 255 characters,
-   * and must not contain < and > characters.
+   * The daily time when a cache snapshot will be created.
+   * This property must be set along with `snapshotRetentionLimit`.
    *
-   * @default - snapshots will not be created at a specific  time on a daily basis.
+   * @default - ElastiCache automatically assigns the backup window if \`snapshotRetentionLimit\` is set. Otherwise, no snapshots are taken.
+   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-automatic.html
    */
   readonly dailySnapshotTime?: DailySnapshotTime;
 
   /**
    * A description of the serverless cache.
-   * The description can have up to 255 characters,
-   * and must not contain < and > characters.
+   * The description can have up to 255 characters and must not contain < and > characters.
    *
    * @default - no description
    */
@@ -123,7 +122,7 @@ export interface ServerlessCacheProps {
   /**
    * The version number of the engine the serverless cache is compatible with.
    *
-   * @default - no final snapshot
+   * @default MajorVersion.VER_7
    */
   readonly majorEngineVersion?: MajorVersion;
 
@@ -142,11 +141,12 @@ export interface ServerlessCacheProps {
   readonly snapshotArnsToRestore?: string[];
 
   /**
-   * The current setting for the number of serverless cache snapshots the system will retain.
+   * The number of serverless cache snapshots the system will retain.
+   * To enable automatic backups, this property must be set.
    *
-   * \`snapshotRetentionLimit\` must be between 3 and 64.
+   * \`snapshotRetentionLimit\` must be between 1 and 35.
    *
-   * @default - no retain
+   * @default - no automatic backups
    */
   readonly snapshotRetentionLimit?: number;
 
@@ -353,7 +353,8 @@ export class ServerlessCache extends SeverlessCacheBase implements IServerlessCa
     };
 
     this.validateServerlessCacheName();
-    this.validateSnapshotRetentionLimit();
+    this.validateDescription();
+    this.validateAutomaticBackupSettings();
     this.validateFinalSnapshotName();
     this.validateUserGroup();
 
@@ -425,17 +426,43 @@ export class ServerlessCache extends SeverlessCacheBase implements IServerlessCa
   }
 
   /**
-   * Validates a snapshotRetentionLimit.
+   * Validates a description.
    */
-  private validateSnapshotRetentionLimit(): void {
-    const snapshotRetentionLimit = this.props.snapshotRetentionLimit;
+  private validateDescription(): void {
+    const description = this.props.description;
 
-    if (Token.isUnresolved(snapshotRetentionLimit) || snapshotRetentionLimit === undefined) {
+    if (Token.isUnresolved(description) || description === undefined) {
       return;
     }
 
-    if (snapshotRetentionLimit < 1 || snapshotRetentionLimit > 35) {
-      throw new Error(`\`snapshotRetentionLimit\` must be between 1 and 35, got: ${snapshotRetentionLimit}.`);
+    if (/<|>/.test(description)) {
+      throw new Error(`\`description\` must not contain < and >, got: ${description}`);
+    }
+
+    if (description.length > 255) {
+      throw new Error(`\`description\` must not exceed 255 characters, got: ${description.length} characters.`);
+    }
+  }
+
+  /**
+   * Validates an automaticBackupSettings.
+   */
+  private validateAutomaticBackupSettings(): void {
+    const dailySnapshotTime = this.props.dailySnapshotTime;
+    const snapshotRetentionLimit = this.props.snapshotRetentionLimit;
+
+    if (Token.isUnresolved(snapshotRetentionLimit)) {
+      return;
+    }
+
+    if (dailySnapshotTime !== undefined && snapshotRetentionLimit === undefined) {
+      throw new Error('`snapshotRetentionLimit` must be specified when `dailySnapshotTime` is set.');
+    }
+
+    if (snapshotRetentionLimit !== undefined) {
+      if (snapshotRetentionLimit < 1 || snapshotRetentionLimit > 35) {
+        throw new Error(`\`snapshotRetentionLimit\` must be between 1 and 35, got: ${snapshotRetentionLimit}.`);
+      }
     }
   }
 

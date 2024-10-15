@@ -5237,7 +5237,7 @@ const serverlessCacheProps: aws_elasticache.ServerlessCacheProps = { ... }
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.engine">engine</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.Engine</code> | The engine the serverless cache is compatible with. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | The VPC to place the serverless cache in. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.dailySnapshotTime">dailySnapshotTime</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.DailySnapshotTime</code> | The daily time that a cache snapshot will be created. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.dailySnapshotTime">dailySnapshotTime</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.DailySnapshotTime</code> | The daily time when a cache snapshot will be created. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.description">description</a></code> | <code>string</code> | A description of the serverless cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.finalSnapshotName">finalSnapshotName</a></code> | <code>string</code> | The name of the final snapshot taken of a cache before the cache is deleted. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.kmsKey">kmsKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The Customer Managed Key that is used to encrypt data at rest in the serverless cache. |
@@ -5245,7 +5245,7 @@ const serverlessCacheProps: aws_elasticache.ServerlessCacheProps = { ... }
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The security groups to associate with the serverless cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.serverlessCacheName">serverlessCacheName</a></code> | <code>string</code> | The unique identifier of the serverless cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.snapshotArnsToRestore">snapshotArnsToRestore</a></code> | <code>string[]</code> | The ARN of the snapshot from which to restore data into the new cache. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.snapshotRetentionLimit">snapshotRetentionLimit</a></code> | <code>number</code> | The current setting for the number of serverless cache snapshots the system will retain. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.snapshotRetentionLimit">snapshotRetentionLimit</a></code> | <code>number</code> | The number of serverless cache snapshots the system will retain. To enable automatic backups, this property must be set. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.userGroup">userGroup</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.IUserGroup</code> | The user group associated with the serverless cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.vpcSubnets">vpcSubnets</a></code> | <code>aws-cdk-lib.aws_ec2.SubnetSelection</code> | Where to place the serverless cache within the VPC. |
 
@@ -5282,12 +5282,13 @@ public readonly dailySnapshotTime: DailySnapshotTime;
 ```
 
 - *Type:* @open-constructs/aws-cdk.aws_elasticache.DailySnapshotTime
-- *Default:* snapshots will not be created at a specific  time on a daily basis.
+- *Default:* ElastiCache automatically assigns the backup window if \`snapshotRetentionLimit\` is set. Otherwise, no snapshots are taken.
 
-The daily time that a cache snapshot will be created.
+The daily time when a cache snapshot will be created.
 
-The description can have up to 255 characters,
-and must not contain < and > characters.
+This property must be set along with `snapshotRetentionLimit`.
+
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-automatic.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-automatic.html)
 
 ---
 
@@ -5302,8 +5303,7 @@ public readonly description: string;
 
 A description of the serverless cache.
 
-The description can have up to 255 characters,
-and must not contain < and > characters.
+The description can have up to 255 characters and must not contain < and > characters.
 
 ---
 
@@ -5342,7 +5342,7 @@ public readonly majorEngineVersion: MajorVersion;
 ```
 
 - *Type:* @open-constructs/aws-cdk.aws_elasticache.MajorVersion
-- *Default:* no final snapshot
+- *Default:* MajorVersion.VER_7
 
 The version number of the engine the serverless cache is compatible with.
 
@@ -5396,11 +5396,11 @@ public readonly snapshotRetentionLimit: number;
 ```
 
 - *Type:* number
-- *Default:* no retain
+- *Default:* no automatic backups
 
-The current setting for the number of serverless cache snapshots the system will retain.
+The number of serverless cache snapshots the system will retain. To enable automatic backups, this property must be set.
 
-\`snapshotRetentionLimit\` must be between 3 and 64.
+\`snapshotRetentionLimit\` must be between 1 and 35.
 
 ---
 
@@ -5648,6 +5648,8 @@ The username of the user.
 The name can have up to 120 characters, and must not contain spaces.
 
 \`userId\` and \`userName\` must be same When \`authenticationType\` is set to \`AuthenticationType.IAM\`.
+
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)
 
 ---
 

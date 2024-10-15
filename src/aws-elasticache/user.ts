@@ -73,6 +73,7 @@ export interface UserProps {
    * \`userId\` and \`userName\` must be same When \`authenticationType\` is set to \`AuthenticationType.IAM\`.
    *
    * @default - same value as `userId`
+   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html
    */
   readonly userName?: string;
 
