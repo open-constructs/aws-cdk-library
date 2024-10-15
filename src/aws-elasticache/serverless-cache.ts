@@ -19,7 +19,7 @@ import { Engine } from './util';
 /**
  * A ElastiCache Serverless Cache
  */
-export interface IServerlessCache extends IResource {
+export interface IServerlessCache extends IResource, aws_ec2.IConnectable {
   /**
    * The serverless cache ARN.
    *
@@ -47,20 +47,6 @@ export interface IServerlessCache extends IResource {
    * @attribute
    */
   readonly endpointPort: number;
-
-  /**
-   * The DNS hostname of the cache node.
-   *
-   * @attribute
-   */
-  readonly readerEndpointAddress: string;
-
-  /**
-   * The port number that the cache engine is listening on.
-   *
-   * @attribute
-   */
-  readonly readerEndpointPort: number;
 
   /**
    * Grant the given identity the specified actions
@@ -201,14 +187,6 @@ export interface ServerlessCacheAttributes {
    */
   readonly endpointPort: number;
   /**
-   * The DNS hostname of the cache node.
-   */
-  readonly readerEndpointAddress: string;
-  /**
-   * The port number that the cache engine is listening on.
-   */
-  readonly readerEndpointPort: number;
-  /**
    * The security groups to associate with the serverless cache.
    */
   readonly securityGroups: aws_ec2.ISecurityGroup[];
@@ -230,8 +208,6 @@ export abstract class SeverlessCacheBase extends Resource implements IServerless
       public readonly serverlessCacheName = attrs.serverlessCacheName;
       public readonly endpointAddress = attrs.endpointAddress;
       public readonly endpointPort = attrs.endpointPort;
-      public readonly readerEndpointAddress = attrs.readerEndpointAddress;
-      public readonly readerEndpointPort = attrs.readerEndpointPort;
       public readonly connections = new aws_ec2.Connections({
         securityGroups: attrs.securityGroups,
         defaultPort: aws_ec2.Port.tcp(attrs.endpointPort),
@@ -263,16 +239,6 @@ export abstract class SeverlessCacheBase extends Resource implements IServerless
    * The port number that the cache engine is listening on
    */
   public abstract readonly endpointPort: number;
-
-  /**
-   * The DNS hostname of the cache node
-   */
-  public abstract readonly readerEndpointAddress: string;
-
-  /**
-   * The port number that the cache engine is listening on
-   */
-  public abstract readonly readerEndpointPort: number;
 
   /**
    * The connection object associated with the ElastiCache Serverless Cache.
@@ -451,9 +417,9 @@ export class ServerlessCache extends SeverlessCacheBase implements IServerlessCa
       throw new Error(`\`serverlessCacheName\` must not contain spaces, got: ${serverlessCacheName}.`);
     }
 
-    if (serverlessCacheName.length > 40) {
+    if (serverlessCacheName.length < 1 || serverlessCacheName.length > 40) {
       throw new Error(
-        `\`serverlessCacheName\` must not exceed 40 characters, got: ${serverlessCacheName.length} characters.`,
+        `\`serverlessCacheName\` must be between 1 and 40 characters, got: ${serverlessCacheName.length} characters.`,
       );
     }
   }

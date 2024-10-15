@@ -270,7 +270,7 @@ export class User extends UserBase implements IUser {
     }
 
     if (userId.length < 1 || userId.length > 40) {
-      throw new Error(`\`userId\` must be between 1 and 40 characters, got ${userId.length}.`);
+      throw new Error(`\`userId\` must be between 1 and 40 characters, got ${userId.length} characters.`);
     }
 
     if (!/^[A-Za-z][A-Za-z0-9]*(-[A-Za-z0-9]+)*$/.test(userId)) {
@@ -290,7 +290,7 @@ export class User extends UserBase implements IUser {
     }
 
     if (userName.length < 1 || userName.length > 120) {
-      throw new Error(`\`userName\` must be between 1 and 120 characters, got ${userName.length}.`);
+      throw new Error(`\`userName\` must be between 1 and 120 characters, got ${userName.length} characters.`);
     }
 
     if (/\s/.test(userName)) {
@@ -327,7 +327,7 @@ export class User extends UserBase implements IUser {
 
     if (authenticationType === AuthenticationType.IAM && userId !== userName) {
       throw new Error(
-        `\`userId\` and \`userName\` must be same When \`authenticationType\` is set to \`AuthenticationType.IAM\`, got userId: ${userId}, userName: ${userName}.`,
+        `\`userId\` and \`userName\` must be the same When \`authenticationType\` is set to \`AuthenticationType.IAM\`, got userId: ${userId}, userName: ${userName}.`,
       );
     }
   }

@@ -141,7 +141,7 @@ export class UserGroup extends Resource implements IUserGroup {
     }
 
     if (userGroupId.length < 1 || userGroupId.length > 40) {
-      throw new Error(`\`userGroupId\` must be between 1 and 40 characters, got ${userGroupId.length}`);
+      throw new Error(`\`userGroupId\` must be between 1 and 40 characters, got ${userGroupId.length} characters.`);
     }
 
     if (!/^[A-Za-z][A-Za-z0-9]*(-[A-Za-z0-9]+)*$/.test(userGroupId)) {
@@ -158,7 +158,7 @@ export class UserGroup extends Resource implements IUserGroup {
    */
   public addUser(user: IUser): void {
     if (this.users.includes(user)) {
-      throw new Error(`An adding user is already inclueded in the user group, ARN: ${user.userArn}.`);
+      throw new Error(`An adding user is already included in the user group, ARN: ${user.userArn}.`);
     }
 
     this.users.push(user);

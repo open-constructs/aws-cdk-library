@@ -49,10 +49,7 @@
         "/ElastiCacheServerlessCacheStack/PasswordUser/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "PasswordUserFEC7CA81",
-            "trace": [
-              "!!DESTRUCTIVE_CHANGES: WILL_REPLACE"
-            ]
+            "data": "PasswordUserFEC7CA81"
           }
         ],
         "/ElastiCacheServerlessCacheStack/UserGroup/Resource": [

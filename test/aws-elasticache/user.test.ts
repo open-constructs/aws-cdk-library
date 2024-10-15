@@ -134,7 +134,7 @@ describe('ElastiCache User', () => {
           authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
           userId,
         });
-      }).toThrow(`\`userId\` must be between 1 and 40 characters, got ${userId.length}.`);
+      }).toThrow(`\`userId\` must be between 1 and 40 characters, got ${userId.length} characters.`);
     });
 
     test.each(['123abc', 'invalid$name', 'end-with-a-hyphen-', 'two--consecutive-hyphens'])(
@@ -159,7 +159,7 @@ describe('ElastiCache User', () => {
           authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
           userName,
         });
-      }).toThrow(`\`userName\` must be between 1 and 120 characters, got ${userName.length}.`);
+      }).toThrow(`\`userName\` must be between 1 and 120 characters, got ${userName.length} characters.`);
     });
 
     test('throws if userName contains spaces', () => {
@@ -200,7 +200,7 @@ describe('ElastiCache User', () => {
           authenticationType: AuthenticationType.IAM,
         });
       }).toThrow(
-        '`userId` and `userName` must be same When `authenticationType` is set to `AuthenticationType.IAM`, got userId: my-user-id, userName: my-user-name.',
+        '`userId` and `userName` must be the same When `authenticationType` is set to `AuthenticationType.IAM`, got userId: my-user-id, userName: my-user-name.',
       );
     });
   });

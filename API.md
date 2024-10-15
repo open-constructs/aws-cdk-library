@@ -2079,7 +2079,7 @@ Permits an IAM principal to perform connect to the serverless cache.
 
 Actions: Connect
 
-> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy)
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)
 
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.grantConnect.parameter.grantee"></a>
 
@@ -2202,10 +2202,10 @@ Imports an existing ServerlessCache from attributes.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The connection object associated with the ElastiCache Serverless Cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.endpointPort">endpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.readerEndpointAddress">readerEndpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.readerEndpointPort">readerEndpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.serverlessCacheArn">serverlessCacheArn</a></code> | <code>string</code> | The serverless cache ARN. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.serverlessCacheName">serverlessCacheName</a></code> | <code>string</code> | The serverless cache name. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.readerEndpointAddress">readerEndpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.readerEndpointPort">readerEndpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
 
 ---
 
@@ -2288,30 +2288,6 @@ The port number that the cache engine is listening on.
 
 ---
 
-##### `readerEndpointAddress`<sup>Required</sup> <a name="readerEndpointAddress" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.readerEndpointAddress"></a>
-
-```typescript
-public readonly readerEndpointAddress: string;
-```
-
-- *Type:* string
-
-The DNS hostname of the cache node.
-
----
-
-##### `readerEndpointPort`<sup>Required</sup> <a name="readerEndpointPort" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.readerEndpointPort"></a>
-
-```typescript
-public readonly readerEndpointPort: number;
-```
-
-- *Type:* number
-
-The port number that the cache engine is listening on.
-
----
-
 ##### `serverlessCacheArn`<sup>Required</sup> <a name="serverlessCacheArn" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.serverlessCacheArn"></a>
 
 ```typescript
@@ -2333,6 +2309,30 @@ public readonly serverlessCacheName: string;
 - *Type:* string
 
 The serverless cache name.
+
+---
+
+##### `readerEndpointAddress`<sup>Required</sup> <a name="readerEndpointAddress" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.readerEndpointAddress"></a>
+
+```typescript
+public readonly readerEndpointAddress: string;
+```
+
+- *Type:* string
+
+The DNS hostname of the cache node.
+
+---
+
+##### `readerEndpointPort`<sup>Required</sup> <a name="readerEndpointPort" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.readerEndpointPort"></a>
+
+```typescript
+public readonly readerEndpointPort: number;
+```
+
+- *Type:* number
+
+The port number that the cache engine is listening on.
 
 ---
 
@@ -2454,7 +2454,7 @@ Permits an IAM principal to perform connect to the serverless cache.
 
 Actions: Connect
 
-> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy)
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)
 
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.grantConnect.parameter.grantee"></a>
 
@@ -2577,8 +2577,6 @@ Imports an existing ServerlessCache from attributes.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The connection object associated with the ElastiCache Serverless Cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.endpointPort">endpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.readerEndpointAddress">readerEndpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.readerEndpointPort">readerEndpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.serverlessCacheArn">serverlessCacheArn</a></code> | <code>string</code> | The serverless cache ARN. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.serverlessCacheName">serverlessCacheName</a></code> | <code>string</code> | The serverless cache name. |
 
@@ -2655,30 +2653,6 @@ The DNS hostname of the cache node.
 
 ```typescript
 public readonly endpointPort: number;
-```
-
-- *Type:* number
-
-The port number that the cache engine is listening on.
-
----
-
-##### `readerEndpointAddress`<sup>Required</sup> <a name="readerEndpointAddress" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.readerEndpointAddress"></a>
-
-```typescript
-public readonly readerEndpointAddress: string;
-```
-
-- *Type:* string
-
-The DNS hostname of the cache node.
-
----
-
-##### `readerEndpointPort`<sup>Required</sup> <a name="readerEndpointPort" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.property.readerEndpointPort"></a>
-
-```typescript
-public readonly readerEndpointPort: number;
 ```
 
 - *Type:* number
@@ -2842,7 +2816,7 @@ Permits an IAM principal to perform connect to the user.
 
 Actions: Connect
 
-> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy)
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)
 
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.User.grantConnect.parameter.grantee"></a>
 
@@ -3152,7 +3126,7 @@ Permits an IAM principal to perform connect to the user.
 
 Actions: Connect
 
-> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/IAM.IdentityBasedPolicies.html#iam-connect-policy)
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)
 
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.grantConnect.parameter.grantee"></a>
 
@@ -5192,8 +5166,6 @@ const serverlessCacheAttributes: aws_elasticache.ServerlessCacheAttributes = { .
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheAttributes.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheAttributes.property.endpointPort">endpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheAttributes.property.readerEndpointAddress">readerEndpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheAttributes.property.readerEndpointPort">readerEndpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheAttributes.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The security groups to associate with the serverless cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheAttributes.property.serverlessCacheName">serverlessCacheName</a></code> | <code>string</code> | The serverless cache name. |
 
@@ -5215,30 +5187,6 @@ The DNS hostname of the cache node.
 
 ```typescript
 public readonly endpointPort: number;
-```
-
-- *Type:* number
-
-The port number that the cache engine is listening on.
-
----
-
-##### `readerEndpointAddress`<sup>Required</sup> <a name="readerEndpointAddress" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheAttributes.property.readerEndpointAddress"></a>
-
-```typescript
-public readonly readerEndpointAddress: string;
-```
-
-- *Type:* string
-
-The DNS hostname of the cache node.
-
----
-
-##### `readerEndpointPort`<sup>Required</sup> <a name="readerEndpointPort" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheAttributes.property.readerEndpointPort"></a>
-
-```typescript
-public readonly readerEndpointPort: number;
 ```
 
 - *Type:* number
@@ -5565,7 +5513,7 @@ const userGroupProps: aws_elasticache.UserGroupProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.userGroupId">userGroupId</a></code> | <code>string</code> | The ID of the user group. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.users">users</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.IUser[]</code> | The list of Iser that belong to the user group. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.users">users</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.IUser[]</code> | The list of User that belong to the user group. |
 
 ---
 
@@ -5595,7 +5543,7 @@ public readonly users: IUser[];
 - *Type:* @open-constructs/aws-cdk.aws_elasticache.IUser[]
 - *Default:* only `default` user added
 
-The list of Iser that belong to the user group.
+The list of User that belong to the user group.
 
 `default` user is automatically added to the user group.
 
@@ -7506,7 +7454,7 @@ The name of the repository.
 
 ### IServerlessCache <a name="IServerlessCache" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache"></a>
 
-- *Extends:* aws-cdk-lib.IResource
+- *Extends:* aws-cdk-lib.IResource, aws-cdk-lib.aws_ec2.IConnectable
 
 - *Implemented By:* @open-constructs/aws-cdk.aws_elasticache.ServerlessCache, @open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase, @open-constructs/aws-cdk.aws_elasticache.IServerlessCache
 
@@ -7562,10 +7510,9 @@ Grant the given identity connection access to the cache.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The network connections associated with this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.endpointPort">endpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.readerEndpointAddress">readerEndpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.readerEndpointPort">readerEndpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.serverlessCacheArn">serverlessCacheArn</a></code> | <code>string</code> | The serverless cache ARN. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.serverlessCacheName">serverlessCacheName</a></code> | <code>string</code> | The serverless cache name. |
 
@@ -7614,6 +7561,18 @@ The stack in which this resource is defined.
 
 ---
 
+##### `connections`<sup>Required</sup> <a name="connections" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.connections"></a>
+
+```typescript
+public readonly connections: Connections;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.Connections
+
+The network connections associated with this resource.
+
+---
+
 ##### `endpointAddress`<sup>Required</sup> <a name="endpointAddress" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.endpointAddress"></a>
 
 ```typescript
@@ -7630,30 +7589,6 @@ The DNS hostname of the cache node.
 
 ```typescript
 public readonly endpointPort: number;
-```
-
-- *Type:* number
-
-The port number that the cache engine is listening on.
-
----
-
-##### `readerEndpointAddress`<sup>Required</sup> <a name="readerEndpointAddress" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.readerEndpointAddress"></a>
-
-```typescript
-public readonly readerEndpointAddress: string;
-```
-
-- *Type:* string
-
-The DNS hostname of the cache node.
-
----
-
-##### `readerEndpointPort`<sup>Required</sup> <a name="readerEndpointPort" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.readerEndpointPort"></a>
-
-```typescript
-public readonly readerEndpointPort: number;
 ```
 
 - *Type:* number
