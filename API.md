@@ -3013,7 +3013,7 @@ The ID of the user.
 
 - *Implements:* @open-constructs/aws-cdk.aws_elasticache.IUser
 
-A new or imported user group.
+A new or imported User.
 
 #### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer"></a>
 
@@ -5314,11 +5314,9 @@ public readonly finalSnapshotName: string;
 ```
 
 - *Type:* string
-- *Default:* no final snapshot
+- *Default:* no final snapshot taken
 
 The name of the final snapshot taken of a cache before the cache is deleted.
-
-If not specified, the final snapshot will not be taken.
 
 ---
 
@@ -5383,7 +5381,7 @@ public readonly snapshotArnsToRestore: string[];
 ```
 
 - *Type:* string[]
-- *Default:* no restore
+- *Default:* not restored
 
 The ARN of the snapshot from which to restore data into the new cache.
 
@@ -5411,7 +5409,7 @@ public readonly userGroup: IUserGroup;
 ```
 
 - *Type:* @open-constructs/aws-cdk.aws_elasticache.IUserGroup
-- *Default:* no user group
+- *Default:* no user group associated
 
 The user group associated with the serverless cache.
 
@@ -5530,7 +5528,8 @@ The ID of the user group.
 
 \`userGroupId\` can have up to 40 characters.
 
-\`userGroupId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens.
+\`userGroupId\` must consist only of alphanumeric characters or hyphens,
+with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens.
 
 ---
 
@@ -5628,7 +5627,8 @@ The ID of the user.
 
 \`userGroupId\` can have up to 40 characters.
 
-\`userId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens.
+\`userId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter,
+and it can't end with a hyphen or contain two consecutive hyphens.
 
 \`userId\` and \`userName\` must be same When \`authenticationType\` is set to \`AuthenticationType.IAM\`.
 
@@ -7985,7 +7985,7 @@ The workgroup name.
 
 ### AuthenticationType <a name="AuthenticationType" id="@open-constructs/aws-cdk.aws_elasticache.AuthenticationType"></a>
 
-Specifies the authentication type.
+Authentication type.
 
 #### Members <a name="Members" id="Members"></a>
 
@@ -7993,7 +7993,7 @@ Specifies the authentication type.
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.AuthenticationType.PASSWORD">PASSWORD</a></code> | Password required. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.AuthenticationType.NO_PASSWORD_REQUIRED">NO_PASSWORD_REQUIRED</a></code> | No password required. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.AuthenticationType.IAM">IAM</a></code> | IAM. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.AuthenticationType.IAM">IAM</a></code> | IAM authentication. |
 
 ---
 
@@ -8013,7 +8013,7 @@ No password required.
 
 ##### `IAM` <a name="IAM" id="@open-constructs/aws-cdk.aws_elasticache.AuthenticationType.IAM"></a>
 
-IAM.
+IAM authentication.
 
 ---
 
