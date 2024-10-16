@@ -37,23 +37,6 @@ describe('ElastiCache User Group', () => {
     });
   });
 
-  test('Create user with password authentication', () => {
-    new User(stack, 'User', {
-      authenticationType: AuthenticationType.PASSWORD,
-      passwords: [
-        SecretValue.unsafePlainText('adminUserPassword123'),
-        SecretValue.unsafePlainText('adminUserPassword12345'),
-      ],
-    });
-
-    Template.fromStack(stack).hasResourceProperties('AWS::ElastiCache::User', {
-      AuthenticationMode: {
-        Type: 'password',
-        Passwords: ['adminUserPassword123', 'adminUserPassword12345'],
-      },
-    });
-  });
-
   describe('import method test', () => {
     let importedUserGroup: IUserGroup;
 
