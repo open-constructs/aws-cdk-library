@@ -11,7 +11,7 @@ describe('ElastiCache User Group', () => {
     stack = new Stack(app, 'TestStack', {});
   });
 
-  test('Create user group with minimal properties', () => {
+  test('Create an user group with minimal properties', () => {
     new UserGroup(stack, 'UserGroup', {});
 
     Template.fromStack(stack).hasResourceProperties('AWS::ElastiCache::UserGroup', {
@@ -20,7 +20,7 @@ describe('ElastiCache User Group', () => {
     });
   });
 
-  test('Create user group with maximum properties', () => {
+  test('Create an user group with maximum properties', () => {
     const user = new User(stack, 'User', {
       authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
     });

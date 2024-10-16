@@ -30,7 +30,8 @@ export interface UserGroupProps {
    *
    * \`userGroupId\` can have up to 40 characters.
    *
-   * \`userGroupId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens.
+   * \`userGroupId\` must consist only of alphanumeric characters or hyphens,
+   * with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens.
    *
    * @default - auto generate
    */

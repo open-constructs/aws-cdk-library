@@ -44,7 +44,8 @@ export class DailySnapshotTime {
   }
 
   /**
-   * Pad an integer so that it always contains at least 2 digits. Assumes the number is a positive integer.
+   * Pad an integer so that it always contains at least 2 digits.
+   * Assumes the number is a positive integer.
    */
   private getTwoDigitString(n: number): string {
     const numberString = n.toString();

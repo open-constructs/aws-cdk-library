@@ -49,7 +49,7 @@ export interface IServerlessCache extends IResource, aws_ec2.IConnectable {
   readonly endpointPort: number;
 
   /**
-   * Grant the given identity the specified actions
+   * Grant the given identity the specified actions.
    */
   grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant;
 
@@ -106,9 +106,7 @@ export interface ServerlessCacheProps {
   /**
    * The name of the final snapshot taken of a cache before the cache is deleted.
    *
-   * If not specified, the final snapshot will not be taken.
-   *
-   * @default - no final snapshot
+   * @default - no final snapshot taken
    */
   readonly finalSnapshotName?: string;
 
@@ -136,7 +134,7 @@ export interface ServerlessCacheProps {
   /**
    * The ARN of the snapshot from which to restore data into the new cache.
    *
-   * @default - no restore
+   * @default - not restored
    */
   readonly snapshotArnsToRestore?: string[];
 
@@ -165,7 +163,7 @@ export interface ServerlessCacheProps {
   /**
    * The user group associated with the serverless cache. Available for Valkey and Redis OSS only.
    *
-   * @default - no user group
+   * @default - no user group associated
    */
   readonly userGroup?: IUserGroup;
 }
@@ -221,22 +219,22 @@ export abstract class SeverlessCacheBase extends Resource implements IServerless
     return new Import(scope, id);
   }
   /**
-   * The serverless cache ARN
+   * The serverless cache ARN.
    */
   public abstract readonly serverlessCacheArn: string;
 
   /**
-   * The serverless cache name
+   * The serverless cache name.
    */
   public abstract readonly serverlessCacheName: string;
 
   /**
-   * The DNS hostname of the cache node
+   * The DNS hostname of the cache node.
    */
   public abstract readonly endpointAddress: string;
 
   /**
-   * The port number that the cache engine is listening on
+   * The port number that the cache engine is listening on.
    */
   public abstract readonly endpointPort: number;
 
@@ -246,7 +244,7 @@ export abstract class SeverlessCacheBase extends Resource implements IServerless
   public abstract readonly connections: aws_ec2.Connections;
 
   /**
-   * Grant the given identity the specified actions
+   * Grant the given identity the specified actions.
    * @param grantee the identity to be granted the actions
    * @param actions the data-access actions
    *
@@ -445,7 +443,7 @@ export class ServerlessCache extends SeverlessCacheBase implements IServerlessCa
   }
 
   /**
-   * Validates an automaticBackupSettings.
+   * Validates an automatic backup settings.
    */
   private validateAutomaticBackupSettings(): void {
     const dailySnapshotTime = this.props.dailySnapshotTime;
@@ -490,7 +488,7 @@ export class ServerlessCache extends SeverlessCacheBase implements IServerlessCa
   }
 
   /**
-   * Validates an user group.
+   * Validates an engine and an user group combination.
    */
   private validateUserGroup(): void {
     if (this.props.userGroup === undefined) return;

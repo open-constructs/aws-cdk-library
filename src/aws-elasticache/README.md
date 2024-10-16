@@ -7,13 +7,12 @@ This module has constructs for [Amazon ElastiCache](https://docs.aws.amazon.com/
 * The `User` and `UserGroup` construct facliatates the creation and mangement of user for cache.
 * The `ServerlessCache` construct facilitates the creation and management of Serverless Cache.
 
-## Basic Usage for ElastiCache User and User Group
+## Basic Usage for user and user group
 
 Setup required properties and create:
 
 ```ts
 const user = User(this, 'User', {
-  accessString: 'on ~* +@all',
   authenticationType: AuthenticationType.IAM,
 });
 
@@ -36,7 +35,7 @@ To enable RBAC for ElastiCache with Valkey or Redis OSS, you take the following 
 - Create a user group and add users to the user group.
 - Assign the user group to a cache.
 
-### Create Users
+### Create users
 
 First, you need to create users by using `User` construct.
 
@@ -66,13 +65,13 @@ const user = User(this, 'User', {
   // set two passwords
   passwords: [
     cdk.SecretValue.unsafePlainText('adminUserPassword123'),
-    cdk.SecretValue.unsafePlainText('hogehogeadminUserPassword123'),
+    cdk.SecretValue.unsafePlainText('anotherAdminUserPassword123'),
   ],
 
 });
 ```
 
-### Add Users to the User Group
+### Add users to the user group
 
 Next, create a user group by using `UserGroup` Construct and add users to the group:
 
@@ -94,13 +93,14 @@ You can't modify or delete this user.
 
 This user is intended for compatibility with the default behavior of previous Redis OSS versions and has an access string that permits it to call all commands and access all keys.
 
-To add proper access control to a cache, replace this default user with a new one that isn't enabled or uses a strong password. To change the default user, create a new user with the user name set to `default`. You can then swap it with the original default user.
+To add proper access control to a cache, replace this default user with a new one that isn't enabled or uses a strong password.
+To change the default user, create a new user with the user name set to `default`. You can then swap it with the original default user.
 
 For more information, see [**Creating Users and User Groups with the Console and CLI**](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Users-management).
 
-### Assign User Group
+### Assign user group
 
-Finally, assign a User Group to Cache:
+Finally, assign a user group to cache:
 
 ```ts
 declare const userGroup: UserGroup;
@@ -117,7 +117,7 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
 
 ### Grant permissions to use IAM authentication
 
-If you use IAM authentication, “elasticache:Connect” action must be allowed for User and Cache.
+If you use IAM authentication, `“elasticache:Connect”` action must be allowed for user and cache.
 
 For more information, see [Authenticating with IAM]([https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)).
 
@@ -135,14 +135,14 @@ serverlessCache.grantConncet(role);
 
 ### Import an existing user and user group
 
-To import an existing  user and user group, use the `User.fromUserId` and `UserGroup.fromUserGroupId` method:
+To import an existing user and user group, use the `User.fromUserId` and `UserGroup.fromUserGroupId` method:
 
 ```ts
-const importedUser = User.fromUserId(stack, 'ImportedUser', 'my-user-id');
+const importedUser = User.fromUserId(this, 'ImportedUser', 'my-user-id');
 const importedUserGroup = UserGroup.fromUserGroupId(this, 'ImportedUser', 'my-user-group-id');
 ```
 
-## Basic Usage for ElastiCache Serverless Cache
+## Basic Usage for serverless cache
 
 Setup required properties and create:
 
@@ -155,37 +155,38 @@ const servlerlessCache = new ServerlessCache(this, 'ServerlessCache', {
 });
 ```
 
-### Connecting to ElastiCache Serverless Cache
+### Connecting to serverless cache
 
-To control who can access the serveless cache, use the `.connections` attribute.
+To control who can access the serveless cache by the security groups, use the `.connections` attribute.
 
-Serverless Cache have a defult port `6379`.
+serverless cache have a defult port `6379`.
 
 This example allows an EC2 instance to connect to the serverless cache:
 
 ```ts
-declare const serverlessCacge: ServerlessCache;
+declare const serverlessCache: ServerlessCache;
 declare const instance: ec2.Instance;
 
-// Allow the EC2 instance to connect to Serverless Cache on default port 6379
-serverlessCacge.connections.allowDefaultPortFrom(instance);
+// allow the EC2 instance to connect to serverless cache on default port 6379
+serverlessCache.connections.allowDefaultPortFrom(instance);
 ```
 
 The endpoint and the port to access your serveless cache will be available as the `.endpointAddress` and `.endpointPort` attributes:
 
 ```ts
-declare const serverlessCacge: ServerlessCache;
+declare const serverlessCache: ServerlessCache;
 
-const endpointAddress = serverlessCacge.endpointAddress;
-const endpointPort = serverlessCacge.endpointPort;
+const endpointAddress = serverlessCache.endpointAddress;
+const endpointPort = serverlessCahge.endpointPort;
 ```
 
 ### Snapshots and restore
 
-You can enable automatic backups for Serverless Cache.
+You can enable automatic backups for serverless cache.
 When automatic backups are enabled, ElastiCache creates a backup of the cache on a daily basis.
 
-Also you can set the backup window for any time when it's most convenient. If you don't specify a backup window, ElastiCache assigns one automatically.
+Also you can set the backup window for any time when it's most convenient.
+If you don't specify a backup window, ElastiCache assigns one automatically.
 
 For more information, see [Scheduling automatic backups](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-automatic.html).
 
@@ -196,9 +197,9 @@ declare const vpc: ec2.Vpc;
 
 const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   engine: Engine.VALKEY,
-  // Enable automatic backups and set the retention period to 6 days
+  // enable automatic backups and set the retention period to 6 days
   snapshotRetentionLimit: 6,
-  // Set the daily snapshot created time to 12:00 AM UTC
+  // set the backup window to 12:00 AM UTC
   dailySnapshotTime: new DailySnapshotTime({ hour: 12, minute: 0 }),
   vpc,
 });
@@ -211,7 +212,7 @@ declare const vpc: ec2.Vpc;
 
 const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   engine: Engine.VALKEY,
-  // Set the final snapshot name
+  // set the final snapshot name
   finalSnapshotName: 'my-finalsnapshot',
   vpc,
 });
@@ -224,7 +225,7 @@ declare const vpc: ec2.Vpc;
 
 const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   engine: Engine.VALKEY,
-  // Set the snapshot to restore
+  // set the snapshot to restore
   snapshotArnsToRestore: ['arn:aws:elasticache:us-east-1:123456789012:serverlesscachesnapshot:my-final-snapshot'],
   vpc,
 });
@@ -250,25 +251,7 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
 });
 ```
 
-### User Group
-
-You can apply RBAC to a Serveless Cache with Valkey or Redis OSS by setting `userGroup` property.
-
-For more information, see [Role-Based Access Control (RBAC)](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html).
-
-```ts
-declare const userGroup: UserGroup;
-
-const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
-  engine: Engine.VALKEY,
-  serverlessCacheName: 'my-serverless-cache',
-  vpc,
-  // set User Group
-  userGroup,
-});
-```
-
-### Import an existing Serverless Cache
+### Import an existing serverless cache
 
 To import an existing ServerlessCache, use the `ServerlessCache.fromServerlessCacheAttributes` method:
 

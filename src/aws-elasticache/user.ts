@@ -42,7 +42,7 @@ export interface IUser extends IResource {
 }
 
 /**
- * Specifies the authentication type.
+ * Authentication type.
  */
 export enum AuthenticationType {
   /**
@@ -51,12 +51,12 @@ export enum AuthenticationType {
   PASSWORD = 'password',
 
   /**
-   * No password required
+   * No password required.
    */
   NO_PASSWORD_REQUIRED = 'no-password-required',
 
   /**
-   * IAM
+   * IAM authentication.
    */
   IAM = 'iam',
 }
@@ -82,7 +82,8 @@ export interface UserProps {
    *
    * \`userGroupId\` can have up to 40 characters.
    *
-   * \`userId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens.
+   * \`userId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter,
+   * and it can't end with a hyphen or contain two consecutive hyphens.
    *
    * \`userId\` and \`userName\` must be same When \`authenticationType\` is set to \`AuthenticationType.IAM\`.
    *
@@ -125,7 +126,7 @@ export interface UserAttributes {
 }
 
 /**
- * A new or imported user group.
+ * A new or imported User.
  */
 export abstract class UserBase extends Resource implements IUser {
   /**
@@ -300,7 +301,7 @@ export class User extends UserBase implements IUser {
   }
 
   /**
-   * Validates Authentication Settings.
+   * Validates authentication settings.
    */
   private validateAuthenticationSettings(): void {
     const authenticationType = this.props.authenticationType;

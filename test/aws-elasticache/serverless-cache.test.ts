@@ -24,7 +24,7 @@ describe('ElastiCache Serverless Cache', () => {
     vpc = new aws_ec2.Vpc(stack, 'VPC');
   });
 
-  test('Create serverless cache with minimal properties', () => {
+  test('Create a serverless cache with minimal properties', () => {
     new ServerlessCache(stack, 'ServerlessCache', {
       engine: Engine.VALKEY,
       vpc,
@@ -38,7 +38,7 @@ describe('ElastiCache Serverless Cache', () => {
     });
   });
 
-  test('Create serverless cache with maximum properties', () => {
+  test('Create a serverless cache with maximum properties', () => {
     const user = new User(stack, 'User', {
       authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
     });
@@ -213,7 +213,7 @@ describe('ElastiCache Serverless Cache', () => {
       }).toThrow(`\`description\` must not contain < and >, got: ${description}`);
     });
 
-    test('throws when serverlessCacheName length is invalid', () => {
+    test('throws when description length is invalid', () => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
           description: 'a'.repeat(256),
