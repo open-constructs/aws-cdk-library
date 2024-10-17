@@ -119,10 +119,8 @@ export interface ServerlessCacheProps {
 
   /**
    * The version number of the engine the serverless cache is compatible with.
-   *
-   * @default MajorVersion.VER_7
    */
-  readonly majorEngineVersion?: MajorVersion;
+  readonly majorEngineVersion: MajorVersion;
 
   /**
    * The security groups to associate with the serverless cache.
