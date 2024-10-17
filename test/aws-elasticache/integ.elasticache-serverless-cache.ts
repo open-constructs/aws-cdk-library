@@ -37,7 +37,6 @@ class ElastiCacheStack extends cdk.Stack {
     });
 
     const userGroup = new ocf.aws_elasticache.UserGroup(this, 'UserGroup', {
-      defaultUser,
       userGroupId: 'my-user-group',
       users: [defaultUser, iamUser, noPasswordRequiredUser],
     });

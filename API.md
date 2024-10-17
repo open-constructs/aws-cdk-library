@@ -5262,12 +5262,12 @@ const serverlessCacheProps: aws_elasticache.ServerlessCacheProps = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.engine">engine</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.Engine</code> | The engine the serverless cache is compatible with. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.majorEngineVersion">majorEngineVersion</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.MajorVersion</code> | The version number of the engine the serverless cache is compatible with. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | The VPC to place the serverless cache in. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.dailySnapshotTime">dailySnapshotTime</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.DailySnapshotTime</code> | The daily time when a cache snapshot will be created. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.description">description</a></code> | <code>string</code> | A description of the serverless cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.finalSnapshotName">finalSnapshotName</a></code> | <code>string</code> | The name of the final snapshot taken of a cache before the cache is deleted. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.kmsKey">kmsKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The Customer Managed Key that is used to encrypt data at rest in the serverless cache. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.majorEngineVersion">majorEngineVersion</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.MajorVersion</code> | The version number of the engine the serverless cache is compatible with. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.securityGroups">securityGroups</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup[]</code> | The security groups to associate with the serverless cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.serverlessCacheName">serverlessCacheName</a></code> | <code>string</code> | The unique identifier of the serverless cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.snapshotArnsToRestore">snapshotArnsToRestore</a></code> | <code>string[]</code> | The ARN of the snapshot from which to restore data into the new cache. |
@@ -5286,6 +5286,18 @@ public readonly engine: Engine;
 - *Type:* @open-constructs/aws-cdk.aws_elasticache.Engine
 
 The engine the serverless cache is compatible with.
+
+---
+
+##### `majorEngineVersion`<sup>Required</sup> <a name="majorEngineVersion" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.majorEngineVersion"></a>
+
+```typescript
+public readonly majorEngineVersion: MajorVersion;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.MajorVersion
+
+The version number of the engine the serverless cache is compatible with.
 
 ---
 
@@ -5356,19 +5368,6 @@ public readonly kmsKey: IKey;
 - *Default:* use AWS managed key
 
 The Customer Managed Key that is used to encrypt data at rest in the serverless cache.
-
----
-
-##### `majorEngineVersion`<sup>Optional</sup> <a name="majorEngineVersion" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.majorEngineVersion"></a>
-
-```typescript
-public readonly majorEngineVersion: MajorVersion;
-```
-
-- *Type:* @open-constructs/aws-cdk.aws_elasticache.MajorVersion
-- *Default:* MajorVersion.VER_7
-
-The version number of the engine the serverless cache is compatible with.
 
 ---
 
@@ -5549,25 +5548,8 @@ const userGroupProps: aws_elasticache.UserGroupProps = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.defaultUser">defaultUser</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.IUser</code> | The default user of the user group. The `userName` of the default user must be `default`. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.users">users</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.IUser[]</code> | The list of User that belong to the user group. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.userGroupId">userGroupId</a></code> | <code>string</code> | The ID of the user group. |
-
----
-
-##### `defaultUser`<sup>Required</sup> <a name="defaultUser" id="@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.defaultUser"></a>
-
-```typescript
-public readonly defaultUser: IUser;
-```
-
-- *Type:* @open-constructs/aws-cdk.aws_elasticache.IUser
-
-The default user of the user group. The `userName` of the default user must be `default`.
-
-`defaultUser` must be included in `users`.
-
-> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Users-management](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Users-management)
 
 ---
 
@@ -5581,7 +5563,7 @@ public readonly users: IUser[];
 
 The list of User that belong to the user group.
 
-`defaultUser` must be included in `users`.
+A user with the username `default` must be included in `users`.
 
 ---
 

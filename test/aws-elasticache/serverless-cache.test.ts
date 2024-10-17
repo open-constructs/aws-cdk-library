@@ -51,7 +51,6 @@ describe('ElastiCache Serverless Cache', () => {
     });
 
     const userGroup = new UserGroup(stack, 'UserGroup', {
-      defaultUser,
       users: [defaultUser, user],
       userGroupId: 'my-user-group',
     });
@@ -299,7 +298,6 @@ describe('ElastiCache Serverless Cache', () => {
           userName: 'default',
         });
         const userGroup = new UserGroup(stack, 'UserGroup', {
-          defaultUser,
           users: [defaultUser],
         });
 

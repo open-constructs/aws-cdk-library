@@ -1,5 +1,6 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
+import { IConstruct } from 'constructs';
 import { AuthenticationType, IUserGroup, User, UserGroup } from '../../src/aws-elasticache';
 
 describe('ElastiCache User Group', () => {
@@ -19,7 +20,6 @@ describe('ElastiCache User Group', () => {
 
   test('Create an user group with minimal properties', () => {
     new UserGroup(stack, 'UserGroup', {
-      defaultUser,
       users: [defaultUser],
     });
 
@@ -35,7 +35,6 @@ describe('ElastiCache User Group', () => {
     });
 
     new UserGroup(stack, 'UserGroup', {
-      defaultUser,
       users: [defaultUser, user],
       userGroupId: 'my-user-group',
     });
@@ -75,7 +74,6 @@ describe('ElastiCache User Group', () => {
     test.each(['', 'a'.repeat(41)])('throws when userGroupId length is invalid, got %s', userGroupId => {
       expect(() => {
         new UserGroup(stack, 'UserGroup', {
-          defaultUser,
           userGroupId,
           users: [defaultUser],
         });
@@ -87,7 +85,6 @@ describe('ElastiCache User Group', () => {
       userGroupId => {
         expect(() => {
           new UserGroup(stack, 'UserGroup', {
-            defaultUser,
             userGroupId,
             users: [defaultUser],
           });
@@ -99,31 +96,21 @@ describe('ElastiCache User Group', () => {
   });
 
   describe('validateDefaultUser test', () => {
-    test('throws an error if default user name is not `default`', () => {
-      const invalidDefaultUser = new User(stack, 'InvalidDefaultUser', {
-        userName: 'not-default',
-        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
-      });
-
-      expect(() => {
-        new UserGroup(stack, 'UserGroup', {
-          defaultUser: invalidDefaultUser,
-          users: [invalidDefaultUser],
-        });
-      }).toThrow(`\`defaultUser\` must have \`userName\` as \`default\`, got: ${invalidDefaultUser.userName}.`);
-    });
-
-    test("throws an error if `users` don't include `defaultUser`", () => {
+    test("throws an error if `users` don't include default user", () => {
       const user = new User(stack, 'User', {
         authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        userName: 'not-default',
       });
 
-      expect(() => {
-        new UserGroup(stack, 'UserGroup', {
-          defaultUser,
-          users: [user],
-        });
-      }).toThrow('`defaultUser` must be included in `users`.');
+      new UserGroup(stack, 'UserGroup', {
+        users: [user],
+      });
+
+      const errors = validate(stack);
+      expect(errors.length).toEqual(1);
+      const error = errors[0];
+
+      expect(error).toMatch(/A user with the username `default` must be included in `users`./);
     });
   });
 
@@ -134,7 +121,6 @@ describe('ElastiCache User Group', () => {
       });
 
       const userGroup = new UserGroup(stack, 'UserGroup', {
-        defaultUser,
         userGroupId: 'my-user-group',
         users: [defaultUser],
       });
@@ -154,7 +140,6 @@ describe('ElastiCache User Group', () => {
       });
 
       const userGroup = new UserGroup(stack, 'UserGroup', {
-        defaultUser,
         userGroupId: 'my-user-group',
         users: [defaultUser],
       });
@@ -167,3 +152,15 @@ describe('ElastiCache User Group', () => {
     });
   });
 });
+
+function validate(construct: IConstruct): string[] {
+  try {
+    (construct.node.root as App).synth();
+    return [];
+  } catch (err: any) {
+    if (!('message' in err) || !err.message.startsWith('Validation failed')) {
+      throw err;
+    }
+    return err.message.split('\n').slice(1);
+  }
+}

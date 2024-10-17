@@ -18,8 +18,7 @@ const newDefaultUser = User(this, 'DefaultUser', {
 });
 
 const userGroup = new UserGroup(this, 'UserGroup', {
-  defaultUser: newDefaultUser,
-  users: [defaultUser, user],
+  users: [defaultUser],
 });
 ```
 
@@ -105,8 +104,6 @@ declare const user: User;
 declare const anotherUser: User;
 
 const userGroup = new UserGroup(this, 'UserGroup', {
-  // assign a default user
-  defaultUser: newDefaultUser,
   // add users including default user
   users: [defaultUser, user],
 });

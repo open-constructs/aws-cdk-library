@@ -38,19 +38,9 @@ export interface UserGroupProps {
   readonly userGroupId?: string;
 
   /**
-   * The default user of the user group.
-   * The `userName` of the default user must be `default`.
-   *
-   * `defaultUser` must be included in `users`.
-   *
-   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Users-management
-   */
-  readonly defaultUser: IUser;
-
-  /**
    * The list of User that belong to the user group.
    *
-   * `defaultUser` must be included in `users`.
+   * A user with the username `default` must be included in `users`.
    */
   readonly users: IUser[];
 }
@@ -127,6 +117,8 @@ export class UserGroup extends Resource implements IUserGroup {
     this.validateUserGroupId();
     this.validateDefaultUser();
 
+    this.node.addValidation({ validate: () => this.validateDefaultUser() });
+
     const userGroup = this.createResource(this, 'Resource', {
       engine: Engine.REDIS,
       userGroupId: this.physicalName,
@@ -168,20 +160,20 @@ export class UserGroup extends Resource implements IUserGroup {
   /**
    * Validates default user.
    */
-  private validateDefaultUser(): void {
-    const defaultUserName = this.props.defaultUser.userName;
+  private validateDefaultUser(): string[] {
+    const userNamelist = this.users.map(user => user.userName);
 
-    if (Token.isUnresolved(defaultUserName)) {
-      return;
+    const errors: string[] = [];
+
+    if (!userNamelist || userNamelist.some(userName => Token.isUnresolved(userName))) {
+      return errors;
     }
 
-    if (defaultUserName !== 'default') {
-      throw new Error(`\`defaultUser\` must have \`userName\` as \`default\`, got: ${defaultUserName}.`);
+    if (!userNamelist.includes('default')) {
+      errors.push('A user with the username `default` must be included in `users`.');
     }
 
-    if (!this.props.users.includes(this.props.defaultUser)) {
-      throw new Error('`defaultUser` must be included in `users`.');
-    }
+    return errors;
   }
 
   /**
