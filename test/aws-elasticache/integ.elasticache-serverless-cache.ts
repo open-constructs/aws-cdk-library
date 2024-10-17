@@ -8,6 +8,12 @@ class ElastiCacheStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    const defaultUser = new ocf.aws_elasticache.User(this, 'DefaultUser', {
+      authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+      userId: 'new-default',
+      userName: 'default',
+    });
+
     const iamUser = new ocf.aws_elasticache.User(this, 'IamUser', {
       accessString: 'on ~* +@all',
       authenticationType: AuthenticationType.IAM,
@@ -31,8 +37,9 @@ class ElastiCacheStack extends cdk.Stack {
     });
 
     const userGroup = new ocf.aws_elasticache.UserGroup(this, 'UserGroup', {
+      defaultUser,
       userGroupId: 'my-user-group',
-      users: [iamUser, noPasswordRequiredUser],
+      users: [defaultUser, iamUser, noPasswordRequiredUser],
     });
 
     userGroup.addUser(passwordUser);

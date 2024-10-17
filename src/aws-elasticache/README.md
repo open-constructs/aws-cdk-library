@@ -12,12 +12,14 @@ This module has constructs for [Amazon ElastiCache](https://docs.aws.amazon.com/
 Setup required properties and create:
 
 ```ts
-const user = User(this, 'User', {
-  authenticationType: AuthenticationType.IAM,
+const newDefaultUser = User(this, 'DefaultUser', {
+  authenticationType: AuthenticationType.NO_PASSWORD,
+  userName: 'default',
 });
 
 const userGroup = new UserGroup(this, 'UserGroup', {
-  users: [user],
+  defaultUser: newDefaultUser,
+  users: [defaultUser, user],
 });
 ```
 
@@ -41,7 +43,7 @@ First, you need to create users by using `User` construct.
 
 With RBAC, you create users and assign them specific permissions by using `accessString` property.
 
-For more information, see [**Specifying Permissions Using an Access String](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Access-string).
+For more information, see [Specifying Permissions Using an Access String](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Access-string).
 
 Also you can choose authentication type by setting `authenticationType` property:
 
@@ -71,23 +73,6 @@ const user = User(this, 'User', {
 });
 ```
 
-### Add users to the user group
-
-Next, create a user group by using `UserGroup` Construct and add users to the group:
-
-```ts
-declare const user: User;
-declare const anotherUser: User;
-
-const userGroup = new UserGroup(this, 'UserGroup', {
-  // add a user
-  users: [user],
-});
-
-// you can also add a user by using addUser method
-userGroup.addUser(anotherUser);
-```
-
 ElastiCache automatically configures a default user with user ID and user name `default` and adds it to all user groups.
 You can't modify or delete this user.
 
@@ -96,7 +81,39 @@ This user is intended for compatibility with the default behavior of previous Re
 To add proper access control to a cache, replace this default user with a new one that isn't enabled or uses a strong password.
 To change the default user, create a new user with the user name set to `default`. You can then swap it with the original default user.
 
-For more information, see [**Creating Users and User Groups with the Console and CLI**](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Users-management).
+For more information, see [Applying RBAC to a Cache for ElastiCache with Valkey or Redis OSS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#rbac-using).
+
+If you want to create new default user, `userName` must be `default` and `userId` must not be `default`:
+
+```ts
+const newDefaultUser = User(this, 'NewDefaultUser', {
+  authenticationType: AuthenticationType.NO_PASSWORD,
+  // default user name must be 'default'
+  userName: 'default',
+  // new default user id must not be 'default'
+  userId: 'new-default'
+});
+```
+
+### Add users to the user group
+
+Next, create a user group by using `UserGroup` Construct and add users to the group:
+
+```ts
+declare const newDefaultUser: User;
+declare const user: User;
+declare const anotherUser: User;
+
+const userGroup = new UserGroup(this, 'UserGroup', {
+  // assign a default user
+  defaultUser: newDefaultUser,
+  // add users including default user
+  users: [defaultUser, user],
+});
+
+// you can also add a user by using addUser method
+userGroup.addUser(anotherUser);
+```
 
 ### Assign user group
 
@@ -135,10 +152,10 @@ serverlessCache.grantConncet(role);
 
 ### Import an existing user and user group
 
-To import an existing user and user group, use the `User.fromUserId` and `UserGroup.fromUserGroupId` method:
+To import an existing user and user group, use the `User.fromUserAttributes` and `UserGroup.fromUserGroupId` method:
 
 ```ts
-const importedUser = User.fromUserId(this, 'ImportedUser', 'my-user-id');
+const importedUser = User.fromUserAttributes(this, 'ImportedUser', { userId: 'my-user-id', userName: 'my-user-name' });
 const importedUserGroup = UserGroup.fromUserGroupId(this, 'ImportedUser', 'my-user-group-id');
 ```
 

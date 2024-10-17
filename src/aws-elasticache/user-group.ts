@@ -38,13 +38,21 @@ export interface UserGroupProps {
   readonly userGroupId?: string;
 
   /**
+   * The default user of the user group.
+   * The `userName` of the default user must be `default`.
+   *
+   * `defaultUser` must be included in `users`.
+   *
+   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Users-management
+   */
+  readonly defaultUser: IUser;
+
+  /**
    * The list of User that belong to the user group.
    *
-   * `default` user is automatically added to the user group.
-   *
-   * @default - only `default` user added
+   * `defaultUser` must be included in `users`.
    */
-  readonly users?: IUser[];
+  readonly users: IUser[];
 }
 
 /**
@@ -110,7 +118,6 @@ export class UserGroup extends Resource implements IUserGroup {
             Names.uniqueResourceName(this, {
               maxLength: 40,
               separator: '-',
-              allowedSpecialCharacters: '-',
             }).toLowerCase(),
         }),
     });
@@ -118,11 +125,12 @@ export class UserGroup extends Resource implements IUserGroup {
     this.users = this.props.users ?? [];
 
     this.validateUserGroupId();
+    this.validateDefaultUser();
 
     const userGroup = this.createResource(this, 'Resource', {
       engine: Engine.REDIS,
       userGroupId: this.physicalName,
-      userIds: Lazy.list({ produce: () => ['default', ...this.users.map(user => user.userId)] }),
+      userIds: Lazy.list({ produce: () => this.users.map(user => user.userId) }),
     });
 
     this.userGroupArn = userGroup.attrArn;
@@ -154,6 +162,25 @@ export class UserGroup extends Resource implements IUserGroup {
       throw new Error(
         `\`userGroupId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${userGroupId}.`,
       );
+    }
+  }
+
+  /**
+   * Validates default user.
+   */
+  private validateDefaultUser(): void {
+    const defaultUserName = this.props.defaultUser.userName;
+
+    if (Token.isUnresolved(defaultUserName)) {
+      return;
+    }
+
+    if (defaultUserName !== 'default') {
+      throw new Error(`\`defaultUser\` must have \`userName\` as \`default\`, got: ${defaultUserName}.`);
+    }
+
+    if (!this.props.users.includes(this.props.defaultUser)) {
+      throw new Error('`defaultUser` must be included in `users`.');
     }
   }
 

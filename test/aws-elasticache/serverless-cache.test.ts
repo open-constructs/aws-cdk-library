@@ -43,8 +43,15 @@ describe('ElastiCache Serverless Cache', () => {
       authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
     });
 
+    const defaultUser = new User(stack, 'DefaultUser', {
+      authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+      userId: 'new-default',
+      userName: 'default',
+    });
+
     const userGroup = new UserGroup(stack, 'UserGroup', {
-      users: [user],
+      defaultUser,
+      users: [defaultUser, user],
       userGroupId: 'my-user-group',
     });
 
@@ -163,7 +170,7 @@ describe('ElastiCache Serverless Cache', () => {
                       { Ref: 'AWS::Region' },
                       ':',
                       { Ref: 'AWS::AccountId' },
-                      ':serverlesscache:teststackserverlesscache2c8c8b86',
+                      ':serverlesscache:teststack-serverlesscache-2c8c8b86',
                     ],
                   ],
                 },
@@ -276,7 +283,15 @@ describe('ElastiCache Serverless Cache', () => {
   describe('validateUserGroup test', () => {
     test('throws when userGroup is set with not Valkey or Redis engine', () => {
       expect(() => {
-        const userGroup = new UserGroup(stack, 'UserGroup', {});
+        const defaultUser = new User(stack, 'DefaultUser', {
+          authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+          userId: 'new-default',
+          userName: 'default',
+        });
+        const userGroup = new UserGroup(stack, 'UserGroup', {
+          defaultUser,
+          users: [defaultUser],
+        });
 
         new ServerlessCache(stack, 'ServerlessCache', {
           engine: Engine.MEMCACHED,

@@ -8,6 +8,36 @@
         "id": "ElastiCacheServerlessCacheStack",
         "path": "ElastiCacheServerlessCacheStack",
         "children": {
+          "DefaultUser": {
+            "id": "DefaultUser",
+            "path": "ElastiCacheServerlessCacheStack/DefaultUser",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ElastiCacheServerlessCacheStack/DefaultUser/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ElastiCache::User",
+                  "aws:cdk:cloudformation:props": {
+                    "accessString": "off -@all",
+                    "authenticationMode": {
+                      "Type": "no-password-required"
+                    },
+                    "engine": "redis",
+                    "userId": "new-default",
+                    "userName": "default"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticache.CfnUser",
+                  "version": "2.120.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.120.0"
+            }
+          },
           "IamUser": {
             "id": "IamUser",
             "path": "ElastiCacheServerlessCacheStack/IamUser",
@@ -23,8 +53,8 @@
                       "Type": "iam"
                     },
                     "engine": "redis",
-                    "userId": "elasticacheserveachestackiamuser1980b570",
-                    "userName": "elasticacheserveachestackiamuser1980b570"
+                    "userId": "elasticacheservehestack-iamuser-1980b570",
+                    "userName": "elasticacheservehestack-iamuser-1980b570"
                   }
                 },
                 "constructInfo": {
@@ -115,7 +145,9 @@
                     "engine": "redis",
                     "userGroupId": "my-user-group",
                     "userIds": [
-                      "default",
+                      {
+                        "Ref": "DefaultUser59E167ED"
+                      },
                       {
                         "Ref": "IamUser83DA77ED"
                       },

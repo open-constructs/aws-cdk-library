@@ -1,5 +1,17 @@
 {
  "Resources": {
+  "DefaultUser59E167ED": {
+   "Type": "AWS::ElastiCache::User",
+   "Properties": {
+    "AccessString": "off -@all",
+    "AuthenticationMode": {
+     "Type": "no-password-required"
+    },
+    "Engine": "redis",
+    "UserId": "new-default",
+    "UserName": "default"
+   }
+  },
   "IamUser83DA77ED": {
    "Type": "AWS::ElastiCache::User",
    "Properties": {
@@ -8,8 +20,8 @@
      "Type": "iam"
     },
     "Engine": "redis",
-    "UserId": "elasticacheserveachestackiamuser1980b570",
-    "UserName": "elasticacheserveachestackiamuser1980b570"
+    "UserId": "elasticacheservehestack-iamuser-1980b570",
+    "UserName": "elasticacheservehestack-iamuser-1980b570"
    }
   },
   "NoPasswordRequiredUser09EED42D": {
@@ -46,7 +58,9 @@
     "Engine": "redis",
     "UserGroupId": "my-user-group",
     "UserIds": [
-     "default",
+     {
+      "Ref": "DefaultUser59E167ED"
+     },
      {
       "Ref": "IamUser83DA77ED"
      },

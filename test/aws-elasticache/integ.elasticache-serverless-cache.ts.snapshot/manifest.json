@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/53813f4340cd59f342603e3ac21f9efbb735e36be76f8e0a9c8e40b11c287abe.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/091b314c74e210e41032d9dfdb223773f882c9286ae0c7dd2e445c5de8983786.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -34,6 +34,12 @@
         "ElastiCacheServerlessCacheStack.assets"
       ],
       "metadata": {
+        "/ElastiCacheServerlessCacheStack/DefaultUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DefaultUser59E167ED"
+          }
+        ],
         "/ElastiCacheServerlessCacheStack/IamUser/Resource": [
           {
             "type": "aws:cdk:logicalId",

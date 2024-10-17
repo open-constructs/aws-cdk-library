@@ -66,11 +66,15 @@ describe('ElastiCache User', () => {
     beforeEach(() => {
       app = new App();
       stack = new Stack(app, 'TestStack');
-      importedUser = User.fromUserId(stack, 'ImportedUser', 'my-user-id');
+      importedUser = User.fromUserAttributes(stack, 'ImportedUser', { userId: 'my-user-id', userName: 'my-user-name' });
     });
 
     test('should correctly set userId', () => {
       expect(importedUser.userId).toEqual('my-user-id');
+    });
+
+    test('should correctly set userName', () => {
+      expect(importedUser.userName).toEqual('my-user-name');
     });
 
     test('should correctly format userArn', () => {
@@ -150,6 +154,17 @@ describe('ElastiCache User', () => {
         );
       },
     );
+
+    test('throws if userId is default', () => {
+      expect(() => {
+        new User(stack, 'User', {
+          userId: 'default',
+          authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        });
+      }).toThrow(
+        '`userId` cannot be `default` because ElastiCache automatically configures a default user with user ID `default`.',
+      );
+    });
   });
 
   describe('validateUserName test', () => {

@@ -29,6 +29,12 @@ export interface IUser extends IResource {
    * @attribute
    */
   readonly userId: string;
+  /**
+   * The name of the user.
+   *
+   * @attribute
+   */
+  readonly userName: string;
 
   /**
    * Grant the given identity the specified actions
@@ -123,6 +129,10 @@ export interface UserAttributes {
    * The ID of the user.
    */
   readonly userId: string;
+  /**
+   * The name of the user.
+   */
+  readonly userName: string;
 }
 
 /**
@@ -132,13 +142,14 @@ export abstract class UserBase extends Resource implements IUser {
   /**
    * Imports an existing User from attributes
    */
-  public static fromUserId(scope: Construct, id: string, userId: string): IUser {
+  public static fromUserAttributes(scope: Construct, id: string, attrs: UserAttributes): IUser {
     class Import extends UserBase implements IUser {
-      public readonly userId = userId;
+      public readonly userId = attrs.userId;
+      public readonly userName = attrs.userName;
       public readonly userArn = Stack.of(this).formatArn({
         service: 'elasticache',
         resource: 'user',
-        resourceName: userId,
+        resourceName: attrs.userId,
       });
     }
     return new Import(scope, id);
@@ -153,6 +164,11 @@ export abstract class UserBase extends Resource implements IUser {
    * The ID of the user.
    */
   public abstract readonly userId: string;
+
+  /**
+   * The name of the user.
+   */
+  public abstract readonly userName: string;
 
   /**
    * Grant the given identity the specified actions
@@ -213,6 +229,11 @@ export class User extends UserBase implements IUser {
    */
   readonly userId: string;
 
+  /**
+   * The name of the user.
+   */
+  readonly userName: string;
+
   private readonly props: UserProps;
 
   constructor(scope: Construct, id: string, props: UserProps) {
@@ -239,6 +260,7 @@ export class User extends UserBase implements IUser {
 
     this.userArn = user.attrArn;
     this.userId = user.ref;
+    this.userName = user.userName;
   }
 
   protected createResource(scope: Construct, id: string, props: aws_elasticache.CfnUserProps): aws_elasticache.CfnUser {
@@ -273,6 +295,12 @@ export class User extends UserBase implements IUser {
 
     if (userId.length < 1 || userId.length > 40) {
       throw new Error(`\`userId\` must be between 1 and 40 characters, got ${userId.length} characters.`);
+    }
+
+    if (userId === 'default') {
+      throw new Error(
+        '`userId` cannot be `default` because ElastiCache automatically configures a default user with user ID `default`.',
+      );
     }
 
     if (!/^[A-Za-z][A-Za-z0-9]*(-[A-Za-z0-9]+)*$/.test(userId)) {

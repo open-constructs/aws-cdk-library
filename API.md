@@ -2833,7 +2833,7 @@ The principal to grant access to.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.User.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.User.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.User.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.User.fromUserId">fromUserId</a></code> | Imports an existing User from attributes. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.User.fromUserAttributes">fromUserAttributes</a></code> | Imports an existing User from attributes. |
 
 ---
 
@@ -2901,31 +2901,31 @@ Check whether the given construct is a Resource.
 
 ---
 
-##### `fromUserId` <a name="fromUserId" id="@open-constructs/aws-cdk.aws_elasticache.User.fromUserId"></a>
+##### `fromUserAttributes` <a name="fromUserAttributes" id="@open-constructs/aws-cdk.aws_elasticache.User.fromUserAttributes"></a>
 
 ```typescript
 import { aws_elasticache } from '@open-constructs/aws-cdk'
 
-aws_elasticache.User.fromUserId(scope: Construct, id: string, userId: string)
+aws_elasticache.User.fromUserAttributes(scope: Construct, id: string, attrs: UserAttributes)
 ```
 
 Imports an existing User from attributes.
 
-###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.User.fromUserId.parameter.scope"></a>
+###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.User.fromUserAttributes.parameter.scope"></a>
 
 - *Type:* constructs.Construct
 
 ---
 
-###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_elasticache.User.fromUserId.parameter.id"></a>
+###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_elasticache.User.fromUserAttributes.parameter.id"></a>
 
 - *Type:* string
 
 ---
 
-###### `userId`<sup>Required</sup> <a name="userId" id="@open-constructs/aws-cdk.aws_elasticache.User.fromUserId.parameter.userId"></a>
+###### `attrs`<sup>Required</sup> <a name="attrs" id="@open-constructs/aws-cdk.aws_elasticache.User.fromUserAttributes.parameter.attrs"></a>
 
-- *Type:* string
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.UserAttributes
 
 ---
 
@@ -2938,6 +2938,7 @@ Imports an existing User from attributes.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.User.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.User.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.User.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.User.property.userName">userName</a></code> | <code>string</code> | The name of the user. |
 
 ---
 
@@ -3005,6 +3006,18 @@ public readonly userId: string;
 - *Type:* string
 
 The ID of the user.
+
+---
+
+##### `userName`<sup>Required</sup> <a name="userName" id="@open-constructs/aws-cdk.aws_elasticache.User.property.userName"></a>
+
+```typescript
+public readonly userName: string;
+```
+
+- *Type:* string
+
+The name of the user.
 
 ---
 
@@ -3143,7 +3156,7 @@ The principal to grant access to.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserId">fromUserId</a></code> | Imports an existing User from attributes. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserAttributes">fromUserAttributes</a></code> | Imports an existing User from attributes. |
 
 ---
 
@@ -3211,31 +3224,31 @@ Check whether the given construct is a Resource.
 
 ---
 
-##### `fromUserId` <a name="fromUserId" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserId"></a>
+##### `fromUserAttributes` <a name="fromUserAttributes" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserAttributes"></a>
 
 ```typescript
 import { aws_elasticache } from '@open-constructs/aws-cdk'
 
-aws_elasticache.UserBase.fromUserId(scope: Construct, id: string, userId: string)
+aws_elasticache.UserBase.fromUserAttributes(scope: Construct, id: string, attrs: UserAttributes)
 ```
 
 Imports an existing User from attributes.
 
-###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserId.parameter.scope"></a>
+###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserAttributes.parameter.scope"></a>
 
 - *Type:* constructs.Construct
 
 ---
 
-###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserId.parameter.id"></a>
+###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserAttributes.parameter.id"></a>
 
 - *Type:* string
 
 ---
 
-###### `userId`<sup>Required</sup> <a name="userId" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserId.parameter.userId"></a>
+###### `attrs`<sup>Required</sup> <a name="attrs" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserAttributes.parameter.attrs"></a>
 
-- *Type:* string
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.UserAttributes
 
 ---
 
@@ -3248,6 +3261,7 @@ Imports an existing User from attributes.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userName">userName</a></code> | <code>string</code> | The name of the user. |
 
 ---
 
@@ -3315,6 +3329,18 @@ public readonly userId: string;
 - *Type:* string
 
 The ID of the user.
+
+---
+
+##### `userName`<sup>Required</sup> <a name="userName" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userName"></a>
+
+```typescript
+public readonly userName: string;
+```
+
+- *Type:* string
+
+The name of the user.
 
 ---
 
@@ -5447,6 +5473,7 @@ const userAttributes: aws_elasticache.UserAttributes = { ... }
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserAttributes.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserAttributes.property.userName">userName</a></code> | <code>string</code> | The name of the user. |
 
 ---
 
@@ -5459,6 +5486,18 @@ public readonly userId: string;
 - *Type:* string
 
 The ID of the user.
+
+---
+
+##### `userName`<sup>Required</sup> <a name="userName" id="@open-constructs/aws-cdk.aws_elasticache.UserAttributes.property.userName"></a>
+
+```typescript
+public readonly userName: string;
+```
+
+- *Type:* string
+
+The name of the user.
 
 ---
 
@@ -5510,8 +5549,39 @@ const userGroupProps: aws_elasticache.UserGroupProps = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.userGroupId">userGroupId</a></code> | <code>string</code> | The ID of the user group. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.defaultUser">defaultUser</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.IUser</code> | The default user of the user group. The `userName` of the default user must be `default`. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.users">users</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.IUser[]</code> | The list of User that belong to the user group. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.userGroupId">userGroupId</a></code> | <code>string</code> | The ID of the user group. |
+
+---
+
+##### `defaultUser`<sup>Required</sup> <a name="defaultUser" id="@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.defaultUser"></a>
+
+```typescript
+public readonly defaultUser: IUser;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.IUser
+
+The default user of the user group. The `userName` of the default user must be `default`.
+
+`defaultUser` must be included in `users`.
+
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Users-management](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Users-management)
+
+---
+
+##### `users`<sup>Required</sup> <a name="users" id="@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.users"></a>
+
+```typescript
+public readonly users: IUser[];
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.IUser[]
+
+The list of User that belong to the user group.
+
+`defaultUser` must be included in `users`.
 
 ---
 
@@ -5530,21 +5600,6 @@ The ID of the user group.
 
 \`userGroupId\` must consist only of alphanumeric characters or hyphens,
 with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens.
-
----
-
-##### `users`<sup>Optional</sup> <a name="users" id="@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.property.users"></a>
-
-```typescript
-public readonly users: IUser[];
-```
-
-- *Type:* @open-constructs/aws-cdk.aws_elasticache.IUser[]
-- *Default:* only `default` user added
-
-The list of User that belong to the user group.
-
-`default` user is automatically added to the user group.
 
 ---
 
@@ -7683,6 +7738,7 @@ Grant the given identity connection access to the cache.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUser.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUser.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUser.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUser.property.userName">userName</a></code> | <code>string</code> | The name of the user. |
 
 ---
 
@@ -7750,6 +7806,18 @@ public readonly userId: string;
 - *Type:* string
 
 The ID of the user.
+
+---
+
+##### `userName`<sup>Required</sup> <a name="userName" id="@open-constructs/aws-cdk.aws_elasticache.IUser.property.userName"></a>
+
+```typescript
+public readonly userName: string;
+```
+
+- *Type:* string
+
+The name of the user.
 
 ---
 
