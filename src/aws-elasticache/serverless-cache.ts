@@ -334,7 +334,7 @@ export class ServerlessCache extends SeverlessCacheBase implements IServerlessCa
       physicalName:
         props.serverlessCacheName ??
         Lazy.string({
-          produce: () => Names.uniqueResourceName(this, { maxLength: 40 }).toLowerCase(),
+          produce: () => Names.uniqueResourceName(this, { separator: '-', maxLength: 40 }).toLowerCase(),
         }),
     });
     this.props = props;

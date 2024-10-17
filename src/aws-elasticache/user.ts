@@ -220,7 +220,7 @@ export class User extends UserBase implements IUser {
       physicalName:
         props.userId ??
         Lazy.string({
-          produce: () => Names.uniqueResourceName(this, { maxLength: 40 }).toLowerCase(),
+          produce: () => Names.uniqueResourceName(this, { separator: '-', maxLength: 40 }).toLowerCase(),
         }),
     });
     this.props = props;

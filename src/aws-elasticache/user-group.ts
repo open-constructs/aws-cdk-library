@@ -106,7 +106,12 @@ export class UserGroup extends Resource implements IUserGroup {
       physicalName:
         props.userGroupId ??
         Lazy.string({
-          produce: () => Names.uniqueResourceName(this, { maxLength: 40, allowedSpecialCharacters: '-' }).toLowerCase(),
+          produce: () =>
+            Names.uniqueResourceName(this, {
+              maxLength: 40,
+              separator: '-',
+              allowedSpecialCharacters: '-',
+            }).toLowerCase(),
         }),
     });
     this.props = props;
