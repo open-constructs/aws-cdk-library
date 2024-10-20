@@ -2010,6 +2010,9 @@ new aws_elasticache.ServerlessCache(scope: Construct, id: string, props: Serverl
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.grant">grant</a></code> | Grant the given identity the specified actions. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.grantConnect">grantConnect</a></code> | Permits an IAM principal to perform connect to the serverless cache. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metric">metric</a></code> | Create a CloudWatch metric for severless cache. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metricBytesUsedForCache">metricBytesUsedForCache</a></code> | Metric for the total number of bytes used by the data stored in your cache. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metricElastiCacheProcessingUnits">metricElastiCacheProcessingUnits</a></code> | Metric for the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache. |
 
 ---
 
@@ -2086,6 +2089,60 @@ Actions: Connect
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
 
 The principal to grant access to.
+
+---
+
+##### `metric` <a name="metric" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metric"></a>
+
+```typescript
+public metric(metricName: string, props?: MetricOptions): Metric
+```
+
+Create a CloudWatch metric for severless cache.
+
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events.memcached.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events.memcached.html)
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metric.parameter.metricName"></a>
+
+- *Type:* string
+
+name of the metric.
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metric.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+metric options.
+
+---
+
+##### `metricBytesUsedForCache` <a name="metricBytesUsedForCache" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metricBytesUsedForCache"></a>
+
+```typescript
+public metricBytesUsedForCache(props?: MetricOptions): Metric
+```
+
+Metric for the total number of bytes used by the data stored in your cache.
+
+###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metricBytesUsedForCache.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricElastiCacheProcessingUnits` <a name="metricElastiCacheProcessingUnits" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metricElastiCacheProcessingUnits"></a>
+
+```typescript
+public metricElastiCacheProcessingUnits(props?: MetricOptions): Metric
+```
+
+Metric for the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache.
+
+###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metricElastiCacheProcessingUnits.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
 
 ---
 
@@ -2385,6 +2442,9 @@ new aws_elasticache.SeverlessCacheBase(scope: Construct, id: string, props?: Res
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.grant">grant</a></code> | Grant the given identity the specified actions. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.grantConnect">grantConnect</a></code> | Permits an IAM principal to perform connect to the serverless cache. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.metric">metric</a></code> | Create a CloudWatch metric for severless cache. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.metricBytesUsedForCache">metricBytesUsedForCache</a></code> | Metric for the total number of bytes used by the data stored in your cache. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.metricElastiCacheProcessingUnits">metricElastiCacheProcessingUnits</a></code> | Metric for the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache. |
 
 ---
 
@@ -2461,6 +2521,60 @@ Actions: Connect
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
 
 The principal to grant access to.
+
+---
+
+##### `metric` <a name="metric" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.metric"></a>
+
+```typescript
+public metric(metricName: string, props?: MetricOptions): Metric
+```
+
+Create a CloudWatch metric for severless cache.
+
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events.memcached.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events.memcached.html)
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.metric.parameter.metricName"></a>
+
+- *Type:* string
+
+name of the metric.
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.metric.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+metric options.
+
+---
+
+##### `metricBytesUsedForCache` <a name="metricBytesUsedForCache" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.metricBytesUsedForCache"></a>
+
+```typescript
+public metricBytesUsedForCache(props?: MetricOptions): Metric
+```
+
+Metric for the total number of bytes used by the data stored in your cache.
+
+###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.metricBytesUsedForCache.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricElastiCacheProcessingUnits` <a name="metricElastiCacheProcessingUnits" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.metricElastiCacheProcessingUnits"></a>
+
+```typescript
+public metricElastiCacheProcessingUnits(props?: MetricOptions): Metric
+```
+
+Metric for the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache.
+
+###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.SeverlessCacheBase.metricElastiCacheProcessingUnits.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
 
 ---
 
@@ -7505,6 +7619,9 @@ A ElastiCache Serverless Cache.
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.grant">grant</a></code> | Grant the given identity the specified actions. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.grantConnect">grantConnect</a></code> | Grant the given identity connection access to the cache. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metric">metric</a></code> | Create a CloudWatch metric. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metricBytesUsedForCache">metricBytesUsedForCache</a></code> | Metric for the total number of bytes used by the data stored in your cache. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metricElastiCacheProcessingUnits">metricElastiCacheProcessingUnits</a></code> | Metric for the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache. |
 
 ---
 
@@ -7539,6 +7656,54 @@ Grant the given identity connection access to the cache.
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.grantConnect.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+---
+
+##### `metric` <a name="metric" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metric"></a>
+
+```typescript
+public metric(metricName: string, props?: MetricOptions): Metric
+```
+
+Create a CloudWatch metric.
+
+###### `metricName`<sup>Required</sup> <a name="metricName" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metric.parameter.metricName"></a>
+
+- *Type:* string
+
+---
+
+###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metric.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricBytesUsedForCache` <a name="metricBytesUsedForCache" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metricBytesUsedForCache"></a>
+
+```typescript
+public metricBytesUsedForCache(props?: MetricOptions): Metric
+```
+
+Metric for the total number of bytes used by the data stored in your cache.
+
+###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metricBytesUsedForCache.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+##### `metricElastiCacheProcessingUnits` <a name="metricElastiCacheProcessingUnits" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metricElastiCacheProcessingUnits"></a>
+
+```typescript
+public metricElastiCacheProcessingUnits(props?: MetricOptions): Metric
+```
+
+Metric for the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache.
+
+###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metricElastiCacheProcessingUnits.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
 
 ---
 

@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/091b314c74e210e41032d9dfdb223773f882c9286ae0c7dd2e445c5de8983786.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3ea11230ab1410ea26b8d389ea86de755803c41efb1f55ca13d640e551dcd0c2.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -296,6 +296,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ElastiCacheServerlessCluster09082A11"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/CacheHitsAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CacheHitsAlarm8EBEC2EA"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/BytesUsedForCacheAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BytesUsedForCacheAlarm18D5884D"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/ElastiCacheProcessingUnitsAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ElastiCacheProcessingUnitsAlarm3C88F25C"
           }
         ],
         "/ElastiCacheServerlessCacheStack/BootstrapVersion": [

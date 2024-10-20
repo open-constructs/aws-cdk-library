@@ -10,6 +10,7 @@ import {
   aws_iam,
   ArnFormat,
 } from 'aws-cdk-lib';
+import { Metric, MetricOptions } from 'aws-cdk-lib/aws-cloudwatch';
 import { IKey } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 import { DailySnapshotTime } from './daily-snapshot-time';
@@ -57,6 +58,21 @@ export interface IServerlessCache extends IResource, aws_ec2.IConnectable {
    * Grant the given identity connection access to the cache.
    */
   grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant;
+
+  /**
+   * Create a CloudWatch metric.
+   */
+  metric(metricName: string, props?: MetricOptions): Metric;
+
+  /**
+   * Metric for the total number of bytes used by the data stored in your cache.
+   */
+  metricBytesUsedForCache(props?: MetricOptions): Metric;
+
+  /**
+   * Metric for the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache
+   */
+  metricElastiCacheProcessingUnits(props?: MetricOptions): Metric;
 }
 
 /**
@@ -273,6 +289,44 @@ export abstract class SeverlessCacheBase extends Resource implements IServerless
    */
   public grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant {
     return this.grant(grantee, 'elasticache:Connect');
+  }
+
+  /**
+   * Create a CloudWatch metric for severless cache.
+   *
+   * @param metricName name of the metric.
+   * @param props metric options.
+   *
+   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events-redis.html
+   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events.memcached.html
+   */
+  public metric(metricName: string, props?: MetricOptions): Metric {
+    return new Metric({
+      namespace: 'AWS/ElastiCache',
+      dimensionsMap: {
+        CacheClusterId: this.serverlessCacheName,
+      },
+      metricName,
+      ...props,
+    });
+  }
+
+  /**
+   * Metric for the total number of bytes used by the data stored in your cache.
+   *
+   * @default - average over 5 minutes
+   */
+  public metricBytesUsedForCache(props?: MetricOptions): Metric {
+    return this.metric('BytesUsedForCache', { statistic: 'Average', ...props });
+  }
+
+  /**
+   * Metric for the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache.
+   *
+   * @default - average over 5 minutes
+   */
+  public metricElastiCacheProcessingUnits(props?: MetricOptions): Metric {
+    return this.metric('ElastiCacheProcessingUnits', { statistic: 'Average', ...props });
   }
 }
 

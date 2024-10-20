@@ -270,6 +270,31 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
 });
 ```
 
+### Metrics
+
+You can monitor your serverless cache using CloudWatch Metrics via the `metric` method.
+
+For more infomation about serverless cache metrics, see [Serverless metrics and events for Valkey and Redis OSS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events-redis.html) and [Serverless metrics and events for Memcached](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events.memcached.html).
+
+```ts
+declare const serverlessCache: ServerlessCache;
+
+// The 5 minutes average of the total number of successful read-only key lookups in the cache over 5 minutes.
+const cacheHits = serverlessCache.metric('CacheHits', { statistic: 'sum' });
+
+// The 5 minutes average of the total number of bytes used by the data stored in your cache over 5 minutes.
+const bytesUsedForCacheAlarm = serverlessCache.metricBytesUsedForCache();
+
+// The 5 minutes average of the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache.
+const elastiCacheProcessingUnits = serverlessCache.metricElastiCacheProcessingUnits();
+
+// Create an alarm for ECPUs.
+elastiCacheProcessingUnits.createAlarm(this, 'ElastiCacheProcessingUnitsAlarm', {
+  threshold: 50,
+  evaluationPeriods: 1,
+});
+```
+
 ### Import an existing serverless cache
 
 To import an existing ServerlessCache, use the `ServerlessCache.fromServerlessCacheAttributes` method:

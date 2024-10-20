@@ -805,6 +805,60 @@
      "Ref": "UserGroupC755C9ED"
     }
    }
+  },
+  "CacheHitsAlarm8EBEC2EA": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "CacheClusterId",
+      "Value": "my-serverless-cache"
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "CacheHits",
+    "Namespace": "AWS/ElastiCache",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 50
+   }
+  },
+  "BytesUsedForCacheAlarm18D5884D": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "CacheClusterId",
+      "Value": "my-serverless-cache"
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "BytesUsedForCache",
+    "Namespace": "AWS/ElastiCache",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 50
+   }
+  },
+  "ElastiCacheProcessingUnitsAlarm3C88F25C": {
+   "Type": "AWS::CloudWatch::Alarm",
+   "Properties": {
+    "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+    "Dimensions": [
+     {
+      "Name": "CacheClusterId",
+      "Value": "my-serverless-cache"
+     }
+    ],
+    "EvaluationPeriods": 1,
+    "MetricName": "ElastiCacheProcessingUnits",
+    "Namespace": "AWS/ElastiCache",
+    "Period": 300,
+    "Statistic": "Average",
+    "Threshold": 50
+   }
   }
  },
  "Parameters": {

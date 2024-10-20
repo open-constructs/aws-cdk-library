@@ -1,5 +1,6 @@
 import { App, RemovalPolicy, Stack, aws_ec2, aws_kms } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
+import { Stats } from 'aws-cdk-lib/aws-cloudwatch';
 import { SecurityGroup } from 'aws-cdk-lib/aws-ec2';
 import { Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import {
@@ -308,6 +309,77 @@ describe('ElastiCache Serverless Cache', () => {
           majorEngineVersion: MajorVersion.VER_7,
         });
       }).toThrow('`userGroup` is available for Valkey and Redis OSS only, got engine: memcached.');
+    });
+  });
+
+  describe('metric method test', () => {
+    test('metric', () => {
+      const serverlessCache = new ServerlessCache(stack, 'ServerlessCache', {
+        engine: Engine.VALKEY,
+        vpc,
+        majorEngineVersion: MajorVersion.VER_7,
+      });
+
+      const metric = serverlessCache.metric('CacheHits', {});
+
+      expect(metric).toMatchObject({
+        namespace: 'AWS/ElastiCache',
+        metricName: 'CacheHits',
+        statistic: Stats.AVERAGE,
+        dimensions: {
+          CacheClusterId: serverlessCache.serverlessCacheName,
+        },
+        period: {
+          amount: 5,
+          unit: { label: 'minutes', inMillis: 60000, isoLabel: 'M' },
+        },
+      });
+    });
+
+    test('metricBytesUsedForCache', () => {
+      const serverlessCache = new ServerlessCache(stack, 'ServerlessCache', {
+        engine: Engine.VALKEY,
+        vpc,
+        majorEngineVersion: MajorVersion.VER_7,
+      });
+
+      const metric = serverlessCache.metricBytesUsedForCache();
+
+      expect(metric).toMatchObject({
+        namespace: 'AWS/ElastiCache',
+        metricName: 'BytesUsedForCache',
+        statistic: Stats.AVERAGE,
+        dimensions: {
+          CacheClusterId: serverlessCache.serverlessCacheName,
+        },
+        period: {
+          amount: 5,
+          unit: { label: 'minutes', inMillis: 60000, isoLabel: 'M' },
+        },
+      });
+    });
+
+    test('metricElastiCacheProcessingUnits', () => {
+      const serverlessCache = new ServerlessCache(stack, 'ServerlessCache', {
+        engine: Engine.VALKEY,
+        vpc,
+        majorEngineVersion: MajorVersion.VER_7,
+      });
+
+      const metric = serverlessCache.metricElastiCacheProcessingUnits({});
+
+      expect(metric).toMatchObject({
+        namespace: 'AWS/ElastiCache',
+        metricName: 'ElastiCacheProcessingUnits',
+        statistic: Stats.AVERAGE,
+        dimensions: {
+          CacheClusterId: serverlessCache.serverlessCacheName,
+        },
+        period: {
+          amount: 5,
+          unit: { label: 'minutes', inMillis: 60000, isoLabel: 'M' },
+        },
+      });
     });
   });
 });

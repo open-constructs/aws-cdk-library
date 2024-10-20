@@ -1253,6 +1253,114 @@
               "version": "2.120.0"
             }
           },
+          "CacheHitsAlarm": {
+            "id": "CacheHitsAlarm",
+            "path": "ElastiCacheServerlessCacheStack/CacheHitsAlarm",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ElastiCacheServerlessCacheStack/CacheHitsAlarm/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CloudWatch::Alarm",
+                  "aws:cdk:cloudformation:props": {
+                    "comparisonOperator": "GreaterThanOrEqualToThreshold",
+                    "dimensions": [
+                      {
+                        "name": "CacheClusterId",
+                        "value": "my-serverless-cache"
+                      }
+                    ],
+                    "evaluationPeriods": 1,
+                    "metricName": "CacheHits",
+                    "namespace": "AWS/ElastiCache",
+                    "period": 300,
+                    "statistic": "Average",
+                    "threshold": 50
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+                  "version": "2.120.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_cloudwatch.Alarm",
+              "version": "2.120.0"
+            }
+          },
+          "BytesUsedForCacheAlarm": {
+            "id": "BytesUsedForCacheAlarm",
+            "path": "ElastiCacheServerlessCacheStack/BytesUsedForCacheAlarm",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ElastiCacheServerlessCacheStack/BytesUsedForCacheAlarm/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CloudWatch::Alarm",
+                  "aws:cdk:cloudformation:props": {
+                    "comparisonOperator": "GreaterThanOrEqualToThreshold",
+                    "dimensions": [
+                      {
+                        "name": "CacheClusterId",
+                        "value": "my-serverless-cache"
+                      }
+                    ],
+                    "evaluationPeriods": 1,
+                    "metricName": "BytesUsedForCache",
+                    "namespace": "AWS/ElastiCache",
+                    "period": 300,
+                    "statistic": "Average",
+                    "threshold": 50
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+                  "version": "2.120.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_cloudwatch.Alarm",
+              "version": "2.120.0"
+            }
+          },
+          "ElastiCacheProcessingUnitsAlarm": {
+            "id": "ElastiCacheProcessingUnitsAlarm",
+            "path": "ElastiCacheServerlessCacheStack/ElastiCacheProcessingUnitsAlarm",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ElastiCacheServerlessCacheStack/ElastiCacheProcessingUnitsAlarm/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CloudWatch::Alarm",
+                  "aws:cdk:cloudformation:props": {
+                    "comparisonOperator": "GreaterThanOrEqualToThreshold",
+                    "dimensions": [
+                      {
+                        "name": "CacheClusterId",
+                        "value": "my-serverless-cache"
+                      }
+                    ],
+                    "evaluationPeriods": 1,
+                    "metricName": "ElastiCacheProcessingUnits",
+                    "namespace": "AWS/ElastiCache",
+                    "period": 300,
+                    "statistic": "Average",
+                    "threshold": 50
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cloudwatch.CfnAlarm",
+                  "version": "2.120.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_cloudwatch.Alarm",
+              "version": "2.120.0"
+            }
+          },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
             "path": "ElastiCacheServerlessCacheStack/BootstrapVersion",

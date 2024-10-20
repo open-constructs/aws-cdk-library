@@ -49,7 +49,7 @@ class ElastiCacheStack extends cdk.Stack {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
-    new ocf.aws_elasticache.ServerlessCache(this, 'ElastiCacheServerlessCluster', {
+    const serverlessCache = new ocf.aws_elasticache.ServerlessCache(this, 'ElastiCacheServerlessCluster', {
       engine: Engine.VALKEY,
       serverlessCacheName: 'my-serverless-cache',
       dailySnapshotTime: new DailySnapshotTime({ hour: 12, minute: 0 }),
@@ -68,6 +68,19 @@ class ElastiCacheStack extends cdk.Stack {
         subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
       }),
       userGroup,
+    });
+
+    serverlessCache.metric('CacheHits', {}).createAlarm(this, 'CacheHitsAlarm', {
+      threshold: 50,
+      evaluationPeriods: 1,
+    });
+    serverlessCache.metricBytesUsedForCache().createAlarm(this, 'BytesUsedForCacheAlarm', {
+      threshold: 50,
+      evaluationPeriods: 1,
+    });
+    serverlessCache.metricElastiCacheProcessingUnits().createAlarm(this, 'ElastiCacheProcessingUnitsAlarm', {
+      threshold: 50,
+      evaluationPeriods: 1,
     });
   }
 }
