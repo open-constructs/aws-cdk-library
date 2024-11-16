@@ -125,7 +125,7 @@ describe('Redshift Serverless Namespace', () => {
       );
     });
 
-    test('throws when dbName length is invalid, got %s', () => {
+    test('throws when dbName length is invalid', () => {
       expect(() => {
         new Namespace(stack, 'Namespace', {
           dbName: 'a'.repeat(128),
@@ -148,7 +148,7 @@ describe('Redshift Serverless Namespace', () => {
       },
     );
 
-    test('throws when finalSnapshotName length is invalid, got %s', () => {
+    test('throws when finalSnapshotName length is invalid', () => {
       expect(() => {
         new Namespace(stack, 'Namespace', {
           finalSnapshotName: 'a'.repeat(256),
