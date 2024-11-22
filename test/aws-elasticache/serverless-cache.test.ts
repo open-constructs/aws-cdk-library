@@ -29,7 +29,7 @@ describe('ElastiCache Serverless Cache', () => {
     new ServerlessCache(stack, 'ServerlessCache', {
       engine: Engine.VALKEY,
       vpc,
-      majorEngineVersion: MajorVersion.VER_7,
+      majorEngineVersion: MajorVersion.VER_8,
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::ElastiCache::ServerlessCache', {
@@ -69,7 +69,7 @@ describe('ElastiCache Serverless Cache', () => {
       description: 'my serverless cache',
       finalSnapshotName: 'my-finalsnapshot',
       kmsKey: key,
-      majorEngineVersion: MajorVersion.VER_7,
+      majorEngineVersion: MajorVersion.VER_8,
       snapshotRetentionLimit: 6,
       snapshotArnsToRestore: ['arn:aws:elasticache:us-east-1:123456789012:serverlesscachesnapshot:my-final-snapshot'],
       securityGroups: [securityGroup],
@@ -87,7 +87,7 @@ describe('ElastiCache Serverless Cache', () => {
       Description: 'my serverless cache',
       FinalSnapshotName: 'my-finalsnapshot',
       KmsKeyId: stack.resolve(key.keyArn),
-      MajorEngineVersion: '7',
+      MajorEngineVersion: '8',
       SnapshotRetentionLimit: 6,
       SnapshotArnsToRestore: ['arn:aws:elasticache:us-east-1:123456789012:serverlesscachesnapshot:my-final-snapshot'],
       SecurityGroupIds: [stack.resolve(securityGroup.securityGroupId)],
@@ -149,7 +149,7 @@ describe('ElastiCache Serverless Cache', () => {
       const serverlessCache = new ServerlessCache(stack, 'ServerlessCache', {
         engine: Engine.VALKEY,
         vpc,
-        majorEngineVersion: MajorVersion.VER_7,
+        majorEngineVersion: MajorVersion.VER_8,
       });
 
       serverlessCache.grantConnect(role);
@@ -191,7 +191,7 @@ describe('ElastiCache Serverless Cache', () => {
           serverlessCacheName: 'my serverless cache',
           engine: Engine.VALKEY,
           vpc,
-          majorEngineVersion: MajorVersion.VER_7,
+          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow('`serverlessCacheName` must not contain spaces, got: my serverless cache.');
     });
@@ -204,7 +204,7 @@ describe('ElastiCache Serverless Cache', () => {
             serverlessCacheName,
             engine: Engine.VALKEY,
             vpc,
-            majorEngineVersion: MajorVersion.VER_7,
+            majorEngineVersion: MajorVersion.VER_8,
           });
         }).toThrow(
           `\`serverlessCacheName\` must be between 1 and 40 characters, got: ${serverlessCacheName.length} characters.`,
@@ -220,7 +220,7 @@ describe('ElastiCache Serverless Cache', () => {
           description,
           engine: Engine.VALKEY,
           vpc,
-          majorEngineVersion: MajorVersion.VER_7,
+          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow(`\`description\` must not contain < and >, got: ${description}`);
     });
@@ -231,7 +231,7 @@ describe('ElastiCache Serverless Cache', () => {
           description: 'a'.repeat(256),
           engine: Engine.VALKEY,
           vpc,
-          majorEngineVersion: MajorVersion.VER_7,
+          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow('`description` must not exceed 255 characters, got: 256 characters.');
     });
@@ -244,7 +244,7 @@ describe('ElastiCache Serverless Cache', () => {
           engine: Engine.VALKEY,
           vpc,
           dailySnapshotTime: new DailySnapshotTime({ hour: 12, minute: 0 }),
-          majorEngineVersion: MajorVersion.VER_7,
+          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow('`snapshotRetentionLimit` must be specified when `dailySnapshotTime` is set.');
     });
@@ -255,7 +255,7 @@ describe('ElastiCache Serverless Cache', () => {
           engine: Engine.VALKEY,
           vpc,
           snapshotRetentionLimit,
-          majorEngineVersion: MajorVersion.VER_7,
+          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow(`\`snapshotRetentionLimit\` must be between 1 and 35, got: ${snapshotRetentionLimit}.`);
     });
@@ -270,7 +270,7 @@ describe('ElastiCache Serverless Cache', () => {
             engine: Engine.VALKEY,
             vpc,
             finalSnapshotName,
-            majorEngineVersion: MajorVersion.VER_7,
+            majorEngineVersion: MajorVersion.VER_8,
           });
         }).toThrow(
           `\`finalSnapshotName\` must consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`,
@@ -284,7 +284,7 @@ describe('ElastiCache Serverless Cache', () => {
           engine: Engine.VALKEY,
           vpc,
           finalSnapshotName: 'a'.repeat(256),
-          majorEngineVersion: MajorVersion.VER_7,
+          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow('`finalSnapshotName` must not exceed 255 characters, got: 256 characters.');
     });
@@ -306,7 +306,7 @@ describe('ElastiCache Serverless Cache', () => {
           engine: Engine.MEMCACHED,
           vpc,
           userGroup,
-          majorEngineVersion: MajorVersion.VER_7,
+          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow('`userGroup` is available for Valkey and Redis OSS only, got engine: memcached.');
     });
@@ -317,7 +317,7 @@ describe('ElastiCache Serverless Cache', () => {
       const serverlessCache = new ServerlessCache(stack, 'ServerlessCache', {
         engine: Engine.VALKEY,
         vpc,
-        majorEngineVersion: MajorVersion.VER_7,
+        majorEngineVersion: MajorVersion.VER_8,
       });
 
       const metric = serverlessCache.metric('CacheHits', {});
@@ -340,7 +340,7 @@ describe('ElastiCache Serverless Cache', () => {
       const serverlessCache = new ServerlessCache(stack, 'ServerlessCache', {
         engine: Engine.VALKEY,
         vpc,
-        majorEngineVersion: MajorVersion.VER_7,
+        majorEngineVersion: MajorVersion.VER_8,
       });
 
       const metric = serverlessCache.metricBytesUsedForCache();
@@ -363,7 +363,7 @@ describe('ElastiCache Serverless Cache', () => {
       const serverlessCache = new ServerlessCache(stack, 'ServerlessCache', {
         engine: Engine.VALKEY,
         vpc,
-        majorEngineVersion: MajorVersion.VER_7,
+        majorEngineVersion: MajorVersion.VER_8,
       });
 
       const metric = serverlessCache.metricElastiCacheProcessingUnits({});

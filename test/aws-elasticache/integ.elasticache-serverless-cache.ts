@@ -56,7 +56,7 @@ class ElastiCacheStack extends cdk.Stack {
       description: 'my serverless cache',
       finalSnapshotName: 'my-finalsnapshot',
       kmsKey: key,
-      majorEngineVersion: MajorVersion.VER_7,
+      majorEngineVersion: MajorVersion.VER_8,
       snapshotRetentionLimit: 6,
       securityGroups: [
         new cdk.aws_ec2.SecurityGroup(this, 'SecurityGroup', {

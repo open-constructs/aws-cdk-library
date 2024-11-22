@@ -83,6 +83,11 @@ export enum MajorVersion {
    * Version 7
    */
   VER_7 = '7',
+
+  /**
+   * Version 8
+   */
+  VER_8 = '8',
 }
 
 /**

@@ -8312,12 +8312,20 @@ The version number of the engine the serverless cache is compatible with.
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.MajorVersion.VER_7">VER_7</a></code> | Version 7. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.MajorVersion.VER_8">VER_8</a></code> | Version 8. |
 
 ---
 
 ##### `VER_7` <a name="VER_7" id="@open-constructs/aws-cdk.aws_elasticache.MajorVersion.VER_7"></a>
 
 Version 7.
+
+---
+
+
+##### `VER_8` <a name="VER_8" id="@open-constructs/aws-cdk.aws_elasticache.MajorVersion.VER_8"></a>
+
+Version 8.
 
 ---
 

@@ -166,7 +166,7 @@ declare const vpc: ec2.Vpc;
 const servlerlessCache = new ServerlessCache(this, 'ServerlessCache', {
   engine: Engine.VALKEY,
   vpc,
-  majorEngineVersion: MajorVersion.VER_7,
+  majorEngineVersion: MajorVersion.VER_8,
 });
 ```
 
@@ -217,7 +217,7 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   // set the backup window to 12:00 AM UTC
   dailySnapshotTime: new DailySnapshotTime({ hour: 12, minute: 0 }),
   vpc,
-  majorEngineVersion: MajorVersion.VER_7,
+  majorEngineVersion: MajorVersion.VER_8,
 });
 ```
 
@@ -231,7 +231,7 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   // set the final snapshot name
   finalSnapshotName: 'my-finalsnapshot',
   vpc,
-  majorEngineVersion: MajorVersion.VER_7,
+  majorEngineVersion: MajorVersion.VER_8,
 });
 ```
 
@@ -245,7 +245,7 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   // set the snapshot to restore
   snapshotArnsToRestore: ['arn:aws:elasticache:us-east-1:123456789012:serverlesscachesnapshot:my-final-snapshot'],
   vpc,
-  majorEngineVersion: MajorVersion.VER_7,
+  majorEngineVersion: MajorVersion.VER_8,
 });
 ```
 
@@ -266,7 +266,7 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   vpc,
   // set Cutomer Managed Key
   kmsKey,
-  majorEngineVersion: MajorVersion.VER_7,
+  majorEngineVersion: MajorVersion.VER_8,
 });
 ```
 

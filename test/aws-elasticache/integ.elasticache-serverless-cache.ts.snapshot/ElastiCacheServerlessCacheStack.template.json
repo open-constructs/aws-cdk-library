@@ -779,7 +779,7 @@
       "Arn"
      ]
     },
-    "MajorEngineVersion": "7",
+    "MajorEngineVersion": "8",
     "SecurityGroupIds": [
      {
       "Fn::GetAtt": [
