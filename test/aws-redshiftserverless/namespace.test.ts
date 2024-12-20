@@ -77,8 +77,8 @@ describe('Redshift Serverless Namespace', () => {
     test('should correctly format namespaceArn', () => {
       expect(existingNamespace.namespaceArn).toEqual(
         Stack.of(stack).formatArn({
-          resource: 'redshift-serverless',
-          service: 'namespace',
+          service: 'redshift-serverless',
+          resource: 'namespace',
           resourceName: 'my-namespace-id',
         }),
       );
@@ -125,7 +125,7 @@ describe('Redshift Serverless Namespace', () => {
       );
     });
 
-    test('throws when dbName length is invalid, got %s', () => {
+    test('throws when dbName length is invalid', () => {
       expect(() => {
         new Namespace(stack, 'Namespace', {
           dbName: 'a'.repeat(128),
@@ -148,7 +148,7 @@ describe('Redshift Serverless Namespace', () => {
       },
     );
 
-    test('throws when finalSnapshotName length is invalid, got %s', () => {
+    test('throws when finalSnapshotName length is invalid', () => {
       expect(() => {
         new Namespace(stack, 'Namespace', {
           finalSnapshotName: 'a'.repeat(256),

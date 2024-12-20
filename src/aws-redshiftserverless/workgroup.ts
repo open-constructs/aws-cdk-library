@@ -180,8 +180,8 @@ export class Workgroup extends Resource implements IWorkgroup {
         defaultPort: aws_ec2.Port.tcp(attrs.port),
       });
       public readonly workgroupArn = Stack.of(this).formatArn({
-        resource: 'redshift-serverless',
-        service: 'workgroup',
+        service: 'redshift-serverless',
+        resource: 'workgroup',
         resourceName: attrs.workgroupId,
       });
     }
