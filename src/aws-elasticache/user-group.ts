@@ -4,7 +4,7 @@ import { IUser } from './user';
 import { Engine } from './util';
 
 /**
- * An User Group
+ * A User Group
  */
 export interface IUserGroup extends IResource {
   /**
