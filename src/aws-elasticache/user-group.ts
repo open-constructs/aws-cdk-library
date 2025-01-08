@@ -46,7 +46,7 @@ export interface UserGroupProps {
 }
 
 /**
- * Attributes for importing an User Group.
+ * Attributes for importing a User Group.
  */
 export interface UserGroupAttributes {
   /**
