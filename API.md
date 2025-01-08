@@ -2804,7 +2804,7 @@ The serverless cache name.
 
 - *Implements:* @open-constructs/aws-cdk.aws_elasticache.IUser
 
-Represents an User construct in AWS CDK.
+Represents a User construct in AWS CDK.
 
 *Example*
 
@@ -3136,334 +3136,11 @@ The name of the user.
 ---
 
 
-### UserBase <a name="UserBase" id="@open-constructs/aws-cdk.aws_elasticache.UserBase"></a>
-
-- *Implements:* @open-constructs/aws-cdk.aws_elasticache.IUser
-
-A new or imported User.
-
-#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer"></a>
-
-```typescript
-import { aws_elasticache } from '@open-constructs/aws-cdk'
-
-new aws_elasticache.UserBase(scope: Construct, id: string, props?: ResourceProps)
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer.parameter.props">props</a></code> | <code>aws-cdk-lib.ResourceProps</code> | *No description.* |
-
----
-
-##### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer.parameter.scope"></a>
-
-- *Type:* constructs.Construct
-
----
-
-##### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer.parameter.id"></a>
-
-- *Type:* string
-
----
-
-##### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.Initializer.parameter.props"></a>
-
-- *Type:* aws-cdk-lib.ResourceProps
-
----
-
-#### Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.toString">toString</a></code> | Returns a string representation of this construct. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.grant">grant</a></code> | Grant the given identity the specified actions. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.grantConnect">grantConnect</a></code> | Permits an IAM principal to perform connect to the user. |
-
----
-
-##### `toString` <a name="toString" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.toString"></a>
-
-```typescript
-public toString(): string
-```
-
-Returns a string representation of this construct.
-
-##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.applyRemovalPolicy"></a>
-
-```typescript
-public applyRemovalPolicy(policy: RemovalPolicy): void
-```
-
-Apply the given removal policy to this resource.
-
-The Removal Policy controls what happens to this resource when it stops
-being managed by CloudFormation, either because you've removed it from the
-CDK application or because you've made a change that requires the resource
-to be replaced.
-
-The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
-account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
-
-###### `policy`<sup>Required</sup> <a name="policy" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.applyRemovalPolicy.parameter.policy"></a>
-
-- *Type:* aws-cdk-lib.RemovalPolicy
-
----
-
-##### `grant` <a name="grant" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.grant"></a>
-
-```typescript
-public grant(grantee: IGrantable, actions: ...string[]): Grant
-```
-
-Grant the given identity the specified actions.
-
-> [https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticache.html](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonelasticache.html)
-
-###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.grant.parameter.grantee"></a>
-
-- *Type:* aws-cdk-lib.aws_iam.IGrantable
-
-the identity to be granted the actions.
-
----
-
-###### `actions`<sup>Required</sup> <a name="actions" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.grant.parameter.actions"></a>
-
-- *Type:* ...string[]
-
-the data-access actions.
-
----
-
-##### `grantConnect` <a name="grantConnect" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.grantConnect"></a>
-
-```typescript
-public grantConnect(grantee: IGrantable): Grant
-```
-
-Permits an IAM principal to perform connect to the user.
-
-Actions: Connect
-
-> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)
-
-###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.grantConnect.parameter.grantee"></a>
-
-- *Type:* aws-cdk-lib.aws_iam.IGrantable
-
-The principal to grant access to.
-
----
-
-#### Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserAttributes">fromUserAttributes</a></code> | Imports an existing User from attributes. |
-
----
-
-##### `isConstruct` <a name="isConstruct" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.isConstruct"></a>
-
-```typescript
-import { aws_elasticache } from '@open-constructs/aws-cdk'
-
-aws_elasticache.UserBase.isConstruct(x: any)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-###### `x`<sup>Required</sup> <a name="x" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.isConstruct.parameter.x"></a>
-
-- *Type:* any
-
-Any object.
-
----
-
-##### `isOwnedResource` <a name="isOwnedResource" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.isOwnedResource"></a>
-
-```typescript
-import { aws_elasticache } from '@open-constructs/aws-cdk'
-
-aws_elasticache.UserBase.isOwnedResource(construct: IConstruct)
-```
-
-Returns true if the construct was created by CDK, and false otherwise.
-
-###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.isOwnedResource.parameter.construct"></a>
-
-- *Type:* constructs.IConstruct
-
----
-
-##### `isResource` <a name="isResource" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.isResource"></a>
-
-```typescript
-import { aws_elasticache } from '@open-constructs/aws-cdk'
-
-aws_elasticache.UserBase.isResource(construct: IConstruct)
-```
-
-Check whether the given construct is a Resource.
-
-###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.isResource.parameter.construct"></a>
-
-- *Type:* constructs.IConstruct
-
----
-
-##### `fromUserAttributes` <a name="fromUserAttributes" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserAttributes"></a>
-
-```typescript
-import { aws_elasticache } from '@open-constructs/aws-cdk'
-
-aws_elasticache.UserBase.fromUserAttributes(scope: Construct, id: string, attrs: UserAttributes)
-```
-
-Imports an existing User from attributes.
-
-###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserAttributes.parameter.scope"></a>
-
-- *Type:* constructs.Construct
-
----
-
-###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserAttributes.parameter.id"></a>
-
-- *Type:* string
-
----
-
-###### `attrs`<sup>Required</sup> <a name="attrs" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.fromUserAttributes.parameter.attrs"></a>
-
-- *Type:* @open-constructs/aws-cdk.aws_elasticache.UserAttributes
-
----
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userName">userName</a></code> | <code>string</code> | The name of the user. |
-
----
-
-##### `node`<sup>Required</sup> <a name="node" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.property.node"></a>
-
-```typescript
-public readonly node: Node;
-```
-
-- *Type:* constructs.Node
-
-The tree node.
-
----
-
-##### `env`<sup>Required</sup> <a name="env" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.property.env"></a>
-
-```typescript
-public readonly env: ResourceEnvironment;
-```
-
-- *Type:* aws-cdk-lib.ResourceEnvironment
-
-The environment this resource belongs to.
-
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
-
----
-
-##### `stack`<sup>Required</sup> <a name="stack" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.property.stack"></a>
-
-```typescript
-public readonly stack: Stack;
-```
-
-- *Type:* aws-cdk-lib.Stack
-
-The stack in which this resource is defined.
-
----
-
-##### `userArn`<sup>Required</sup> <a name="userArn" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userArn"></a>
-
-```typescript
-public readonly userArn: string;
-```
-
-- *Type:* string
-
-The ARN of the user.
-
----
-
-##### `userId`<sup>Required</sup> <a name="userId" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userId"></a>
-
-```typescript
-public readonly userId: string;
-```
-
-- *Type:* string
-
-The ID of the user.
-
----
-
-##### `userName`<sup>Required</sup> <a name="userName" id="@open-constructs/aws-cdk.aws_elasticache.UserBase.property.userName"></a>
-
-```typescript
-public readonly userName: string;
-```
-
-- *Type:* string
-
-The name of the user.
-
----
-
-
 ### UserGroup <a name="UserGroup" id="@open-constructs/aws-cdk.aws_elasticache.UserGroup"></a>
 
 - *Implements:* @open-constructs/aws-cdk.aws_elasticache.IUserGroup
 
-Represents an user group construct in AWS CDK.
+Represents a user group construct in AWS CDK.
 
 *Example*
 
@@ -3520,7 +3197,7 @@ new aws_elasticache.UserGroup(scope: Construct, id: string, props: UserGroupProp
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.toString">toString</a></code> | Returns a string representation of this construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.addUser">addUser</a></code> | Adds an user to the user group. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.addUser">addUser</a></code> | Adds a user to the user group. |
 
 ---
 
@@ -3560,7 +3237,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 public addUser(user: IUser): void
 ```
 
-Adds an user to the user group.
+Adds a user to the user group.
 
 ###### `user`<sup>Required</sup> <a name="user" id="@open-constructs/aws-cdk.aws_elasticache.UserGroup.addUser.parameter.user"></a>
 
@@ -5571,7 +5248,7 @@ Where to place the serverless cache within the VPC.
 
 ### UserAttributes <a name="UserAttributes" id="@open-constructs/aws-cdk.aws_elasticache.UserAttributes"></a>
 
-Attributes for importing an User.
+Attributes for importing a User.
 
 #### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.UserAttributes.Initializer"></a>
 
@@ -5616,7 +5293,7 @@ The name of the user.
 
 ### UserGroupAttributes <a name="UserGroupAttributes" id="@open-constructs/aws-cdk.aws_elasticache.UserGroupAttributes"></a>
 
-Attributes for importing an User Group.
+Attributes for importing a User Group.
 
 #### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.UserGroupAttributes.Initializer"></a>
 
@@ -5648,7 +5325,7 @@ The ID of the user group.
 
 ### UserGroupProps <a name="UserGroupProps" id="@open-constructs/aws-cdk.aws_elasticache.UserGroupProps"></a>
 
-Properties for defining an User Group.
+Properties for defining a User Group.
 
 #### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.UserGroupProps.Initializer"></a>
 
@@ -5701,7 +5378,7 @@ with the first character as a letter, and it can't end with a hyphen or contain 
 
 ### UserProps <a name="UserProps" id="@open-constructs/aws-cdk.aws_elasticache.UserProps"></a>
 
-Properties for defining an User.
+Properties for defining a User.
 
 #### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.UserProps.Initializer"></a>
 
@@ -5781,7 +5458,7 @@ The ID of the user.
 \`userId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter,
 and it can't end with a hyphen or contain two consecutive hyphens.
 
-\`userId\` and \`userName\` must be same When \`authenticationType\` is set to \`AuthenticationType.IAM\`.
+\`userId\` and \`userName\` must be same when \`authenticationType\` is set to \`AuthenticationType.IAM\`.
 
 ---
 
@@ -5798,7 +5475,7 @@ The username of the user.
 
 The name can have up to 120 characters, and must not contain spaces.
 
-\`userId\` and \`userName\` must be same When \`authenticationType\` is set to \`AuthenticationType.IAM\`.
+\`userId\` and \`userName\` must be same when \`authenticationType\` is set to \`AuthenticationType.IAM\`.
 
 > [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)
 
@@ -7829,9 +7506,9 @@ The serverless cache name.
 
 - *Extends:* aws-cdk-lib.IResource
 
-- *Implemented By:* @open-constructs/aws-cdk.aws_elasticache.User, @open-constructs/aws-cdk.aws_elasticache.UserBase, @open-constructs/aws-cdk.aws_elasticache.IUser
+- *Implemented By:* @open-constructs/aws-cdk.aws_elasticache.User, @open-constructs/aws-cdk.aws_elasticache.IUser
 
-An User.
+A User.
 
 #### Methods <a name="Methods" id="Methods"></a>
 
@@ -7974,7 +7651,7 @@ The name of the user.
 
 - *Implemented By:* @open-constructs/aws-cdk.aws_elasticache.UserGroup, @open-constructs/aws-cdk.aws_elasticache.IUserGroup
 
-An User Group.
+A User Group.
 
 
 #### Properties <a name="Properties" id="Properties"></a>

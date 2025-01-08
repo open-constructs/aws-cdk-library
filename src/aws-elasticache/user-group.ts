@@ -15,8 +15,6 @@ export interface IUserGroup extends IResource {
   readonly userGroupArn: string;
   /**
    * The ID of the user group.
-   *
-   * @attribute
    */
   readonly userGroupId: string;
 }

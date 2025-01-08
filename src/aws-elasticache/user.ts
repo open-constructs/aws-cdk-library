@@ -25,14 +25,10 @@ export interface IUser extends IResource {
   readonly userArn: string;
   /**
    * The ID of the user.
-   *
-   * @attribute
    */
   readonly userId: string;
   /**
    * The name of the user.
-   *
-   * @attribute
    */
   readonly userName: string;
 
