@@ -26,7 +26,7 @@ describe('ElastiCache User', () => {
     });
   });
 
-  test('Create an user with maximum properties', () => {
+  test('Create a user with maximum properties', () => {
     new User(stack, 'User', {
       accessString: 'on ~* +@all',
       authenticationType: AuthenticationType.IAM,
