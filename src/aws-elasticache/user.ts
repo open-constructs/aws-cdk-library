@@ -138,7 +138,7 @@ export interface UserAttributes {
 /**
  * A new or imported User.
  */
-export abstract class UserBase extends Resource implements IUser {
+abstract class UserBase extends Resource implements IUser {
   /**
    * Imports an existing User from attributes
    */
