@@ -12,7 +12,7 @@ describe('ElastiCache User', () => {
     stack = new Stack(app, 'TestStack', {});
   });
 
-  test('Create an user with minimal properties', () => {
+  test('Create a user with minimal properties', () => {
     new User(stack, 'User', {
       authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
     });
