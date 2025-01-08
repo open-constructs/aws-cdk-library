@@ -68,7 +68,7 @@ export enum AuthenticationType {
 }
 
 /**
- * Properties for defining an User.
+ * Properties for defining a User.
  */
 export interface UserProps {
   /**
