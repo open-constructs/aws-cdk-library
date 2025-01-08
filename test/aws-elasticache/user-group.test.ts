@@ -18,7 +18,7 @@ describe('ElastiCache User Group', () => {
     });
   });
 
-  test('Create an user group with minimal properties', () => {
+  test('Create a user group with minimal properties', () => {
     new UserGroup(stack, 'UserGroup', {
       users: [defaultUser],
     });
