@@ -115,8 +115,6 @@ export class UserGroup extends Resource implements IUserGroup {
     this.users = this.props.users ?? [];
 
     this.validateUserGroupId();
-    this.validateDefaultUser();
-
     this.node.addValidation({ validate: () => this.validateDefaultUser() });
 
     const userGroup = this.createResource(this, 'Resource', {
