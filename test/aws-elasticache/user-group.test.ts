@@ -29,7 +29,7 @@ describe('ElastiCache User Group', () => {
     });
   });
 
-  test('Create an user group with maximum properties', () => {
+  test('Create a user group with maximum properties', () => {
     const user = new User(stack, 'User', {
       authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
     });
