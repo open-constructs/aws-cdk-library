@@ -22,7 +22,7 @@ export interface IUserGroup extends IResource {
 }
 
 /**
- * Properties for defining an User Group.
+ * Properties for defining a User Group.
  */
 export interface UserGroupProps {
   /**
