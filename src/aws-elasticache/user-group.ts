@@ -56,7 +56,7 @@ export interface UserGroupAttributes {
 }
 
 /**
- * Represents an user group construct in AWS CDK.
+ * Represents a user group construct in AWS CDK.
  *
  * @example
  * declare const user: User;
