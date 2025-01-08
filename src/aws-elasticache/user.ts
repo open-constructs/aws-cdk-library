@@ -122,7 +122,7 @@ export interface UserProps {
 }
 
 /**
- * Attributes for importing an User.
+ * Attributes for importing a User.
  */
 export interface UserAttributes {
   /**
