@@ -76,7 +76,7 @@ export interface UserProps {
    *
    * The name can have up to 120 characters, and must not contain spaces.
    *
-   * \`userId\` and \`userName\` must be same When \`authenticationType\` is set to \`AuthenticationType.IAM\`.
+   * \`userId\` and \`userName\` must be same when \`authenticationType\` is set to \`AuthenticationType.IAM\`.
    *
    * @default - same value as `userId`
    * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html
