@@ -165,7 +165,7 @@ export class UserGroup extends Resource implements IUserGroup {
 
     const errors: string[] = [];
 
-    if (!userNamelist || userNamelist.some(userName => Token.isUnresolved(userName))) {
+    if (userNamelist.some(userName => Token.isUnresolved(userName))) {
       return errors;
     }
 
