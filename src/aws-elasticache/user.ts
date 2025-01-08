@@ -206,7 +206,7 @@ export abstract class UserBase extends Resource implements IUser {
 }
 
 /**
- * Represents an User construct in AWS CDK.
+ * Represents a User construct in AWS CDK.
  *
  * @example
  *
