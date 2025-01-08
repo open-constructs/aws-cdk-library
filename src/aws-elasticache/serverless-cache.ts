@@ -545,7 +545,7 @@ export class ServerlessCache extends SeverlessCacheBase implements IServerlessCa
   }
 
   /**
-   * Validates an engine and an user group combination.
+   * Validates an engine and a user group combination.
    */
   private validateUserGroup(): void {
     if (this.props.userGroup === undefined) return;
