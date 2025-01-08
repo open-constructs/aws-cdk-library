@@ -177,7 +177,7 @@ export class UserGroup extends Resource implements IUserGroup {
   }
 
   /**
-   * Adds an user to the user group
+   * Adds a user to the user group
    *
    * @param user the user to add
    */
