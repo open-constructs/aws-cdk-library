@@ -91,7 +91,7 @@ export interface UserProps {
    * \`userId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter,
    * and it can't end with a hyphen or contain two consecutive hyphens.
    *
-   * \`userId\` and \`userName\` must be same When \`authenticationType\` is set to \`AuthenticationType.IAM\`.
+   * \`userId\` and \`userName\` must be same when \`authenticationType\` is set to \`AuthenticationType.IAM\`.
    *
    * @default - auto generate
    */
