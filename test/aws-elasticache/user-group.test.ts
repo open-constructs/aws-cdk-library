@@ -114,6 +114,32 @@ describe('ElastiCache User Group', () => {
     });
   });
 
+  describe('validateDuplicateUsernames test', () => {
+    test('throws an error if `users` include duplicate username', () => {
+      const user = new User(stack, 'User', {
+        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        userName: 'test-user',
+      });
+
+      const duplicateUser = new User(stack, 'DuplicateUser', {
+        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        userName: 'test-user',
+      });
+
+      new UserGroup(stack, 'UserGroup', {
+        users: [defaultUser, user, duplicateUser],
+      });
+
+      const errors = validate(stack);
+      expect(errors.length).toEqual(1);
+      const error = errors[0];
+
+      expect(error).toMatch(
+        /Duplicate username found in user group: `test-user` is duplicated. Each username must be unique within a user group./,
+      );
+    });
+  });
+
   describe('test addUser method', () => {
     test('add user after creation', () => {
       const user = new User(stack, 'User', {
@@ -134,21 +160,24 @@ describe('ElastiCache User Group', () => {
       });
     });
 
-    test('throws when an adding user is already included the user group', () => {
+    test('throws an error when adding user with duplicate username', () => {
       const user = new User(stack, 'User', {
         authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        userName: 'test-user',
+      });
+
+      const duplicateUser = new User(stack, 'DuplicateUser', {
+        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        userName: 'test-user',
       });
 
       const userGroup = new UserGroup(stack, 'UserGroup', {
-        userGroupId: 'my-user-group',
-        users: [defaultUser],
+        users: [defaultUser, user],
       });
 
-      userGroup.addUser(user);
-
       expect(() => {
-        userGroup.addUser(user);
-      }).toThrow(`An adding user is already included in the user group, ARN: ${user.userArn}.`);
+        userGroup.addUser(duplicateUser);
+      }).toThrow('A user with username `test-user` already exists in the user group.');
     });
   });
 });

@@ -114,6 +114,7 @@ export class UserGroup extends Resource implements IUserGroup {
 
     this.validateUserGroupId();
     this.node.addValidation({ validate: () => this.validateDefaultUser() });
+    this.node.addValidation({ validate: () => this.validateDuplicateUsernames() });
 
     const userGroup = this.createResource(this, 'Resource', {
       engine: Engine.REDIS,
@@ -172,13 +173,37 @@ export class UserGroup extends Resource implements IUserGroup {
   }
 
   /**
+   * Validates that there are no duplicate usernames in the user group
+   */
+  private validateDuplicateUsernames(): string[] {
+    const userNamelist = this.users.map(user => user.userName);
+
+    if (!userNamelist || userNamelist.some(username => Token.isUnresolved(username))) {
+      return [];
+    }
+
+    const seenUsernames = new Set<string>();
+
+    for (const username of userNamelist) {
+      if (seenUsernames.has(username)) {
+        return [
+          `Duplicate username found in user group: \`${username}\` is duplicated. Each username must be unique within a user group.`,
+        ];
+      }
+      seenUsernames.add(username);
+    }
+
+    return [];
+  }
+
+  /**
    * Adds a user to the user group
    *
    * @param user the user to add
    */
   public addUser(user: IUser): void {
-    if (this.users.includes(user)) {
-      throw new Error(`An adding user is already included in the user group, ARN: ${user.userArn}.`);
+    if (this.users.some(existingUser => existingUser.userName === user.userName)) {
+      throw new Error(`A user with username \`${user.userName}\` already exists in the user group.`);
     }
 
     this.users.push(user);
