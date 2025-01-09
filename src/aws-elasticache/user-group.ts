@@ -159,11 +159,10 @@ export class UserGroup extends Resource implements IUserGroup {
   private validateDefaultUser(): string[] {
     const userNamelist = this.users.map(user => user.userName);
 
-    const errors: string[] = [];
-
-    if (userNamelist.some(userName => Token.isUnresolved(userName))) {
-      return errors;
+    if (!userNamelist || userNamelist.some(userName => Token.isUnresolved(userName))) {
+      return [];
     }
+    const errors: string[] = [];
 
     if (!userNamelist.includes('default')) {
       errors.push('A user with the username `default` must be included in `users`.');
