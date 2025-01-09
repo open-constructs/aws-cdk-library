@@ -212,7 +212,7 @@ export interface ServerlessCacheAttributes {
 /**
  * A new or imported serverless cache.
  */
-export abstract class SeverlessCacheBase extends Resource implements IServerlessCache {
+abstract class SeverlessCacheBase extends Resource implements IServerlessCache {
   /**
    * Imports an existing ServerlessCache from attributes
    */
