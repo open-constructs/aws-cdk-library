@@ -3175,8 +3175,6 @@ Imports an existing ServerlessCache from attributes.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The connection object associated with the ElastiCache Serverless Cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.endpointPort">endpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.readerEndpointAddress">readerEndpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.readerEndpointPort">readerEndpointPort</a></code> | <code>number</code> | The port number that the cache engine is listening on. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.serverlessCacheArn">serverlessCacheArn</a></code> | <code>string</code> | The serverless cache ARN. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.serverlessCacheName">serverlessCacheName</a></code> | <code>string</code> | The serverless cache name. |
 
@@ -3253,30 +3251,6 @@ The DNS hostname of the cache node.
 
 ```typescript
 public readonly endpointPort: number;
-```
-
-- *Type:* number
-
-The port number that the cache engine is listening on.
-
----
-
-##### `readerEndpointAddress`<sup>Required</sup> <a name="readerEndpointAddress" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.readerEndpointAddress"></a>
-
-```typescript
-public readonly readerEndpointAddress: string;
-```
-
-- *Type:* string
-
-The DNS hostname of the cache node.
-
----
-
-##### `readerEndpointPort`<sup>Required</sup> <a name="readerEndpointPort" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.readerEndpointPort"></a>
-
-```typescript
-public readonly readerEndpointPort: number;
 ```
 
 - *Type:* number
@@ -7617,8 +7591,6 @@ A ElastiCache Serverless Cache.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.grant">grant</a></code> | Grant the given identity the specified actions. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.grantConnect">grantConnect</a></code> | Grant the given identity connection access to the cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metric">metric</a></code> | Create a CloudWatch metric. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metricBytesUsedForCache">metricBytesUsedForCache</a></code> | Metric for the total number of bytes used by the data stored in your cache. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metricElastiCacheProcessingUnits">metricElastiCacheProcessingUnits</a></code> | Metric for the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache. |
 
 ---
 
@@ -7671,34 +7643,6 @@ Create a CloudWatch metric.
 ---
 
 ###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metric.parameter.props"></a>
-
-- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
-
----
-
-##### `metricBytesUsedForCache` <a name="metricBytesUsedForCache" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metricBytesUsedForCache"></a>
-
-```typescript
-public metricBytesUsedForCache(props?: MetricOptions): Metric
-```
-
-Metric for the total number of bytes used by the data stored in your cache.
-
-###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metricBytesUsedForCache.parameter.props"></a>
-
-- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
-
----
-
-##### `metricElastiCacheProcessingUnits` <a name="metricElastiCacheProcessingUnits" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metricElastiCacheProcessingUnits"></a>
-
-```typescript
-public metricElastiCacheProcessingUnits(props?: MetricOptions): Metric
-```
-
-Metric for the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache.
-
-###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.metricElastiCacheProcessingUnits.parameter.props"></a>
 
 - *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
 

@@ -30,8 +30,6 @@ export interface IServerlessCache extends IResource, aws_ec2.IConnectable {
 
   /**
    * The serverless cache name.
-   *
-   * @attribute
    */
   readonly serverlessCacheName: string;
 
@@ -63,16 +61,6 @@ export interface IServerlessCache extends IResource, aws_ec2.IConnectable {
    * Create a CloudWatch metric.
    */
   metric(metricName: string, props?: MetricOptions): Metric;
-
-  /**
-   * Metric for the total number of bytes used by the data stored in your cache.
-   */
-  metricBytesUsedForCache(props?: MetricOptions): Metric;
-
-  /**
-   * Metric for the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache
-   */
-  metricElastiCacheProcessingUnits(props?: MetricOptions): Metric;
 }
 
 /**
@@ -368,14 +356,6 @@ export class ServerlessCache extends SeverlessCacheBase implements IServerlessCa
    * The port number that the cache engine is listening on
    */
   readonly endpointPort: number;
-  /**
-   * The DNS hostname of the cache node
-   */
-  readonly readerEndpointAddress: string;
-  /**
-   * The port number that the cache engine is listening on
-   */
-  readonly readerEndpointPort: number;
 
   /**
    * The connection object associated with the ElastiCache Serverless Cache.
@@ -429,13 +409,10 @@ export class ServerlessCache extends SeverlessCacheBase implements IServerlessCa
     });
 
     this.serverlessCacheArn = serverlessCache.attrArn;
-    this.serverlessCacheName = serverlessCache.serverlessCacheName;
+    this.serverlessCacheName = serverlessCache.ref;
 
     this.endpointAddress = serverlessCache.attrEndpointAddress;
     this.endpointPort = serverlessCache.attrEndpointPort;
-
-    this.readerEndpointAddress = serverlessCache.attrReaderEndpointAddress;
-    this.readerEndpointPort = serverlessCache.attrReaderEndpointPort;
 
     this.connections = new aws_ec2.Connections({
       securityGroups: this.securityGroups,
