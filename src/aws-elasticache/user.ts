@@ -50,7 +50,7 @@ export interface UserAttributes {
 /**
  * Base properties for all user types
  */
-export interface UserPropsBase {
+interface UserBaseProps {
   /**
    * The ID of the user.
    * Must consist only of alphanumeric characters or hyphens, with the first character as a letter.
@@ -149,7 +149,7 @@ abstract class UserBase extends Resource implements IUser {
 /**
  * Properties for IAM authentication users
  */
-export interface IamUserProps extends UserPropsBase {}
+export interface IamUserProps extends UserBaseProps {}
 
 /**
  * Represents an IAM authentication user construct in AWS CDK.
@@ -247,7 +247,7 @@ export class IamUser extends UserBase {
 /**
  * Properties for password-authenticated users
  */
-export interface PasswordUserProps extends UserPropsBase {
+export interface PasswordUserProps extends UserBaseProps {
   /**
    * The username of the user.
    * @default - same as userId
@@ -333,7 +333,7 @@ export class PasswordUser extends UserBase {
 /**
  * Properties for users that don't require authentication
  */
-export interface NoPasswordRequiredUserProps extends UserPropsBase {
+export interface NoPasswordRequiredUserProps extends UserBaseProps {
   /**
    * The username of the user.
    * @default - same as userId
