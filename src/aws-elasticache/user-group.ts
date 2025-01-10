@@ -160,7 +160,7 @@ export class UserGroup extends Resource implements IUserGroup {
   private validateDefaultUser(): string[] {
     const userNamelist = this.users.map(user => user.userName);
 
-    if (!userNamelist || userNamelist.some(userName => Token.isUnresolved(userName))) {
+    if (userNamelist.some(userName => Token.isUnresolved(userName))) {
       return [];
     }
     const errors: string[] = [];
@@ -178,22 +178,23 @@ export class UserGroup extends Resource implements IUserGroup {
   private validateDuplicateUsernames(): string[] {
     const userNamelist = this.users.map(user => user.userName);
 
-    if (!userNamelist || userNamelist.some(username => Token.isUnresolved(username))) {
+    if (userNamelist.some(username => Token.isUnresolved(username))) {
       return [];
     }
 
     const seenUsernames = new Set<string>();
+    const errors: string[] = [];
 
     for (const username of userNamelist) {
       if (seenUsernames.has(username)) {
-        return [
+        errors.push(
           `Duplicate username found in user group: \`${username}\` is duplicated. Each username must be unique within a user group.`,
-        ];
+        );
       }
       seenUsernames.add(username);
     }
 
-    return [];
+    return errors;
   }
 
   /**
@@ -202,10 +203,6 @@ export class UserGroup extends Resource implements IUserGroup {
    * @param user the user to add
    */
   public addUser(user: IUser): void {
-    if (this.users.some(existingUser => existingUser.userName === user.userName)) {
-      throw new Error(`A user with username \`${user.userName}\` already exists in the user group.`);
-    }
-
     this.users.push(user);
   }
 }

@@ -126,16 +126,31 @@ describe('ElastiCache User Group', () => {
         userName: 'test-user',
       });
 
+      const anotherUser = new User(stack, 'AnotherUser', {
+        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        userName: 'another-test-user',
+      });
+
+      const anotherDuplicateUser = new User(stack, 'AnotherDuplicateUser', {
+        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        userName: 'another-test-user',
+      });
+
       new UserGroup(stack, 'UserGroup', {
-        users: [defaultUser, user, duplicateUser],
+        users: [defaultUser, user, duplicateUser, anotherUser, anotherDuplicateUser],
       });
 
       const errors = validate(stack);
-      expect(errors.length).toEqual(1);
+      expect(errors.length).toEqual(2);
       const error = errors[0];
+      const anotherError = errors[1];
 
       expect(error).toMatch(
         /Duplicate username found in user group: `test-user` is duplicated. Each username must be unique within a user group./,
+      );
+
+      expect(anotherError).toMatch(
+        /Duplicate username found in user group: `another-test-user` is duplicated. Each username must be unique within a user group./,
       );
     });
   });
@@ -166,18 +181,40 @@ describe('ElastiCache User Group', () => {
         userName: 'test-user',
       });
 
+      const anotherUser = new User(stack, 'AnotherUser', {
+        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        userName: 'another-test-user',
+      });
+
+      const userGroup = new UserGroup(stack, 'UserGroup', {
+        users: [defaultUser, user, anotherUser],
+      });
+
       const duplicateUser = new User(stack, 'DuplicateUser', {
         authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
         userName: 'test-user',
       });
 
-      const userGroup = new UserGroup(stack, 'UserGroup', {
-        users: [defaultUser, user],
+      const anotherDuplicateUser = new User(stack, 'AnotherDuplicateUser', {
+        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        userName: 'another-test-user',
       });
 
-      expect(() => {
-        userGroup.addUser(duplicateUser);
-      }).toThrow('A user with username `test-user` already exists in the user group.');
+      userGroup.addUser(duplicateUser);
+      userGroup.addUser(anotherDuplicateUser);
+
+      const errors = validate(stack);
+      expect(errors.length).toEqual(2);
+      const error = errors[0];
+      const anotherError = errors[1];
+
+      expect(error).toMatch(
+        /Duplicate username found in user group: `test-user` is duplicated. Each username must be unique within a user group./,
+      );
+
+      expect(anotherError).toMatch(
+        /Duplicate username found in user group: `another-test-user` is duplicated. Each username must be unique within a user group./,
+      );
     });
   });
 });
