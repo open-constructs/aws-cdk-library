@@ -1,18 +1,17 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { IConstruct } from 'constructs';
-import { AuthenticationType, IUserGroup, User, UserGroup } from '../../src/aws-elasticache';
+import { IUserGroup, NoPasswordRequiredUser, UserGroup } from '../../src/aws-elasticache';
 
 describe('ElastiCache User Group', () => {
   let app: App;
   let stack: Stack;
-  let defaultUser: User;
+  let defaultUser: NoPasswordRequiredUser;
 
   beforeEach(() => {
     app = new App();
     stack = new Stack(app, 'TestStack', {});
-    defaultUser = new User(stack, 'DefaultUser', {
-      authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+    defaultUser = new NoPasswordRequiredUser(stack, 'DefaultUser', {
       userId: 'new-default',
       userName: 'default',
     });
@@ -30,9 +29,7 @@ describe('ElastiCache User Group', () => {
   });
 
   test('Create a user group with maximum properties', () => {
-    const user = new User(stack, 'User', {
-      authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
-    });
+    const user = new NoPasswordRequiredUser(stack, 'User', {});
 
     new UserGroup(stack, 'UserGroup', {
       users: [defaultUser, user],
@@ -97,8 +94,7 @@ describe('ElastiCache User Group', () => {
 
   describe('validateDefaultUser test', () => {
     test("throws an error if `users` don't include default user", () => {
-      const user = new User(stack, 'User', {
-        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+      const user = new NoPasswordRequiredUser(stack, 'User', {
         userName: 'not-default',
       });
 
@@ -116,23 +112,19 @@ describe('ElastiCache User Group', () => {
 
   describe('validateDuplicateUsernames test', () => {
     test('throws an error if `users` include duplicate username', () => {
-      const user = new User(stack, 'User', {
-        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+      const user = new NoPasswordRequiredUser(stack, 'User', {
         userName: 'test-user',
       });
 
-      const duplicateUser = new User(stack, 'DuplicateUser', {
-        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+      const duplicateUser = new NoPasswordRequiredUser(stack, 'DuplicateUser', {
         userName: 'test-user',
       });
 
-      const anotherUser = new User(stack, 'AnotherUser', {
-        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+      const anotherUser = new NoPasswordRequiredUser(stack, 'AnotherUser', {
         userName: 'another-test-user',
       });
 
-      const anotherDuplicateUser = new User(stack, 'AnotherDuplicateUser', {
-        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+      const anotherDuplicateUser = new NoPasswordRequiredUser(stack, 'AnotherDuplicateUser', {
         userName: 'another-test-user',
       });
 
@@ -157,9 +149,7 @@ describe('ElastiCache User Group', () => {
 
   describe('test addUser method', () => {
     test('add user after creation', () => {
-      const user = new User(stack, 'User', {
-        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
-      });
+      const user = new NoPasswordRequiredUser(stack, 'User', {});
 
       const userGroup = new UserGroup(stack, 'UserGroup', {
         userGroupId: 'my-user-group',
@@ -176,13 +166,11 @@ describe('ElastiCache User Group', () => {
     });
 
     test('throws an error when adding user with duplicate username', () => {
-      const user = new User(stack, 'User', {
-        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+      const user = new NoPasswordRequiredUser(stack, 'User', {
         userName: 'test-user',
       });
 
-      const anotherUser = new User(stack, 'AnotherUser', {
-        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+      const anotherUser = new NoPasswordRequiredUser(stack, 'AnotherUser', {
         userName: 'another-test-user',
       });
 
@@ -190,13 +178,11 @@ describe('ElastiCache User Group', () => {
         users: [defaultUser, user, anotherUser],
       });
 
-      const duplicateUser = new User(stack, 'DuplicateUser', {
-        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+      const duplicateUser = new NoPasswordRequiredUser(stack, 'DuplicateUser', {
         userName: 'test-user',
       });
 
-      const anotherDuplicateUser = new User(stack, 'AnotherDuplicateUser', {
-        authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+      const anotherDuplicateUser = new NoPasswordRequiredUser(stack, 'AnotherDuplicateUser', {
         userName: 'another-test-user',
       });
 

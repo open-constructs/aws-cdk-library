@@ -4,13 +4,12 @@ import { Stats } from 'aws-cdk-lib/aws-cloudwatch';
 import { SecurityGroup } from 'aws-cdk-lib/aws-ec2';
 import { Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import {
-  AuthenticationType,
   DailySnapshotTime,
   Engine,
   IServerlessCache,
   MajorVersion,
+  NoPasswordRequiredUser,
   ServerlessCache,
-  User,
   UserGroup,
 } from '../../src/aws-elasticache';
 
@@ -41,12 +40,9 @@ describe('ElastiCache Serverless Cache', () => {
   });
 
   test('Create a serverless cache with maximum properties', () => {
-    const user = new User(stack, 'User', {
-      authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
-    });
+    const user = new NoPasswordRequiredUser(stack, 'User', {});
 
-    const defaultUser = new User(stack, 'DefaultUser', {
-      authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+    const defaultUser = new NoPasswordRequiredUser(stack, 'DefaultUser', {
       userId: 'new-default',
       userName: 'default',
     });
@@ -293,8 +289,7 @@ describe('ElastiCache Serverless Cache', () => {
   describe('validateUserGroup test', () => {
     test('throws when userGroup is set with not Valkey or Redis engine', () => {
       expect(() => {
-        const defaultUser = new User(stack, 'DefaultUser', {
-          authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        const defaultUser = new NoPasswordRequiredUser(stack, 'DefaultUser', {
           userId: 'new-default',
           userName: 'default',
         });

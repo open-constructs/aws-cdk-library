@@ -12,8 +12,7 @@ This module has constructs for [Amazon ElastiCache](https://docs.aws.amazon.com/
 Setup required properties and create:
 
 ```ts
-const newDefaultUser = User(this, 'DefaultUser', {
-  authenticationType: AuthenticationType.NO_PASSWORD,
+const newDefaultUser = NoPasswordRequiredUser(this, 'DefaultUser', {
   userName: 'default',
 });
 
@@ -38,37 +37,59 @@ To enable RBAC for ElastiCache with Valkey or Redis OSS, you take the following 
 
 ### Create users
 
-First, you need to create users by using `User` construct.
+First, you need to create users by using `IamUser`, `PasswordUser` or `NoPasswordRequiredUser` construct.
 
 With RBAC, you create users and assign them specific permissions by using `accessString` property.
 
 For more information, see [Specifying Permissions Using an Access String](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Access-string).
 
-Also you can choose authentication type by setting `authenticationType` property:
+You can create an IAM authentication user by using `IamUser` construct:
 
 ```ts
-const user = User(this, 'User', {
+const user = IamUser(this, 'User', {
+  // set user id
+  userId: 'my-user',
+
   // set access string
   accessString: 'on ~* +@all',
-  // set IAM authentication
-  authenticationType: AuthenticationType.IAM,
 });
 ```
 
-If you set `authenticationType` to `AuthenticationType.PASSWORD`, you can set one or two passwords:
+> NOTE: You can't set username in `IamUser` construct because IAM authenticated users must have matching user id and username. The construct automatically sets the username to be the same as the user id.
+
+If you want create a password authenticated user, use `PasswordUser` construct:
 
 ```ts
-const user = User(this, 'User', {
-  accessString: 'on ~* +@all',
-  // set password authentication
-  authenticationType: AuthenticationType.PASSWORD,
+const user = PasswordUser(this, 'User', {
+  // set user id
+  userId: 'my-user-id',
 
-  // set two passwords
+  // set access string
+  accessString: 'on ~* +@all',
+
+  // set username
+  userName: 'my-user-name',
+
+  // set up to two passwords
   passwords: [
     cdk.SecretValue.unsafePlainText('adminUserPassword123'),
     cdk.SecretValue.unsafePlainText('anotherAdminUserPassword123'),
   ],
+});
+```
 
+Also you can create a no password required user by using `NoPasswordRequiredUser` construct:
+
+```ts
+const user = NoPasswordRequiredUser(this, 'User', {
+  // set user id
+  userId: 'my-user-id',
+
+  // set access string
+  accessString: 'on ~* +@all',
+
+  // set username
+  userName: 'my-user-name',
 });
 ```
 
@@ -82,17 +103,18 @@ To change the default user, create a new user with the user name set to `defaul
 
 For more information, see [Applying RBAC to a Cache for ElastiCache with Valkey or Redis OSS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#rbac-using).
 
-If you want to create new default user, `userName` must be `default` and `userId` must not be `default`:
+If you want to create new default user, `userName` must be `default` and `userId` must not be `default` by using `NoPasswordRequiredUser` or `PasswordUser`:
 
 ```ts
-const newDefaultUser = User(this, 'NewDefaultUser', {
-  authenticationType: AuthenticationType.NO_PASSWORD,
+const newDefaultUser = NoPasswordRequiredUser(this, 'NewDefaultUser', {
   // default user name must be 'default'
   userName: 'default',
   // new default user id must not be 'default'
   userId: 'new-default'
 });
 ```
+
+> NOTE: You can't create a new default user using `IamUser` because an IAM authenticated user's username and user ID cannot be different.
 
 ### Add users to the user group
 
@@ -133,12 +155,12 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
 
 If you use IAM authentication, `“elasticache:Connect”` action must be allowed for user and cache.
 
-For more information, see [Authenticating with IAM]([https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)).
+For more information, see [Authenticating with IAM]((https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)).
 
-For grant permissions, you can use `grantConnect` method in `User` and `ServerlessCache` Construct:
+For grant permissions, you can use `grantConnect` method in `IamUser` and `ServerlessCache` Construct:
 
 ```ts
-declare const user: User;
+declare const user: IamUser;
 declare const serverlessCache: ServerlessCache;
 declare const role: iam.Role;
 
@@ -149,10 +171,10 @@ serverlessCache.grantConncet(role);
 
 ### Import an existing user and user group
 
-To import an existing user and user group, use the `User.fromUserAttributes` and `UserGroup.fromUserGroupId` method:
+To import an existing user and user group, use the `fromUserAttributes` method for user and `fromUserGroupId` method for user group:
 
 ```ts
-const importedUser = User.fromUserAttributes(this, 'ImportedUser', { userId: 'my-user-id', userName: 'my-user-name' });
+const importedUser = IamUser.fromUserAttributes(this, 'ImportedUser', { userId: 'my-user-id', userName: 'my-user-name' });
 const importedUserGroup = UserGroup.fromUserGroupId(this, 'ImportedUser', 'my-user-group-id');
 ```
 

@@ -2,34 +2,30 @@ import { IntegTest } from '@aws-cdk/integ-tests-alpha';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as ocf from '../../src';
-import { AuthenticationType, DailySnapshotTime, Engine, MajorVersion } from '../../src/aws-elasticache';
+import { DailySnapshotTime, Engine, MajorVersion } from '../../src/aws-elasticache';
 
 class ElastiCacheStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const defaultUser = new ocf.aws_elasticache.User(this, 'DefaultUser', {
-      authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+    const defaultUser = new ocf.aws_elasticache.NoPasswordRequiredUser(this, 'DefaultUser', {
       userId: 'new-default',
       userName: 'default',
     });
 
-    const iamUser = new ocf.aws_elasticache.User(this, 'IamUser', {
+    const iamUser = new ocf.aws_elasticache.IamUser(this, 'IamUser', {
       accessString: 'on ~* +@all',
-      authenticationType: AuthenticationType.IAM,
     });
 
-    const noPasswordRequiredUser = new ocf.aws_elasticache.User(this, 'NoPasswordRequiredUser', {
+    const noPasswordRequiredUser = new ocf.aws_elasticache.NoPasswordRequiredUser(this, 'NoPasswordRequiredUser', {
       userId: 'no-password-required-user',
       accessString: 'on ~* +@all',
-      authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
     });
 
-    const passwordUser = new ocf.aws_elasticache.User(this, 'PasswordUser', {
+    const passwordUser = new ocf.aws_elasticache.PasswordUser(this, 'PasswordUser', {
       userId: 'password-user',
       userName: 'password-user-names',
       accessString: 'on ~* +@all',
-      authenticationType: AuthenticationType.PASSWORD,
       passwords: [
         cdk.SecretValue.unsafePlainText('adminUserPassword123'),
         cdk.SecretValue.unsafePlainText('hogehogeadminUserPassword123'),

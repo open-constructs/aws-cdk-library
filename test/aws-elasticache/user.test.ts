@@ -1,7 +1,7 @@
 import { App, SecretValue, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
-import { AuthenticationType, IUser, User } from '../../src/aws-elasticache';
+import { IamUser, IUser, NoPasswordRequiredUser, PasswordUser } from '../../src/aws-elasticache';
 
 describe('ElastiCache User', () => {
   let app: App;
@@ -12,10 +12,8 @@ describe('ElastiCache User', () => {
     stack = new Stack(app, 'TestStack', {});
   });
 
-  test('Create a user with minimal properties', () => {
-    new User(stack, 'User', {
-      authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
-    });
+  test('Create a no password required user', () => {
+    new NoPasswordRequiredUser(stack, 'User', {});
 
     Template.fromStack(stack).hasResourceProperties('AWS::ElastiCache::User', {
       Engine: 'redis',
@@ -26,12 +24,10 @@ describe('ElastiCache User', () => {
     });
   });
 
-  test('Create a user with maximum properties', () => {
-    new User(stack, 'User', {
+  test('Create an IAM Authentication user', () => {
+    new IamUser(stack, 'User', {
       accessString: 'on ~* +@all',
-      authenticationType: AuthenticationType.IAM,
       userId: 'my-user',
-      userName: 'my-user',
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::ElastiCache::User', {
@@ -43,9 +39,8 @@ describe('ElastiCache User', () => {
     });
   });
 
-  test('Create user with password authentication', () => {
-    new User(stack, 'User', {
-      authenticationType: AuthenticationType.PASSWORD,
+  test('Create password required user', () => {
+    new PasswordUser(stack, 'User', {
       passwords: [
         SecretValue.unsafePlainText('adminUserPassword123'),
         SecretValue.unsafePlainText('adminUserPassword12345'),
@@ -66,7 +61,10 @@ describe('ElastiCache User', () => {
     beforeEach(() => {
       app = new App();
       stack = new Stack(app, 'TestStack');
-      importedUser = User.fromUserAttributes(stack, 'ImportedUser', { userId: 'my-user-id', userName: 'my-user-name' });
+      importedUser = IamUser.fromUserAttributes(stack, 'ImportedUser', {
+        userId: 'my-user-id',
+        userName: 'my-user-name',
+      });
     });
 
     test('should correctly set userId', () => {
@@ -90,9 +88,7 @@ describe('ElastiCache User', () => {
 
   describe('grant method test', () => {
     test('grantConnect test', () => {
-      const user = new User(stack, 'User', {
-        authenticationType: AuthenticationType.IAM,
-      });
+      const user = new IamUser(stack, 'User', {});
 
       const role = new Role(stack, 'Role', {
         assumedBy: new ServicePrincipal('foo'),
@@ -134,8 +130,7 @@ describe('ElastiCache User', () => {
   describe('validateUserId test', () => {
     test.each(['', 'a'.repeat(41)])('throws when userId length is invalid, got %s', userId => {
       expect(() => {
-        new User(stack, 'User', {
-          authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        new IamUser(stack, 'User', {
           userId,
         });
       }).toThrow(`\`userId\` must be between 1 and 40 characters, got ${userId.length} characters.`);
@@ -145,9 +140,8 @@ describe('ElastiCache User', () => {
       'throws an error if userId is invalid, got %s',
       userId => {
         expect(() => {
-          new User(stack, 'User', {
+          new IamUser(stack, 'User', {
             userId,
-            authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
           });
         }).toThrow(
           `\`userId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${userId}.`,
@@ -157,9 +151,8 @@ describe('ElastiCache User', () => {
 
     test('throws if userId is default', () => {
       expect(() => {
-        new User(stack, 'User', {
+        new IamUser(stack, 'User', {
           userId: 'default',
-          authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
         });
       }).toThrow(
         '`userId` cannot be `default` because ElastiCache automatically configures a default user with user ID `default`.',
@@ -170,8 +163,7 @@ describe('ElastiCache User', () => {
   describe('validateUserName test', () => {
     test.each(['', 'a'.repeat(121)])('throws when userName length is invalid, got %s', userName => {
       expect(() => {
-        new User(stack, 'User', {
-          authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
+        new NoPasswordRequiredUser(stack, 'User', {
           userName,
         });
       }).toThrow(`\`userName\` must be between 1 and 120 characters, got ${userName.length} characters.`);
@@ -179,44 +171,10 @@ describe('ElastiCache User', () => {
 
     test('throws if userName contains spaces', () => {
       expect(() => {
-        new User(stack, 'User', {
+        new NoPasswordRequiredUser(stack, 'User', {
           userName: 'Invalid User Name',
-          authenticationType: AuthenticationType.NO_PASSWORD_REQUIRED,
         });
       }).toThrow('`userName` must not contain spaces. got: Invalid User Name.');
-    });
-  });
-
-  describe('validateAuthenticationSettings test', () => {
-    test('throws when authenticationType is AuthenticationType.Password with no passwords', () => {
-      expect(() => {
-        new User(stack, 'User', {
-          authenticationType: AuthenticationType.PASSWORD,
-        });
-      }).toThrow(
-        'At least one password must be set to `passwords` when `authenticationType` is set to `AuthenticationType.PASSWORD`.',
-      );
-    });
-
-    test('throws when authenticationType is not AuthenticationType.Password with passwords', () => {
-      expect(() => {
-        new User(stack, 'User', {
-          authenticationType: AuthenticationType.IAM,
-          passwords: [SecretValue.unsafePlainText('adminUserPassword123')],
-        });
-      }).toThrow('`passwords` can only be set when `authenticationType` is set to `AuthenticationType.PASSWORD`.');
-    });
-
-    test('throws when authenticationType is  AuthenticationType.IAM and userName and userId are different', () => {
-      expect(() => {
-        new User(stack, 'User', {
-          userId: 'my-user-id',
-          userName: 'my-user-name',
-          authenticationType: AuthenticationType.IAM,
-        });
-      }).toThrow(
-        '`userId` and `userName` must be the same When `authenticationType` is set to `AuthenticationType.IAM`, got userId: my-user-id, userName: my-user-name.',
-      );
     });
   });
 });

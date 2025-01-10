@@ -31,90 +31,6 @@ export interface IUser extends IResource {
    * The name of the user.
    */
   readonly userName: string;
-
-  /**
-   * Grant the given identity the specified actions
-   */
-  grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant;
-
-  /**
-   * Grant the given identity connection access to the cache.
-   */
-  grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant;
-}
-
-/**
- * Authentication type.
- */
-export enum AuthenticationType {
-  /**
-   * Password required.
-   */
-  PASSWORD = 'password',
-
-  /**
-   * No password required.
-   */
-  NO_PASSWORD_REQUIRED = 'no-password-required',
-
-  /**
-   * IAM authentication.
-   */
-  IAM = 'iam',
-}
-
-/**
- * Properties for defining a User.
- */
-export interface UserProps {
-  /**
-   * The username of the user.
-   *
-   * The name can have up to 120 characters, and must not contain spaces.
-   *
-   * \`userId\` and \`userName\` must be same when \`authenticationType\` is set to \`AuthenticationType.IAM\`.
-   *
-   * @default - same value as `userId`
-   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html
-   */
-  readonly userName?: string;
-
-  /**
-   * The ID of the user.
-   *
-   * \`userGroupId\` can have up to 40 characters.
-   *
-   * \`userId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter,
-   * and it can't end with a hyphen or contain two consecutive hyphens.
-   *
-   * \`userId\` and \`userName\` must be same when \`authenticationType\` is set to \`AuthenticationType.IAM\`.
-   *
-   * @default - auto generate
-   */
-  readonly userId?: string;
-
-  /**
-   * Access permissions string used for this user.
-   *
-   * @default - 'off -@all'
-   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Access-string
-   */
-  readonly accessString?: string;
-
-  /**
-   * Specifies the authentication type.
-   */
-  readonly authenticationType: AuthenticationType;
-
-  /**
-   * Passwords used for this user account.
-   * You can create up to two passwords for each user.
-   *
-   * You must set at least one password when `authenticatipnType` is set to `AuthenticationType.PASSWORD`
-   *
-   * @default - no passwords for this user
-   */
-  readonly passwords?: SecretValue[];
 }
 
 /**
@@ -132,7 +48,27 @@ export interface UserAttributes {
 }
 
 /**
- * A new or imported User.
+ * Base properties for all user types
+ */
+export interface UserPropsBase {
+  /**
+   * The ID of the user.
+   * Must consist only of alphanumeric characters or hyphens, with the first character as a letter.
+   * Cannot end with a hyphen or contain two consecutive hyphens.
+   * @default - auto generated
+   */
+  readonly userId?: string;
+
+  /**
+   * Access permissions string used for this user.
+   * @default - 'off -@all'
+   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Access-string
+   */
+  readonly accessString?: string;
+}
+
+/**
+ * Base class for all user types
  */
 abstract class UserBase extends Resource implements IUser {
   /**
@@ -165,6 +101,113 @@ abstract class UserBase extends Resource implements IUser {
    * The name of the user.
    */
   public abstract readonly userName: string;
+
+  protected validateUserId(userId: string | undefined): void {
+    if (Token.isUnresolved(userId) || userId === undefined) {
+      return;
+    }
+
+    if (userId.length < 1 || userId.length > 40) {
+      throw new Error(`\`userId\` must be between 1 and 40 characters, got ${userId.length} characters.`);
+    }
+
+    if (userId === 'default') {
+      throw new Error(
+        '`userId` cannot be `default` because ElastiCache automatically configures a default user with user ID `default`.',
+      );
+    }
+
+    if (!/^[A-Za-z][A-Za-z0-9]*(-[A-Za-z0-9]+)*$/.test(userId)) {
+      throw new Error(
+        `\`userId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${userId}.`,
+      );
+    }
+  }
+
+  /**
+   * Validates user name.
+   */
+  protected validateUserName(userName: string | undefined): void {
+    if (Token.isUnresolved(userName) || userName === undefined) {
+      return;
+    }
+
+    if (userName.length < 1 || userName.length > 120) {
+      throw new Error(`\`userName\` must be between 1 and 120 characters, got ${userName.length} characters.`);
+    }
+
+    if (/\s/.test(userName)) {
+      throw new Error(`\`userName\` must not contain spaces. got: ${userName}.`);
+    }
+  }
+
+  protected createResource(scope: Construct, id: string, props: aws_elasticache.CfnUserProps): aws_elasticache.CfnUser {
+    return new aws_elasticache.CfnUser(scope, id, props);
+  }
+}
+
+/**
+ * Properties for IAM authentication users
+ */
+export interface IamUserProps extends UserPropsBase {}
+
+/**
+ * Represents an IAM authentication user construct in AWS CDK.
+ *
+ * @example
+ *
+ * const user = new IamUser(
+ *   stack,
+ *   'User',
+ *   {
+ *     accessString: 'on ~* +@all',
+ *   },
+ * );
+ */
+export class IamUser extends UserBase {
+  /**
+   * The ARN of the user.
+   */
+  readonly userArn: string;
+
+  /**
+   * The ID of the user.
+   */
+  readonly userId: string;
+
+  /**
+   * The name of the user.
+   */
+  readonly userName: string;
+
+  private readonly props: IamUserProps;
+
+  constructor(scope: Construct, id: string, props: IamUserProps = {}) {
+    super(scope, id, {
+      physicalName:
+        props.userId ??
+        Lazy.string({
+          produce: () => Names.uniqueResourceName(this, { separator: '-', maxLength: 40 }).toLowerCase(),
+        }),
+    });
+    this.props = props;
+
+    this.validateUserId(this.props.userId);
+
+    const user = this.createResource(this, 'Resource', {
+      engine: Engine.REDIS,
+      userId: this.physicalName,
+      userName: this.physicalName, // For IAM users, userName must equal userId
+      accessString: this.props.accessString ?? 'off -@all',
+      authenticationMode: {
+        Type: 'iam',
+      },
+    });
+
+    this.userArn = user.attrArn;
+    this.userId = user.ref;
+    this.userName = user.userName;
+  }
 
   /**
    * Grant the given identity the specified actions
@@ -202,19 +245,39 @@ abstract class UserBase extends Resource implements IUser {
 }
 
 /**
- * Represents a User construct in AWS CDK.
+ * Properties for password-authenticated users
+ */
+export interface PasswordUserProps extends UserPropsBase {
+  /**
+   * The username of the user.
+   * @default - same as userId
+   */
+  readonly userName?: string;
+
+  /**
+   * Passwords used for this user account.
+   * You can create up to two passwords for each user.
+   */
+  readonly passwords: SecretValue[];
+}
+
+/**
+ * Represents a password authentication user construct in AWS CDK.
  *
  * @example
  *
- * const user = new User(
+ * const user = new PasswordUser(
  *   stack,
  *   'User',
  *   {
- *     authenticationType: AuthenticationType.IAM,
+ *    passwords: [
+ *      cdk.SecretValue.unsafePlainText('exampleUserPassword123'),
+ *      cdk.SecretValue.unsafePlainText('anotherUserPassword123'),
+ *    ],
  *   },
  * );
  */
-export class User extends UserBase implements IUser {
+export class PasswordUser extends UserBase {
   /**
    * The ARN of the user.
    */
@@ -230,9 +293,9 @@ export class User extends UserBase implements IUser {
    */
   readonly userName: string;
 
-  private readonly props: UserProps;
+  private readonly props: PasswordUserProps;
 
-  constructor(scope: Construct, id: string, props: UserProps) {
+  constructor(scope: Construct, id: string, props: PasswordUserProps) {
     super(scope, id, {
       physicalName:
         props.userId ??
@@ -240,121 +303,102 @@ export class User extends UserBase implements IUser {
           produce: () => Names.uniqueResourceName(this, { separator: '-', maxLength: 40 }).toLowerCase(),
         }),
     });
+
     this.props = props;
 
-    this.validateUserId();
-    this.validateUserName();
-    this.validateAuthenticationSettings();
+    if (!this.props.passwords || this.props.passwords.length === 0) {
+      throw new Error('At least one password must be provided for password authentication');
+    }
+
+    this.validateUserId(this.props.userId);
+    this.validateUserName(this.props.userName);
 
     const user = this.createResource(this, 'Resource', {
       engine: Engine.REDIS,
       userId: this.physicalName,
       userName: this.props.userName ?? this.physicalName,
       accessString: this.props.accessString ?? 'off -@all',
-      authenticationMode: this.renderAuthenticationMode(),
+      authenticationMode: {
+        Type: 'password',
+        Passwords: this.props.passwords.map(password => password.unsafeUnwrap()),
+      },
     });
 
     this.userArn = user.attrArn;
     this.userId = user.ref;
     this.userName = user.userName;
   }
+}
 
-  protected createResource(scope: Construct, id: string, props: aws_elasticache.CfnUserProps): aws_elasticache.CfnUser {
-    return new aws_elasticache.CfnUser(scope, id, props);
-  }
+/**
+ * Properties for users that don't require authentication
+ */
+export interface NoPasswordRequiredUserProps extends UserPropsBase {
+  /**
+   * The username of the user.
+   * @default - same as userId
+   */
+  readonly userName?: string;
+}
+
+/**
+ * Represents a no password required user construct in AWS CDK.
+ *
+ * @example
+ *
+ * const user = new NoPasswordRequiredUser(
+ *   stack,
+ *   'User',
+ *   {
+ *     userName: 'my-user,
+ *     accessString: 'on ~* +@all',
+ *   },
+ * );
+ */
+export class NoPasswordRequiredUser extends UserBase {
+  /**
+   * The ARN of the user.
+   */
+  readonly userArn: string;
 
   /**
-   * Render `authenticationMode` property.
-   *
-   * @see https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_elasticache.CfnUser.html#authenticationmode
+   * The ID of the user.
    */
-  protected renderAuthenticationMode(): { [key: string]: any } {
-    const authenticationMode: { Type: string; Passwords?: string[] } = {
-      Type: this.props.authenticationType,
-    };
-
-    if (this.props.passwords) {
-      authenticationMode.Passwords = this.props.passwords.map(password => password.unsafeUnwrap());
-    }
-
-    return authenticationMode;
-  }
+  readonly userId: string;
 
   /**
-   * Validates user id.
+   * The name of the user.
    */
-  private validateUserId(): void {
-    const userId = this.props.userId;
-    if (Token.isUnresolved(userId) || userId === undefined) {
-      return;
-    }
+  readonly userName: string;
 
-    if (userId.length < 1 || userId.length > 40) {
-      throw new Error(`\`userId\` must be between 1 and 40 characters, got ${userId.length} characters.`);
-    }
+  private readonly props: NoPasswordRequiredUserProps;
 
-    if (userId === 'default') {
-      throw new Error(
-        '`userId` cannot be `default` because ElastiCache automatically configures a default user with user ID `default`.',
-      );
-    }
+  constructor(scope: Construct, id: string, props: NoPasswordRequiredUserProps = {}) {
+    super(scope, id, {
+      physicalName:
+        props.userId ??
+        Lazy.string({
+          produce: () => Names.uniqueResourceName(this, { separator: '-', maxLength: 40 }).toLowerCase(),
+        }),
+    });
 
-    if (!/^[A-Za-z][A-Za-z0-9]*(-[A-Za-z0-9]+)*$/.test(userId)) {
-      throw new Error(
-        `\`userId\` must consist only of alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${userId}.`,
-      );
-    }
-  }
+    this.props = props;
 
-  /**
-   * Validates user name.
-   */
-  private validateUserName(): void {
-    const userName = this.props.userName;
-    if (Token.isUnresolved(userName) || userName === undefined) {
-      return;
-    }
+    this.validateUserId(this.props.userId);
+    this.validateUserName(this.props.userName);
 
-    if (userName.length < 1 || userName.length > 120) {
-      throw new Error(`\`userName\` must be between 1 and 120 characters, got ${userName.length} characters.`);
-    }
+    const user = this.createResource(this, 'Resource', {
+      engine: Engine.REDIS,
+      userId: this.physicalName,
+      userName: this.props.userName ?? this.physicalName,
+      accessString: this.props.accessString ?? 'off -@all',
+      authenticationMode: {
+        Type: 'no-password-required',
+      },
+    });
 
-    if (/\s/.test(userName)) {
-      throw new Error(`\`userName\` must not contain spaces. got: ${userName}.`);
-    }
-  }
-
-  /**
-   * Validates authentication settings.
-   */
-  private validateAuthenticationSettings(): void {
-    const authenticationType = this.props.authenticationType;
-    const passwords = this.props.passwords;
-    const userId = this.props.userId;
-    const userName = this.props.userName;
-
-    if (authenticationType === AuthenticationType.PASSWORD && !passwords) {
-      throw new Error(
-        'At least one password must be set to `passwords` when `authenticationType` is set to `AuthenticationType.PASSWORD`.',
-      );
-    }
-
-    if (authenticationType !== AuthenticationType.PASSWORD && passwords) {
-      throw new Error('`passwords` can only be set when `authenticationType` is set to `AuthenticationType.PASSWORD`.');
-    }
-
-    if (
-      Token.isUnresolved(userId) ||
-      Token.isUnresolved(userName) ||
-      (userId === undefined && userName === undefined)
-    ) {
-      return;
-    }
-
-    if (authenticationType === AuthenticationType.IAM && userId !== userName) {
-      throw new Error(
-        `\`userId\` and \`userName\` must be the same When \`authenticationType\` is set to \`AuthenticationType.IAM\`, got userId: ${userId}, userName: ${userName}.`,
-      );
-    }
+    this.userArn = user.attrArn;
+    this.userId = user.ref;
+    this.userName = user.userName;
   }
 }
