@@ -182,7 +182,7 @@ abstract class UserBase extends Resource implements IUser {
     }
 
     if (/\s/.test(userName)) {
-      throw new Error(`\`userName\` must not contain spaces. got: ${userName}.`);
+      throw new Error(`\`userName\` must not contain spaces, got: ${userName}.`);
     }
   }
 }

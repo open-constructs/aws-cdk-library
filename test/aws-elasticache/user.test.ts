@@ -174,7 +174,7 @@ describe('ElastiCache User', () => {
         new NoPasswordRequiredUser(stack, 'User', {
           userName: 'Invalid User Name',
         });
-      }).toThrow('`userName` must not contain spaces. got: Invalid User Name.');
+      }).toThrow('`userName` must not contain spaces, got: Invalid User Name.');
     });
   });
 });

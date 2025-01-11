@@ -200,7 +200,7 @@ export interface ServerlessCacheAttributes {
 /**
  * A new or imported serverless cache.
  */
-abstract class SeverlessCacheBase extends Resource implements IServerlessCache {
+abstract class ServerlessCacheBase extends Resource implements IServerlessCache {
   /**
    * Imports an existing ServerlessCache from attributes
    */
@@ -209,7 +209,7 @@ abstract class SeverlessCacheBase extends Resource implements IServerlessCache {
     id: string,
     attrs: ServerlessCacheAttributes,
   ): IServerlessCache {
-    class Import extends SeverlessCacheBase implements IServerlessCache {
+    class Import extends ServerlessCacheBase implements IServerlessCache {
       public readonly serverlessCacheName = attrs.serverlessCacheName;
       public readonly endpointAddress = attrs.endpointAddress;
       public readonly endpointPort = attrs.endpointPort;
@@ -285,7 +285,7 @@ abstract class SeverlessCacheBase extends Resource implements IServerlessCache {
   }
 
   /**
-   * Create a CloudWatch metric for severless cache.
+   * Create a CloudWatch metric for serverless cache.
    *
    * @param metricName name of the metric.
    * @param props metric options.
@@ -339,21 +339,21 @@ abstract class SeverlessCacheBase extends Resource implements IServerlessCache {
  *   },
  * );
  */
-export class ServerlessCache extends SeverlessCacheBase implements IServerlessCache {
+export class ServerlessCache extends ServerlessCacheBase implements IServerlessCache {
   /**
-   * The serverless cache ARN
+   * The serverless cache ARN.
    */
   readonly serverlessCacheArn: string;
   /**
-   * The serverless cache name
+   * The serverless cache name.
    */
   readonly serverlessCacheName: string;
   /**
-   * The DNS hostname of the cache node
+   * The DNS hostname of the cache node.
    */
   readonly endpointAddress: string;
   /**
-   * The port number that the cache engine is listening on
+   * The port number that the cache engine is listening on.
    */
   readonly endpointPort: number;
 

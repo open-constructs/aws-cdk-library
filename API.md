@@ -2926,7 +2926,7 @@ new aws_elasticache.ServerlessCache(scope: Construct, id: string, props: Serverl
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.grant">grant</a></code> | Grant the given identity the specified actions. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.grantConnect">grantConnect</a></code> | Permits an IAM principal to perform connect to the serverless cache. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metric">metric</a></code> | Create a CloudWatch metric for severless cache. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metric">metric</a></code> | Create a CloudWatch metric for serverless cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metricBytesUsedForCache">metricBytesUsedForCache</a></code> | Metric for the total number of bytes used by the data stored in your cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.metricElastiCacheProcessingUnits">metricElastiCacheProcessingUnits</a></code> | Metric for the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache. |
 
@@ -3014,7 +3014,7 @@ The principal to grant access to.
 public metric(metricName: string, props?: MetricOptions): Metric
 ```
 
-Create a CloudWatch metric for severless cache.
+Create a CloudWatch metric for serverless cache.
 
 > [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events.memcached.html](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events.memcached.html)
 
@@ -3299,7 +3299,7 @@ const userGroup = new UserGroup(
   stack,
   'UserGroup',
   {
-     user: [user],
+     users: [user],
   },
 );
 ```

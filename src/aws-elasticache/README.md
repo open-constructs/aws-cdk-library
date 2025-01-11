@@ -78,7 +78,7 @@ const user = PasswordUser(this, 'User', {
 });
 ```
 
-Also you can create a no password required user by using `NoPasswordRequiredUser` construct:
+You can also create a no password required user by using `NoPasswordRequiredUser` construct:
 
 ```ts
 const user = NoPasswordRequiredUser(this, 'User', {
@@ -93,13 +93,13 @@ const user = NoPasswordRequiredUser(this, 'User', {
 });
 ```
 
-ElastiCache automatically configures a default user with user ID and user name `default` and adds it to all user groups.
+ElastiCache automatically configures a default user with user ID and username `default` and adds it to all user groups.
 You can't modify or delete this user.
 
 This user is intended for compatibility with the default behavior of previous Redis OSS versions and has an access string that permits it to call all commands and access all keys.
 
 To add proper access control to a cache, replace this default user with a new one that isn't enabled or uses a strong password.
-To change the default user, create a new user with the user name set to `default`. You can then swap it with the original default user.
+To change the default user, create a new user with the username set to `default`. You can then swap it with the original default user.
 
 For more information, see [Applying RBAC to a Cache for ElastiCache with Valkey or Redis OSS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#rbac-using).
 
@@ -107,7 +107,7 @@ If you want to create new default user, `userName` must be `default` and `userId
 
 ```ts
 const newDefaultUser = NoPasswordRequiredUser(this, 'NewDefaultUser', {
-  // default user name must be 'default'
+  // default username must be 'default'
   userName: 'default',
   // new default user id must not be 'default'
   userId: 'new-default'

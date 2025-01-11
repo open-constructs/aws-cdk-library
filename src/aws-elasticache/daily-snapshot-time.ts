@@ -60,10 +60,10 @@ export class DailySnapshotTime {
    */
   private validate(hour: number, minute: number) {
     if (!Number.isInteger(hour) || hour < 0 || hour > 23) {
-      throw new Error(`dailySnapshotTime hour must be an integer between 0 and 24. received: ${hour}`);
+      throw new Error(`dailySnapshotTime hour must be an integer between 0 and 23, got: ${hour}`);
     }
     if (!Number.isInteger(minute) || minute < 0 || minute > 59) {
-      throw new Error(`dailySnapshotTime minute must be an integer between 0 and 59. received: ${minute}`);
+      throw new Error(`dailySnapshotTime minute must be an integer between 0 and 59, got: ${minute}`);
     }
   }
 }

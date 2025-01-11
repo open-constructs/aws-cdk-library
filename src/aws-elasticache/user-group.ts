@@ -63,7 +63,7 @@ export interface UserGroupAttributes {
  *   stack,
  *   'UserGroup',
  *   {
- *      user: [user],
+ *      users: [user],
  *   },
  * );
  */
@@ -110,7 +110,7 @@ export class UserGroup extends Resource implements IUserGroup {
         }),
     });
     this.props = props;
-    this.users = this.props.users ?? [];
+    this.users = this.props.users;
 
     this.validateUserGroupId();
     this.node.addValidation({ validate: () => this.validateDefaultUser() });
@@ -158,14 +158,14 @@ export class UserGroup extends Resource implements IUserGroup {
    * Validates default user.
    */
   private validateDefaultUser(): string[] {
-    const userNamelist = this.users.map(user => user.userName);
+    const userNameList = this.users.map(user => user.userName);
 
-    if (userNamelist.some(userName => Token.isUnresolved(userName))) {
+    if (userNameList.some(userName => Token.isUnresolved(userName))) {
       return [];
     }
     const errors: string[] = [];
 
-    if (!userNamelist.includes('default')) {
+    if (!userNameList.includes('default')) {
       errors.push('A user with the username `default` must be included in `users`.');
     }
 
@@ -176,16 +176,16 @@ export class UserGroup extends Resource implements IUserGroup {
    * Validates that there are no duplicate usernames in the user group
    */
   private validateDuplicateUsernames(): string[] {
-    const userNamelist = this.users.map(user => user.userName);
+    const userNameList = this.users.map(user => user.userName);
 
-    if (userNamelist.some(username => Token.isUnresolved(username))) {
+    if (userNameList.some(username => Token.isUnresolved(username))) {
       return [];
     }
 
     const seenUsernames = new Set<string>();
     const errors: string[] = [];
 
-    for (const username of userNamelist) {
+    for (const username of userNameList) {
       if (seenUsernames.has(username)) {
         errors.push(
           `Duplicate username found in user group: \`${username}\` is duplicated. Each username must be unique within a user group.`,
