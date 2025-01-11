@@ -4,8 +4,8 @@ Constructs for the Amazon ElastiCache
 
 This module has constructs for [Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/WhatIs.html).
 
-* The `User` and `UserGroup` construct facliatates the creation and mangement of user for cache.
-* The `ServerlessCache` construct facilitates the creation and management of Serverless Cache.
+* The `User` and `UserGroup` construct facilitates the creation and management of user for the cache.
+* The `ServerlessCache` construct facilitates the creation and management of serverless cache.
 
 ## Basic Usage for user and user group
 
@@ -23,7 +23,7 @@ const userGroup = new UserGroup(this, 'UserGroup', {
 
 ### RBAC
 
-From Valkey 7.2 and onward and Redis OSS 6.0 onwards, you can use a feature called Role-Based Access Control (RBAC). RBAC is also the only way to control access to serverless caches.
+In Valkey 7.2 and onward and Redis OSS 6.0 onward you can use a feature called Role-Based Access Control (RBAC). RBAC is also the only way to control access to serverless caches.
 
 RBAC enables you to control cache access through user groups. These user groups are designed as a way to organize access to caches.
 
@@ -43,7 +43,7 @@ With RBAC, you create users and assign them specific permissions by using `acces
 
 For more information, see [Specifying Permissions Using an Access String](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Access-string).
 
-You can create an IAM authentication user by using `IamUser` construct:
+You can create an IAM-enabled user by using `IamUser` construct:
 
 ```ts
 const user = IamUser(this, 'User', {
@@ -55,9 +55,9 @@ const user = IamUser(this, 'User', {
 });
 ```
 
-> NOTE: You can't set username in `IamUser` construct because IAM authenticated users must have matching user id and username. The construct automatically sets the username to be the same as the user id.
+> NOTE: You can't set username in `IamUser` construct because IAM-enabled users must have matching user id and username. For more information, see [Limitations](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html). The construct automatically sets the username to be the same as the user id.
 
-If you want create a password authenticated user, use `PasswordUser` construct:
+If you want to create a password authenticated user, use `PasswordUser` construct:
 
 ```ts
 const user = PasswordUser(this, 'User', {
@@ -114,7 +114,7 @@ const newDefaultUser = NoPasswordRequiredUser(this, 'NewDefaultUser', {
 });
 ```
 
-> NOTE: You can't create a new default user using `IamUser` because an IAM authenticated user's username and user ID cannot be different.
+> NOTE: You can't create a new default user using `IamUser` because an IAM-enabled user's username and user ID cannot be different.
 
 ### Add users to the user group
 
@@ -151,13 +151,13 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
 
 ```
 
-### Grant permissions to use IAM authentication
+### Grant permissions to IAM-enabled users
 
-If you use IAM authentication, `“elasticache:Connect”` action must be allowed for user and cache.
+If you create IAM-enabled users, `“elasticache:Connect”` action must be allowed for user and cache.
 
 For more information, see [Authenticating with IAM]((https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)).
 
-For grant permissions, you can use `grantConnect` method in `IamUser` and `ServerlessCache` Construct:
+To grant permissions, you can use the `grantConnect` method in `IamUser` and `ServerlessCache` constructs:
 
 ```ts
 declare const user: IamUser;
@@ -166,12 +166,12 @@ declare const role: iam.Role;
 
 // grant “elasticache:Connect” action permissions to Role
 user.grantConnect(role);
-serverlessCache.grantConncet(role);
+serverlessCache.grantConnect(role);
 ```
 
 ### Import an existing user and user group
 
-To import an existing user and user group, use the `fromUserAttributes` method for user and `fromUserGroupId` method for user group:
+To import an existing user and user group, use the `fromUserAttributes` method for users and `fromUserGroupId` method for user groups:
 
 ```ts
 const importedUser = IamUser.fromUserAttributes(this, 'ImportedUser', { userId: 'my-user-id', userName: 'my-user-name' });
@@ -185,7 +185,7 @@ Setup required properties and create:
 ```ts
 declare const vpc: ec2.Vpc;
 
-const servlerlessCache = new ServerlessCache(this, 'ServerlessCache', {
+const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   engine: Engine.VALKEY,
   vpc,
   majorEngineVersion: MajorVersion.VER_8,
@@ -194,9 +194,9 @@ const servlerlessCache = new ServerlessCache(this, 'ServerlessCache', {
 
 ### Connecting to serverless cache
 
-To control who can access the serveless cache by the security groups, use the `.connections` attribute.
+To control who can access the serverless cache by the security groups, use the `.connections` attribute.
 
-serverless cache have a defult port `6379`.
+serverless cache have a default port `6379`.
 
 This example allows an EC2 instance to connect to the serverless cache:
 
@@ -208,13 +208,13 @@ declare const instance: ec2.Instance;
 serverlessCache.connections.allowDefaultPortFrom(instance);
 ```
 
-The endpoint and the port to access your serveless cache will be available as the `.endpointAddress` and `.endpointPort` attributes:
+The endpoint and the port to access your serverless cache will be available as the `.endpointAddress` and `.endpointPort` attributes:
 
 ```ts
 declare const serverlessCache: ServerlessCache;
 
 const endpointAddress = serverlessCache.endpointAddress;
-const endpointPort = serverlessCahge.endpointPort;
+const endpointPort = serverlessCache.endpointPort;
 ```
 
 ### Snapshots and restore
@@ -271,13 +271,13 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
 });
 ```
 
-### Cutomer Managed Key for encryption at rest
+### Customer Managed Key for encryption at rest
 
 ElastiCache supports symmetric Customer Managed key (CMK) for encryption at rest.
 
 For more information, see [Using customer managed keys from AWS KMS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/at-rest-encryption.html#using-customer-managed-keys-for-elasticache-security).
 
-To use CMK, set your CMK to `kmstKey` propety:
+To use CMK, set your CMK to the `kmsKey` property:
 
 ```ts
 declare const kmsKey: kms.Key;
@@ -286,7 +286,7 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   engine: Engine.VALKEY,
   serverlessCacheName: 'my-serverless-cache',
   vpc,
-  // set Cutomer Managed Key
+  // set Customer Managed Key
   kmsKey,
   majorEngineVersion: MajorVersion.VER_8,
 });
@@ -296,7 +296,7 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
 
 You can monitor your serverless cache using CloudWatch Metrics via the `metric` method.
 
-For more infomation about serverless cache metrics, see [Serverless metrics and events for Valkey and Redis OSS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events-redis.html) and [Serverless metrics and events for Memcached](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events.memcached.html).
+For more information about serverless cache metrics, see [Serverless metrics and events for Valkey and Redis OSS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events-redis.html) and [Serverless metrics and events for Memcached](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/serverless-metrics-events.memcached.html).
 
 ```ts
 declare const serverlessCache: ServerlessCache;

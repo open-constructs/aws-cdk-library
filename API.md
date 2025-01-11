@@ -1588,7 +1588,7 @@ const user = new NoPasswordRequiredUser(
   stack,
   'User',
   {
-    userName: 'my-user,
+    userName: 'my-user',
     accessString: 'on ~* +@all',
   },
 );
