@@ -657,7 +657,7 @@ The AWS KMS encryption key associated with this domain, if any.
 
 - *Implements:* @open-constructs/aws-cdk.aws_elasticache.IUser
 
-Represents an IAM authentication user construct in AWS CDK.
+Represents an IAM-enabled user construct in AWS CDK.
 
 *Example*
 
@@ -4221,7 +4221,7 @@ The key used to encrypt the Domain.
 
 ### IamUserProps <a name="IamUserProps" id="@open-constructs/aws-cdk.aws_elasticache.IamUserProps"></a>
 
-Properties for IAM authentication users.
+Properties for IAM-enabled users.
 
 #### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.IamUserProps.Initializer"></a>
 

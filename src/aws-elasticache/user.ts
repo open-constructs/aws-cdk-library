@@ -75,7 +75,7 @@ abstract class UserBase extends Resource implements IUser {
    * Imports an existing User from attributes
    */
   public static fromUserAttributes(scope: Construct, id: string, attrs: UserAttributes): IUser {
-    class Import extends UserBase implements IUser {
+    class Import extends Resource implements IUser {
       public readonly userId = attrs.userId;
       public readonly userName = attrs.userName;
       public readonly userArn = Stack.of(this).formatArn({
@@ -90,17 +90,17 @@ abstract class UserBase extends Resource implements IUser {
   /**
    * The ARN of the user.
    */
-  public abstract readonly userArn: string;
+  public readonly userArn: string;
 
   /**
    * The ID of the user.
    */
-  public abstract readonly userId: string;
+  public readonly userId: string;
 
   /**
    * The name of the user.
    */
-  public abstract readonly userName: string;
+  public readonly userName: string;
 
   protected readonly props: UserBaseProps;
 
@@ -112,10 +112,41 @@ abstract class UserBase extends Resource implements IUser {
           produce: () => Names.uniqueResourceName(scope, { separator: '-', maxLength: 40 }).toLowerCase(),
         }),
     });
+
     this.props = props;
+
     this.validateUserId(props.userId);
+
+    const user = this.createResource(this, 'Resource', {
+      engine: Engine.REDIS,
+      userId: this.physicalName,
+      userName: this.renderUserName(),
+      accessString: this.props.accessString ?? 'off -@all',
+      authenticationMode: this.renderAuthenticationMode(),
+    });
+
+    this.userArn = user.attrArn;
+    this.userId = user.ref;
+    this.userName = user.userName;
   }
 
+  protected createResource(scope: Construct, id: string, props: aws_elasticache.CfnUserProps): aws_elasticache.CfnUser {
+    return new aws_elasticache.CfnUser(scope, id, props);
+  }
+
+  /**
+   * Render userName property
+   */
+  protected abstract renderUserName(): string;
+
+  /**
+   * Render authenticationMode property
+   */
+  protected abstract renderAuthenticationMode(): any;
+
+  /**
+   * Validates user id.
+   */
   protected validateUserId(userId: string | undefined): void {
     if (Token.isUnresolved(userId) || userId === undefined) {
       return;
@@ -139,7 +170,7 @@ abstract class UserBase extends Resource implements IUser {
   }
 
   /**
-   * Validates user name.
+   * Validates username.
    */
   protected validateUserName(userName: string | undefined): void {
     if (Token.isUnresolved(userName) || userName === undefined) {
@@ -154,19 +185,15 @@ abstract class UserBase extends Resource implements IUser {
       throw new Error(`\`userName\` must not contain spaces. got: ${userName}.`);
     }
   }
-
-  protected createResource(scope: Construct, id: string, props: aws_elasticache.CfnUserProps): aws_elasticache.CfnUser {
-    return new aws_elasticache.CfnUser(scope, id, props);
-  }
 }
 
 /**
- * Properties for IAM authentication users
+ * Properties for IAM-enabled users
  */
 export interface IamUserProps extends UserBaseProps {}
 
 /**
- * Represents an IAM authentication user construct in AWS CDK.
+ * Represents an IAM-enabled user construct in AWS CDK.
  *
  * @example
  *
@@ -179,37 +206,23 @@ export interface IamUserProps extends UserBaseProps {}
  * );
  */
 export class IamUser extends UserBase {
-  /**
-   * The ARN of the user.
-   */
-  readonly userArn: string;
-
-  /**
-   * The ID of the user.
-   */
-  readonly userId: string;
-
-  /**
-   * The name of the user.
-   */
-  readonly userName: string;
-
   constructor(scope: Construct, id: string, props: IamUserProps = {}) {
     super(scope, id, props);
+  }
 
-    const user = this.createResource(this, 'Resource', {
-      engine: Engine.REDIS,
-      userId: this.physicalName,
-      userName: this.physicalName, // For IAM users, userName must equal userId
-      accessString: this.props.accessString ?? 'off -@all',
-      authenticationMode: {
-        Type: 'iam',
-      },
-    });
+  /**
+   * For IAM-enabled ElastiCache users the username and user id properties must be identical.
+   *
+   * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html
+   */
+  protected renderUserName(): string {
+    return this.physicalName;
+  }
 
-    this.userArn = user.attrArn;
-    this.userId = user.ref;
-    this.userName = user.userName;
+  protected renderAuthenticationMode(): any {
+    return {
+      Type: 'iam',
+    };
   }
 
   /**
@@ -281,21 +294,6 @@ export interface PasswordUserProps extends UserBaseProps {
  * );
  */
 export class PasswordUser extends UserBase {
-  /**
-   * The ARN of the user.
-   */
-  readonly userArn: string;
-
-  /**
-   * The ID of the user.
-   */
-  readonly userId: string;
-
-  /**
-   * The name of the user.
-   */
-  readonly userName: string;
-
   constructor(scope: Construct, id: string, props: PasswordUserProps) {
     super(scope, id, props);
 
@@ -304,21 +302,17 @@ export class PasswordUser extends UserBase {
     }
 
     this.validateUserName(props.userName);
+  }
 
-    const user = this.createResource(this, 'Resource', {
-      engine: Engine.REDIS,
-      userId: this.physicalName,
-      userName: props.userName ?? this.physicalName,
-      accessString: this.props.accessString ?? 'off -@all',
-      authenticationMode: {
-        Type: 'password',
-        Passwords: props.passwords.map(password => password.unsafeUnwrap()),
-      },
-    });
+  protected renderUserName(): string {
+    return (this.props as PasswordUserProps).userName ?? this.physicalName;
+  }
 
-    this.userArn = user.attrArn;
-    this.userId = user.ref;
-    this.userName = user.userName;
+  protected renderAuthenticationMode(): any {
+    return {
+      Type: 'password',
+      Passwords: (this.props as PasswordUserProps).passwords.map(password => password.unsafeUnwrap()),
+    };
   }
 }
 
@@ -342,44 +336,25 @@ export interface NoPasswordRequiredUserProps extends UserBaseProps {
  *   stack,
  *   'User',
  *   {
- *     userName: 'my-user,
+ *     userName: 'my-user',
  *     accessString: 'on ~* +@all',
  *   },
  * );
  */
 export class NoPasswordRequiredUser extends UserBase {
-  /**
-   * The ARN of the user.
-   */
-  readonly userArn: string;
-
-  /**
-   * The ID of the user.
-   */
-  readonly userId: string;
-
-  /**
-   * The name of the user.
-   */
-  readonly userName: string;
-
   constructor(scope: Construct, id: string, props: NoPasswordRequiredUserProps = {}) {
     super(scope, id, props);
 
     this.validateUserName(props.userName);
+  }
 
-    const user = this.createResource(this, 'Resource', {
-      engine: Engine.REDIS,
-      userId: this.physicalName,
-      userName: props.userName ?? this.physicalName,
-      accessString: this.props.accessString ?? 'off -@all',
-      authenticationMode: {
-        Type: 'no-password-required',
-      },
-    });
+  protected renderUserName(): string {
+    return (this.props as NoPasswordRequiredUserProps).userName ?? this.physicalName;
+  }
 
-    this.userArn = user.attrArn;
-    this.userId = user.ref;
-    this.userName = user.userName;
+  protected renderAuthenticationMode(): any {
+    return {
+      Type: 'no-password-required',
+    };
   }
 }

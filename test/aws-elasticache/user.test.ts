@@ -24,7 +24,7 @@ describe('ElastiCache User', () => {
     });
   });
 
-  test('Create an IAM Authentication user', () => {
+  test('Create an IAM-enabled user', () => {
     new IamUser(stack, 'User', {
       accessString: 'on ~* +@all',
       userId: 'my-user',
