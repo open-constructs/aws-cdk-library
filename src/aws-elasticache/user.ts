@@ -50,7 +50,7 @@ export interface UserAttributes {
 /**
  * Base properties for all user types
  */
-interface UserBaseProps {
+export interface UserBaseProps {
   /**
    * The ID of the user.
    * Must consist only of alphanumeric characters or hyphens, with the first character as a letter.
@@ -101,6 +101,20 @@ abstract class UserBase extends Resource implements IUser {
    * The name of the user.
    */
   public abstract readonly userName: string;
+
+  protected readonly props: UserBaseProps;
+
+  protected constructor(scope: Construct, id: string, props: UserBaseProps = {}) {
+    super(scope, id, {
+      physicalName:
+        props.userId ??
+        Lazy.string({
+          produce: () => Names.uniqueResourceName(scope, { separator: '-', maxLength: 40 }).toLowerCase(),
+        }),
+    });
+    this.props = props;
+    this.validateUserId(props.userId);
+  }
 
   protected validateUserId(userId: string | undefined): void {
     if (Token.isUnresolved(userId) || userId === undefined) {
@@ -180,19 +194,8 @@ export class IamUser extends UserBase {
    */
   readonly userName: string;
 
-  private readonly props: IamUserProps;
-
   constructor(scope: Construct, id: string, props: IamUserProps = {}) {
-    super(scope, id, {
-      physicalName:
-        props.userId ??
-        Lazy.string({
-          produce: () => Names.uniqueResourceName(this, { separator: '-', maxLength: 40 }).toLowerCase(),
-        }),
-    });
-    this.props = props;
-
-    this.validateUserId(this.props.userId);
+    super(scope, id, props);
 
     const user = this.createResource(this, 'Resource', {
       engine: Engine.REDIS,
@@ -293,34 +296,23 @@ export class PasswordUser extends UserBase {
    */
   readonly userName: string;
 
-  private readonly props: PasswordUserProps;
-
   constructor(scope: Construct, id: string, props: PasswordUserProps) {
-    super(scope, id, {
-      physicalName:
-        props.userId ??
-        Lazy.string({
-          produce: () => Names.uniqueResourceName(this, { separator: '-', maxLength: 40 }).toLowerCase(),
-        }),
-    });
+    super(scope, id, props);
 
-    this.props = props;
-
-    if (!this.props.passwords || this.props.passwords.length === 0) {
+    if (!props.passwords || props.passwords.length === 0) {
       throw new Error('At least one password must be provided for password authentication');
     }
 
-    this.validateUserId(this.props.userId);
-    this.validateUserName(this.props.userName);
+    this.validateUserName(props.userName);
 
     const user = this.createResource(this, 'Resource', {
       engine: Engine.REDIS,
       userId: this.physicalName,
-      userName: this.props.userName ?? this.physicalName,
+      userName: props.userName ?? this.physicalName,
       accessString: this.props.accessString ?? 'off -@all',
       authenticationMode: {
         Type: 'password',
-        Passwords: this.props.passwords.map(password => password.unsafeUnwrap()),
+        Passwords: props.passwords.map(password => password.unsafeUnwrap()),
       },
     });
 
@@ -371,26 +363,15 @@ export class NoPasswordRequiredUser extends UserBase {
    */
   readonly userName: string;
 
-  private readonly props: NoPasswordRequiredUserProps;
-
   constructor(scope: Construct, id: string, props: NoPasswordRequiredUserProps = {}) {
-    super(scope, id, {
-      physicalName:
-        props.userId ??
-        Lazy.string({
-          produce: () => Names.uniqueResourceName(this, { separator: '-', maxLength: 40 }).toLowerCase(),
-        }),
-    });
+    super(scope, id, props);
 
-    this.props = props;
-
-    this.validateUserId(this.props.userId);
-    this.validateUserName(this.props.userName);
+    this.validateUserName(props.userName);
 
     const user = this.createResource(this, 'Resource', {
       engine: Engine.REDIS,
       userId: this.physicalName,
-      userName: this.props.userName ?? this.physicalName,
+      userName: props.userName ?? this.physicalName,
       accessString: this.props.accessString ?? 'off -@all',
       authenticationMode: {
         Type: 'no-password-required',

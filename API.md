@@ -5094,24 +5094,10 @@ const passwordUserProps: aws_elasticache.PasswordUserProps = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUserProps.property.passwords">passwords</a></code> | <code>aws-cdk-lib.SecretValue[]</code> | Passwords used for this user account. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUserProps.property.accessString">accessString</a></code> | <code>string</code> | Access permissions string used for this user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUserProps.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUserProps.property.passwords">passwords</a></code> | <code>aws-cdk-lib.SecretValue[]</code> | Passwords used for this user account. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUserProps.property.userName">userName</a></code> | <code>string</code> | The username of the user. |
-
----
-
-##### `passwords`<sup>Required</sup> <a name="passwords" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUserProps.property.passwords"></a>
-
-```typescript
-public readonly passwords: SecretValue[];
-```
-
-- *Type:* aws-cdk-lib.SecretValue[]
-
-Passwords used for this user account.
-
-You can create up to two passwords for each user.
 
 ---
 
@@ -5143,6 +5129,20 @@ The ID of the user.
 
 Must consist only of alphanumeric characters or hyphens, with the first character as a letter.
 Cannot end with a hyphen or contain two consecutive hyphens.
+
+---
+
+##### `passwords`<sup>Required</sup> <a name="passwords" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUserProps.property.passwords"></a>
+
+```typescript
+public readonly passwords: SecretValue[];
+```
+
+- *Type:* aws-cdk-lib.SecretValue[]
+
+Passwords used for this user account.
+
+You can create up to two passwords for each user.
 
 ---
 
@@ -5635,6 +5635,58 @@ public readonly userName: string;
 - *Type:* string
 
 The name of the user.
+
+---
+
+### UserBaseProps <a name="UserBaseProps" id="@open-constructs/aws-cdk.aws_elasticache.UserBaseProps"></a>
+
+Base properties for all user types.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.UserBaseProps.Initializer"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+const userBaseProps: aws_elasticache.UserBaseProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBaseProps.property.accessString">accessString</a></code> | <code>string</code> | Access permissions string used for this user. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserBaseProps.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
+
+---
+
+##### `accessString`<sup>Optional</sup> <a name="accessString" id="@open-constructs/aws-cdk.aws_elasticache.UserBaseProps.property.accessString"></a>
+
+```typescript
+public readonly accessString: string;
+```
+
+- *Type:* string
+- *Default:* 'off -@all'
+
+Access permissions string used for this user.
+
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Access-string](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Access-string)
+
+---
+
+##### `userId`<sup>Optional</sup> <a name="userId" id="@open-constructs/aws-cdk.aws_elasticache.UserBaseProps.property.userId"></a>
+
+```typescript
+public readonly userId: string;
+```
+
+- *Type:* string
+- *Default:* auto generated
+
+The ID of the user.
+
+Must consist only of alphanumeric characters or hyphens, with the first character as a letter.
+Cannot end with a hyphen or contain two consecutive hyphens.
 
 ---
 
