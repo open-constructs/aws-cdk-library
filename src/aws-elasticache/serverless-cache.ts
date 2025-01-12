@@ -324,7 +324,7 @@ abstract class ServerlessCacheBase extends Resource implements IServerlessCache 
 }
 
 /**
- * Represents a ElastiCache Serverless Cache construct in AWS CDK.
+ * Represents an ElastiCache Serverless Cache construct in AWS CDK.
  *
  * @example
  * declare const vpc: aws_ec2.IVpc;
