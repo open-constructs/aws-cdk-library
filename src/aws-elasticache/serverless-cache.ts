@@ -209,7 +209,7 @@ abstract class ServerlessCacheBase extends Resource implements IServerlessCache 
     id: string,
     attrs: ServerlessCacheAttributes,
   ): IServerlessCache {
-    class Import extends ServerlessCacheBase implements IServerlessCache {
+    class Import extends ServerlessCacheBase {
       public readonly serverlessCacheName = attrs.serverlessCacheName;
       public readonly endpointAddress = attrs.endpointAddress;
       public readonly endpointPort = attrs.endpointPort;
