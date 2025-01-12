@@ -2865,7 +2865,7 @@ The name of this CodeArtifact repository.
 
 - *Implements:* @open-constructs/aws-cdk.aws_elasticache.IServerlessCache
 
-Represents a ElastiCache Serverless Cache construct in AWS CDK.
+Represents an ElastiCache Serverless Cache construct in AWS CDK.
 
 *Example*
 
@@ -5314,7 +5314,7 @@ see https://docs.aws.amazon.com/codeartifact/latest/ug/repo-upstream-behavior.ht
 
 ### ServerlessCacheAttributes <a name="ServerlessCacheAttributes" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheAttributes"></a>
 
-Attributes for importing a ElastiCache Serverless Cache.
+Attributes for importing an ElastiCache Serverless Cache.
 
 #### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheAttributes.Initializer"></a>
 
@@ -5385,7 +5385,7 @@ The serverless cache name.
 
 ### ServerlessCacheProps <a name="ServerlessCacheProps" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps"></a>
 
-Properties for defining a ElastiCache Serverless Cache.
+Properties for defining an ElastiCache Serverless Cache.
 
 #### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.Initializer"></a>
 
@@ -7582,7 +7582,7 @@ The name of the repository.
 
 - *Implemented By:* @open-constructs/aws-cdk.aws_elasticache.ServerlessCache, @open-constructs/aws-cdk.aws_elasticache.IServerlessCache
 
-A ElastiCache Serverless Cache.
+An ElastiCache Serverless Cache.
 
 #### Methods <a name="Methods" id="Methods"></a>
 

@@ -18,7 +18,7 @@ import { IUserGroup } from './user-group';
 import { Engine } from './util';
 
 /**
- * A ElastiCache Serverless Cache
+ * An ElastiCache Serverless Cache
  */
 export interface IServerlessCache extends IResource, aws_ec2.IConnectable {
   /**
@@ -79,7 +79,7 @@ export enum MajorVersion {
 }
 
 /**
- * Properties for defining a ElastiCache Serverless Cache.
+ * Properties for defining an ElastiCache Serverless Cache.
  */
 export interface ServerlessCacheProps {
   /**
@@ -176,7 +176,7 @@ export interface ServerlessCacheProps {
 }
 
 /**
- * Attributes for importing a ElastiCache Serverless Cache.
+ * Attributes for importing an ElastiCache Serverless Cache.
  */
 export interface ServerlessCacheAttributes {
   /**
@@ -339,7 +339,7 @@ abstract class ServerlessCacheBase extends Resource implements IServerlessCache 
  *   },
  * );
  */
-export class ServerlessCache extends ServerlessCacheBase implements IServerlessCache {
+export class ServerlessCache extends ServerlessCacheBase {
   /**
    * The serverless cache ARN.
    */
@@ -491,10 +491,8 @@ export class ServerlessCache extends ServerlessCacheBase implements IServerlessC
       throw new Error('`snapshotRetentionLimit` must be specified when `dailySnapshotTime` is set.');
     }
 
-    if (snapshotRetentionLimit !== undefined) {
-      if (snapshotRetentionLimit < 1 || snapshotRetentionLimit > 35) {
-        throw new Error(`\`snapshotRetentionLimit\` must be between 1 and 35, got: ${snapshotRetentionLimit}.`);
-      }
+    if (snapshotRetentionLimit !== undefined && (snapshotRetentionLimit < 1 || snapshotRetentionLimit > 35)) {
+      throw new Error(`\`snapshotRetentionLimit\` must be between 1 and 35, got: ${snapshotRetentionLimit}.`);
     }
   }
 
@@ -504,20 +502,18 @@ export class ServerlessCache extends ServerlessCacheBase implements IServerlessC
   private validateFinalSnapshotName(): void {
     const finalSnapshotName = this.props.finalSnapshotName;
 
-    if (Token.isUnresolved(finalSnapshotName)) return;
+    if (Token.isUnresolved(finalSnapshotName) || finalSnapshotName === undefined) return;
 
-    if (finalSnapshotName !== undefined) {
-      if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(finalSnapshotName)) {
-        throw new Error(
-          `\`finalSnapshotName\` must consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`,
-        );
-      }
+    if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(finalSnapshotName)) {
+      throw new Error(
+        `\`finalSnapshotName\` must consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`,
+      );
+    }
 
-      if (finalSnapshotName.length > 255) {
-        throw new Error(
-          `\`finalSnapshotName\` must not exceed 255 characters, got: ${finalSnapshotName.length} characters.`,
-        );
-      }
+    if (finalSnapshotName.length > 255) {
+      throw new Error(
+        `\`finalSnapshotName\` must not exceed 255 characters, got: ${finalSnapshotName.length} characters.`,
+      );
     }
   }
 
