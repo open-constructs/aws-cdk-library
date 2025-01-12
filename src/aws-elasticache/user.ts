@@ -48,9 +48,9 @@ export interface UserAttributes {
 }
 
 /**
- * Base properties for all user types
+ * Properties for all user types
  */
-export interface UserBaseProps {
+export interface UserProps {
   /**
    * The ID of the user.
    * Must consist only of alphanumeric characters or hyphens, with the first character as a letter.
@@ -68,7 +68,7 @@ export interface UserBaseProps {
 }
 
 /**
- * Base class for all user types
+ * Base class for importing users
  */
 abstract class UserBase extends Resource implements IUser {
   /**
@@ -89,6 +89,28 @@ abstract class UserBase extends Resource implements IUser {
 
   /**
    * The ARN of the user.
+   *
+   */
+  public abstract readonly userArn: string;
+
+  /**
+   * The ID of the user.
+   */
+  public abstract readonly userId: string;
+
+  /**
+   * The name of the user.
+   */
+  public abstract readonly userName: string;
+}
+
+/**
+ * Abstract base class for creating users
+ */
+abstract class User extends UserBase implements IUser {
+  /**
+   * The ARN of the user.
+   *
    */
   public readonly userArn: string;
 
@@ -102,9 +124,9 @@ abstract class UserBase extends Resource implements IUser {
    */
   public readonly userName: string;
 
-  protected readonly props: UserBaseProps;
+  protected readonly props: UserProps;
 
-  protected constructor(scope: Construct, id: string, props: UserBaseProps = {}) {
+  protected constructor(scope: Construct, id: string, props: UserProps = {}) {
     super(scope, id, {
       physicalName:
         props.userId ??
@@ -190,7 +212,7 @@ abstract class UserBase extends Resource implements IUser {
 /**
  * Properties for IAM-enabled users
  */
-export interface IamUserProps extends UserBaseProps {}
+export interface IamUserProps extends UserProps {}
 
 /**
  * Represents an IAM-enabled user construct in AWS CDK.
@@ -205,7 +227,7 @@ export interface IamUserProps extends UserBaseProps {}
  *   },
  * );
  */
-export class IamUser extends UserBase {
+export class IamUser extends User {
   constructor(scope: Construct, id: string, props: IamUserProps = {}) {
     super(scope, id, props);
   }
@@ -263,7 +285,7 @@ export class IamUser extends UserBase {
 /**
  * Properties for password-authenticated users
  */
-export interface PasswordUserProps extends UserBaseProps {
+export interface PasswordUserProps extends UserProps {
   /**
    * The username of the user.
    * @default - same as userId
@@ -293,7 +315,7 @@ export interface PasswordUserProps extends UserBaseProps {
  *   },
  * );
  */
-export class PasswordUser extends UserBase {
+export class PasswordUser extends User {
   constructor(scope: Construct, id: string, props: PasswordUserProps) {
     super(scope, id, props);
 
@@ -319,7 +341,7 @@ export class PasswordUser extends UserBase {
 /**
  * Properties for users that don't require authentication
  */
-export interface NoPasswordRequiredUserProps extends UserBaseProps {
+export interface NoPasswordRequiredUserProps extends UserProps {
   /**
    * The username of the user.
    * @default - same as userId
@@ -341,7 +363,7 @@ export interface NoPasswordRequiredUserProps extends UserBaseProps {
  *   },
  * );
  */
-export class NoPasswordRequiredUser extends UserBase {
+export class NoPasswordRequiredUser extends User {
   constructor(scope: Construct, id: string, props: NoPasswordRequiredUserProps = {}) {
     super(scope, id, props);
 
