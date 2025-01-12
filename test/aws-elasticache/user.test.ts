@@ -177,4 +177,26 @@ describe('ElastiCache User', () => {
       }).toThrow('`userName` must not contain spaces, got: Invalid User Name.');
     });
   });
+
+  describe('test validations in PasswordUser class', () => {
+    test('throws when password is not set', () => {
+      expect(() => {
+        new PasswordUser(stack, 'User', {
+          passwords: [],
+        });
+      }).toThrow('At least one password must be provided for password authentication.');
+    });
+
+    test('throws when more than 2 passwords are set', () => {
+      expect(() => {
+        new PasswordUser(stack, 'User', {
+          passwords: [
+            SecretValue.unsafePlainText('adminUserPassword123'),
+            SecretValue.unsafePlainText('adminUserPassword12345'),
+            SecretValue.unsafePlainText('adminUserPassword123456'),
+          ],
+        });
+      }).toThrow('Up to 2 passwords can be set, got 3 passwords.');
+    });
+  });
 });

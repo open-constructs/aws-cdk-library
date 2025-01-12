@@ -319,8 +319,12 @@ export class PasswordUser extends User {
   constructor(scope: Construct, id: string, props: PasswordUserProps) {
     super(scope, id, props);
 
-    if (!props.passwords || props.passwords.length === 0) {
-      throw new Error('At least one password must be provided for password authentication');
+    if (props.passwords.length === 0) {
+      throw new Error('At least one password must be provided for password authentication.');
+    }
+
+    if (props.passwords.length > 2) {
+      throw new Error(`Up to 2 passwords can be set, got ${props.passwords.length} passwords.`);
     }
 
     this.validateUserName(props.userName);
