@@ -343,19 +343,19 @@ export class ServerlessCache extends ServerlessCacheBase implements IServerlessC
   /**
    * The serverless cache ARN.
    */
-  readonly serverlessCacheArn: string;
+  public readonly serverlessCacheArn: string;
   /**
    * The serverless cache name.
    */
-  readonly serverlessCacheName: string;
+  public readonly serverlessCacheName: string;
   /**
    * The DNS hostname of the cache node.
    */
-  readonly endpointAddress: string;
+  public readonly endpointAddress: string;
   /**
    * The port number that the cache engine is listening on.
    */
-  readonly endpointPort: number;
+  public readonly endpointPort: number;
 
   /**
    * The connection object associated with the ElastiCache Serverless Cache.
