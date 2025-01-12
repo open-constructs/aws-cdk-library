@@ -172,7 +172,7 @@ abstract class UserBase extends Resource implements IUser {
   /**
    * Validates username.
    */
-  protected validateUserName(userName: string | undefined): void {
+  protected validateUserName(userName?: string): void {
     if (Token.isUnresolved(userName) || userName === undefined) {
       return;
     }
