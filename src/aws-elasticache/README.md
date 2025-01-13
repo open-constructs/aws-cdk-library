@@ -171,10 +171,21 @@ serverlessCache.grantConnect(role);
 
 ### Import an existing user and user group
 
-To import an existing user and user group, use the `fromUserAttributes` method for users and `fromUserGroupId` method for user groups:
+You can import an existing user and user group by using import methods:
 
 ```ts
-const importedUser = IamUser.fromUserAttributes(this, 'ImportedUser', { userId: 'my-user-id', userName: 'my-user-name' });
+const importedIamUser = IamUser.fromUserAttributes(this, 'ImportedIamUser', 'my-iam-user-id');
+
+const importedPasswordUser = PasswordUser.fromUserAttributes(stack, 'ImportedPasswordUser', {
+  userId: 'my-password-user-id',
+  userName: 'my-password-user-name',
+});
+
+const importedNoPasswordRequiredUser = NoPasswordRequiredUser.fromUserAttributes(stack, 'ImportedNoPasswordUser', {
+  userId: 'my-no-password-user-id',
+  userName: 'my-no-password-user-name',
+});
+
 const importedUserGroup = UserGroup.fromUserGroupId(this, 'ImportedUser', 'my-user-group-id');
 ```
 

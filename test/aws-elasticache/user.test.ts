@@ -56,33 +56,94 @@ describe('ElastiCache User', () => {
   });
 
   describe('import method test', () => {
-    let importedUser: IUser;
+    describe('IAM-enabled User', () => {
+      let importedUser: IUser;
 
-    beforeEach(() => {
-      app = new App();
-      stack = new Stack(app, 'TestStack');
-      importedUser = IamUser.fromUserAttributes(stack, 'ImportedUser', {
-        userId: 'my-user-id',
-        userName: 'my-user-name',
+      beforeEach(() => {
+        app = new App();
+        stack = new Stack(app, 'TestStack');
+        importedUser = IamUser.fromUserId(stack, 'ImportedUser', 'my-user-id');
+      });
+
+      test('should correctly set userId', () => {
+        expect(importedUser.userId).toEqual('my-user-id');
+      });
+
+      test('should correctly set userName', () => {
+        expect(importedUser.userName).toEqual('my-user-id');
+      });
+
+      test('should correctly format userArn', () => {
+        expect(importedUser.userArn).toEqual(
+          Stack.of(stack).formatArn({
+            service: 'elasticache',
+            resource: 'user',
+            resourceName: 'my-user-id',
+          }),
+        );
       });
     });
 
-    test('should correctly set userId', () => {
-      expect(importedUser.userId).toEqual('my-user-id');
+    describe('password authentication user', () => {
+      let importedUser: IUser;
+
+      beforeEach(() => {
+        app = new App();
+        stack = new Stack(app, 'TestStack');
+        importedUser = PasswordUser.fromUserAttributes(stack, 'ImportedUser', {
+          userId: 'my-user-id',
+          userName: 'my-user-name',
+        });
+      });
+
+      test('should correctly set userId', () => {
+        expect(importedUser.userId).toEqual('my-user-id');
+      });
+
+      test('should correctly set userName', () => {
+        expect(importedUser.userName).toEqual('my-user-name');
+      });
+
+      test('should correctly format userArn', () => {
+        expect(importedUser.userArn).toEqual(
+          Stack.of(stack).formatArn({
+            service: 'elasticache',
+            resource: 'user',
+            resourceName: 'my-user-id',
+          }),
+        );
+      });
     });
 
-    test('should correctly set userName', () => {
-      expect(importedUser.userName).toEqual('my-user-name');
-    });
+    describe('no password required user', () => {
+      let importedUser: IUser;
 
-    test('should correctly format userArn', () => {
-      expect(importedUser.userArn).toEqual(
-        Stack.of(stack).formatArn({
-          service: 'elasticache',
-          resource: 'user',
-          resourceName: 'my-user-id',
-        }),
-      );
+      beforeEach(() => {
+        app = new App();
+        stack = new Stack(app, 'TestStack');
+        importedUser = NoPasswordRequiredUser.fromUserAttributes(stack, 'ImportedUser', {
+          userId: 'my-user-id',
+          userName: 'my-user-name',
+        });
+      });
+
+      test('should correctly set userId', () => {
+        expect(importedUser.userId).toEqual('my-user-id');
+      });
+
+      test('should correctly set userName', () => {
+        expect(importedUser.userName).toEqual('my-user-name');
+      });
+
+      test('should correctly format userArn', () => {
+        expect(importedUser.userArn).toEqual(
+          Stack.of(stack).formatArn({
+            service: 'elasticache',
+            resource: 'user',
+            resourceName: 'my-user-id',
+          }),
+        );
+      });
     });
   });
 
@@ -116,6 +177,43 @@ describe('ElastiCache User', () => {
                       { Ref: 'AWS::AccountId' },
                       ':user:',
                       { Ref: 'User00B015A1' },
+                    ],
+                  ],
+                },
+              },
+            ],
+          }),
+        }),
+      );
+    });
+
+    test('imported IAM User can use grant method', () => {
+      const importedUser = IamUser.fromUserId(stack, 'ImportedUser', 'my-user-id');
+      const role = new Role(stack, 'Role', {
+        assumedBy: new ServicePrincipal('foo'),
+      });
+
+      importedUser.grantConnect(role);
+
+      Template.fromStack(stack).hasResourceProperties(
+        'AWS::IAM::Policy',
+        Match.objectLike({
+          PolicyDocument: Match.objectLike({
+            Statement: [
+              {
+                Action: 'elasticache:Connect',
+                Effect: 'Allow',
+                Resource: {
+                  'Fn::Join': [
+                    '',
+                    [
+                      'arn:',
+                      { Ref: 'AWS::Partition' },
+                      ':elasticache:',
+                      { Ref: 'AWS::Region' },
+                      ':',
+                      { Ref: 'AWS::AccountId' },
+                      ':user/my-user-id',
                     ],
                   ],
                 },

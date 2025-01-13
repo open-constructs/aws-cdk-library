@@ -34,7 +34,7 @@ export interface IUser extends IResource {
 }
 
 /**
- * Attributes for importing a User.
+ * Attributes for importing a User
  */
 export interface UserAttributes {
   /**
@@ -68,49 +68,27 @@ export interface UserProps {
 }
 
 /**
- * Base class for importing users
+ * Imports an existing User from attributes
  */
-abstract class UserBase extends Resource implements IUser {
-  /**
-   * Imports an existing User from attributes
-   */
-  public static fromUserAttributes(scope: Construct, id: string, attrs: UserAttributes): IUser {
-    class Import extends Resource implements IUser {
-      public readonly userId = attrs.userId;
-      public readonly userName = attrs.userName;
-      public readonly userArn = Stack.of(this).formatArn({
-        service: 'elasticache',
-        resource: 'user',
-        resourceName: attrs.userId,
-      });
-    }
-    return new Import(scope, id);
+export function fromUserAttributes(scope: Construct, id: string, attrs: UserAttributes): IUser {
+  class Import extends Resource implements IUser {
+    public readonly userId = attrs.userId;
+    public readonly userName = attrs.userName;
+    public readonly userArn = Stack.of(this).formatArn({
+      service: 'elasticache',
+      resource: 'user',
+      resourceName: attrs.userId,
+    });
   }
-
-  /**
-   * The ARN of the user.
-   *
-   */
-  public abstract readonly userArn: string;
-
-  /**
-   * The ID of the user.
-   */
-  public abstract readonly userId: string;
-
-  /**
-   * The name of the user.
-   */
-  public abstract readonly userName: string;
+  return new Import(scope, id);
 }
 
 /**
  * Abstract base class for creating users
  */
-abstract class User extends UserBase implements IUser {
+abstract class BaseUser extends Resource implements IUser {
   /**
    * The ARN of the user.
-   *
    */
   public readonly userArn: string;
 
@@ -167,7 +145,7 @@ abstract class User extends UserBase implements IUser {
   protected abstract renderAuthenticationMode(): any;
 
   /**
-   * Validates user id.
+   * Validates user id
    */
   protected validateUserId(userId?: string): void {
     if (Token.isUnresolved(userId) || userId === undefined) {
@@ -192,7 +170,7 @@ abstract class User extends UserBase implements IUser {
   }
 
   /**
-   * Validates username.
+   * Validates username
    */
   protected validateUserName(userName?: string): void {
     if (Token.isUnresolved(userName) || userName === undefined) {
@@ -207,6 +185,21 @@ abstract class User extends UserBase implements IUser {
       throw new Error(`\`userName\` must not contain spaces, got: ${userName}.`);
     }
   }
+}
+
+/**
+ * Interface for IAM-enabled users
+ */
+export interface IIamUser extends IUser {
+  /**
+   * Grant permissions to this user
+   */
+  grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant;
+
+  /**
+   * Grant connect permissions to this user
+   */
+  grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant;
 }
 
 /**
@@ -227,13 +220,41 @@ export interface IamUserProps extends UserProps {}
  *   },
  * );
  */
-export class IamUser extends User {
+export class IamUser extends BaseUser implements IIamUser {
+  /**
+   * Imports an existing User from userId
+   */
+  public static fromUserId(scope: Construct, id: string, userId: string): IIamUser {
+    class Import extends Resource implements IIamUser {
+      public readonly userId = userId;
+      public readonly userName = userId;
+      public readonly userArn = Stack.of(this).formatArn({
+        service: 'elasticache',
+        resource: 'user',
+        resourceName: userId,
+      });
+
+      public grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant {
+        return aws_iam.Grant.addToPrincipal({
+          grantee,
+          actions,
+          resourceArns: [this.userArn],
+        });
+      }
+
+      public grantConnect(grantee: aws_iam.IGrantable): aws_iam.Grant {
+        return this.grant(grantee, 'elasticache:Connect');
+      }
+    }
+    return new Import(scope, id);
+  }
+
   constructor(scope: Construct, id: string, props: IamUserProps = {}) {
     super(scope, id, props);
   }
 
   /**
-   * For IAM-enabled ElastiCache users the username and user id properties must be identical.
+   * For IAM-enabled ElastiCache users the username and user id properties must be identical
    *
    * @see https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html
    */
@@ -283,6 +304,25 @@ export class IamUser extends User {
 }
 
 /**
+ * Interface for password-authenticated users
+ */
+export interface IPasswordUser extends IUser {}
+
+/**
+ * Attributes for importing a password-authenticated user
+ */
+export interface PasswordUserAttributes {
+  /**
+   * The ID of the user.
+   */
+  readonly userId: string;
+  /**
+   * The name of the user.
+   */
+  readonly userName: string;
+}
+
+/**
  * Properties for password-authenticated users
  */
 export interface PasswordUserProps extends UserProps {
@@ -315,7 +355,11 @@ export interface PasswordUserProps extends UserProps {
  *   },
  * );
  */
-export class PasswordUser extends User {
+export class PasswordUser extends BaseUser implements IPasswordUser {
+  public static fromUserAttributes(scope: Construct, id: string, attrs: PasswordUserAttributes): IPasswordUser {
+    return fromUserAttributes(scope, id, attrs);
+  }
+
   constructor(scope: Construct, id: string, props: PasswordUserProps) {
     super(scope, id, props);
 
@@ -343,7 +387,26 @@ export class PasswordUser extends User {
 }
 
 /**
- * Properties for users that don't require authentication
+ * Interface for no password required users
+ */
+export interface INoPasswordRequiredUser extends IUser {}
+
+/**
+ * Attributes for importing a no password required user
+ */
+export interface NoPasswordUserAttributes {
+  /**
+   * The ID of the user.
+   */
+  readonly userId: string;
+  /**
+   * The name of the user.
+   */
+  readonly userName: string;
+}
+
+/**
+ * Properties for no password required users
  */
 export interface NoPasswordRequiredUserProps extends UserProps {
   /**
@@ -354,7 +417,7 @@ export interface NoPasswordRequiredUserProps extends UserProps {
 }
 
 /**
- * Represents a no password required user construct in AWS CDK.
+ * Represents a no password required user construct in AWS CDK
  *
  * @example
  *
@@ -367,7 +430,15 @@ export interface NoPasswordRequiredUserProps extends UserProps {
  *   },
  * );
  */
-export class NoPasswordRequiredUser extends User {
+export class NoPasswordRequiredUser extends BaseUser implements INoPasswordRequiredUser {
+  public static fromUserAttributes(
+    scope: Construct,
+    id: string,
+    attrs: NoPasswordUserAttributes,
+  ): INoPasswordRequiredUser {
+    return fromUserAttributes(scope, id, attrs);
+  }
+
   constructor(scope: Construct, id: string, props: NoPasswordRequiredUserProps = {}) {
     super(scope, id, props);
 
