@@ -3908,6 +3908,58 @@ The workgroup name.
 
 ## Structs <a name="Structs" id="Structs"></a>
 
+### BaseUserProps <a name="BaseUserProps" id="@open-constructs/aws-cdk.aws_elasticache.BaseUserProps"></a>
+
+Properties for all user types.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.BaseUserProps.Initializer"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+const baseUserProps: aws_elasticache.BaseUserProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.BaseUserProps.property.accessString">accessString</a></code> | <code>string</code> | Access permissions string used for this user. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.BaseUserProps.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
+
+---
+
+##### `accessString`<sup>Optional</sup> <a name="accessString" id="@open-constructs/aws-cdk.aws_elasticache.BaseUserProps.property.accessString"></a>
+
+```typescript
+public readonly accessString: string;
+```
+
+- *Type:* string
+- *Default:* 'off -@all'
+
+Access permissions string used for this user.
+
+> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Access-string](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Access-string)
+
+---
+
+##### `userId`<sup>Optional</sup> <a name="userId" id="@open-constructs/aws-cdk.aws_elasticache.BaseUserProps.property.userId"></a>
+
+```typescript
+public readonly userId: string;
+```
+
+- *Type:* string
+- *Default:* auto generated
+
+The ID of the user.
+
+Must consist only of alphanumeric characters or hyphens, with the first character as a letter.
+Cannot end with a hyphen or contain two consecutive hyphens.
+
+---
+
 ### CostReportProps <a name="CostReportProps" id="@open-constructs/aws-cdk.aws_cur.CostReportProps"></a>
 
 Properties for defining a Cost and Usage Report.
@@ -5806,58 +5858,6 @@ The ID of the user group.
 
 \`userGroupId\` must consist only of alphanumeric characters or hyphens,
 with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens.
-
----
-
-### UserProps <a name="UserProps" id="@open-constructs/aws-cdk.aws_elasticache.UserProps"></a>
-
-Properties for all user types.
-
-#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.UserProps.Initializer"></a>
-
-```typescript
-import { aws_elasticache } from '@open-constructs/aws-cdk'
-
-const userProps: aws_elasticache.UserProps = { ... }
-```
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserProps.property.accessString">accessString</a></code> | <code>string</code> | Access permissions string used for this user. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserProps.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
-
----
-
-##### `accessString`<sup>Optional</sup> <a name="accessString" id="@open-constructs/aws-cdk.aws_elasticache.UserProps.property.accessString"></a>
-
-```typescript
-public readonly accessString: string;
-```
-
-- *Type:* string
-- *Default:* 'off -@all'
-
-Access permissions string used for this user.
-
-> [https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Access-string](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#Access-string)
-
----
-
-##### `userId`<sup>Optional</sup> <a name="userId" id="@open-constructs/aws-cdk.aws_elasticache.UserProps.property.userId"></a>
-
-```typescript
-public readonly userId: string;
-```
-
-- *Type:* string
-- *Default:* auto generated
-
-The ID of the user.
-
-Must consist only of alphanumeric characters or hyphens, with the first character as a letter.
-Cannot end with a hyphen or contain two consecutive hyphens.
 
 ---
 

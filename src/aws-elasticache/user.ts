@@ -50,7 +50,7 @@ export interface UserAttributes {
 /**
  * Properties for all user types
  */
-export interface UserProps {
+export interface BaseUserProps {
   /**
    * The ID of the user.
    * Must consist only of alphanumeric characters or hyphens, with the first character as a letter.
@@ -70,7 +70,7 @@ export interface UserProps {
 /**
  * Imports an existing User from attributes
  */
-export function fromUserAttributes(scope: Construct, id: string, attrs: UserAttributes): IUser {
+function fromUserAttributes(scope: Construct, id: string, attrs: UserAttributes): IUser {
   class Import extends Resource implements IUser {
     public readonly userId = attrs.userId;
     public readonly userName = attrs.userName;
@@ -102,9 +102,9 @@ abstract class BaseUser extends Resource implements IUser {
    */
   public readonly userName: string;
 
-  protected readonly props: UserProps;
+  protected readonly props: BaseUserProps;
 
-  protected constructor(scope: Construct, id: string, props: UserProps = {}) {
+  protected constructor(scope: Construct, id: string, props: BaseUserProps = {}) {
     super(scope, id, {
       physicalName:
         props.userId ??
@@ -205,7 +205,7 @@ export interface IIamUser extends IUser {
 /**
  * Properties for IAM-enabled users
  */
-export interface IamUserProps extends UserProps {}
+export interface IamUserProps extends BaseUserProps {}
 
 /**
  * Represents an IAM-enabled user construct in AWS CDK.
@@ -325,7 +325,7 @@ export interface PasswordUserAttributes {
 /**
  * Properties for password-authenticated users
  */
-export interface PasswordUserProps extends UserProps {
+export interface PasswordUserProps extends BaseUserProps {
   /**
    * The username of the user.
    * @default - same as userId
@@ -408,7 +408,7 @@ export interface NoPasswordUserAttributes {
 /**
  * Properties for no password required users
  */
-export interface NoPasswordRequiredUserProps extends UserProps {
+export interface NoPasswordRequiredUserProps extends BaseUserProps {
   /**
    * The username of the user.
    * @default - same as userId
