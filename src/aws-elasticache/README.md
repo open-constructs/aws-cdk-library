@@ -210,7 +210,7 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
 
 To control who can access the serverless cache by the security groups, use the `.connections` attribute.
 
-serverless cache have a default port `6379`.
+The serverless cache have a default port `6379`.
 
 This example allows an EC2 instance to connect to the serverless cache:
 
