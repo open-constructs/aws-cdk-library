@@ -98,7 +98,8 @@ You can't modify or delete this user.
 
 This user is intended for compatibility with the default behavior of previous Redis OSS versions and has an access string that permits it to call all commands and access all keys.
 
-To add proper access control to a cache, replace this default user with a new one that isn't enabled or uses a strong password.
+To add proper access control to a cache, replace the default user with a new one that is either disabled by setting the `accessString` to `off -@all` or secured with a strong password.
+
 To change the default user, create a new user with the username set to `default`. You can then swap it with the original default user.
 
 For more information, see [Applying RBAC to a Cache for ElastiCache with Valkey or Redis OSS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#rbac-using).
@@ -155,7 +156,9 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
 
 If you create IAM-enabled users, `“elasticache:Connect”` action must be allowed for user and cache.
 
-For more information, see [Authenticating with IAM]((https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html)).
+> NOTE: You don't need grant permissions to no password required users or password authentication users.
+
+For more information, see [Authenticating with IAM](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth-iam.html).
 
 To grant permissions, you can use the `grantConnect` method in `IamUser` and `ServerlessCache` constructs:
 
@@ -164,7 +167,7 @@ declare const user: IamUser;
 declare const serverlessCache: ServerlessCache;
 declare const role: iam.Role;
 
-// grant “elasticache:Connect” action permissions to Role
+// grant “elasticache:Connect” action permissions to role
 user.grantConnect(role);
 serverlessCache.grantConnect(role);
 ```
@@ -238,7 +241,7 @@ If you don't specify a backup window, ElastiCache assigns one automatically.
 
 For more information, see [Scheduling automatic backups](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/backups-automatic.html).
 
-To enable automatic backups, set the `dailySnapshotTime` property to snapshot created time:
+To enable automatic backups, set the `snapshotRetentionLimit` property. You can also specify the snapshot creation time by setting `dailySnapshotTime` property:
 
 ```ts
 declare const vpc: ec2.Vpc;

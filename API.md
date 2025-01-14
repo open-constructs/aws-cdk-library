@@ -800,7 +800,7 @@ The principal to grant access to.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.fromUserId">fromUserId</a></code> | Imports an existing User from userId. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.fromUserId">fromUserId</a></code> | Imports an existing IAM-enabled user from userId. |
 
 ---
 
@@ -876,7 +876,7 @@ import { aws_elasticache } from '@open-constructs/aws-cdk'
 aws_elasticache.IamUser.fromUserId(scope: Construct, id: string, userId: string)
 ```
 
-Imports an existing User from userId.
+Imports an existing IAM-enabled user from userId.
 
 ###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.IamUser.fromUserId.parameter.scope"></a>
 
@@ -1675,7 +1675,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.fromUserAttributes">fromUserAttributes</a></code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.fromUserAttributes">fromUserAttributes</a></code> | Imports an existing no password required user from attributes. |
 
 ---
 
@@ -1750,6 +1750,8 @@ import { aws_elasticache } from '@open-constructs/aws-cdk'
 
 aws_elasticache.NoPasswordRequiredUser.fromUserAttributes(scope: Construct, id: string, attrs: NoPasswordUserAttributes)
 ```
+
+Imports an existing no password required user from attributes.
 
 ###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.fromUserAttributes.parameter.scope"></a>
 
@@ -2252,7 +2254,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.fromUserAttributes">fromUserAttributes</a></code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.fromUserAttributes">fromUserAttributes</a></code> | Imports an existing password authentication user from attributes. |
 
 ---
 
@@ -2327,6 +2329,8 @@ import { aws_elasticache } from '@open-constructs/aws-cdk'
 
 aws_elasticache.PasswordUser.fromUserAttributes(scope: Construct, id: string, attrs: PasswordUserAttributes)
 ```
+
+Imports an existing password authentication user from attributes.
 
 ###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUser.fromUserAttributes.parameter.scope"></a>
 

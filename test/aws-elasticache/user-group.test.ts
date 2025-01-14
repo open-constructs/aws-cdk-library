@@ -1,4 +1,4 @@
-import { App, Stack } from 'aws-cdk-lib';
+import { App, ArnFormat, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { IConstruct } from 'constructs';
 import { IUserGroup, NoPasswordRequiredUser, UserGroup } from '../../src/aws-elasticache';
@@ -62,6 +62,7 @@ describe('ElastiCache User Group', () => {
           service: 'elasticache',
           resource: 'usergroup',
           resourceName: 'my-user-group-id',
+          arnFormat: ArnFormat.COLON_RESOURCE_NAME,
         }),
       );
     });

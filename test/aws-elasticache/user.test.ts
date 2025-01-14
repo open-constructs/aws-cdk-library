@@ -1,4 +1,4 @@
-import { App, SecretValue, Stack } from 'aws-cdk-lib';
+import { App, ArnFormat, SecretValue, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { IamUser, IUser, NoPasswordRequiredUser, PasswordUser } from '../../src/aws-elasticache';
@@ -79,6 +79,7 @@ describe('ElastiCache User', () => {
             service: 'elasticache',
             resource: 'user',
             resourceName: 'my-user-id',
+            arnFormat: ArnFormat.COLON_RESOURCE_NAME,
           }),
         );
       });
@@ -110,6 +111,7 @@ describe('ElastiCache User', () => {
             service: 'elasticache',
             resource: 'user',
             resourceName: 'my-user-id',
+            arnFormat: ArnFormat.COLON_RESOURCE_NAME,
           }),
         );
       });
@@ -141,6 +143,7 @@ describe('ElastiCache User', () => {
             service: 'elasticache',
             resource: 'user',
             resourceName: 'my-user-id',
+            arnFormat: ArnFormat.COLON_RESOURCE_NAME,
           }),
         );
       });
@@ -213,7 +216,7 @@ describe('ElastiCache User', () => {
                       { Ref: 'AWS::Region' },
                       ':',
                       { Ref: 'AWS::AccountId' },
-                      ':user/my-user-id',
+                      ':user:my-user-id',
                     ],
                   ],
                 },

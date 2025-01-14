@@ -1,4 +1,4 @@
-import { IResource, Lazy, Names, Resource, Stack, Token, aws_elasticache } from 'aws-cdk-lib';
+import { ArnFormat, IResource, Lazy, Names, Resource, Stack, Token, aws_elasticache } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { IUser } from './user';
 import { Engine } from './util';
@@ -78,6 +78,7 @@ export class UserGroup extends Resource implements IUserGroup {
         service: 'elasticache',
         resource: 'usergroup',
         resourceName: userGroupId,
+        arnFormat: ArnFormat.COLON_RESOURCE_NAME,
       });
     }
     return new Import(scope, id);

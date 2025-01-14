@@ -221,6 +221,7 @@ abstract class ServerlessCacheBase extends Resource implements IServerlessCache 
         service: 'elasticache',
         resource: 'serverlesscache',
         resourceName: attrs.serverlessCacheName,
+        arnFormat: ArnFormat.COLON_RESOURCE_NAME,
       });
     }
     return new Import(scope, id);

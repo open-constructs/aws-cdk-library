@@ -68,22 +68,6 @@ export interface BaseUserProps {
 }
 
 /**
- * Imports an existing User from attributes
- */
-function fromUserAttributes(scope: Construct, id: string, attrs: UserAttributes): IUser {
-  class Import extends Resource implements IUser {
-    public readonly userId = attrs.userId;
-    public readonly userName = attrs.userName;
-    public readonly userArn = Stack.of(this).formatArn({
-      service: 'elasticache',
-      resource: 'user',
-      resourceName: attrs.userId,
-    });
-  }
-  return new Import(scope, id);
-}
-
-/**
  * Abstract base class for creating users
  */
 abstract class BaseUser extends Resource implements IUser {
@@ -222,7 +206,7 @@ export interface IamUserProps extends BaseUserProps {}
  */
 export class IamUser extends BaseUser implements IIamUser {
   /**
-   * Imports an existing User from userId
+   * Imports an existing IAM-enabled user from userId
    */
   public static fromUserId(scope: Construct, id: string, userId: string): IIamUser {
     class Import extends Resource implements IIamUser {
@@ -232,6 +216,7 @@ export class IamUser extends BaseUser implements IIamUser {
         service: 'elasticache',
         resource: 'user',
         resourceName: userId,
+        arnFormat: ArnFormat.COLON_RESOURCE_NAME,
       });
 
       public grant(grantee: aws_iam.IGrantable, ...actions: string[]): aws_iam.Grant {
@@ -356,8 +341,21 @@ export interface PasswordUserProps extends BaseUserProps {
  * );
  */
 export class PasswordUser extends BaseUser implements IPasswordUser {
+  /**
+   * Imports an existing password authentication user from attributes
+   */
   public static fromUserAttributes(scope: Construct, id: string, attrs: PasswordUserAttributes): IPasswordUser {
-    return fromUserAttributes(scope, id, attrs);
+    class Import extends Resource implements IUser {
+      public readonly userId = attrs.userId;
+      public readonly userName = attrs.userName;
+      public readonly userArn = Stack.of(this).formatArn({
+        service: 'elasticache',
+        resource: 'user',
+        resourceName: attrs.userId,
+        arnFormat: ArnFormat.COLON_RESOURCE_NAME,
+      });
+    }
+    return new Import(scope, id);
   }
 
   constructor(scope: Construct, id: string, props: PasswordUserProps) {
@@ -431,12 +429,25 @@ export interface NoPasswordRequiredUserProps extends BaseUserProps {
  * );
  */
 export class NoPasswordRequiredUser extends BaseUser implements INoPasswordRequiredUser {
+  /**
+   * Imports an existing no password required user from attributes
+   */
   public static fromUserAttributes(
     scope: Construct,
     id: string,
     attrs: NoPasswordUserAttributes,
   ): INoPasswordRequiredUser {
-    return fromUserAttributes(scope, id, attrs);
+    class Import extends Resource implements IUser {
+      public readonly userId = attrs.userId;
+      public readonly userName = attrs.userName;
+      public readonly userArn = Stack.of(this).formatArn({
+        service: 'elasticache',
+        resource: 'user',
+        resourceName: attrs.userId,
+        arnFormat: ArnFormat.COLON_RESOURCE_NAME,
+      });
+    }
+    return new Import(scope, id);
   }
 
   constructor(scope: Construct, id: string, props: NoPasswordRequiredUserProps = {}) {

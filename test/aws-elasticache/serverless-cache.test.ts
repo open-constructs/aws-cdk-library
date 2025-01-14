@@ -1,4 +1,4 @@
-import { App, RemovalPolicy, Stack, aws_ec2, aws_kms } from 'aws-cdk-lib';
+import { App, ArnFormat, RemovalPolicy, Stack, aws_ec2, aws_kms } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Stats } from 'aws-cdk-lib/aws-cloudwatch';
 import { SecurityGroup } from 'aws-cdk-lib/aws-ec2';
@@ -127,6 +127,7 @@ describe('ElastiCache Serverless Cache', () => {
           service: 'elasticache',
           resource: 'serverlesscache',
           resourceName: 'my-serverless-cache',
+          arnFormat: ArnFormat.COLON_RESOURCE_NAME,
         }),
       );
     });
