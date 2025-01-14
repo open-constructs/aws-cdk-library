@@ -4,7 +4,7 @@ Constructs for the Amazon ElastiCache
 
 This module has constructs for [Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/WhatIs.html).
 
-* The `User` and `UserGroup` construct facilitates the creation and management of user for the cache.
+* The `User` and `UserGroup` constructs facilitate the creation and management of users for the cache.
 * The `ServerlessCache` construct facilitates the creation and management of serverless cache.
 
 ## Basic Usage for user and user group
