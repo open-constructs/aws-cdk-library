@@ -103,7 +103,7 @@ To change the default user, create a new user with the username set to `default
 
 For more information, see [Applying RBAC to a Cache for ElastiCache with Valkey or Redis OSS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#rbac-using).
 
-If you want to create new default user, `userName` must be `default` and `userId` must not be `default` by using `NoPasswordRequiredUser` or `PasswordUser`:
+If you want to create a new default user, `userName` must be `default` and `userId` must not be `default` by using `NoPasswordRequiredUser` or `PasswordUser`:
 
 ```ts
 const newDefaultUser = NoPasswordRequiredUser(this, 'NewDefaultUser', {
