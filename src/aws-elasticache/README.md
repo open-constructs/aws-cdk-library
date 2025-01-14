@@ -189,7 +189,7 @@ const importedNoPasswordRequiredUser = NoPasswordRequiredUser.fromUserAttributes
   userName: 'my-no-password-user-name',
 });
 
-const importedUserGroup = UserGroup.fromUserGroupId(this, 'ImportedUser', 'my-user-group-id');
+const importedUserGroup = UserGroup.fromUserGroupId(this, 'ImportedUserGroup', 'my-user-group-id');
 ```
 
 ## Basic Usage for serverless cache
