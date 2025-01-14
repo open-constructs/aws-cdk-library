@@ -174,7 +174,7 @@ serverlessCache.grantConnect(role);
 You can import an existing user and user group by using import methods:
 
 ```ts
-const importedIamUser = IamUser.fromUserAttributes(this, 'ImportedIamUser', 'my-iam-user-id');
+const importedIamUser = IamUser.fromUserId(this, 'ImportedIamUser', 'my-iam-user-id');
 
 const importedPasswordUser = PasswordUser.fromUserAttributes(stack, 'ImportedPasswordUser', {
   userId: 'my-password-user-id',
