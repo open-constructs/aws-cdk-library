@@ -154,7 +154,7 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
 
 ### Grant permissions to IAM-enabled users
 
-If you create IAM-enabled users, `“elasticache:Connect”` action must be allowed for user and cache.
+If you create IAM-enabled users, `“elasticache:Connect”` action must be allowed for the users and cache.
 
 > NOTE: You don't need grant permissions to no password required users or password authentication users.
 
