@@ -53,8 +53,8 @@
                       "Type": "iam"
                     },
                     "engine": "redis",
-                    "userId": "elasticacheserverlesscachestack",
-                    "userName": "elasticacheserverlesscachestack"
+                    "userId": "elasticacheservehestack-iamuser-1980b570",
+                    "userName": "elasticacheservehestack-iamuser-1980b570"
                   }
                 },
                 "constructInfo": {

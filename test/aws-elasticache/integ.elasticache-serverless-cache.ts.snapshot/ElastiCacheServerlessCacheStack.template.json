@@ -20,8 +20,8 @@
      "Type": "iam"
     },
     "Engine": "redis",
-    "UserId": "elasticacheserverlesscachestack",
-    "UserName": "elasticacheserverlesscachestack"
+    "UserId": "elasticacheservehestack-iamuser-1980b570",
+    "UserName": "elasticacheservehestack-iamuser-1980b570"
    }
   },
   "NoPasswordRequiredUser09EED42D": {

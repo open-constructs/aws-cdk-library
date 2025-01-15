@@ -79,7 +79,7 @@ abstract class BaseUser extends Resource implements IUser {
       physicalName:
         props.userId ??
         Lazy.string({
-          produce: () => Names.uniqueResourceName(scope, { separator: '-', maxLength: 40 }).toLowerCase(),
+          produce: () => Names.uniqueResourceName(this, { separator: '-', maxLength: 40 }).toLowerCase(),
         }),
     });
 
