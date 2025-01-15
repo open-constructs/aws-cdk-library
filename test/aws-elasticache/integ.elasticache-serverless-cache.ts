@@ -32,12 +32,20 @@ class ElastiCacheStack extends cdk.Stack {
       ],
     });
 
+    const iamUserForImport = new ocf.aws_elasticache.IamUser(this, 'IamUserForImport', {
+      userId: 'iam-user-for-import',
+      accessString: 'on ~* +@all',
+    });
+
+    const importedIamUser = ocf.aws_elasticache.IamUser.fromUserId(this, 'ImportedIamUser', iamUserForImport.userId);
+
     const userGroup = new ocf.aws_elasticache.UserGroup(this, 'UserGroup', {
       userGroupId: 'my-user-group',
       users: [defaultUser, iamUser, noPasswordRequiredUser],
     });
 
     userGroup.addUser(passwordUser);
+    userGroup.addUser(importedIamUser);
 
     const vpc = new cdk.aws_ec2.Vpc(this, 'VPC', {});
 
@@ -78,6 +86,11 @@ class ElastiCacheStack extends cdk.Stack {
       threshold: 50,
       evaluationPeriods: 1,
     });
+
+    const role = new cdk.aws_iam.Role(this, 'TestRole', { assumedBy: new cdk.aws_iam.AccountRootPrincipal() });
+    iamUser.grantConnect(role);
+    importedIamUser.grantConnect(role);
+    serverlessCache.grantConnect(role);
   }
 }
 
@@ -87,6 +100,4 @@ const testCase = new ElastiCacheStack(app, 'ElastiCacheServerlessCacheStack');
 
 new IntegTest(app, 'ElastiCacheServerlessCacheTest', {
   testCases: [testCase],
-  enableLookups: true,
-  stackUpdateWorkflow: false,
 });

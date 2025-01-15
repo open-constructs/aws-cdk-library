@@ -5735,51 +5735,6 @@ Where to place the serverless cache within the VPC.
 
 ---
 
-### UserAttributes <a name="UserAttributes" id="@open-constructs/aws-cdk.aws_elasticache.UserAttributes"></a>
-
-Attributes for importing a User.
-
-#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.UserAttributes.Initializer"></a>
-
-```typescript
-import { aws_elasticache } from '@open-constructs/aws-cdk'
-
-const userAttributes: aws_elasticache.UserAttributes = { ... }
-```
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserAttributes.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserAttributes.property.userName">userName</a></code> | <code>string</code> | The name of the user. |
-
----
-
-##### `userId`<sup>Required</sup> <a name="userId" id="@open-constructs/aws-cdk.aws_elasticache.UserAttributes.property.userId"></a>
-
-```typescript
-public readonly userId: string;
-```
-
-- *Type:* string
-
-The ID of the user.
-
----
-
-##### `userName`<sup>Required</sup> <a name="userName" id="@open-constructs/aws-cdk.aws_elasticache.UserAttributes.property.userName"></a>
-
-```typescript
-public readonly userName: string;
-```
-
-- *Type:* string
-
-The name of the user.
-
----
-
 ### UserGroupAttributes <a name="UserGroupAttributes" id="@open-constructs/aws-cdk.aws_elasticache.UserGroupAttributes"></a>
 
 Attributes for importing a User Group.
@@ -8017,7 +7972,7 @@ The name of the repository.
 
 - *Implemented By:* @open-constructs/aws-cdk.aws_elasticache.ServerlessCache, @open-constructs/aws-cdk.aws_elasticache.IServerlessCache
 
-An ElastiCache Serverless Cache.
+Interface for an ElastiCache Serverless Cache.
 
 #### Methods <a name="Methods" id="Methods"></a>
 
@@ -8207,7 +8162,7 @@ The serverless cache name.
 
 - *Implemented By:* @open-constructs/aws-cdk.aws_elasticache.IamUser, @open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser, @open-constructs/aws-cdk.aws_elasticache.PasswordUser, @open-constructs/aws-cdk.aws_elasticache.IIamUser, @open-constructs/aws-cdk.aws_elasticache.INoPasswordRequiredUser, @open-constructs/aws-cdk.aws_elasticache.IPasswordUser, @open-constructs/aws-cdk.aws_elasticache.IUser
 
-A User.
+Interface for a User.
 
 
 #### Properties <a name="Properties" id="Properties"></a>
@@ -8308,7 +8263,7 @@ The name of the user.
 
 - *Implemented By:* @open-constructs/aws-cdk.aws_elasticache.UserGroup, @open-constructs/aws-cdk.aws_elasticache.IUserGroup
 
-A User Group.
+Interface for a User Group.
 
 
 #### Properties <a name="Properties" id="Properties"></a>

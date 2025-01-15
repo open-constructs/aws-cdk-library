@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/6c0417d84b8e1f6df98f62933fb0221b9ac8d7feb1b7472201d6045c9839dc15.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/53c1f3fdc904fb707a6266ef6b6bcdaed6ee240770a4205150dc53b1cd4e6bea.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -56,6 +56,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "PasswordUserFEC7CA81"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/IamUserForImport/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IamUserForImport0E4009D6"
           }
         ],
         "/ElastiCacheServerlessCacheStack/UserGroup/Resource": [
@@ -142,42 +148,6 @@
             "data": "VPCPublicSubnet2NATGateway3C070193"
           }
         ],
-        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet3/Subnet": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "VPCPublicSubnet3Subnet631C5E25"
-          }
-        ],
-        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet3/RouteTable": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "VPCPublicSubnet3RouteTable98AE0E14"
-          }
-        ],
-        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet3/RouteTableAssociation": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "VPCPublicSubnet3RouteTableAssociation427FE0C6"
-          }
-        ],
-        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet3/DefaultRoute": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "VPCPublicSubnet3DefaultRouteA0D29D46"
-          }
-        ],
-        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet3/EIP": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "VPCPublicSubnet3EIPAD4BC883"
-          }
-        ],
-        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet3/NATGateway": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "VPCPublicSubnet3NATGatewayD3048F5C"
-          }
-        ],
         "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet1/Subnet": [
           {
             "type": "aws:cdk:logicalId",
@@ -224,30 +194,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "VPCPrivateSubnet2DefaultRouteF4F5CFD2"
-          }
-        ],
-        "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet3/Subnet": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "VPCPrivateSubnet3Subnet3EDCD457"
-          }
-        ],
-        "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet3/RouteTable": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "VPCPrivateSubnet3RouteTable192186F8"
-          }
-        ],
-        "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet3/RouteTableAssociation": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "VPCPrivateSubnet3RouteTableAssociationC28D144E"
-          }
-        ],
-        "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet3/DefaultRoute": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "VPCPrivateSubnet3DefaultRoute27F311AE"
           }
         ],
         "/ElastiCacheServerlessCacheStack/VPC/IGW": [
@@ -314,6 +260,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ElastiCacheProcessingUnitsAlarm3C88F25C"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/TestRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestRole6C9272DF"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/TestRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestRoleDefaultPolicyD1C92014"
           }
         ],
         "/ElastiCacheServerlessCacheStack/BootstrapVersion": [
