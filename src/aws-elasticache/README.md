@@ -167,7 +167,7 @@ declare const user: IamUser;
 declare const serverlessCache: ServerlessCache;
 declare const role: iam.Role;
 
-// grant “elasticache:Connect” action permissions to role
+// grant "elasticache:Connect" action permissions to role
 user.grantConnect(role);
 serverlessCache.grantConnect(role);
 ```
