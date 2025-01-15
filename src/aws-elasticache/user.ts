@@ -34,20 +34,6 @@ export interface IUser extends IResource {
 }
 
 /**
- * Attributes for importing a User
- */
-export interface UserAttributes {
-  /**
-   * The ID of the user.
-   */
-  readonly userId: string;
-  /**
-   * The name of the user.
-   */
-  readonly userName: string;
-}
-
-/**
  * Properties for all user types
  */
 export interface BaseUserProps {
