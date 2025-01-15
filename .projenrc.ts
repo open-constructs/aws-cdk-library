@@ -52,7 +52,10 @@ Closes #<issue number here>.
 
 ### Checklist
 
-- [ ] My code adheres to the [CONTRIBUTING GUIDE](https://github.com/open-constructs/aws-cdk-library/blob/main/CONTRIBUTING.md)`,
+- [ ] My code adheres to the [CONTRIBUTING GUIDE](https://github.com/open-constructs/aws-cdk-library/blob/main/CONTRIBUTING.md)
+- [ ] My pull request adheres to the [Pull Request Rule](https://github.com/open-constructs/aws-cdk-library/blob/main/CONTRIBUTING.md#pull-request)
+  - **Do not omit the \`aws-\` part in the scope of the PR title if the PR relates to a specific AWS service module.**
+  - e.g.) feat(**aws-s3**): description of the change`,
   ],
   releaseTrigger: release.ReleaseTrigger.continuous(),
   releasableCommits: ReleasableCommits.ofType(['feat', 'fix', 'revert', 'Revert']),
