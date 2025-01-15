@@ -252,7 +252,7 @@ When submitting a pull request, please ensure that you have followed the guideli
   * `fix`: Describe the bug (not the solution)
 * In the case of changes to a specific module, the scope of the title should include the name of that module.
   * e.g.) `feat(aws-s3): description of the change`
-  * Do not omit the `aws-` part.
+  * Do not omit the `aws-` part in the scope of the PR title if the PR relates to a specific AWS service module.
 * Formatting guidelines for titles:
   * Title should be lowercase (except for the special use of `Revert`).
   * Do not end the title with a period.
