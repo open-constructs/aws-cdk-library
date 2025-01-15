@@ -14,7 +14,7 @@ import { Construct } from 'constructs';
 import { Engine } from './util';
 
 /**
- * A User
+ * Interface for a User
  */
 export interface IUser extends IResource {
   /**
