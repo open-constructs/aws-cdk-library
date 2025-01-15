@@ -18,7 +18,7 @@ import { IUserGroup } from './user-group';
 import { Engine } from './util';
 
 /**
- * An ElastiCache Serverless Cache
+ * Interface for an ElastiCache Serverless Cache
  */
 export interface IServerlessCache extends IResource, aws_ec2.IConnectable {
   /**
