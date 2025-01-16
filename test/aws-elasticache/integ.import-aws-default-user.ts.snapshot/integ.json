@@ -1,0 +1,12 @@
+{
+  "version": "36.0.0",
+  "testCases": {
+    "ImportDefaultUserTest/DefaultTest": {
+      "stacks": [
+        "ImportDefaultUserStack"
+      ],
+      "assertionStack": "ImportDefaultUserTest/DefaultTest/DeployAssert",
+      "assertionStackName": "ImportDefaultUserTestDefaultTestDeployAssert51B7C19D"
+    }
+  }
+}

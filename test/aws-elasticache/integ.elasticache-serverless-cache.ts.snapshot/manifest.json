@@ -1,0 +1,347 @@
+{
+  "version": "36.0.0",
+  "artifacts": {
+    "ElastiCacheServerlessCacheStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ElastiCacheServerlessCacheStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ElastiCacheServerlessCacheStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "ElastiCacheServerlessCacheStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/60d57e1ce652f9d1886666376a40309d73fcac44275b2fbd894524f9263907f7.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ElastiCacheServerlessCacheStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ElastiCacheServerlessCacheStack.assets"
+      ],
+      "metadata": {
+        "/ElastiCacheServerlessCacheStack/DefaultUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DefaultUser59E167ED"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/IamUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IamUser83DA77ED"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/NoPasswordRequiredUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NoPasswordRequiredUser09EED42D"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/PasswordUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PasswordUserFEC7CA81"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/IamUserForImport/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IamUserForImport0E4009D6"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/UserGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserGroupC755C9ED"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCB9E5F0B4"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1SubnetB4246D30"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1RouteTableFEE4B781"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1RouteTableAssociation0B0896DC"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1DefaultRoute91CEF279"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1EIP6AD938E8"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet1NATGatewayE0556630"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2Subnet74179F39"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2RouteTable6F1A15F1"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2RouteTableAssociation5A808732"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2DefaultRouteB7481BBA"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet2/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2EIP4947BC00"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PublicSubnet2/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPublicSubnet2NATGateway3C070193"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet1Subnet8BCA10E0"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet1RouteTableBE8A6027"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet1RouteTableAssociation347902D1"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet1DefaultRouteAE1D6490"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet2SubnetCFCDAA7A"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet2RouteTable0A19E10E"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet2RouteTableAssociation0C73D413"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCPrivateSubnet2DefaultRouteF4F5CFD2"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCIGWB7E252D3"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCVPCGW99B986DC"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/VPC/RestrictDefaultSecurityGroupCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VPCRestrictDefaultSecurityGroupCustomResource59474679"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/Key/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Key961B73FD"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/SecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SecurityGroupDD263621"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/ElastiCacheServerlessCluster/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ElastiCacheServerlessCluster09082A11"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/CacheHitsAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CacheHitsAlarm8EBEC2EA"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/BytesUsedForCacheAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BytesUsedForCacheAlarm18D5884D"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/ElastiCacheProcessingUnitsAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ElastiCacheProcessingUnitsAlarm3C88F25C"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/TestRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestRole6C9272DF"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/TestRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TestRoleDefaultPolicyD1C92014"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ElastiCacheServerlessCacheStack"
+    },
+    "ElastiCacheServerlessCacheTestDefaultTestDeployAssertB226C8E2.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ElastiCacheServerlessCacheTestDefaultTestDeployAssertB226C8E2.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ElastiCacheServerlessCacheTestDefaultTestDeployAssertB226C8E2": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "ElastiCacheServerlessCacheTestDefaultTestDeployAssertB226C8E2.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/21fbb51d7b23f6a6c262b46a9caee79d744a3ac019fd45422d988b96d44b2a22.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ElastiCacheServerlessCacheTestDefaultTestDeployAssertB226C8E2.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ElastiCacheServerlessCacheTestDefaultTestDeployAssertB226C8E2.assets"
+      ],
+      "metadata": {
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
