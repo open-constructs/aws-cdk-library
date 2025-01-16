@@ -1,0 +1,137 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "ImportDefaultUserStack": {
+        "id": "ImportDefaultUserStack",
+        "path": "ImportDefaultUserStack",
+        "children": {
+          "ImportedDefaultUser": {
+            "id": "ImportedDefaultUser",
+            "path": "ImportDefaultUserStack/ImportedDefaultUser",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.120.0"
+            }
+          },
+          "UserGroupForImportDefaultUser": {
+            "id": "UserGroupForImportDefaultUser",
+            "path": "ImportDefaultUserStack/UserGroupForImportDefaultUser",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "ImportDefaultUserStack/UserGroupForImportDefaultUser/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::ElastiCache::UserGroup",
+                  "aws:cdk:cloudformation:props": {
+                    "engine": "redis",
+                    "userGroupId": "user-group-for-default-user",
+                    "userIds": [
+                      "default"
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_elasticache.CfnUserGroup",
+                  "version": "2.120.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.120.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "ImportDefaultUserStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.120.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "ImportDefaultUserStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.120.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.120.0"
+        }
+      },
+      "ImportDefaultUserTest": {
+        "id": "ImportDefaultUserTest",
+        "path": "ImportDefaultUserTest",
+        "children": {
+          "DefaultTest": {
+            "id": "DefaultTest",
+            "path": "ImportDefaultUserTest/DefaultTest",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "ImportDefaultUserTest/DefaultTest/Default",
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.3.0"
+                }
+              },
+              "DeployAssert": {
+                "id": "DeployAssert",
+                "path": "ImportDefaultUserTest/DefaultTest/DeployAssert",
+                "children": {
+                  "BootstrapVersion": {
+                    "id": "BootstrapVersion",
+                    "path": "ImportDefaultUserTest/DefaultTest/DeployAssert/BootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.120.0"
+                    }
+                  },
+                  "CheckBootstrapVersion": {
+                    "id": "CheckBootstrapVersion",
+                    "path": "ImportDefaultUserTest/DefaultTest/DeployAssert/CheckBootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnRule",
+                      "version": "2.120.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Stack",
+                  "version": "2.120.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/integ-tests-alpha.IntegTestCase",
+              "version": "2.120.0-alpha.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "@aws-cdk/integ-tests-alpha.IntegTest",
+          "version": "2.120.0-alpha.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.3.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.120.0"
+    }
+  }
+}

@@ -93,25 +93,36 @@ const user = NoPasswordRequiredUser(this, 'User', {
 });
 ```
 
-ElastiCache automatically configures a default user with user ID and username `default` and adds it to all user groups.
-You can't modify or delete this user.
+### Default user
+
+ElastiCache automatically creates a default user with both a user ID and username set to `default`. This default user cannot be modified or deleted. The user is created as a no password authentication user.
 
 This user is intended for compatibility with the default behavior of previous Redis OSS versions and has an access string that permits it to call all commands and access all keys.
 
+To use this automatically created default user in CDK, you can import it using `NoPasswordRequiredUser.fromUserAttributes` method. For more information on import methods, see the [Import an existing user and user group](#import-an-existing-user-and-user-group) section.
+
 To add proper access control to a cache, replace the default user with a new one that is either disabled by setting the `accessString` to `off -@all` or secured with a strong password.
 
-To change the default user, create a new user with the username set to `default`. You can then swap it with the original default user.
+To change the default user, create a new default user with the username set to `default`. You can then swap it with the original default user.
 
 For more information, see [Applying RBAC to a Cache for ElastiCache with Valkey or Redis OSS](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Clusters.RBAC.html#rbac-using).
 
 If you want to create a new default user, `userName` must be `default` and `userId` must not be `default` by using `NoPasswordRequiredUser` or `PasswordUser`:
 
 ```ts
+// use the original `default` user by using import method
+const defaultUser = NoPasswordRequiredUser.fromUserAttributes(this, 'DefaultUser', {
+  // userId and userName must be 'default'
+  userId: 'default',
+  userName: 'default',
+});
+
+// create a new default user
 const newDefaultUser = NoPasswordRequiredUser(this, 'NewDefaultUser', {
+  // new default user id must not be 'default'
+  userId: 'new-default',
   // default username must be 'default'
   userName: 'default',
-  // new default user id must not be 'default'
-  userId: 'new-default'
 });
 ```
 
@@ -119,7 +130,8 @@ const newDefaultUser = NoPasswordRequiredUser(this, 'NewDefaultUser', {
 
 ### Add users to the user group
 
-Next, create a user group by using `UserGroup` Construct and add users to the group:
+Next, use the `UserGroup` construct to create a user group and add users to it.
+Ensure that you include either the original default user or a new default user:
 
 ```ts
 declare const newDefaultUser: User;
@@ -128,7 +140,7 @@ declare const anotherUser: User;
 
 const userGroup = new UserGroup(this, 'UserGroup', {
   // add users including default user
-  users: [defaultUser, user],
+  users: [newDefaultUser, user],
 });
 
 // you can also add a user by using addUser method
@@ -140,10 +152,12 @@ userGroup.addUser(anotherUser);
 Finally, assign a user group to cache:
 
 ```ts
+declare const vpc: ec2.Vpc;
 declare const userGroup: UserGroup;
 
 const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   engine: Engine.VALKEY,
+  majorEngineVersion: MajorVersion.VER_8,
   serverlessCacheName: 'my-serverless-cache',
   vpc,
   // assign User Group
@@ -210,7 +224,7 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
 
 To control who can access the serverless cache by the security groups, use the `.connections` attribute.
 
-The serverless cache have a default port `6379`.
+The serverless cache has a default port `6379`.
 
 This example allows an EC2 instance to connect to the serverless cache:
 
@@ -319,7 +333,7 @@ declare const serverlessCache: ServerlessCache;
 const cacheHits = serverlessCache.metric('CacheHits', { statistic: 'sum' });
 
 // The 5 minutes average of the total number of bytes used by the data stored in your cache over 5 minutes.
-const bytesUsedForCacheAlarm = serverlessCache.metricBytesUsedForCache();
+const bytesUsedForCache = serverlessCache.metricBytesUsedForCache();
 
 // The 5 minutes average of the total number of ElastiCacheProcessingUnits (ECPUs) consumed by the requests executed on your cache.
 const elastiCacheProcessingUnits = serverlessCache.metricElastiCacheProcessingUnits();
