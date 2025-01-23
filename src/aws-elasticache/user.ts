@@ -331,7 +331,7 @@ export class PasswordUser extends BaseUser implements IPasswordUser {
    * Imports an existing password authentication user from attributes
    */
   public static fromUserAttributes(scope: Construct, id: string, attrs: PasswordUserAttributes): IPasswordUser {
-    class Import extends Resource implements IUser {
+    class Import extends Resource implements IPasswordUser {
       public readonly userId = attrs.userId;
       public readonly userName = attrs.userName;
       public readonly userArn = Stack.of(this).formatArn({
@@ -423,7 +423,7 @@ export class NoPasswordRequiredUser extends BaseUser implements INoPasswordRequi
     id: string,
     attrs: NoPasswordUserAttributes,
   ): INoPasswordRequiredUser {
-    class Import extends Resource implements IUser {
+    class Import extends Resource implements INoPasswordRequiredUser {
       public readonly userId = attrs.userId;
       public readonly userName = attrs.userName;
       public readonly userArn = Stack.of(this).formatArn({
