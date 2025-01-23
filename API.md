@@ -2360,6 +2360,7 @@ Imports an existing password authentication user from attributes.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.userName">userName</a></code> | <code>string</code> | The name of the user. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.secret">secret</a></code> | <code>aws-cdk-lib.aws_secretsmanager.ISecret</code> | The secret containing the generated password. |
 
 ---
 
@@ -2439,6 +2440,18 @@ public readonly userName: string;
 - *Type:* string
 
 The name of the user.
+
+---
+
+##### `secret`<sup>Optional</sup> <a name="secret" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.secret"></a>
+
+```typescript
+public readonly secret: ISecret;
+```
+
+- *Type:* aws-cdk-lib.aws_secretsmanager.ISecret
+
+The secret containing the generated password.
 
 ---
 
@@ -5274,13 +5287,14 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 
 ---
 
-##### `passwords`<sup>Required</sup> <a name="passwords" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUserProps.property.passwords"></a>
+##### `passwords`<sup>Optional</sup> <a name="passwords" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUserProps.property.passwords"></a>
 
 ```typescript
 public readonly passwords: SecretValue[];
 ```
 
 - *Type:* aws-cdk-lib.SecretValue[]
+- *Default:* automatically generate one password for the user
 
 Passwords used for this user account.
 

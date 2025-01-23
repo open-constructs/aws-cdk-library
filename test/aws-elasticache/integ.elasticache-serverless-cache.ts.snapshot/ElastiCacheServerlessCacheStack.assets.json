@@ -14,7 +14,7 @@
         }
       }
     },
-    "60d57e1ce652f9d1886666376a40309d73fcac44275b2fbd894524f9263907f7": {
+    "5fd25d71c3ab37316d4c898815d4f30f446a4dbe60ca1f2aaf950bb469c844c2": {
       "source": {
         "path": "ElastiCacheServerlessCacheStack.template.json",
         "packaging": "file"
@@ -22,7 +22,7 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "60d57e1ce652f9d1886666376a40309d73fcac44275b2fbd894524f9263907f7.json",
+          "objectKey": "5fd25d71c3ab37316d4c898815d4f30f446a4dbe60ca1f2aaf950bb469c844c2.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
