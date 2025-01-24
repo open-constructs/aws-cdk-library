@@ -336,7 +336,7 @@ describe('ElastiCache User', () => {
       });
 
       expect(() => user.generatedSecret).toThrow(
-        'The generated secret is only available when \'passwords\' is not specified.',
+        "The generated secret is only available when 'passwords' is not specified.",
       );
     });
   });
