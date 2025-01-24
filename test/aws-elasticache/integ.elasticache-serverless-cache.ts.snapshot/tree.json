@@ -151,7 +151,7 @@
                           "secretStringTemplate": "{\"username\":\"generated-password-user-names\"}",
                           "generateStringKey": "password",
                           "passwordLength": 32,
-                          "excludeCharacters": "@%*()_+=`~{}|[]\\:\";''?,./"
+                          "excludeCharacters": "\"%'()*+,./:;=?@[\\]_`{|}~"
                         }
                       }
                     },
