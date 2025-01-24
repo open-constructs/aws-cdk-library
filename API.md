@@ -2357,10 +2357,10 @@ Imports an existing password authentication user from attributes.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.generatedSecret">generatedSecret</a></code> | <code>aws-cdk-lib.aws_secretsmanager.ISecret</code> | The secret containing the generated password. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.userName">userName</a></code> | <code>string</code> | The name of the user. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.secret">secret</a></code> | <code>aws-cdk-lib.aws_secretsmanager.ISecret</code> | The secret containing the generated password. |
 
 ---
 
@@ -2407,6 +2407,20 @@ The stack in which this resource is defined.
 
 ---
 
+##### `generatedSecret`<sup>Required</sup> <a name="generatedSecret" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.generatedSecret"></a>
+
+```typescript
+public readonly generatedSecret: ISecret;
+```
+
+- *Type:* aws-cdk-lib.aws_secretsmanager.ISecret
+
+The secret containing the generated password.
+
+Throws an exception if `passwords` is provided in the props
+
+---
+
 ##### `userArn`<sup>Required</sup> <a name="userArn" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.userArn"></a>
 
 ```typescript
@@ -2440,18 +2454,6 @@ public readonly userName: string;
 - *Type:* string
 
 The name of the user.
-
----
-
-##### `secret`<sup>Optional</sup> <a name="secret" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.secret"></a>
-
-```typescript
-public readonly secret: ISecret;
-```
-
-- *Type:* aws-cdk-lib.aws_secretsmanager.ISecret
-
-The secret containing the generated password.
 
 ---
 

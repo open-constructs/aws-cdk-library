@@ -329,5 +329,15 @@ describe('ElastiCache User', () => {
         });
       }).toThrow('Up to 2 passwords can be set, got 3 passwords.');
     });
+
+    test('throws when access the generatedSecret property when passwords are provided', () => {
+      const user = new PasswordUser(stack, 'User', {
+        passwords: [SecretValue.unsafePlainText('adminUserPassword123')],
+      });
+
+      expect(() => user.generatedSecret).toThrow(
+        'The generated secret is only available when passwords are not provided in the props.',
+      );
+    });
   });
 });

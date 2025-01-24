@@ -89,7 +89,7 @@ const user = PasswordUser(this, 'User', {
 });
 
 // you can access the ISecret object
-user.secret
+user.generatedSecret
 ```
 
 You can also create a no password required user by using `NoPasswordRequiredUser` construct:

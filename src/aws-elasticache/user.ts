@@ -347,14 +347,7 @@ export class PasswordUser extends BaseUser implements IPasswordUser {
     return new Import(scope, id);
   }
 
-  /**
-   * The secret containing the generated password
-   */
-  public get secret(): aws_secretsmanager.ISecret | undefined {
-    return this._secret;
-  }
-
-  private _secret?: aws_secretsmanager.ISecret;
+  private _generatedSecret?: aws_secretsmanager.ISecret;
 
   constructor(scope: Construct, id: string, props: PasswordUserProps) {
     super(scope, id, props);
@@ -380,7 +373,7 @@ export class PasswordUser extends BaseUser implements IPasswordUser {
       };
     }
 
-    this._secret = new aws_secretsmanager.Secret(this, 'Secret', {
+    this._generatedSecret = new aws_secretsmanager.Secret(this, 'Secret', {
       generateSecretString: {
         // https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/auth.html#auth-overview
         secretStringTemplate: JSON.stringify({
@@ -401,8 +394,20 @@ export class PasswordUser extends BaseUser implements IPasswordUser {
 
     return {
       Type: 'password',
-      Passwords: [this._secret.secretValueFromJson('password').unsafeUnwrap()],
+      Passwords: [this._generatedSecret.secretValueFromJson('password').unsafeUnwrap()],
     };
+  }
+
+  /**
+   * The secret containing the generated password
+   *
+   * Throws an exception if `passwords` is provided in the props
+   */
+  public get generatedSecret(): aws_secretsmanager.ISecret {
+    if (!this._generatedSecret) {
+      throw new Error(`The generated secret is only available when passwords are not provided in the props.`);
+    }
+    return this._generatedSecret;
   }
 }
 
