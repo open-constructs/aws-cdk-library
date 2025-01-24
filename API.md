@@ -2357,6 +2357,7 @@ Imports an existing password authentication user from attributes.
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.generatedSecret">generatedSecret</a></code> | <code>aws-cdk-lib.aws_secretsmanager.ISecret</code> | The secret containing the generated password. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.userName">userName</a></code> | <code>string</code> | The name of the user. |
@@ -2403,6 +2404,20 @@ public readonly stack: Stack;
 - *Type:* aws-cdk-lib.Stack
 
 The stack in which this resource is defined.
+
+---
+
+##### `generatedSecret`<sup>Required</sup> <a name="generatedSecret" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.generatedSecret"></a>
+
+```typescript
+public readonly generatedSecret: ISecret;
+```
+
+- *Type:* aws-cdk-lib.aws_secretsmanager.ISecret
+
+The secret containing the generated password.
+
+Throws an exception if `passwords` is provided in the props
 
 ---
 
@@ -5274,13 +5289,14 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 
 ---
 
-##### `passwords`<sup>Required</sup> <a name="passwords" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUserProps.property.passwords"></a>
+##### `passwords`<sup>Optional</sup> <a name="passwords" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUserProps.property.passwords"></a>
 
 ```typescript
 public readonly passwords: SecretValue[];
 ```
 
 - *Type:* aws-cdk-lib.SecretValue[]
+- *Default:* automatically generate a password for the user
 
 Passwords used for this user account.
 

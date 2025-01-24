@@ -32,6 +32,12 @@ class ElastiCacheStack extends cdk.Stack {
       ],
     });
 
+    const generatedPasswordUser = new ocf.aws_elasticache.PasswordUser(this, 'GeneratedPasswordUser', {
+      userId: 'generated-password-user',
+      userName: 'generated-password-user-names',
+      accessString: 'on ~* +@all',
+    });
+
     const iamUserForImport = new ocf.aws_elasticache.IamUser(this, 'IamUserForImport', {
       userId: 'iam-user-for-import',
       accessString: 'on ~* +@all',
@@ -41,7 +47,7 @@ class ElastiCacheStack extends cdk.Stack {
 
     const userGroup = new ocf.aws_elasticache.UserGroup(this, 'UserGroup', {
       userGroupId: 'my-user-group',
-      users: [defaultUser, iamUser, noPasswordRequiredUser],
+      users: [defaultUser, iamUser, noPasswordRequiredUser, generatedPasswordUser],
     });
 
     userGroup.addUser(passwordUser);
