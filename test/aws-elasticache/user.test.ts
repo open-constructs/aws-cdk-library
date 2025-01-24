@@ -336,7 +336,7 @@ describe('ElastiCache User', () => {
       });
 
       expect(() => user.generatedSecret).toThrow(
-        'The generated secret is only available when passwords are not provided in the props.',
+        'The generated secret is only available when \'passwords\' is not specified.',
       );
     });
   });
