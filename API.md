@@ -5294,7 +5294,7 @@ public readonly passwords: SecretValue[];
 ```
 
 - *Type:* aws-cdk-lib.SecretValue[]
-- *Default:* automatically generate one password for the user
+- *Default:* automatically generate a password for the user
 
 Passwords used for this user account.
 
