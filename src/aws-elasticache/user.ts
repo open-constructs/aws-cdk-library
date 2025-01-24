@@ -405,7 +405,7 @@ export class PasswordUser extends BaseUser implements IPasswordUser {
    */
   public get generatedSecret(): aws_secretsmanager.ISecret {
     if (!this._generatedSecret) {
-      throw new Error(`The generated secret is only available when passwords are not provided in the props.`);
+      throw new Error(`The generated secret is only available when 'passwords' is not specified.`);
     }
     return this._generatedSecret;
   }
