@@ -81,7 +81,7 @@
          {
           "Ref": "GeneratedPasswordUserSecret7D7F7F27"
          },
-         ":SecretString:::}}"
+         ":SecretString:password::}}"
         ]
        ]
       }

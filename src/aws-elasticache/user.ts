@@ -401,7 +401,7 @@ export class PasswordUser extends BaseUser implements IPasswordUser {
 
     return {
       Type: 'password',
-      Passwords: [this._secret.secretValue.unsafeUnwrap()],
+      Passwords: [this._secret.secretValueFromJson('password').unsafeUnwrap()],
     };
   }
 }

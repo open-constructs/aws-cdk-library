@@ -83,7 +83,7 @@ describe('ElastiCache User', () => {
                   {
                     Ref: 'UserSecretE2C04A69',
                   },
-                  ':SecretString:::}}',
+                  ':SecretString:password::}}',
                 ],
               ],
             },
