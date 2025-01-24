@@ -78,7 +78,7 @@ const user = PasswordUser(this, 'User', {
 });
 ```
 
-If the `passwords` property is not specified, a single password will be generated and stored in AWS Secrets Manager.
+If the `passwords` property is not specified, a single password will be automatically generated and stored in AWS Secrets Manager.
 
 ```ts
 const user = PasswordUser(this, 'User', {
