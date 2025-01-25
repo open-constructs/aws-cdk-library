@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/60d57e1ce652f9d1886666376a40309d73fcac44275b2fbd894524f9263907f7.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/7d17558a1f0e522b0468782535824aa34653fc3af184543bd2aebed790e5ea9c.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -56,6 +56,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "PasswordUserFEC7CA81"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/GeneratedPasswordUser/Secret/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GeneratedPasswordUserSecret7D7F7F27"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/GeneratedPasswordUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GeneratedPasswordUserBAEB332D"
           }
         ],
         "/ElastiCacheServerlessCacheStack/IamUserForImport/Resource": [

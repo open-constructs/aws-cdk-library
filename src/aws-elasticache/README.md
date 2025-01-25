@@ -78,6 +78,20 @@ const user = PasswordUser(this, 'User', {
 });
 ```
 
+If the `passwords` property is not specified, a single password will be automatically generated and stored in AWS Secrets Manager.
+
+```ts
+const user = PasswordUser(this, 'User', {
+  userId: 'my-user-id',
+  accessString: 'on ~* +@all',
+  userName: 'my-user-name',
+  // `passwords` property is not specified and a single password will be generated
+});
+
+// you can access the ISecret object
+user.generatedSecret
+```
+
 You can also create a no password required user by using `NoPasswordRequiredUser` construct:
 
 ```ts
