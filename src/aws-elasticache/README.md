@@ -12,7 +12,7 @@ This module has constructs for [Amazon ElastiCache](https://docs.aws.amazon.com/
 Setup required properties and create:
 
 ```ts
-const newDefaultUser = NoPasswordRequiredUser(this, 'DefaultUser', {
+const newDefaultUser = new NoPasswordRequiredUser(this, 'DefaultUser', {
   userName: 'default',
 });
 
@@ -46,7 +46,7 @@ For more information, see [Specifying Permissions Using an Access String](https:
 You can create an IAM-enabled user by using `IamUser` construct:
 
 ```ts
-const user = IamUser(this, 'User', {
+const user = new IamUser(this, 'User', {
   // set user id
   userId: 'my-user',
 
@@ -60,7 +60,7 @@ const user = IamUser(this, 'User', {
 If you want to create a password authenticated user, use `PasswordUser` construct:
 
 ```ts
-const user = PasswordUser(this, 'User', {
+const user = new PasswordUser(this, 'User', {
   // set user id
   userId: 'my-user-id',
 
@@ -81,7 +81,7 @@ const user = PasswordUser(this, 'User', {
 If the `passwords` property is not specified, a single password will be automatically generated and stored in AWS Secrets Manager.
 
 ```ts
-const user = PasswordUser(this, 'User', {
+const user = new PasswordUser(this, 'User', {
   userId: 'my-user-id',
   accessString: 'on ~* +@all',
   userName: 'my-user-name',
@@ -95,7 +95,7 @@ user.generatedSecret
 You can also create a no password required user by using `NoPasswordRequiredUser` construct:
 
 ```ts
-const user = NoPasswordRequiredUser(this, 'User', {
+const user = new NoPasswordRequiredUser(this, 'User', {
   // set user id
   userId: 'my-user-id',
 
@@ -132,7 +132,7 @@ const defaultUser = NoPasswordRequiredUser.fromUserAttributes(this, 'DefaultUser
 });
 
 // create a new default user
-const newDefaultUser = NoPasswordRequiredUser(this, 'NewDefaultUser', {
+const newDefaultUser = new NoPasswordRequiredUser(this, 'NewDefaultUser', {
   // new default user id must not be 'default'
   userId: 'new-default',
   // default username must be 'default'
