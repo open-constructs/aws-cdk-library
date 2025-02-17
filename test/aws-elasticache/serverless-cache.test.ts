@@ -324,7 +324,7 @@ describe('ElastiCache Serverless Cache', () => {
         metricName: 'CacheHits',
         statistic: Stats.AVERAGE,
         dimensions: {
-          CacheClusterId: serverlessCache.serverlessCacheName,
+          clusterId: serverlessCache.serverlessCacheName,
         },
         period: {
           amount: 5,
@@ -347,7 +347,7 @@ describe('ElastiCache Serverless Cache', () => {
         metricName: 'BytesUsedForCache',
         statistic: Stats.AVERAGE,
         dimensions: {
-          CacheClusterId: serverlessCache.serverlessCacheName,
+          clusterId: serverlessCache.serverlessCacheName,
         },
         period: {
           amount: 5,
@@ -370,7 +370,7 @@ describe('ElastiCache Serverless Cache', () => {
         metricName: 'ElastiCacheProcessingUnits',
         statistic: Stats.AVERAGE,
         dimensions: {
-          CacheClusterId: serverlessCache.serverlessCacheName,
+          clusterId: serverlessCache.serverlessCacheName,
         },
         period: {
           amount: 5,

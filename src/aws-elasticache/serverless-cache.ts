@@ -298,7 +298,7 @@ abstract class ServerlessCacheBase extends Resource implements IServerlessCache 
     return new Metric({
       namespace: 'AWS/ElastiCache',
       dimensionsMap: {
-        CacheClusterId: this.serverlessCacheName,
+        clusterId: this.serverlessCacheName,
       },
       metricName,
       ...props,
