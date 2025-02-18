@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/7d17558a1f0e522b0468782535824aa34653fc3af184543bd2aebed790e5ea9c.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/d64b11b9e7a58a88f37eced4fb01e4e1930be8cfc214dd9339b0146a929ed9c3.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -286,6 +286,18 @@
             "data": "TestRoleDefaultPolicyD1C92014"
           }
         ],
+        "/ElastiCacheServerlessCacheStack/Exports/Output{\"Ref\":\"CacheHitsAlarm8EBEC2EA\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefCacheHitsAlarm8EBEC2EA7A07A227"
+          }
+        ],
+        "/ElastiCacheServerlessCacheStack/Exports/Output{\"Ref\":\"BytesUsedForCacheAlarm18D5884D\"}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputRefBytesUsedForCacheAlarm18D5884D881686E0"
+          }
+        ],
         "/ElastiCacheServerlessCacheStack/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
@@ -318,7 +330,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/21fbb51d7b23f6a6c262b46a9caee79d744a3ac019fd45422d988b96d44b2a22.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/dbfafc122f2e9b8a060842904d5df7178d0e17369c63a7e472a779e2fe222876.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -331,9 +343,82 @@
         }
       },
       "dependencies": [
+        "ElastiCacheServerlessCacheStack",
         "ElastiCacheServerlessCacheTestDefaultTestDeployAssertB226C8E2.assets"
       ],
       "metadata": {
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4"
+          }
+        ],
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor/IsCompleteProvider/Invoke": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4WaitForIsCompleteProviderInvokeE6D88DDD"
+          }
+        ],
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor/TimeoutProvider/Invoke": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4WaitForTimeoutProviderInvokeB2A8BDB9"
+          }
+        ],
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4WaitForRole1188B3DD"
+          }
+        ],
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4WaitForBFDD3410"
+          }
+        ],
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/AssertionResults": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssertionResultsAwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4"
+          }
+        ],
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73"
+          }
+        ],
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F"
+          }
+        ],
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction76b3e830a873425f8453eddd85c86925/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction76b3e830a873425f8453eddd85c86925Role918961BB"
+          }
+        ],
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction76b3e830a873425f8453eddd85c86925/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction76b3e830a873425f8453eddd85c86925Handler81461ECE"
+          }
+        ],
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41aRoleB84BD8CE"
+          }
+        ],
+        "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41aHandlerADF3E6EA"
+          }
+        ],
         "/ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",

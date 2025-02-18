@@ -732,7 +732,7 @@
     "ComparisonOperator": "GreaterThanOrEqualToThreshold",
     "Dimensions": [
      {
-      "Name": "CacheClusterId",
+      "Name": "clusterId",
       "Value": {
        "Ref": "ElastiCacheServerlessCluster09082A11"
       }
@@ -752,7 +752,7 @@
     "ComparisonOperator": "GreaterThanOrEqualToThreshold",
     "Dimensions": [
      {
-      "Name": "CacheClusterId",
+      "Name": "clusterId",
       "Value": {
        "Ref": "ElastiCacheServerlessCluster09082A11"
       }
@@ -772,7 +772,7 @@
     "ComparisonOperator": "GreaterThanOrEqualToThreshold",
     "Dimensions": [
      {
-      "Name": "CacheClusterId",
+      "Name": "clusterId",
       "Value": {
        "Ref": "ElastiCacheServerlessCluster09082A11"
       }
@@ -907,6 +907,24 @@
       "Ref": "TestRole6C9272DF"
      }
     ]
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputRefCacheHitsAlarm8EBEC2EA7A07A227": {
+   "Value": {
+    "Ref": "CacheHitsAlarm8EBEC2EA"
+   },
+   "Export": {
+    "Name": "ElastiCacheServerlessCacheStack:ExportsOutputRefCacheHitsAlarm8EBEC2EA7A07A227"
+   }
+  },
+  "ExportsOutputRefBytesUsedForCacheAlarm18D5884D881686E0": {
+   "Value": {
+    "Ref": "BytesUsedForCacheAlarm18D5884D"
+   },
+   "Export": {
+    "Name": "ElastiCacheServerlessCacheStack:ExportsOutputRefBytesUsedForCacheAlarm18D5884D881686E0"
    }
   }
  },
