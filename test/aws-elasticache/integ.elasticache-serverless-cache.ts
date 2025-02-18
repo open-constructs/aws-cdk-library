@@ -1,13 +1,13 @@
 import { IntegTest, ExpectedResult, AwsApiCall } from '@aws-cdk/integ-tests-alpha';
 import * as cdk from 'aws-cdk-lib';
+import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
 import * as ocf from '../../src';
 import { DailySnapshotTime, Engine, MajorVersion } from '../../src/aws-elasticache';
-import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 
 class ElastiCacheStack extends cdk.Stack {
   public readonly alarms: cloudwatch.IAlarm[] = [];
-  
+
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -115,16 +115,18 @@ const integ = new IntegTest(app, 'ElastiCacheServerlessCacheTest', {
   testCases: [testCase],
 });
 
-const describeAlarmsCall = integ.assertions.awsApiCall(
-  'cloudwatch',
-  'DescribeAlarmsCommand',
-  {
-    AlarmNames: testCase.alarms.map(a => a.alarmName),
-  },
-  testCase.alarms.map((_, i) => `MetricAlarms.${i}.StateValue`),
-).waitForAssertions({
-  totalTimeout: cdk.Duration.minutes(2),
-}) as AwsApiCall;
+const describeAlarmsCall = integ.assertions
+  .awsApiCall(
+    'cloudwatch',
+    'DescribeAlarmsCommand',
+    {
+      AlarmNames: testCase.alarms.map(a => a.alarmName),
+    },
+    testCase.alarms.map((_, i) => `MetricAlarms.${i}.StateValue`),
+  )
+  .waitForAssertions({
+    totalTimeout: cdk.Duration.minutes(2),
+  }) as AwsApiCall;
 
 // In the current version of aws-cdk-lib, awsApiCall cannot generate the correct policy for CloudWatch API calls
 // https://github.com/aws/aws-cdk/pull/33078
