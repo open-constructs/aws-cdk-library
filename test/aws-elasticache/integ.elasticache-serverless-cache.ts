@@ -1,10 +1,13 @@
-import { IntegTest } from '@aws-cdk/integ-tests-alpha';
+import { IntegTest, ExpectedResult, AwsApiCall } from '@aws-cdk/integ-tests-alpha';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as ocf from '../../src';
 import { DailySnapshotTime, Engine, MajorVersion } from '../../src/aws-elasticache';
+import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 
 class ElastiCacheStack extends cdk.Stack {
+  public readonly alarms: cloudwatch.IAlarm[] = [];
+  
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -80,11 +83,11 @@ class ElastiCacheStack extends cdk.Stack {
       userGroup,
     });
 
-    serverlessCache.metric('CacheHits', {}).createAlarm(this, 'CacheHitsAlarm', {
+    const cacheHitsAlarm = serverlessCache.metric('CacheHits', {}).createAlarm(this, 'CacheHitsAlarm', {
       threshold: 50,
       evaluationPeriods: 1,
     });
-    serverlessCache.metricBytesUsedForCache().createAlarm(this, 'BytesUsedForCacheAlarm', {
+    const bytesUsedAlarm = serverlessCache.metricBytesUsedForCache().createAlarm(this, 'BytesUsedForCacheAlarm', {
       threshold: 50,
       evaluationPeriods: 1,
     });
@@ -92,6 +95,10 @@ class ElastiCacheStack extends cdk.Stack {
       threshold: 50,
       evaluationPeriods: 1,
     });
+
+    // Add the alarms to the array to assert on them later
+    // ElastiCacheProcessingUnitsAlarm is not added because ElastiCacheProcessingUnits metric data is not available without executing commands
+    this.alarms.push(cacheHitsAlarm, bytesUsedAlarm);
 
     const role = new cdk.aws_iam.Role(this, 'TestRole', { assumedBy: new cdk.aws_iam.AccountRootPrincipal() });
     iamUser.grantConnect(role);
@@ -104,6 +111,29 @@ const app = new cdk.App();
 
 const testCase = new ElastiCacheStack(app, 'ElastiCacheServerlessCacheStack');
 
-new IntegTest(app, 'ElastiCacheServerlessCacheTest', {
+const integ = new IntegTest(app, 'ElastiCacheServerlessCacheTest', {
   testCases: [testCase],
 });
+
+const describeAlarmsCall = integ.assertions.awsApiCall(
+  'cloudwatch',
+  'DescribeAlarmsCommand',
+  {
+    AlarmNames: testCase.alarms.map(a => a.alarmName),
+  },
+  testCase.alarms.map((_, i) => `MetricAlarms.${i}.StateValue`),
+).waitForAssertions({
+  totalTimeout: cdk.Duration.minutes(2),
+}) as AwsApiCall;
+
+// In the current version of aws-cdk-lib, awsApiCall cannot generate the correct policy for CloudWatch API calls
+// https://github.com/aws/aws-cdk/pull/33078
+describeAlarmsCall.waiterProvider?.addToRolePolicy({
+  Effect: 'Allow',
+  Action: ['cloudwatch:DescribeAlarms'],
+  Resource: ['*'],
+});
+
+for (const [i, _] of testCase.alarms.entries()) {
+  describeAlarmsCall.assertAtPath(`MetricAlarms.${i}.StateValue`, ExpectedResult.stringLikeRegexp('OK'));
+}

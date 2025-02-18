@@ -1137,7 +1137,7 @@
                     "comparisonOperator": "GreaterThanOrEqualToThreshold",
                     "dimensions": [
                       {
-                        "name": "CacheClusterId",
+                        "name": "clusterId",
                         "value": {
                           "Ref": "ElastiCacheServerlessCluster09082A11"
                         }
@@ -1175,7 +1175,7 @@
                     "comparisonOperator": "GreaterThanOrEqualToThreshold",
                     "dimensions": [
                       {
-                        "name": "CacheClusterId",
+                        "name": "clusterId",
                         "value": {
                           "Ref": "ElastiCacheServerlessCluster09082A11"
                         }
@@ -1213,7 +1213,7 @@
                     "comparisonOperator": "GreaterThanOrEqualToThreshold",
                     "dimensions": [
                       {
-                        "name": "CacheClusterId",
+                        "name": "clusterId",
                         "value": {
                           "Ref": "ElastiCacheServerlessCluster09082A11"
                         }
@@ -1405,6 +1405,32 @@
               "version": "2.120.0"
             }
           },
+          "Exports": {
+            "id": "Exports",
+            "path": "ElastiCacheServerlessCacheStack/Exports",
+            "children": {
+              "Output{\"Ref\":\"CacheHitsAlarm8EBEC2EA\"}": {
+                "id": "Output{\"Ref\":\"CacheHitsAlarm8EBEC2EA\"}",
+                "path": "ElastiCacheServerlessCacheStack/Exports/Output{\"Ref\":\"CacheHitsAlarm8EBEC2EA\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.120.0"
+                }
+              },
+              "Output{\"Ref\":\"BytesUsedForCacheAlarm18D5884D\"}": {
+                "id": "Output{\"Ref\":\"BytesUsedForCacheAlarm18D5884D\"}",
+                "path": "ElastiCacheServerlessCacheStack/Exports/Output{\"Ref\":\"BytesUsedForCacheAlarm18D5884D\"}",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnOutput",
+                  "version": "2.120.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
             "path": "ElastiCacheServerlessCacheStack/BootstrapVersion",
@@ -1447,6 +1473,240 @@
                 "id": "DeployAssert",
                 "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert",
                 "children": {
+                  "AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4": {
+                    "id": "AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4",
+                    "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4",
+                    "children": {
+                      "SdkProvider": {
+                        "id": "SdkProvider",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/SdkProvider",
+                        "children": {
+                          "AssertionsProvider": {
+                            "id": "AssertionsProvider",
+                            "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/SdkProvider/AssertionsProvider",
+                            "constructInfo": {
+                              "fqn": "constructs.Construct",
+                              "version": "10.3.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                          "version": "2.120.0-alpha.0"
+                        }
+                      },
+                      "Default": {
+                        "id": "Default",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/Default",
+                        "children": {
+                          "Default": {
+                            "id": "Default",
+                            "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/Default/Default",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.120.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CustomResource",
+                          "version": "2.120.0"
+                        }
+                      },
+                      "WaitFor": {
+                        "id": "WaitFor",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor",
+                        "children": {
+                          "IsCompleteProvider": {
+                            "id": "IsCompleteProvider",
+                            "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor/IsCompleteProvider",
+                            "children": {
+                              "AssertionsProvider": {
+                                "id": "AssertionsProvider",
+                                "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor/IsCompleteProvider/AssertionsProvider",
+                                "constructInfo": {
+                                  "fqn": "constructs.Construct",
+                                  "version": "10.3.0"
+                                }
+                              },
+                              "Invoke": {
+                                "id": "Invoke",
+                                "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor/IsCompleteProvider/Invoke",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.CfnResource",
+                                  "version": "2.120.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                              "version": "2.120.0-alpha.0"
+                            }
+                          },
+                          "TimeoutProvider": {
+                            "id": "TimeoutProvider",
+                            "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor/TimeoutProvider",
+                            "children": {
+                              "AssertionsProvider": {
+                                "id": "AssertionsProvider",
+                                "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor/TimeoutProvider/AssertionsProvider",
+                                "constructInfo": {
+                                  "fqn": "constructs.Construct",
+                                  "version": "10.3.0"
+                                }
+                              },
+                              "Invoke": {
+                                "id": "Invoke",
+                                "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor/TimeoutProvider/Invoke",
+                                "constructInfo": {
+                                  "fqn": "aws-cdk-lib.CfnResource",
+                                  "version": "2.120.0"
+                                }
+                              }
+                            },
+                            "constructInfo": {
+                              "fqn": "@aws-cdk/integ-tests-alpha.AssertionsProvider",
+                              "version": "2.120.0-alpha.0"
+                            }
+                          },
+                          "Role": {
+                            "id": "Role",
+                            "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor/Role",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.120.0"
+                            }
+                          },
+                          "Resource": {
+                            "id": "Resource",
+                            "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/WaitFor/Resource",
+                            "constructInfo": {
+                              "fqn": "aws-cdk-lib.CfnResource",
+                              "version": "2.120.0"
+                            }
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "@aws-cdk/integ-tests-alpha.WaiterStateMachine",
+                          "version": "2.120.0-alpha.0"
+                        }
+                      },
+                      "AssertionResults": {
+                        "id": "AssertionResults",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/AwsApiCallcloudwatchDescribeAlarmsCommand7ce2583325eecc15b83365b4505290a4/AssertionResults",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnOutput",
+                          "version": "2.120.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/integ-tests-alpha.AwsApiCall",
+                      "version": "2.120.0-alpha.0"
+                    }
+                  },
+                  "SingletonFunction1488541a7b23466481b69b4408076b81": {
+                    "id": "SingletonFunction1488541a7b23466481b69b4408076b81",
+                    "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81",
+                    "children": {
+                      "Staging": {
+                        "id": "Staging",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Staging",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.120.0"
+                        }
+                      },
+                      "Role": {
+                        "id": "Role",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Role",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.120.0"
+                        }
+                      },
+                      "Handler": {
+                        "id": "Handler",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction1488541a7b23466481b69b4408076b81/Handler",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.120.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.3.0"
+                    }
+                  },
+                  "SingletonFunction76b3e830a873425f8453eddd85c86925": {
+                    "id": "SingletonFunction76b3e830a873425f8453eddd85c86925",
+                    "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction76b3e830a873425f8453eddd85c86925",
+                    "children": {
+                      "Staging": {
+                        "id": "Staging",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction76b3e830a873425f8453eddd85c86925/Staging",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.120.0"
+                        }
+                      },
+                      "Role": {
+                        "id": "Role",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction76b3e830a873425f8453eddd85c86925/Role",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.120.0"
+                        }
+                      },
+                      "Handler": {
+                        "id": "Handler",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction76b3e830a873425f8453eddd85c86925/Handler",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.120.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.3.0"
+                    }
+                  },
+                  "SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a": {
+                    "id": "SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a",
+                    "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a",
+                    "children": {
+                      "Staging": {
+                        "id": "Staging",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a/Staging",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.AssetStaging",
+                          "version": "2.120.0"
+                        }
+                      },
+                      "Role": {
+                        "id": "Role",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a/Role",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.120.0"
+                        }
+                      },
+                      "Handler": {
+                        "id": "Handler",
+                        "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/SingletonFunction5c1898e096fb4e3e95d5f6c67f3ce41a/Handler",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.CfnResource",
+                          "version": "2.120.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "constructs.Construct",
+                      "version": "10.3.0"
+                    }
+                  },
                   "BootstrapVersion": {
                     "id": "BootstrapVersion",
                     "path": "ElastiCacheServerlessCacheTest/DefaultTest/DeployAssert/BootstrapVersion",
