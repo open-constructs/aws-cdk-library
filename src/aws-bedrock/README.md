@@ -82,11 +82,12 @@ const inferenceProfile = new BedrockApplicationInferenceProfile(this, 'MyInferen
   inferenceProfileName: 'my-inference-profile',
   description: 'My Bedrock inference profile',
   modelSource: ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1, 'us-west-2'),
-  tags: {
-    Environment: 'Production',
-    Project: 'AI-Initiative'
-  }
 });
+
+// タグは個別に追加
+import { Tags } from 'aws-cdk-lib';
+Tags.of(inferenceProfile).add('Environment', 'Production');
+Tags.of(inferenceProfile).add('Project', 'AI-Initiative');
 ```
 
 #### Importing an existing Inference Profile
@@ -133,15 +134,16 @@ You can use tag-based access control (ABAC) with inference profiles for more gra
 import { BedrockApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
-// Create a user-specific inference profile with tags
+// Create a user-specific inference profile and add tags
 const userInferenceProfile = new BedrockApplicationInferenceProfile(this, 'UserInferenceProfile', {
   inferenceProfileName: 'user-inference-profile',
   modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0'),
-  tags: {
-    'UserEmail': 'user@example.com',
-    'Department': 'Engineering',
-  }
 });
+
+// タグは個別に追加
+import { Tags } from 'aws-cdk-lib';
+Tags.of(userInferenceProfile).add('UserEmail', 'user@example.com');
+Tags.of(userInferenceProfile).add('Department', 'Engineering');
 
 // Create a role for identity federation
 const userRole = new iam.Role(this, 'UserRole', {

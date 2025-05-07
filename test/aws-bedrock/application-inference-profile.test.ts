@@ -99,10 +99,8 @@ describe('BedrockApplicationInferenceProfile', () => {
       inferenceProfileName: 'test-profile',
       description: 'Test inference profile',
       modelSource,
-      tags: {
-        UserEmail: 'user@example.com',
-      },
     });
+    cdk.Tags.of(profile).add('UserEmail', 'user@example.com');
 
     const role = new iam.Role(stack, 'TestRole', {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),

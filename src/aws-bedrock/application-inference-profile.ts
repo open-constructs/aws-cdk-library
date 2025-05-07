@@ -1,4 +1,4 @@
-import { IResource, Resource, ResourceProps, Tags } from 'aws-cdk-lib';
+import { IResource, Resource, ResourceProps } from 'aws-cdk-lib';
 import { CfnApplicationInferenceProfile } from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
@@ -43,11 +43,11 @@ export interface BedrockApplicationInferenceProfileProps extends ResourceProps {
    */
   readonly modelSource: InferenceProfileModelSourceProps;
 
-  /**
-   * Tags to be attached to the inference profile.
-   * @default - No tags
-   */
-  readonly tags?: { [key: string]: string };
+  // /**
+  //  * Tags to be attached to the inference profile.
+  //  * @default - No tags
+  //  */
+  // readonly tags?: { [key: string]: string };
 }
 
 /**
@@ -201,12 +201,12 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
       },
     });
 
-    // Apply tags if provided
-    if (props.tags) {
-      for (const [key, value] of Object.entries(props.tags)) {
-        Tags.of(this).add(key, value);
-      }
-    }
+    // // Apply tags if provided
+    // if (props.tags) {
+    //   for (const [key, value] of Object.entries(props.tags)) {
+    //     Tags.of(this).add(key, value);
+    //   }
+    // }
 
     // Set the ARN and ID
     this.inferenceProfileId = this.resource.attrInferenceProfileId;
