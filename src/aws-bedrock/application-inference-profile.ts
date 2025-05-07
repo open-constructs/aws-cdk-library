@@ -1,6 +1,6 @@
-import { Arn, ArnFormat, IResource, Resource, ResourceProps, Tags } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+import { IResource, Resource, ResourceProps, Tags } from 'aws-cdk-lib';
 import { CfnApplicationInferenceProfile } from 'aws-cdk-lib/aws-bedrock';
+import { Construct } from 'constructs';
 import { InferenceProfileModelSourceProps } from './model-source';
 
 /**
@@ -65,9 +65,9 @@ export interface BedrockApplicationInferenceProfileAttributes {
 
 /**
  * A CDK construct for AWS Bedrock Application Inference Profile
- * 
+ *
  * Use the ModelSource field to specify the inference profile to copy into the resource.
- * For more information about using inference profiles in Amazon Bedrock, see 
+ * For more information about using inference profiles in Amazon Bedrock, see
  * Improve resilience with cross-region inference.
  */
 export class BedrockApplicationInferenceProfile extends Resource implements IBedrockApplicationInferenceProfile {
@@ -75,18 +75,13 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
    * Import an existing Bedrock Application Inference Profile by ARN
    */
   public static fromInferenceProfileArn(
-    scope: Construct, 
-    id: string, 
-    inferenceProfileArn: string
+    scope: Construct,
+    id: string,
+    inferenceProfileArn: string,
   ): IBedrockApplicationInferenceProfile {
-    const inferenceProfileId = Arn.extractResourceName(inferenceProfileArn, ArnFormat.SLASH_RESOURCE_NAME);
-
-    class Import extends Resource implements IBedrockApplicationInferenceProfile {
-      public readonly inferenceProfileArn = inferenceProfileArn;
-      public readonly inferenceProfileId = inferenceProfileId;
-    }
-
-    return new Import(scope, id);
+    return BedrockApplicationInferenceProfile.fromInferenceProfileAttributes(scope, id, {
+      inferenceProfileArn,
+    });
   }
 
   /**
@@ -97,8 +92,8 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
     id: string,
     attrs: BedrockApplicationInferenceProfileAttributes,
   ): IBedrockApplicationInferenceProfile {
-    const inferenceProfileId = attrs.inferenceProfileId ?? 
-      Arn.extractResourceName(attrs.inferenceProfileArn, ArnFormat.SLASH_RESOURCE_NAME);
+    // Extract resource ID from the ARN (the last part after '/')
+    const inferenceProfileId = attrs.inferenceProfileId ?? attrs.inferenceProfileArn.split('/').pop()!;
 
     class Import extends Resource implements IBedrockApplicationInferenceProfile {
       public readonly inferenceProfileArn = attrs.inferenceProfileArn;
