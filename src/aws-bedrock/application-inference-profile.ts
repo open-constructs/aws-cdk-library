@@ -1,4 +1,6 @@
 import { IResource, Resource, ResourceProps } from 'aws-cdk-lib';
+
+type ConditionValue = string | number | boolean | string[] | number[];
 import { CfnApplicationInferenceProfile } from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
@@ -138,7 +140,7 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
         });
 
         // 2. Conditional access permissions to foundation models
-        const conditions: Record<string, Record<string, any>> = {
+        const conditions: Record<string, Record<string, ConditionValue>> = {
           ArnEquals: {
             'bedrock:InferenceProfileArn': this.inferenceProfileArn,
           },
@@ -146,7 +148,7 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
 
         // If tag conditions are provided, add them to the conditions
         if (options.tagConditions && Object.keys(options.tagConditions).length > 0) {
-          conditions.StringLike = {};
+          conditions.StringLike = {} as Record<string, ConditionValue>;
 
           for (const [tagKey, tagValue] of Object.entries(options.tagConditions)) {
             conditions.StringLike[`aws:ResourceTag/${tagKey}`] = tagValue;
@@ -228,7 +230,7 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
     });
 
     // 2. Conditional access permissions to foundation models
-    const conditions: Record<string, Record<string, any>> = {
+    const conditions: Record<string, Record<string, ConditionValue>> = {
       ArnEquals: {
         'bedrock:InferenceProfileArn': this.inferenceProfileArn,
       },
@@ -236,7 +238,7 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
 
     // If tag conditions are provided, add them to the conditions
     if (options.tagConditions && Object.keys(options.tagConditions).length > 0) {
-      conditions.StringLike = {};
+      conditions.StringLike = {} as Record<string, ConditionValue>;
 
       for (const [tagKey, tagValue] of Object.entries(options.tagConditions)) {
         conditions.StringLike[`aws:ResourceTag/${tagKey}`] = tagValue;
