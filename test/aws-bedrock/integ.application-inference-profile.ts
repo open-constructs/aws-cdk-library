@@ -13,7 +13,7 @@ const profile = new BedrockApplicationInferenceProfile(stack, 'IntegInferencePro
   },
 });
 
-// タグを個別に追加（新しい仕様）
+// Add tags individually (new specification)
 Tags.of(profile).add('Environment', 'integration');
 Tags.of(profile).add('Project', 'bedrock-testing');
 

@@ -84,7 +84,7 @@ const inferenceProfile = new BedrockApplicationInferenceProfile(this, 'MyInferen
   modelSource: ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1, 'us-west-2'),
 });
 
-// タグは個別に追加
+// Tags can be added individually
 import { Tags } from 'aws-cdk-lib';
 Tags.of(inferenceProfile).add('Environment', 'Production');
 Tags.of(inferenceProfile).add('Project', 'AI-Initiative');
@@ -140,7 +140,7 @@ const userInferenceProfile = new BedrockApplicationInferenceProfile(this, 'UserI
   modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0'),
 });
 
-// タグは個別に追加
+// Tags can be added individually
 import { Tags } from 'aws-cdk-lib';
 Tags.of(userInferenceProfile).add('UserEmail', 'user@example.com');
 Tags.of(userInferenceProfile).add('Department', 'Engineering');

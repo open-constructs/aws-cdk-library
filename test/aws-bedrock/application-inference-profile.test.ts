@@ -57,24 +57,24 @@ describe('BedrockApplicationInferenceProfile', () => {
     // THEN
     const template = Template.fromStack(stack);
 
-    // IAMポリシーが生成されていることを確認
+    // Verify that IAM policy is generated
     template.resourceCountIs('AWS::IAM::Policy', 1);
 
-    // 生成されたIAMポリシーのチェック
+    // Check the generated IAM policy
     template.hasResourceProperties('AWS::IAM::Policy', {
       PolicyDocument: {
         Statement: Match.arrayWith([
-          // 推論プロファイル自体へのInvokeModel権限
+          // InvokeModel permission to the inference profile itself
           Match.objectLike({
-            Action: Match.anyValue(), // 'bedrock:InvokeModel*' または ['bedrock:InvokeModel*']
+            Action: Match.anyValue(), // 'bedrock:InvokeModel*' or ['bedrock:InvokeModel*']
             Effect: 'Allow',
             Resource: {
               'Fn::GetAtt': Match.arrayWith([Match.stringLikeRegexp('TestProfile'), 'InferenceProfileArn']),
             },
           }),
-          // 基盤モデルへの条件付きInvokeModel権限
+          // Conditional InvokeModel permission to foundation models
           Match.objectLike({
-            Action: Match.anyValue(), // 'bedrock:InvokeModel*' または ['bedrock:InvokeModel*']
+            Action: Match.anyValue(), // 'bedrock:InvokeModel*' or ['bedrock:InvokeModel*']
             Effect: 'Allow',
             Resource: 'arn:aws:bedrock:*::foundation-model/*',
             Condition: {
@@ -106,7 +106,7 @@ describe('BedrockApplicationInferenceProfile', () => {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
     });
 
-    // WHEN - タグ条件を含むgrant
+    // WHEN - grant with tag conditions
     profile.grantInvokeViaProfileOnly(role, {
       tagConditions: {
         UserEmail: '${aws:PrincipalTag/UserEmail}',
@@ -116,16 +116,16 @@ describe('BedrockApplicationInferenceProfile', () => {
     // THEN
     const template = Template.fromStack(stack);
 
-    // IAMポリシーが生成されていることを確認
+    // Verify that IAM policy is generated
     template.resourceCountIs('AWS::IAM::Policy', 1);
 
-    // 生成されたIAMポリシーのチェック - タグ条件を含む
+    // Check the generated IAM policy - including tag conditions
     template.hasResourceProperties('AWS::IAM::Policy', {
       PolicyDocument: {
         Statement: Match.arrayWith([
-          // 基盤モデルへの条件付きInvokeModel権限 (タグ条件付き)
+          // Conditional InvokeModel permission to foundation models (with tag conditions)
           Match.objectLike({
-            Action: Match.anyValue(), // 'bedrock:InvokeModel*' または ['bedrock:InvokeModel*']
+            Action: Match.anyValue(), // 'bedrock:InvokeModel*' or ['bedrock:InvokeModel*']
             Effect: 'Allow',
             Resource: 'arn:aws:bedrock:*::foundation-model/*',
             Condition: Match.objectLike({

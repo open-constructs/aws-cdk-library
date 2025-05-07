@@ -5,19 +5,19 @@ import { Construct } from 'constructs';
 import { InferenceProfileModelSourceProps } from './model-source';
 
 /**
- * オプションのインターフェースで、推論プロファイル経由のみのアクセス権限付与に追加の条件を指定します
+ * Optional interface for specifying additional conditions when granting access permissions via inference profile only
  */
 export interface GrantInvokeViaProfileOnlyOptions {
   /**
-   * 基盤モデルへのアクセスを制限するために使用するモデルARNパターン
-   * 複数のモデルをサポートする場合に便利です
-   * @default 'arn:aws:bedrock:*::foundation-model/*' (すべての基盤モデル)
+   * Model ARN pattern used to restrict access to foundation models
+   * Useful when supporting multiple models
+   * @default 'arn:aws:bedrock:*::foundation-model/*' (all foundation models)
    */
   readonly foundationModelArn?: string;
 
   /**
-   * タグベースのアクセス制御用にリソースタグと一致させる追加の条件
-   * キーはリソースタグキー、値はプリンシパルタグ変数またはリテラル値
+   * Additional conditions to match resource tags for tag-based access control
+   * Keys are resource tag keys, values are principal tag variables or literal values
    * @example {'UserEmail': '${aws:PrincipalTag/UserEmail}'}
    */
   readonly tagConditions?: Record<string, string>;
@@ -67,10 +67,10 @@ export interface IBedrockApplicationInferenceProfile extends IResource {
   readonly inferenceProfileId: string;
 
   /**
-   * 推論プロファイル経由でのみBedrock基盤モデルの呼び出しを許可する権限をIAMプリンシパルに付与します
+   * Grants permissions to an IAM principal to invoke Bedrock foundation models only via the inference profile
    *
-   * @param grantee 権限を付与するIAMプリンシパル
-   * @param options 追加のオプション（タグ条件など）
+   * @param grantee The IAM principal to grant permissions to
+   * @param options Additional options (such as tag conditions)
    */
   grantInvokeViaProfileOnly(grantee: iam.IGrantable, options?: GrantInvokeViaProfileOnlyOptions): iam.Grant;
 }
@@ -133,7 +133,7 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
       ): iam.Grant {
         const foundationModelArn = options.foundationModelArn || 'arn:aws:bedrock:*::foundation-model/*';
 
-        // 1. 推論プロファイル自体へのアクセス権限
+        // 1. Access permission to the inference profile itself
         const grant = iam.Grant.addToPrincipal({
           grantee,
           actions: ['bedrock:InvokeModel*'],
@@ -141,14 +141,14 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
           scope: this,
         });
 
-        // 2. 基盤モデルへの条件付きアクセス権限
+        // 2. Conditional access permissions to foundation models
         const conditions: Record<string, Record<string, any>> = {
           ArnEquals: {
             'bedrock:InferenceProfileArn': this.inferenceProfileArn,
           },
         };
 
-        // タグ条件が提供されている場合、それらを条件に追加
+        // If tag conditions are provided, add them to the conditions
         if (options.tagConditions && Object.keys(options.tagConditions).length > 0) {
           conditions.StringLike = {};
 
@@ -157,7 +157,7 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
           }
         }
 
-        // プリンシパルポリシーに追加する新しいステートメント
+        // New statement to be added to the principal policy
         const statement = new iam.PolicyStatement({
           effect: iam.Effect.ALLOW,
           actions: ['bedrock:InvokeModel*'],
@@ -214,20 +214,20 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
   }
 
   /**
-   * 推論プロファイル経由でのみBedrock基盤モデルの呼び出しを許可する権限をIAMプリンシパルに付与します
+   * Grants permissions to an IAM principal to invoke Bedrock foundation models only via the inference profile
    *
-   * このメソッドは記事で説明されているセキュアな設計パターンを実装します:
-   * 1. 推論プロファイル自体へのInvokeModel権限を付与
-   * 2. 基盤モデルへのInvokeModel権限を条件付きで付与（推論プロファイル経由の呼び出しのみ許可）
+   * This method implements the secure design pattern described in the article:
+   * 1. Grant InvokeModel permission to the inference profile itself
+   * 2. Conditionally grant InvokeModel permission to foundation models (allowing calls only via the inference profile)
    *
-   * @param grantee 権限を付与するIAMプリンシパル
-   * @param options 追加のオプション（タグ条件など）
-   * @returns 付与された権限
+   * @param grantee The IAM principal to grant permissions to
+   * @param options Additional options (such as tag conditions)
+   * @returns The granted permission
    */
   public grantInvokeViaProfileOnly(grantee: iam.IGrantable, options: GrantInvokeViaProfileOnlyOptions = {}): iam.Grant {
     const foundationModelArn = options.foundationModelArn || 'arn:aws:bedrock:*::foundation-model/*';
 
-    // 1. 推論プロファイル自体へのアクセス権限
+    // 1. Access permission to the inference profile itself
     const grant = iam.Grant.addToPrincipal({
       grantee,
       actions: ['bedrock:InvokeModel*'],
@@ -235,14 +235,14 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
       scope: this,
     });
 
-    // 2. 基盤モデルへの条件付きアクセス権限
+    // 2. Conditional access permissions to foundation models
     const conditions: Record<string, Record<string, any>> = {
       ArnEquals: {
         'bedrock:InferenceProfileArn': this.inferenceProfileArn,
       },
     };
 
-    // タグ条件が提供されている場合、それらを条件に追加
+    // If tag conditions are provided, add them to the conditions
     if (options.tagConditions && Object.keys(options.tagConditions).length > 0) {
       conditions.StringLike = {};
 
@@ -251,7 +251,7 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
       }
     }
 
-    // プリンシパルポリシーに追加する新しいステートメント
+    // New statement to be added to the principal policy
     const statement = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       actions: ['bedrock:InvokeModel*'],
