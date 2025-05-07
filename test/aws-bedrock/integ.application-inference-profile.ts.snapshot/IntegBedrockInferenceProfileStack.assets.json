@@ -1,0 +1,19 @@
+{
+  "version": "38.0.1",
+  "files": {
+    "746b7759ac4291c7af7bdd465e735d882eda0baf77d6990b359809697f211cd2": {
+      "source": {
+        "path": "IntegBedrockInferenceProfileStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "746b7759ac4291c7af7bdd465e735d882eda0baf77d6990b359809697f211cd2.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
