@@ -37,8 +37,8 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-cdk/integ-runner": "2.120.0-alpha.0",
-    "@aws-cdk/integ-tests-alpha": "2.120.0-alpha.0",
+    "@aws-cdk/integ-runner": "2.168.0-alpha.0",
+    "@aws-cdk/integ-tests-alpha": "2.168.0-alpha.0",
     "@types/jest": "^29.5.13",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^8",

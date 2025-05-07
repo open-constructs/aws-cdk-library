@@ -100,3 +100,61 @@ const existingInferenceProfile = BedrockApplicationInferenceProfile.fromInferenc
   'arn:aws:bedrock:us-west-2:123456789012:inference-profile/ip-12345'
 );
 ```
+
+#### Granting permissions to invoke models via inference profile only
+
+The `grantInvokeViaProfileOnly` method allows you to securely grant permissions to IAM principals to invoke Bedrock models through a specific inference profile only, preventing direct access to the models.
+
+```typescript
+import { BedrockApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
+import * as iam from 'aws-cdk-lib/aws-iam';
+
+// Create a role
+const role = new iam.Role(this, 'AIServiceRole', {
+  assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+});
+
+// Create an inference profile
+const inferenceProfile = new BedrockApplicationInferenceProfile(this, 'MyInferenceProfile', {
+  inferenceProfileName: 'my-inference-profile',
+  description: 'My Bedrock inference profile',
+  modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0', 'us-west-2'),
+});
+
+// Grant permissions to invoke models ONLY through the inference profile
+inferenceProfile.grantInvokeViaProfileOnly(role);
+```
+
+#### Advanced permissions with tag-based access control
+
+You can use tag-based access control (ABAC) with inference profiles for more granular permissions:
+
+```typescript
+import { BedrockApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
+import * as iam from 'aws-cdk-lib/aws-iam';
+
+// Create a user-specific inference profile with tags
+const userInferenceProfile = new BedrockApplicationInferenceProfile(this, 'UserInferenceProfile', {
+  inferenceProfileName: 'user-inference-profile',
+  modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0'),
+  tags: {
+    'UserEmail': 'user@example.com',
+    'Department': 'Engineering',
+  }
+});
+
+// Create a role for identity federation
+const userRole = new iam.Role(this, 'UserRole', {
+  assumedBy: new iam.FederatedPrincipal('cognito-identity.amazonaws.com', {}),
+});
+
+// Grant permissions with tag conditions matching principal tags to resource tags
+userInferenceProfile.grantInvokeViaProfileOnly(userRole, {
+  tagConditions: {
+    'UserEmail': '${aws:PrincipalTag/UserEmail}',
+    'Department': '${aws:PrincipalTag/Department}'
+  }
+});
+```
+
+This setup ensures users can only access inference profiles that match their identity attributes, following the principle of least privilege and enabling effective cost management.

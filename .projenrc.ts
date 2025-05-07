@@ -1,7 +1,7 @@
 import { ReleasableCommits, awscdk, github, javascript, release } from 'projen';
 import { ArrowParens, NodePackageManager } from 'projen/lib/javascript';
 
-let cdkVersion = '2.120.0';
+let cdkVersion = '2.168.0';
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Open Construct Foundation',
   authorAddress: 'thorsten.hoeger@taimos.de',
