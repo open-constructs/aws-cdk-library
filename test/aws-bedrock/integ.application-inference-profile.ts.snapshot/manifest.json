@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/746b7759ac4291c7af7bdd465e735d882eda0baf77d6990b359809697f211cd2.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/43cd4b5c8b0ec8755aaa3a6dccdaa510731a82f31f381dcbaedd1e141655575e.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -37,7 +37,16 @@
         "/IntegBedrockInferenceProfileStack/IntegInferenceProfile/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "IntegInferenceProfile0CF85217"
+            "data": "IntegInferenceProfile0CF85217",
+            "trace": [
+              "!!DESTRUCTIVE_CHANGES: WILL_REPLACE"
+            ]
+          }
+        ],
+        "/IntegBedrockInferenceProfileStack/IntegInferenceProfileNoName/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IntegInferenceProfileNoNameDDA60A41"
           }
         ],
         "/IntegBedrockInferenceProfileStack/BootstrapVersion": [

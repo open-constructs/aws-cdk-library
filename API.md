@@ -52,7 +52,7 @@ new aws_bedrock.BedrockApplicationInferenceProfile(scope: Construct, id: string,
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.toString">toString</a></code> | Returns a string representation of this construct. |
 | <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
-| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.grantInvokeViaProfileOnly">grantInvokeViaProfileOnly</a></code> | 推論プロファイル経由でのみBedrock基盤モデルの呼び出しを許可する権限をIAMプリンシパルに付与します. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.grantInvokeViaProfileOnly">grantInvokeViaProfileOnly</a></code> | Grants permissions to an IAM principal to invoke Bedrock foundation models only via the inference profile. |
 
 ---
 
@@ -92,17 +92,17 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 public grantInvokeViaProfileOnly(grantee: IGrantable, options?: GrantInvokeViaProfileOnlyOptions): Grant
 ```
 
-推論プロファイル経由でのみBedrock基盤モデルの呼び出しを許可する権限をIAMプリンシパルに付与します.
+Grants permissions to an IAM principal to invoke Bedrock foundation models only via the inference profile.
 
-このメソッドは記事で説明されているセキュアな設計パターンを実装します:
-1. 推論プロファイル自体へのInvokeModel権限を付与
-2. 基盤モデルへのInvokeModel権限を条件付きで付与（推論プロファイル経由の呼び出しのみ許可）
+This method implements the secure design pattern described in the article:
+1. Grant InvokeModel permission to the inference profile itself
+2. Conditionally grant InvokeModel permission to foundation models (allowing calls only via the inference profile)
 
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.grantInvokeViaProfileOnly.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
 
-権限を付与するIAMプリンシパル.
+The IAM principal to grant permissions to.
 
 ---
 
@@ -110,7 +110,7 @@ public grantInvokeViaProfileOnly(grantee: IGrantable, options?: GrantInvokeViaPr
 
 - *Type:* @open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions
 
-追加のオプション（タグ条件など）.
+Additional options (such as tag conditions).
 
 ---
 
@@ -4369,10 +4369,9 @@ const bedrockApplicationInferenceProfileProps: aws_bedrock.BedrockApplicationInf
 | <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.environmentFromArn">environmentFromArn</a></code> | <code>string</code> | ARN to deduce region and account from. |
 | <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.physicalName">physicalName</a></code> | <code>string</code> | The value passed in by users to the physical name prop of the resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.region">region</a></code> | <code>string</code> | The AWS region this resource belongs to. |
-| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.inferenceProfileName">inferenceProfileName</a></code> | <code>string</code> | The name of the inference profile. |
 | <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.modelSource">modelSource</a></code> | <code>@open-constructs/aws-cdk.aws_bedrock.InferenceProfileModelSourceProps</code> | Contains configurations for the inference profile to copy as the resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.description">description</a></code> | <code>string</code> | The description of the inference profile. |
-| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.tags">tags</a></code> | <code>{[ key: string ]: string}</code> | Tags to be attached to the inference profile. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.inferenceProfileName">inferenceProfileName</a></code> | <code>string</code> | The name of the inference profile. |
 
 ---
 
@@ -4439,18 +4438,6 @@ The AWS region this resource belongs to.
 
 ---
 
-##### `inferenceProfileName`<sup>Required</sup> <a name="inferenceProfileName" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.inferenceProfileName"></a>
-
-```typescript
-public readonly inferenceProfileName: string;
-```
-
-- *Type:* string
-
-The name of the inference profile.
-
----
-
 ##### `modelSource`<sup>Required</sup> <a name="modelSource" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.modelSource"></a>
 
 ```typescript
@@ -4476,16 +4463,16 @@ The description of the inference profile.
 
 ---
 
-##### `tags`<sup>Optional</sup> <a name="tags" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.tags"></a>
+##### `inferenceProfileName`<sup>Optional</sup> <a name="inferenceProfileName" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.inferenceProfileName"></a>
 
 ```typescript
-public readonly tags: {[ key: string ]: string};
+public readonly inferenceProfileName: string;
 ```
 
-- *Type:* {[ key: string ]: string}
-- *Default:* No tags
+- *Type:* string
+- *Default:* Assigned by CloudFormation (recommended).
 
-Tags to be attached to the inference profile.
+The name of the inference profile.
 
 ---
 
@@ -4798,7 +4785,7 @@ The key used to encrypt the Domain.
 
 ### GrantInvokeViaProfileOnlyOptions <a name="GrantInvokeViaProfileOnlyOptions" id="@open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions"></a>
 
-オプションのインターフェースで、推論プロファイル経由のみのアクセス権限付与に追加の条件を指定します.
+Optional interface for specifying additional conditions when granting access permissions via inference profile only.
 
 #### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions.Initializer"></a>
 
@@ -4812,8 +4799,8 @@ const grantInvokeViaProfileOnlyOptions: aws_bedrock.GrantInvokeViaProfileOnlyOpt
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions.property.foundationModelArn">foundationModelArn</a></code> | <code>string</code> | 基盤モデルへのアクセスを制限するために使用するモデルARNパターン 複数のモデルをサポートする場合に便利です. |
-| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions.property.tagConditions">tagConditions</a></code> | <code>{[ key: string ]: string}</code> | タグベースのアクセス制御用にリソースタグと一致させる追加の条件 キーはリソースタグキー、値はプリンシパルタグ変数またはリテラル値. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions.property.foundationModelArn">foundationModelArn</a></code> | <code>string</code> | Model ARN pattern used to restrict access to foundation models Useful when supporting multiple models. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions.property.tagConditions">tagConditions</a></code> | <code>{[ key: string ]: string}</code> | Additional conditions to match resource tags for tag-based access control Keys are resource tag keys, values are principal tag variables or literal values. |
 
 ---
 
@@ -4824,9 +4811,9 @@ public readonly foundationModelArn: string;
 ```
 
 - *Type:* string
-- *Default:* 'arn:aws:bedrock:*::foundation-model/*' (すべての基盤モデル)
+- *Default:* 'arn:aws:bedrock:*::foundation-model/*' (all foundation models)
 
-基盤モデルへのアクセスを制限するために使用するモデルARNパターン 複数のモデルをサポートする場合に便利です.
+Model ARN pattern used to restrict access to foundation models Useful when supporting multiple models.
 
 ---
 
@@ -4838,7 +4825,7 @@ public readonly tagConditions: {[ key: string ]: string};
 
 - *Type:* {[ key: string ]: string}
 
-タグベースのアクセス制御用にリソースタグと一致させる追加の条件 キーはリソースタグキー、値はプリンシパルタグ変数またはリテラル値.
+Additional conditions to match resource tags for tag-based access control Keys are resource tag keys, values are principal tag variables or literal values.
 
 ---
 
@@ -7740,7 +7727,7 @@ Interface representing a Bedrock Application Inference Profile.
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.grantInvokeViaProfileOnly">grantInvokeViaProfileOnly</a></code> | 推論プロファイル経由でのみBedrock基盤モデルの呼び出しを許可する権限をIAMプリンシパルに付与します. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.grantInvokeViaProfileOnly">grantInvokeViaProfileOnly</a></code> | Grants permissions to an IAM principal to invoke Bedrock foundation models only via the inference profile. |
 
 ---
 
@@ -7750,13 +7737,13 @@ Interface representing a Bedrock Application Inference Profile.
 public grantInvokeViaProfileOnly(grantee: IGrantable, options?: GrantInvokeViaProfileOnlyOptions): Grant
 ```
 
-推論プロファイル経由でのみBedrock基盤モデルの呼び出しを許可する権限をIAMプリンシパルに付与します.
+Grants permissions to an IAM principal to invoke Bedrock foundation models only via the inference profile.
 
 ###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.grantInvokeViaProfileOnly.parameter.grantee"></a>
 
 - *Type:* aws-cdk-lib.aws_iam.IGrantable
 
-権限を付与するIAMプリンシパル.
+The IAM principal to grant permissions to.
 
 ---
 
@@ -7764,7 +7751,7 @@ public grantInvokeViaProfileOnly(grantee: IGrantable, options?: GrantInvokeViaPr
 
 - *Type:* @open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions
 
-追加のオプション（タグ条件など）.
+Additional options (such as tag conditions).
 
 ---
 

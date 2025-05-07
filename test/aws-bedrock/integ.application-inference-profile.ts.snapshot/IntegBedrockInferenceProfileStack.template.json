@@ -3,7 +3,7 @@
   "IntegInferenceProfile0CF85217": {
    "Type": "AWS::Bedrock::ApplicationInferenceProfile",
    "Properties": {
-    "Description": "Integration test inference profile",
+    "Description": "Integration test inference profile with explicit name",
     "InferenceProfileName": "IntegTestInferenceProfile",
     "ModelSource": {
      "CopyFrom": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
@@ -16,6 +16,22 @@
      {
       "Key": "Project",
       "Value": "bedrock-testing"
+     }
+    ]
+   }
+  },
+  "IntegInferenceProfileNoNameDDA60A41": {
+   "Type": "AWS::Bedrock::ApplicationInferenceProfile",
+   "Properties": {
+    "Description": "Integration test inference profile without explicit name",
+    "InferenceProfileName": "IntegInferenceProfileNoName",
+    "ModelSource": {
+     "CopyFrom": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+    },
+    "Tags": [
+     {
+      "Key": "GeneratedName",
+      "Value": "true"
      }
     ]
    }

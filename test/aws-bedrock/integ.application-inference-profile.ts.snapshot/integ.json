@@ -6,7 +6,7 @@
         "IntegBedrockInferenceProfileStack"
       ],
       "regions": [
-        "us-west-2"
+        "us-east-1"
       ],
       "assertionStack": "Integ/DefaultTest/DeployAssert",
       "assertionStackName": "IntegDefaultTestDeployAssert4E6713E1"

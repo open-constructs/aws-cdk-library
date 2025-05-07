@@ -28,8 +28,42 @@
                         "value": "bedrock-testing"
                       }
                     ],
-                    "description": "Integration test inference profile",
+                    "description": "Integration test inference profile with explicit name",
                     "inferenceProfileName": "IntegTestInferenceProfile",
+                    "modelSource": {
+                      "copyFrom": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_bedrock.CfnApplicationInferenceProfile",
+                  "version": "2.168.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.168.0"
+            }
+          },
+          "IntegInferenceProfileNoName": {
+            "id": "IntegInferenceProfileNoName",
+            "path": "IntegBedrockInferenceProfileStack/IntegInferenceProfileNoName",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "IntegBedrockInferenceProfileStack/IntegInferenceProfileNoName/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Bedrock::ApplicationInferenceProfile",
+                  "aws:cdk:cloudformation:props": {
+                    "tags": [
+                      {
+                        "key": "GeneratedName",
+                        "value": "true"
+                      }
+                    ],
+                    "description": "Integration test inference profile without explicit name",
+                    "inferenceProfileName": "IntegInferenceProfileNoName",
                     "modelSource": {
                       "copyFrom": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
                     }

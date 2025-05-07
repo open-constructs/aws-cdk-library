@@ -13,7 +13,7 @@ describe('BedrockApplicationInferenceProfile', () => {
     stack = new cdk.Stack(app, 'TestStack');
   });
 
-  test('creates inference profile with model source', () => {
+  test('creates inference profile with model source and explicit name', () => {
     // GIVEN
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
@@ -30,6 +30,27 @@ describe('BedrockApplicationInferenceProfile', () => {
     template.hasResourceProperties('AWS::Bedrock::ApplicationInferenceProfile', {
       InferenceProfileName: 'test-profile',
       Description: 'Test inference profile',
+      ModelSource: {
+        CopyFrom: `arn:aws:bedrock:us-west-2::foundation-model/${modelId}`,
+      },
+    });
+  });
+
+  test('creates inference profile without explicit name', () => {
+    // GIVEN
+    const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
+    const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
+
+    // WHEN
+    new BedrockApplicationInferenceProfile(stack, 'TestProfileWithoutName', {
+      description: 'Test inference profile without explicit name',
+      modelSource,
+    });
+
+    // THEN
+    const template = Template.fromStack(stack);
+    template.hasResourceProperties('AWS::Bedrock::ApplicationInferenceProfile', {
+      Description: 'Test inference profile without explicit name',
       ModelSource: {
         CopyFrom: `arn:aws:bedrock:us-west-2::foundation-model/${modelId}`,
       },

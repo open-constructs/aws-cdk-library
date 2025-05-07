@@ -29,8 +29,10 @@ export interface GrantInvokeViaProfileOnlyOptions {
 export interface BedrockApplicationInferenceProfileProps extends ResourceProps {
   /**
    * The name of the inference profile.
+   *
+   * @default - Assigned by CloudFormation (recommended).
    */
-  readonly inferenceProfileName: string;
+  readonly inferenceProfileName?: string;
 
   /**
    * The description of the inference profile.
@@ -42,12 +44,6 @@ export interface BedrockApplicationInferenceProfileProps extends ResourceProps {
    * Contains configurations for the inference profile to copy as the resource.
    */
   readonly modelSource: InferenceProfileModelSourceProps;
-
-  // /**
-  //  * Tags to be attached to the inference profile.
-  //  * @default - No tags
-  //  */
-  // readonly tags?: { [key: string]: string };
 }
 
 /**
@@ -190,23 +186,19 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
   private readonly resource: CfnApplicationInferenceProfile;
 
   constructor(scope: Construct, id: string, props: BedrockApplicationInferenceProfileProps) {
-    super(scope, id, props);
+    super(scope, id, {
+      physicalName: props.inferenceProfileName,
+    });
 
     // Create the CloudFormation resource
     this.resource = new CfnApplicationInferenceProfile(this, 'Resource', {
-      inferenceProfileName: props.inferenceProfileName,
+      // CloudFormation requires an inferenceProfileName, so if not provided, use the physical name or generate one
+      inferenceProfileName: props.inferenceProfileName ?? id,
       description: props.description,
       modelSource: {
         copyFrom: props.modelSource.copyFrom,
       },
     });
-
-    // // Apply tags if provided
-    // if (props.tags) {
-    //   for (const [key, value] of Object.entries(props.tags)) {
-    //     Tags.of(this).add(key, value);
-    //   }
-    // }
 
     // Set the ARN and ID
     this.inferenceProfileId = this.resource.attrInferenceProfileId;
