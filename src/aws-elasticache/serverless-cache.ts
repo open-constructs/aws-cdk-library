@@ -413,7 +413,7 @@ export class ServerlessCache extends ServerlessCacheBase {
     this.serverlessCacheName = serverlessCache.ref;
 
     this.endpointAddress = serverlessCache.attrEndpointAddress;
-    this.endpointPort = serverlessCache.attrEndpointPort;
+    this.endpointPort = Number(serverlessCache.attrEndpointPort);
 
     this.connections = new aws_ec2.Connections({
       securityGroups: this.securityGroups,
