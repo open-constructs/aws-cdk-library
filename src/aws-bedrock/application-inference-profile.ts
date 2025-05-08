@@ -28,7 +28,7 @@ export interface GrantInvokeViaProfileOnlyOptions {
 /**
  * Properties for defining a Bedrock Application Inference Profile
  */
-export interface BedrockApplicationInferenceProfileProps extends ResourceProps {
+export interface ApplicationInferenceProfileProps extends ResourceProps {
   /**
    * The name of the inference profile.
    *
@@ -51,7 +51,7 @@ export interface BedrockApplicationInferenceProfileProps extends ResourceProps {
 /**
  * Interface representing a Bedrock Application Inference Profile
  */
-export interface IBedrockApplicationInferenceProfile extends IResource {
+export interface IApplicationInferenceProfile extends IResource {
   /**
    * The ARN of the inference profile.
    * @attribute
@@ -76,7 +76,7 @@ export interface IBedrockApplicationInferenceProfile extends IResource {
 /**
  * Attributes for importing an existing Bedrock Application Inference Profile
  */
-export interface BedrockApplicationInferenceProfileAttributes {
+export interface ApplicationInferenceProfileAttributes {
   /**
    * The ARN of the inference profile.
    */
@@ -96,7 +96,7 @@ export interface BedrockApplicationInferenceProfileAttributes {
  * For more information about using inference profiles in Amazon Bedrock, see
  * Improve resilience with cross-region inference.
  */
-export class BedrockApplicationInferenceProfile extends Resource implements IBedrockApplicationInferenceProfile {
+export class ApplicationInferenceProfile extends Resource implements IApplicationInferenceProfile {
   /**
    * Import an existing Bedrock Application Inference Profile by ARN
    */
@@ -104,8 +104,8 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
     scope: Construct,
     id: string,
     inferenceProfileArn: string,
-  ): IBedrockApplicationInferenceProfile {
-    return BedrockApplicationInferenceProfile.fromInferenceProfileAttributes(scope, id, {
+  ): IApplicationInferenceProfile {
+    return ApplicationInferenceProfile.fromInferenceProfileAttributes(scope, id, {
       inferenceProfileArn,
     });
   }
@@ -116,12 +116,12 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
   public static fromInferenceProfileAttributes(
     scope: Construct,
     id: string,
-    attrs: BedrockApplicationInferenceProfileAttributes,
-  ): IBedrockApplicationInferenceProfile {
+    attrs: ApplicationInferenceProfileAttributes,
+  ): IApplicationInferenceProfile {
     // Extract resource ID from the ARN (the last part after '/')
     const inferenceProfileId = attrs.inferenceProfileId ?? attrs.inferenceProfileArn.split('/').pop()!;
 
-    class Import extends Resource implements IBedrockApplicationInferenceProfile {
+    class Import extends Resource implements IApplicationInferenceProfile {
       public readonly inferenceProfileArn = attrs.inferenceProfileArn;
       public readonly inferenceProfileId = inferenceProfileId;
 
@@ -187,7 +187,7 @@ export class BedrockApplicationInferenceProfile extends Resource implements IBed
    */
   private readonly resource: CfnApplicationInferenceProfile;
 
-  constructor(scope: Construct, id: string, props: BedrockApplicationInferenceProfileProps) {
+  constructor(scope: Construct, id: string, props: ApplicationInferenceProfileProps) {
     super(scope, id, {
       physicalName: props.inferenceProfileName,
     });

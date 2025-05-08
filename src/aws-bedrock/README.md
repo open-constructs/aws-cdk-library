@@ -16,13 +16,13 @@ npm install @open-constructs/aws-cdk
 
 ```typescript
 import { App, Stack } from 'aws-cdk-lib';
-import { BedrockApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
+import { ApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
 
 const app = new App();
 const stack = new Stack(app, 'BedrockStack');
 
 // Create a Bedrock Application Inference Profile
-const inferenceProfile = new BedrockApplicationInferenceProfile(stack, 'MyInferenceProfile', {
+const inferenceProfile = new ApplicationInferenceProfile(stack, 'MyInferenceProfile', {
   inferenceProfileName: 'my-inference-profile',
   description: 'My Bedrock inference profile',
   modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0', 'us-west-2'),
@@ -56,16 +56,16 @@ import { ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
 const modelSource = ModelSource.fromInferenceProfile('arn:aws:bedrock:us-west-2:123456789012:inference-profile/ip-12345');
 ```
 
-### BedrockApplicationInferenceProfile
+### ApplicationInferenceProfile
 
-The `BedrockApplicationInferenceProfile` construct creates an AWS Bedrock Application Inference Profile, which allows you to improve resilience with cross-region inference.
+The `ApplicationInferenceProfile` construct creates an AWS Bedrock Application Inference Profile, which allows you to improve resilience with cross-region inference.
 
 #### Basic Example
 
 ```typescript
-import { BedrockApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
+import { ApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
 
-const inferenceProfile = new BedrockApplicationInferenceProfile(this, 'MyInferenceProfile', {
+const inferenceProfile = new ApplicationInferenceProfile(this, 'MyInferenceProfile', {
   inferenceProfileName: 'my-inference-profile',
   description: 'My Bedrock inference profile',
   modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0', 'us-west-2'),
@@ -75,10 +75,10 @@ const inferenceProfile = new BedrockApplicationInferenceProfile(this, 'MyInferen
 #### Advanced Example
 
 ```typescript
-import { BedrockApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
+import { ApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
 import { FoundationModelIdentifier } from 'aws-cdk-lib/aws-bedrock';
 
-const inferenceProfile = new BedrockApplicationInferenceProfile(this, 'MyInferenceProfile', {
+const inferenceProfile = new ApplicationInferenceProfile(this, 'MyInferenceProfile', {
   inferenceProfileName: 'my-inference-profile',
   description: 'My Bedrock inference profile',
   modelSource: ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1, 'us-west-2'),
@@ -93,9 +93,9 @@ Tags.of(inferenceProfile).add('Project', 'AI-Initiative');
 #### Importing an existing Inference Profile
 
 ```typescript
-import { BedrockApplicationInferenceProfile } from '@open-constructs/aws-cdk/aws-bedrock';
+import { ApplicationInferenceProfile } from '@open-constructs/aws-cdk/aws-bedrock';
 
-const existingInferenceProfile = BedrockApplicationInferenceProfile.fromInferenceProfileArn(
+const existingInferenceProfile = ApplicationInferenceProfile.fromInferenceProfileArn(
   this, 
   'ImportedInferenceProfile',
   'arn:aws:bedrock:us-west-2:123456789012:inference-profile/ip-12345'
@@ -107,7 +107,7 @@ const existingInferenceProfile = BedrockApplicationInferenceProfile.fromInferenc
 The `grantInvokeViaProfileOnly` method allows you to securely grant permissions to IAM principals to invoke Bedrock models through a specific inference profile only, preventing direct access to the models.
 
 ```typescript
-import { BedrockApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
+import { ApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
 // Create a role
@@ -116,7 +116,7 @@ const role = new iam.Role(this, 'AIServiceRole', {
 });
 
 // Create an inference profile
-const inferenceProfile = new BedrockApplicationInferenceProfile(this, 'MyInferenceProfile', {
+const inferenceProfile = new ApplicationInferenceProfile(this, 'MyInferenceProfile', {
   inferenceProfileName: 'my-inference-profile',
   description: 'My Bedrock inference profile',
   modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0', 'us-west-2'),
@@ -131,11 +131,11 @@ inferenceProfile.grantInvokeViaProfileOnly(role);
 You can use tag-based access control (ABAC) with inference profiles for more granular permissions:
 
 ```typescript
-import { BedrockApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
+import { ApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
 // Create a user-specific inference profile and add tags
-const userInferenceProfile = new BedrockApplicationInferenceProfile(this, 'UserInferenceProfile', {
+const userInferenceProfile = new ApplicationInferenceProfile(this, 'UserInferenceProfile', {
   inferenceProfileName: 'user-inference-profile',
   modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0'),
 });

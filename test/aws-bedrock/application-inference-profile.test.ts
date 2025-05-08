@@ -1,10 +1,10 @@
 import * as cdk from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import { BedrockApplicationInferenceProfile } from '../../src/aws-bedrock';
+import { ApplicationInferenceProfile } from '../../src/aws-bedrock';
 import { ModelSource } from '../../src/aws-bedrock/model-source';
 
-describe('BedrockApplicationInferenceProfile', () => {
+describe('ApplicationInferenceProfile', () => {
   let app: cdk.App;
   let stack: cdk.Stack;
 
@@ -19,7 +19,7 @@ describe('BedrockApplicationInferenceProfile', () => {
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
 
     // WHEN
-    new BedrockApplicationInferenceProfile(stack, 'TestProfile', {
+    new ApplicationInferenceProfile(stack, 'TestProfile', {
       inferenceProfileName: 'test-profile',
       description: 'Test inference profile',
       modelSource,
@@ -42,7 +42,7 @@ describe('BedrockApplicationInferenceProfile', () => {
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
 
     // WHEN
-    new BedrockApplicationInferenceProfile(stack, 'TestProfileWithoutName', {
+    new ApplicationInferenceProfile(stack, 'TestProfileWithoutName', {
       description: 'Test inference profile without explicit name',
       modelSource,
     });
@@ -62,7 +62,7 @@ describe('BedrockApplicationInferenceProfile', () => {
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
 
-    const profile = new BedrockApplicationInferenceProfile(stack, 'TestProfile', {
+    const profile = new ApplicationInferenceProfile(stack, 'TestProfile', {
       inferenceProfileName: 'test-profile',
       description: 'Test inference profile',
       modelSource,
@@ -116,7 +116,7 @@ describe('BedrockApplicationInferenceProfile', () => {
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
 
-    const profile = new BedrockApplicationInferenceProfile(stack, 'TestProfile', {
+    const profile = new ApplicationInferenceProfile(stack, 'TestProfile', {
       inferenceProfileName: 'test-profile',
       description: 'Test inference profile',
       modelSource,
