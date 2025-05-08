@@ -13,7 +13,7 @@ describe('ApplicationInferenceProfile', () => {
     stack = new cdk.Stack(app, 'TestStack');
   });
 
-  test('creates inference profile with model source and explicit name', () => {
+  test('creates inference profile with model source, explicit name, and region', () => {
     // GIVEN
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
@@ -36,7 +36,7 @@ describe('ApplicationInferenceProfile', () => {
     });
   });
 
-  test('creates inference profile without explicit name', () => {
+  test('creates inference profile without explicit name but with region', () => {
     // GIVEN
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
@@ -53,6 +53,38 @@ describe('ApplicationInferenceProfile', () => {
       Description: 'Test inference profile without explicit name',
       ModelSource: {
         CopyFrom: `arn:aws:bedrock:us-west-2::foundation-model/${modelId}`,
+      },
+    });
+  });
+
+  test('creates inference profile with model source and without region', () => {
+    // GIVEN
+    const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
+    const modelSource = ModelSource.fromFoundationModel(modelId); // No region specified
+
+    // WHEN
+    new ApplicationInferenceProfile(stack, 'TestProfileWithoutRegion', {
+      inferenceProfileName: 'test-profile-no-region',
+      description: 'Test inference profile without region specified',
+      modelSource,
+    });
+
+    // THEN
+    const template = Template.fromStack(stack);
+    template.hasResourceProperties('AWS::Bedrock::ApplicationInferenceProfile', {
+      InferenceProfileName: 'test-profile-no-region',
+      Description: 'Test inference profile without region specified',
+      ModelSource: {
+        CopyFrom: {
+          'Fn::Join': [
+            '',
+            [
+              'arn:aws:bedrock:',
+              { Ref: 'AWS::Region' },
+              '::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0',
+            ],
+          ],
+        },
       },
     });
   });

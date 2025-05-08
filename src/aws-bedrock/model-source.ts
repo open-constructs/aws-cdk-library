@@ -1,3 +1,4 @@
+import { Aws } from 'aws-cdk-lib';
 import { FoundationModelIdentifier } from 'aws-cdk-lib/aws-bedrock';
 
 /**
@@ -20,18 +21,21 @@ export class ModelSource {
    * Creates a model source from a foundation model identifier
    *
    * @param modelId The foundation model identifier or string ID
-   * @param region The AWS region where the model is located
+   * @param region The AWS region where the model is located. If not provided, the current stack's region will be used.
    * @returns An InferenceProfileModelSourceProps object
    */
   public static fromFoundationModel(
     modelId: FoundationModelIdentifier | string,
-    region: string = 'us-west-2',
+    region?: string,
   ): InferenceProfileModelSourceProps {
     // Convert to string if it's an enum
     const modelIdString = typeof modelId === 'string' ? modelId : modelId.toString();
 
+    // If region is not provided, use the stack's region
+    const regionValue = region || Aws.REGION;
+
     return {
-      copyFrom: `arn:aws:bedrock:${region}::foundation-model/${modelIdString}`,
+      copyFrom: `arn:aws:bedrock:${regionValue}::foundation-model/${modelIdString}`,
     };
   }
 

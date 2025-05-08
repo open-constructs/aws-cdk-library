@@ -25,7 +25,8 @@ const stack = new Stack(app, 'BedrockStack');
 const inferenceProfile = new ApplicationInferenceProfile(stack, 'MyInferenceProfile', {
   inferenceProfileName: 'my-inference-profile',
   description: 'My Bedrock inference profile',
-  modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0', 'us-west-2'),
+  // If no region is specified, the stack region is automatically used.
+  modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0'),
 });
 ```
 
@@ -41,11 +42,17 @@ The `ModelSource` helper class provides methods to create model sources for infe
 import { ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
 import { FoundationModelIdentifier } from 'aws-cdk-lib/aws-bedrock';
 
-// Using a string model ID
+// Using a string model ID (with explicit region)
 const modelSource1 = ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0', 'us-west-2');
 
-// Using the FoundationModelIdentifier enum
-const modelSource2 = ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1, 'us-west-2');
+// Using a string model ID (using stack's region automatically)
+const modelSource2 = ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0');
+
+// Using the FoundationModelIdentifier enum (with explicit region)
+const modelSource3 = ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1, 'us-west-2');
+
+// Using the FoundationModelIdentifier enum (using stack's region automatically)
+const modelSource4 = ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1);
 ```
 
 #### Using with Existing Inference Profiles
@@ -81,7 +88,7 @@ import { FoundationModelIdentifier } from 'aws-cdk-lib/aws-bedrock';
 const inferenceProfile = new ApplicationInferenceProfile(this, 'MyInferenceProfile', {
   inferenceProfileName: 'my-inference-profile',
   description: 'My Bedrock inference profile',
-  modelSource: ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1, 'us-west-2'),
+  modelSource: ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1),
 });
 
 // Tags can be added individually
