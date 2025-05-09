@@ -7,9 +7,15 @@ import { Construct } from 'constructs';
 import { InferenceProfileModelSourceProps } from './model-source';
 
 /**
- * Optional interface for specifying additional conditions when granting access permissions via inference profile only
+ * Options for granting permissions to invoke Bedrock foundation models via an inference profile
  */
-export interface GrantInvokeViaProfileOnlyOptions {
+export interface GrantInvokeOptions {
+  /**
+   * Whether to allow direct access to foundation models without requiring the use of this inference profile
+   * @default false - Models can only be accessed via this inference profile
+   */
+  readonly allowModelsDirectAccess?: boolean;
+
   /**
    * Model ARN pattern used to restrict access to foundation models
    * Useful when supporting multiple models
@@ -65,12 +71,15 @@ export interface IApplicationInferenceProfile extends IResource {
   readonly inferenceProfileId: string;
 
   /**
-   * Grants permissions to an IAM principal to invoke Bedrock foundation models only via the inference profile
+   * Grants permissions to an IAM principal to invoke Bedrock foundation models
+   *
+   * By default, this grants permissions to invoke models only via the inference profile.
+   * To allow direct model access, set allowModelsDirectAccess to true in the options.
    *
    * @param grantee The IAM principal to grant permissions to
-   * @param options Additional options (such as tag conditions)
+   * @param options Additional options (such as allowing direct model access or tag conditions)
    */
-  grantInvokeViaProfileOnly(grantee: iam.IGrantable, options?: GrantInvokeViaProfileOnlyOptions): iam.Grant;
+  grantInvoke(grantee: iam.IGrantable, options?: GrantInvokeOptions): iam.Grant;
 }
 
 /**
@@ -125,11 +134,12 @@ export class ApplicationInferenceProfile extends Resource implements IApplicatio
       public readonly inferenceProfileArn = attrs.inferenceProfileArn;
       public readonly inferenceProfileId = inferenceProfileId;
 
-      public grantInvokeViaProfileOnly(
-        grantee: iam.IGrantable,
-        options: GrantInvokeViaProfileOnlyOptions = {},
-      ): iam.Grant {
+      /**
+       * Internal implementation of grant logic
+       */
+      private _grantInvokeImplementation(grantee: iam.IGrantable, options: GrantInvokeOptions = {}): iam.Grant {
         const foundationModelArn = options.foundationModelArn || 'arn:aws:bedrock:*::foundation-model/*';
+        const allowDirectAccess = options.allowModelsDirectAccess ?? false;
 
         // 1. Access permission to the inference profile itself
         const grant = iam.Grant.addToPrincipal({
@@ -139,33 +149,55 @@ export class ApplicationInferenceProfile extends Resource implements IApplicatio
           scope: this,
         });
 
-        // 2. Conditional access permissions to foundation models
-        const conditions: Record<string, Record<string, ConditionValue>> = {
-          ArnEquals: {
-            'bedrock:InferenceProfileArn': this.inferenceProfileArn,
-          },
-        };
+        // 2. Access permissions to foundation models (conditional or direct)
+        if (!allowDirectAccess) {
+          // Conditional access permissions to foundation models (via inference profile only)
+          const conditions: Record<string, Record<string, ConditionValue>> = {
+            ArnEquals: {
+              'bedrock:InferenceProfileArn': this.inferenceProfileArn,
+            },
+          };
 
-        // If tag conditions are provided, add them to the conditions
-        if (options.tagConditions && Object.keys(options.tagConditions).length > 0) {
-          conditions.StringLike = {} as Record<string, ConditionValue>;
+          // If tag conditions are provided, add them to the conditions
+          if (options.tagConditions && Object.keys(options.tagConditions).length > 0) {
+            conditions.StringLike = {} as Record<string, ConditionValue>;
 
-          for (const [tagKey, tagValue] of Object.entries(options.tagConditions)) {
-            conditions.StringLike[`aws:ResourceTag/${tagKey}`] = tagValue;
+            for (const [tagKey, tagValue] of Object.entries(options.tagConditions)) {
+              conditions.StringLike[`aws:ResourceTag/${tagKey}`] = tagValue as string;
+            }
           }
+
+          // New statement to be added to the principal policy
+          const statement = new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: ['bedrock:InvokeModel*'],
+            resources: [foundationModelArn],
+            conditions,
+          });
+
+          grantee.grantPrincipal.addToPrincipalPolicy(statement);
+        } else {
+          // Direct access permissions to foundation models (no conditions)
+          const statement = new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: ['bedrock:InvokeModel*'],
+            resources: [foundationModelArn],
+          });
+
+          grantee.grantPrincipal.addToPrincipalPolicy(statement);
         }
 
-        // New statement to be added to the principal policy
-        const statement = new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ['bedrock:InvokeModel*'],
-          resources: [foundationModelArn],
-          conditions,
-        });
-
-        grantee.grantPrincipal.addToPrincipalPolicy(statement);
-
         return grant;
+      }
+
+      /**
+       * Grants permissions to an IAM principal to invoke Bedrock foundation models
+       *
+       * By default, this grants permissions to invoke models only via the inference profile.
+       * To allow direct model access, set allowModelsDirectAccess to true in the options.
+       */
+      public grantInvoke(grantee: iam.IGrantable, options: GrantInvokeOptions = {}): iam.Grant {
+        return this._grantInvokeImplementation(grantee, options);
       }
     }
 
@@ -208,18 +240,11 @@ export class ApplicationInferenceProfile extends Resource implements IApplicatio
   }
 
   /**
-   * Grants permissions to an IAM principal to invoke Bedrock foundation models only via the inference profile
-   *
-   * This method implements the secure design pattern described in the article:
-   * 1. Grant InvokeModel permission to the inference profile itself
-   * 2. Conditionally grant InvokeModel permission to foundation models (allowing calls only via the inference profile)
-   *
-   * @param grantee The IAM principal to grant permissions to
-   * @param options Additional options (such as tag conditions)
-   * @returns The granted permission
+   * Internal implementation of grant logic
    */
-  public grantInvokeViaProfileOnly(grantee: iam.IGrantable, options: GrantInvokeViaProfileOnlyOptions = {}): iam.Grant {
+  private _grantInvokeImplementation(grantee: iam.IGrantable, options: GrantInvokeOptions = {}): iam.Grant {
     const foundationModelArn = options.foundationModelArn || 'arn:aws:bedrock:*::foundation-model/*';
+    const allowDirectAccess = options.allowModelsDirectAccess ?? false;
 
     // 1. Access permission to the inference profile itself
     const grant = iam.Grant.addToPrincipal({
@@ -229,32 +254,58 @@ export class ApplicationInferenceProfile extends Resource implements IApplicatio
       scope: this,
     });
 
-    // 2. Conditional access permissions to foundation models
-    const conditions: Record<string, Record<string, ConditionValue>> = {
-      ArnEquals: {
-        'bedrock:InferenceProfileArn': this.inferenceProfileArn,
-      },
-    };
+    // 2. Access permissions to foundation models (conditional or direct)
+    if (!allowDirectAccess) {
+      // Conditional access permissions to foundation models (via inference profile only)
+      const conditions: Record<string, Record<string, ConditionValue>> = {
+        ArnEquals: {
+          'bedrock:InferenceProfileArn': this.inferenceProfileArn,
+        },
+      };
 
-    // If tag conditions are provided, add them to the conditions
-    if (options.tagConditions && Object.keys(options.tagConditions).length > 0) {
-      conditions.StringLike = {} as Record<string, ConditionValue>;
+      // If tag conditions are provided, add them to the conditions
+      if (options.tagConditions && Object.keys(options.tagConditions).length > 0) {
+        conditions.StringLike = {} as Record<string, ConditionValue>;
 
-      for (const [tagKey, tagValue] of Object.entries(options.tagConditions)) {
-        conditions.StringLike[`aws:ResourceTag/${tagKey}`] = tagValue;
+        for (const [tagKey, tagValue] of Object.entries(options.tagConditions)) {
+          conditions.StringLike[`aws:ResourceTag/${tagKey}`] = tagValue as string;
+        }
       }
+
+      // New statement to be added to the principal policy
+      const statement = new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['bedrock:InvokeModel*'],
+        resources: [foundationModelArn],
+        conditions,
+      });
+
+      grantee.grantPrincipal.addToPrincipalPolicy(statement);
+    } else {
+      // Direct access permissions to foundation models (no conditions)
+      const statement = new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['bedrock:InvokeModel*'],
+        resources: [foundationModelArn],
+      });
+
+      grantee.grantPrincipal.addToPrincipalPolicy(statement);
     }
 
-    // New statement to be added to the principal policy
-    const statement = new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: ['bedrock:InvokeModel*'],
-      resources: [foundationModelArn],
-      conditions,
-    });
-
-    grantee.grantPrincipal.addToPrincipalPolicy(statement);
-
     return grant;
+  }
+
+  /**
+   * Grants permissions to an IAM principal to invoke Bedrock foundation models
+   *
+   * By default, this grants permissions to invoke models only via the inference profile.
+   * To allow direct model access, set allowModelsDirectAccess to true in the options.
+   *
+   * @param grantee The IAM principal to grant permissions to
+   * @param options Additional options (such as allowing direct model access or tag conditions)
+   * @returns The granted permission
+   */
+  public grantInvoke(grantee: iam.IGrantable, options: GrantInvokeOptions = {}): iam.Grant {
+    return this._grantInvokeImplementation(grantee, options);
   }
 }
