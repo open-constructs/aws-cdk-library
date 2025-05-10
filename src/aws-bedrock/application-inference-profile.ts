@@ -1,4 +1,4 @@
-import { IResource, Resource, ResourceProps } from 'aws-cdk-lib';
+import { IResource, Resource, ResourceProps, Names } from 'aws-cdk-lib';
 
 type ConditionValue = string | number | boolean | string[] | number[];
 import { CfnApplicationInferenceProfile } from 'aws-cdk-lib/aws-bedrock';
@@ -226,8 +226,12 @@ export class ApplicationInferenceProfile extends Resource implements IApplicatio
 
     // Create the CloudFormation resource
     this.resource = new CfnApplicationInferenceProfile(this, 'Resource', {
-      // CloudFormation requires an inferenceProfileName, so if not provided, use the physical name or generate one
-      inferenceProfileName: props.inferenceProfileName ?? id,
+      // CloudFormation requires an inferenceProfileName, so if not provided, use Names.uniqueResourceName to generate a unique name
+      // that follows AWS naming conventions (e.g. MyStack-ResourceName-UniqueHash)
+      inferenceProfileName: props.inferenceProfileName ?? Names.uniqueResourceName(this, {
+        separator: '-',
+        maxLength: 64
+      }),
       description: props.description,
       modelSource: {
         copyFrom: props.modelSource.copyFrom,

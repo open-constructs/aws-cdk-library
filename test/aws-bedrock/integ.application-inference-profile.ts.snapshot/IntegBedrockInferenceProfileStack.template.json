@@ -24,7 +24,7 @@
    "Type": "AWS::Bedrock::ApplicationInferenceProfile",
    "Properties": {
     "Description": "Integration test inference profile without explicit name",
-    "InferenceProfileName": "IntegInferenceProfileNoName",
+    "InferenceProfileName": "IntegBedrockInferenceProfileIntegInferenceProfileNoName-EAFAB660",
     "ModelSource": {
      "CopyFrom": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
     },
@@ -32,6 +32,122 @@
      {
       "Key": "GeneratedName",
       "Value": "true"
+     }
+    ]
+   }
+  },
+  "IntegInferenceProfileNoRegionCF010098": {
+   "Type": "AWS::Bedrock::ApplicationInferenceProfile",
+   "Properties": {
+    "Description": "Integration test inference profile without specifying region",
+    "InferenceProfileName": "IntegTestInferenceProfileNoRegion",
+    "ModelSource": {
+     "CopyFrom": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:bedrock:",
+        {
+         "Ref": "AWS::Region"
+        },
+        "::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+       ]
+      ]
+     }
+    },
+    "Tags": [
+     {
+      "Key": "AutoRegion",
+      "Value": "true"
+     }
+    ]
+   }
+  },
+  "ExampleRole576372CE": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Example role for testing inference profile permissions"
+   }
+  },
+  "ExampleRoleDefaultPolicy688DB891": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "bedrock:InvokeModel*",
+       "Effect": "Allow",
+       "Resource": [
+        "arn:aws:bedrock:*::foundation-model/*",
+        {
+         "Fn::GetAtt": [
+          "IntegInferenceProfile0CF85217",
+          "InferenceProfileArn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "IntegInferenceProfileNoNameDDA60A41",
+          "InferenceProfileArn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "IntegInferenceProfileNoRegionCF010098",
+          "InferenceProfileArn"
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "bedrock:InvokeModel*",
+       "Condition": {
+        "ArnEquals": {
+         "bedrock:InferenceProfileArn": {
+          "Fn::GetAtt": [
+           "IntegInferenceProfile0CF85217",
+           "InferenceProfileArn"
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Resource": "arn:aws:bedrock:*::foundation-model/*"
+      },
+      {
+       "Action": "bedrock:InvokeModel*",
+       "Condition": {
+        "ArnEquals": {
+         "bedrock:InferenceProfileArn": {
+          "Fn::GetAtt": [
+           "IntegInferenceProfileNoRegionCF010098",
+           "InferenceProfileArn"
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Resource": "arn:aws:bedrock:*::foundation-model/anthropic.*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ExampleRoleDefaultPolicy688DB891",
+    "Roles": [
+     {
+      "Ref": "ExampleRole576372CE"
      }
     ]
    }
