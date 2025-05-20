@@ -17,8 +17,8 @@ export interface GrantInvokeOptions {
   readonly allowModelsDirectAccess?: boolean;
 
   /**
-   * Model ARN pattern used to restrict access to foundation models
-   * Useful when supporting multiple models
+   * Model ARN pattern used to restrict access to foundation models.
+   * Useful when supporting multiple models.
    * @default 'arn:aws:bedrock:*::foundation-model/*' (all foundation models)
    */
   readonly foundationModelArn?: string;
