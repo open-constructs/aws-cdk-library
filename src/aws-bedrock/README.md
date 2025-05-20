@@ -6,12 +6,6 @@ This module provides CDK constructs for AWS Bedrock service.
 
 AWS Bedrock is a fully managed service that offers a choice of high-performing foundation models (FMs) from leading AI companies like AI21 Labs, Anthropic, Cohere, Meta, Stability AI, and Amazon with a single API. These constructs help you easily integrate Bedrock capabilities into your CDK applications.
 
-## Installation
-
-```bash
-npm install @open-constructs/aws-cdk
-```
-
 ## Usage
 
 ```typescript
