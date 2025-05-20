@@ -30,8 +30,6 @@ const inferenceProfile = new ApplicationInferenceProfile(stack, 'MyInferenceProf
 });
 ```
 
-## Constructs
-
 ### ModelSource
 
 The `ModelSource` helper class provides methods to create model sources for inference profiles.
