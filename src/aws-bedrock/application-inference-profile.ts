@@ -1,10 +1,10 @@
 import { IResource, Resource, ResourceProps, Names } from 'aws-cdk-lib';
-
-type ConditionValue = string | number | boolean | string[] | number[];
 import { CfnApplicationInferenceProfile } from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import { InferenceProfileModelSourceProps } from './model-source';
+
+type ConditionValue = string | number | boolean | string[] | number[];
 
 /**
  * Options for granting permissions to invoke Bedrock foundation models via an inference profile
