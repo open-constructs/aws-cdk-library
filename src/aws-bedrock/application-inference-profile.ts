@@ -144,7 +144,12 @@ export class ApplicationInferenceProfile extends Resource implements IApplicatio
         // 1. Access permission to the inference profile itself
         const grant = iam.Grant.addToPrincipal({
           grantee,
-          actions: ['bedrock:InvokeModel*'],
+          actions: [
+            'bedrock:InvokeModel',
+            'bedrock:InvokeModelWithResponseStream',
+            'bedrock:Converse',
+            'bedrock:ConverseStream',
+          ],
           resourceArns: [this.inferenceProfileArn],
           scope: this,
         });
