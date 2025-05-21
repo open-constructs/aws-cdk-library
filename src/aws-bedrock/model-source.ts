@@ -25,7 +25,7 @@ export class ModelSource {
    * @returns An InferenceProfileModelSourceProps object
    */
   public static fromFoundationModel(
-    modelId: FoundationModelIdentifier | string,
+    modelId: FoundationModelIdentifier,
     region?: string,
   ): InferenceProfileModelSourceProps {
     // Convert to string if it's an enum
