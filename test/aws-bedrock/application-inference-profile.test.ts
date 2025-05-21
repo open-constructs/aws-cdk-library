@@ -119,7 +119,12 @@ describe('ApplicationInferenceProfile', () => {
         Statement: Match.arrayWith([
           // InvokeModel permission to the inference profile itself
           Match.objectLike({
-            Action: Match.anyValue(), // 'bedrock:InvokeModel*' or ['bedrock:InvokeModel*']
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: {
               'Fn::GetAtt': Match.arrayWith([Match.stringLikeRegexp('TestProfile'), 'InferenceProfileArn']),
@@ -127,7 +132,12 @@ describe('ApplicationInferenceProfile', () => {
           }),
           // Conditional InvokeModel permission to foundation models
           Match.objectLike({
-            Action: Match.anyValue(), // 'bedrock:InvokeModel*' or ['bedrock:InvokeModel*']
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: 'arn:aws:bedrock:*::foundation-model/*',
             Condition: {
@@ -173,7 +183,12 @@ describe('ApplicationInferenceProfile', () => {
         Statement: Match.arrayWith([
           // InvokeModel permission to the inference profile itself
           Match.objectLike({
-            Action: Match.anyValue(), // 'bedrock:InvokeModel*' or ['bedrock:InvokeModel*']
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: {
               'Fn::GetAtt': Match.arrayWith([Match.stringLikeRegexp('TestProfile'), 'InferenceProfileArn']),
@@ -181,7 +196,12 @@ describe('ApplicationInferenceProfile', () => {
           }),
           // Conditional InvokeModel permission to foundation models
           Match.objectLike({
-            Action: Match.anyValue(), // 'bedrock:InvokeModel*' or ['bedrock:InvokeModel*']
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: 'arn:aws:bedrock:*::foundation-model/*',
             Condition: {
@@ -226,7 +246,12 @@ describe('ApplicationInferenceProfile', () => {
         Statement: Match.arrayWith([
           // InvokeModel permission to the inference profile itself
           Match.objectLike({
-            Action: Match.anyValue(),
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: {
               'Fn::GetAtt': Match.arrayWith([Match.stringLikeRegexp('TestDirectAccessProfile'), 'InferenceProfileArn']),
@@ -234,7 +259,12 @@ describe('ApplicationInferenceProfile', () => {
           }),
           // Direct (unconditional) InvokeModel permission to foundation models
           Match.objectLike({
-            Action: Match.anyValue(),
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: 'arn:aws:bedrock:*::foundation-model/*',
             // No Condition field expected
@@ -279,7 +309,12 @@ describe('ApplicationInferenceProfile', () => {
         Statement: Match.arrayWith([
           // Conditional InvokeModel permission to foundation models (with tag conditions)
           Match.objectLike({
-            Action: Match.anyValue(), // 'bedrock:InvokeModel*' or ['bedrock:InvokeModel*']
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: 'arn:aws:bedrock:*::foundation-model/*',
             Condition: Match.objectLike({
@@ -330,7 +365,12 @@ describe('ApplicationInferenceProfile', () => {
         Statement: Match.arrayWith([
           // Direct InvokeModel permission to specific foundation model
           Match.objectLike({
-            Action: Match.anyValue(),
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: specificModelArn,
             // No Condition field expected
@@ -374,7 +414,12 @@ describe('ApplicationInferenceProfile', () => {
         Statement: Match.arrayWith([
           // Direct InvokeModel permission to foundation models (no conditions despite tag conditions)
           Match.objectLike({
-            Action: Match.anyValue(),
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: 'arn:aws:bedrock:*::foundation-model/*',
             // No Condition field should be present
@@ -416,7 +461,12 @@ describe('ApplicationInferenceProfile', () => {
         Statement: Match.arrayWith([
           // Access to specific model only via inference profile (conditional access)
           Match.objectLike({
-            Action: Match.anyValue(),
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: specificModelArn,
             Condition: {
@@ -470,7 +520,12 @@ describe('ApplicationInferenceProfile', () => {
         Statement: Match.arrayWith([
           // Access to specific model with tag conditions
           Match.objectLike({
-            Action: Match.anyValue(),
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: specificModelArn,
             Condition: Match.objectLike({
@@ -527,7 +582,12 @@ describe('ApplicationInferenceProfile', () => {
       PolicyDocument: {
         Statement: Match.arrayWith([
           Match.objectLike({
-            Action: Match.anyValue(),
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: 'arn:aws:bedrock:*::foundation-model/*',
             Condition: Match.objectLike({
@@ -571,7 +631,12 @@ describe('ApplicationInferenceProfile', () => {
       PolicyDocument: {
         Statement: Match.arrayWith([
           Match.objectLike({
-            Action: Match.anyValue(),
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: 'arn:aws:bedrock:*::foundation-model/*',
             Condition: {
@@ -623,13 +688,23 @@ describe('ApplicationInferenceProfile', () => {
         Statement: Match.arrayWith([
           // Access to the imported profile
           Match.objectLike({
-            Action: Match.anyValue(),
+            Action: Match.arrayEquals([
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ]),
             Effect: 'Allow',
             Resource: 'arn:aws:bedrock:us-west-2:123456789012:inference-profile/test-imported-profile',
           }),
           // Conditional access to specific model with tag condition
           Match.objectLike({
-            Action: Match.anyValue(),
+            Action: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             Effect: 'Allow',
             Resource: specificModelArn,
             Condition: Match.objectLike({
