@@ -175,7 +175,12 @@ export class ApplicationInferenceProfile extends Resource implements IApplicatio
           // New statement to be added to the principal policy
           const statement = new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
-            actions: ['bedrock:InvokeModel*'],
+            actions: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             resources: [foundationModelArn],
             conditions,
           });
@@ -185,7 +190,12 @@ export class ApplicationInferenceProfile extends Resource implements IApplicatio
           // Direct access permissions to foundation models (no conditions)
           const statement = new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
-            actions: ['bedrock:InvokeModel*'],
+            actions: [
+              'bedrock:InvokeModel',
+              'bedrock:InvokeModelWithResponseStream',
+              'bedrock:Converse',
+              'bedrock:ConverseStream',
+            ],
             resources: [foundationModelArn],
           });
 
@@ -233,10 +243,12 @@ export class ApplicationInferenceProfile extends Resource implements IApplicatio
     this.resource = new CfnApplicationInferenceProfile(this, 'Resource', {
       // CloudFormation requires an inferenceProfileName, so if not provided, use Names.uniqueResourceName to generate a unique name
       // that follows AWS naming conventions (e.g. MyStack-ResourceName-UniqueHash)
-      inferenceProfileName: props.inferenceProfileName ?? Names.uniqueResourceName(this, {
-        separator: '-',
-        maxLength: 64
-      }),
+      inferenceProfileName:
+        props.inferenceProfileName ??
+        Names.uniqueResourceName(this, {
+          separator: '-',
+          maxLength: 64,
+        }),
       description: props.description,
       modelSource: {
         copyFrom: props.modelSource.copyFrom,
@@ -258,7 +270,12 @@ export class ApplicationInferenceProfile extends Resource implements IApplicatio
     // 1. Access permission to the inference profile itself
     const grant = iam.Grant.addToPrincipal({
       grantee,
-      actions: ['bedrock:InvokeModel*'],
+      actions: [
+        'bedrock:InvokeModel',
+        'bedrock:InvokeModelWithResponseStream',
+        'bedrock:Converse',
+        'bedrock:ConverseStream',
+      ],
       resourceArns: [this.inferenceProfileArn],
       scope: this,
     });
@@ -284,7 +301,12 @@ export class ApplicationInferenceProfile extends Resource implements IApplicatio
       // New statement to be added to the principal policy
       const statement = new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        actions: ['bedrock:InvokeModel*'],
+        actions: [
+          'bedrock:InvokeModel',
+          'bedrock:InvokeModelWithResponseStream',
+          'bedrock:Converse',
+          'bedrock:ConverseStream',
+        ],
         resources: [foundationModelArn],
         conditions,
       });
@@ -294,7 +316,12 @@ export class ApplicationInferenceProfile extends Resource implements IApplicatio
       // Direct access permissions to foundation models (no conditions)
       const statement = new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        actions: ['bedrock:InvokeModel*'],
+        actions: [
+          'bedrock:InvokeModel',
+          'bedrock:InvokeModelWithResponseStream',
+          'bedrock:Converse',
+          'bedrock:ConverseStream',
+        ],
         resources: [foundationModelArn],
       });
 
