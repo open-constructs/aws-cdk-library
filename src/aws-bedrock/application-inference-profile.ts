@@ -244,31 +244,43 @@ export class ApplicationInferenceProfile extends ApplicationInferenceProfileBase
   /**
    * The CloudFormation resource of the inference profile.
    */
-  private readonly resource: CfnApplicationInferenceProfile;
+  protected resource: CfnApplicationInferenceProfile;
 
-  constructor(scope: Construct, id: string, props: ApplicationInferenceProfileProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    private readonly props: ApplicationInferenceProfileProps,
+  ) {
     super(scope, id, {
       physicalName: props.inferenceProfileName,
     });
 
-    // Create the CloudFormation resource
-    this.resource = new CfnApplicationInferenceProfile(this, 'Resource', {
-      // CloudFormation requires an inferenceProfileName, so if not provided, use Names.uniqueResourceName to generate a unique name
-      // that follows AWS naming conventions (e.g. MyStack-ResourceName-UniqueHash)
-      inferenceProfileName:
-        props.inferenceProfileName ??
-        Names.uniqueResourceName(this, {
-          separator: '-',
-          maxLength: 64,
-        }),
-      description: props.description,
-      modelSource: {
-        copyFrom: props.modelSource.copyFrom,
-      },
-    });
+    // Create the CloudFormation resource using protected method
+    this.resource = this.createResource();
 
     // Set the ARN and ID
     this.inferenceProfileId = this.resource.attrInferenceProfileId;
     this.inferenceProfileArn = this.resource.attrInferenceProfileArn;
+  }
+
+  /**
+   * Creates the CloudFormation resource
+   * @returns the created CloudFormation resource
+   */
+  protected createResource(): CfnApplicationInferenceProfile {
+    return new CfnApplicationInferenceProfile(this, 'Resource', {
+      // CloudFormation requires an inferenceProfileName, so if not provided, use Names.uniqueResourceName to generate a unique name
+      // that follows AWS naming conventions (e.g. MyStack-ResourceName-UniqueHash)
+      inferenceProfileName:
+        this.props.inferenceProfileName ??
+        Names.uniqueResourceName(this, {
+          separator: '-',
+          maxLength: 64,
+        }),
+      description: this.props.description,
+      modelSource: {
+        copyFrom: this.props.modelSource.copyFrom,
+      },
+    });
   }
 }
