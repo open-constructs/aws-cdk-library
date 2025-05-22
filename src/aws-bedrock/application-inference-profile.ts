@@ -1,4 +1,4 @@
-import { IResource, Resource, ResourceProps, Names } from 'aws-cdk-lib';
+import { IResource, Resource, ResourceProps, Names, Lazy } from 'aws-cdk-lib';
 import { CfnApplicationInferenceProfile } from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
