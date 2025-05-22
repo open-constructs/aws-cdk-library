@@ -252,7 +252,15 @@ export class ApplicationInferenceProfile extends ApplicationInferenceProfileBase
     private readonly props: ApplicationInferenceProfileProps,
   ) {
     super(scope, id, {
-      physicalName: props.inferenceProfileName,
+      physicalName:
+        props.inferenceProfileName ??
+        Lazy.string({
+          produce: () =>
+            Names.uniqueResourceName(this, {
+              separator: '-',
+              maxLength: 64,
+            }),
+        }),
     });
 
     // Create the CloudFormation resource using protected method
