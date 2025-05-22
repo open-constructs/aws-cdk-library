@@ -2,7 +2,7 @@ import { IResource, Resource, ResourceProps, Names, Lazy } from 'aws-cdk-lib';
 import { CfnApplicationInferenceProfile } from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
-import { InferenceProfileModelSourceProps } from './model-source';
+import { ModelSource } from './model-source';
 
 type ConditionValue = string | number | boolean | string[] | number[];
 
@@ -51,7 +51,7 @@ export interface ApplicationInferenceProfileProps extends ResourceProps {
   /**
    * Contains configurations for the inference profile to copy as the resource.
    */
-  readonly modelSource: InferenceProfileModelSourceProps;
+  readonly modelSource: ModelSource;
 }
 
 /**

@@ -176,7 +176,12 @@
                         "policyDocument": {
                           "Statement": [
                             {
-                              "Action": "bedrock:InvokeModel*",
+                              "Action": [
+                                "bedrock:Converse",
+                                "bedrock:ConverseStream",
+                                "bedrock:InvokeModel",
+                                "bedrock:InvokeModelWithResponseStream"
+                              ],
                               "Effect": "Allow",
                               "Resource": [
                                 "arn:aws:bedrock:*::foundation-model/*",
@@ -201,7 +206,12 @@
                               ]
                             },
                             {
-                              "Action": "bedrock:InvokeModel*",
+                              "Action": [
+                                "bedrock:Converse",
+                                "bedrock:ConverseStream",
+                                "bedrock:InvokeModel",
+                                "bedrock:InvokeModelWithResponseStream"
+                              ],
                               "Condition": {
                                 "ArnEquals": {
                                   "bedrock:InferenceProfileArn": {
@@ -216,7 +226,12 @@
                               "Resource": "arn:aws:bedrock:*::foundation-model/*"
                             },
                             {
-                              "Action": "bedrock:InvokeModel*",
+                              "Action": [
+                                "bedrock:Converse",
+                                "bedrock:ConverseStream",
+                                "bedrock:InvokeModel",
+                                "bedrock:InvokeModelWithResponseStream"
+                              ],
                               "Condition": {
                                 "ArnEquals": {
                                   "bedrock:InferenceProfileArn": {
