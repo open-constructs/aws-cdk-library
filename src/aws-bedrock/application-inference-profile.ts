@@ -38,7 +38,7 @@ export interface ApplicationInferenceProfileProps extends ResourceProps {
   /**
    * The name of the inference profile.
    *
-   * @default - Assigned by CloudFormation (recommended).
+   * @default - Automatically generated.
    */
   readonly inferenceProfileName?: string;
 
