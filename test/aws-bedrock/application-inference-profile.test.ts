@@ -89,71 +89,72 @@ describe('ApplicationInferenceProfile', () => {
     });
   });
 
-  test('grantInvoke defaults to profile-only access', () => {
-    // GIVEN
-    const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
-    const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
+  describe('grantInvoke', () => {
+    test('defaults to profile-only access', () => {
+      // GIVEN
+      const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
+      const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
 
-    const profile = new ApplicationInferenceProfile(stack, 'TestProfile', {
-      inferenceProfileName: 'test-profile',
-      description: 'Test inference profile',
-      modelSource,
-    });
+      const profile = new ApplicationInferenceProfile(stack, 'TestProfile', {
+        inferenceProfileName: 'test-profile',
+        description: 'Test inference profile',
+        modelSource,
+      });
 
-    const role = new iam.Role(stack, 'TestRole', {
-      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
-    });
+      const role = new iam.Role(stack, 'TestRole', {
+        assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      });
 
-    // WHEN
-    profile.grantInvoke(role); // Default behavior (no direct access)
+      // WHEN
+      profile.grantInvoke(role); // Default behavior (no direct access)
 
-    // THEN
-    const template = Template.fromStack(stack);
+      // THEN
+      const template = Template.fromStack(stack);
 
-    // Verify that IAM policy is generated
-    template.resourceCountIs('AWS::IAM::Policy', 1);
+      // Verify that IAM policy is generated
+      template.resourceCountIs('AWS::IAM::Policy', 1);
 
-    // Check the generated IAM policy
-    template.hasResourceProperties('AWS::IAM::Policy', {
-      PolicyDocument: {
-        Statement: Match.arrayWith([
-          // InvokeModel permission to the inference profile itself
-          Match.objectLike({
-            Action: [
-              'bedrock:InvokeModel',
-              'bedrock:InvokeModelWithResponseStream',
-              'bedrock:Converse',
-              'bedrock:ConverseStream',
-            ],
-            Effect: 'Allow',
-            Resource: {
-              'Fn::GetAtt': Match.arrayWith([Match.stringLikeRegexp('TestProfile'), 'InferenceProfileArn']),
-            },
-          }),
-          // Conditional InvokeModel permission to foundation models
-          Match.objectLike({
-            Action: [
-              'bedrock:InvokeModel',
-              'bedrock:InvokeModelWithResponseStream',
-              'bedrock:Converse',
-              'bedrock:ConverseStream',
-            ],
-            Effect: 'Allow',
-            Resource: 'arn:aws:bedrock:*::foundation-model/*',
-            Condition: {
-              ArnEquals: {
-                'bedrock:InferenceProfileArn': {
-                  'Fn::GetAtt': Match.arrayWith([Match.stringLikeRegexp('TestProfile'), 'InferenceProfileArn']),
+      // Check the generated IAM policy
+      template.hasResourceProperties('AWS::IAM::Policy', {
+        PolicyDocument: {
+          Statement: Match.arrayWith([
+            // InvokeModel permission to the inference profile itself
+            Match.objectLike({
+              Action: [
+                'bedrock:InvokeModel',
+                'bedrock:InvokeModelWithResponseStream',
+                'bedrock:Converse',
+                'bedrock:ConverseStream',
+              ],
+              Effect: 'Allow',
+              Resource: {
+                'Fn::GetAtt': Match.arrayWith([Match.stringLikeRegexp('TestProfile'), 'InferenceProfileArn']),
+              },
+            }),
+            // Conditional InvokeModel permission to foundation models
+            Match.objectLike({
+              Action: [
+                'bedrock:InvokeModel',
+                'bedrock:InvokeModelWithResponseStream',
+                'bedrock:Converse',
+                'bedrock:ConverseStream',
+              ],
+              Effect: 'Allow',
+              Resource: 'arn:aws:bedrock:*::foundation-model/*',
+              Condition: {
+                ArnEquals: {
+                  'bedrock:InferenceProfileArn': {
+                    'Fn::GetAtt': Match.arrayWith([Match.stringLikeRegexp('TestProfile'), 'InferenceProfileArn']),
+                  },
                 },
               },
-            },
-          }),
-        ]),
-      },
+            }),
+          ]),
+        },
+      });
     });
-  });
 
-  test('grantInvoke with default options grants profile-only permissions', () => {
+    test('with default options grants profile-only permissions', () => {
     // GIVEN
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
@@ -217,7 +218,7 @@ describe('ApplicationInferenceProfile', () => {
     });
   });
 
-  test('grantInvoke with allowModelsDirectAccess=true grants direct access', () => {
+    test('with allowModelsDirectAccess=true grants direct access', () => {
     // GIVEN
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
@@ -274,7 +275,7 @@ describe('ApplicationInferenceProfile', () => {
     });
   });
 
-  test('grantInvoke with tag conditions (profile-only access)', () => {
+    test('with tag conditions (profile-only access)', () => {
     // GIVEN
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
@@ -333,7 +334,7 @@ describe('ApplicationInferenceProfile', () => {
     });
   });
 
-  test('grantInvoke with allowModelsDirectAccess=true and specific model ARN', () => {
+    test('with allowModelsDirectAccess=true and specific model ARN', () => {
     // GIVEN
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
@@ -380,7 +381,7 @@ describe('ApplicationInferenceProfile', () => {
     });
   });
 
-  test('grantInvoke with tag conditions but allowing direct access', () => {
+    test('with tag conditions but allowing direct access', () => {
     // GIVEN
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
@@ -429,7 +430,7 @@ describe('ApplicationInferenceProfile', () => {
     });
   });
 
-  test('grantInvoke with specific model ARN and profile-only access', () => {
+    test('with specific model ARN and profile-only access', () => {
     // GIVEN
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
@@ -485,7 +486,7 @@ describe('ApplicationInferenceProfile', () => {
     });
   });
 
-  test('grantInvoke with specific model ARN and tag conditions', () => {
+    test('with specific model ARN and tag conditions', () => {
     // GIVEN
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
@@ -547,7 +548,7 @@ describe('ApplicationInferenceProfile', () => {
     });
   });
 
-  test('grantInvoke with multiple tag conditions', () => {
+    test('with multiple tag conditions', () => {
     // GIVEN
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
@@ -603,7 +604,7 @@ describe('ApplicationInferenceProfile', () => {
     });
   });
 
-  test('grantInvoke with empty tag conditions object', () => {
+    test('with empty tag conditions object', () => {
     // GIVEN
     const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
     const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
@@ -656,7 +657,7 @@ describe('ApplicationInferenceProfile', () => {
     });
   });
 
-  test('grantInvoke on imported inference profile with all options', () => {
+    test('on imported inference profile with all options', () => {
     // GIVEN
     const importedProfile = ApplicationInferenceProfile.fromInferenceProfileArn(
       stack,
@@ -720,5 +721,6 @@ describe('ApplicationInferenceProfile', () => {
         ]),
       },
     });
+  });
   });
 });
