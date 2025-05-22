@@ -1,0 +1,366 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "IntegBedrockInferenceProfileStack": {
+        "id": "IntegBedrockInferenceProfileStack",
+        "path": "IntegBedrockInferenceProfileStack",
+        "children": {
+          "IntegInferenceProfile": {
+            "id": "IntegInferenceProfile",
+            "path": "IntegBedrockInferenceProfileStack/IntegInferenceProfile",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "IntegBedrockInferenceProfileStack/IntegInferenceProfile/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Bedrock::ApplicationInferenceProfile",
+                  "aws:cdk:cloudformation:props": {
+                    "tags": [
+                      {
+                        "key": "Environment",
+                        "value": "integration"
+                      },
+                      {
+                        "key": "Project",
+                        "value": "bedrock-testing"
+                      }
+                    ],
+                    "description": "Integration test inference profile with explicit name",
+                    "inferenceProfileName": "IntegTestInferenceProfile",
+                    "modelSource": {
+                      "copyFrom": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_bedrock.CfnApplicationInferenceProfile",
+                  "version": "2.168.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.168.0"
+            }
+          },
+          "IntegInferenceProfileNoName": {
+            "id": "IntegInferenceProfileNoName",
+            "path": "IntegBedrockInferenceProfileStack/IntegInferenceProfileNoName",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "IntegBedrockInferenceProfileStack/IntegInferenceProfileNoName/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Bedrock::ApplicationInferenceProfile",
+                  "aws:cdk:cloudformation:props": {
+                    "tags": [
+                      {
+                        "key": "GeneratedName",
+                        "value": "true"
+                      }
+                    ],
+                    "description": "Integration test inference profile without explicit name",
+                    "inferenceProfileName": "IntegBedrockInferenceProfileIntegInferenceProfileNoName-EAFAB660",
+                    "modelSource": {
+                      "copyFrom": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_bedrock.CfnApplicationInferenceProfile",
+                  "version": "2.168.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.168.0"
+            }
+          },
+          "IntegInferenceProfileNoRegion": {
+            "id": "IntegInferenceProfileNoRegion",
+            "path": "IntegBedrockInferenceProfileStack/IntegInferenceProfileNoRegion",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "IntegBedrockInferenceProfileStack/IntegInferenceProfileNoRegion/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Bedrock::ApplicationInferenceProfile",
+                  "aws:cdk:cloudformation:props": {
+                    "tags": [
+                      {
+                        "key": "AutoRegion",
+                        "value": "true"
+                      }
+                    ],
+                    "description": "Integration test inference profile without specifying region",
+                    "inferenceProfileName": "IntegTestInferenceProfileNoRegion",
+                    "modelSource": {
+                      "copyFrom": {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:aws:bedrock:",
+                            {
+                              "Ref": "AWS::Region"
+                            },
+                            "::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_bedrock.CfnApplicationInferenceProfile",
+                  "version": "2.168.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.Resource",
+              "version": "2.168.0"
+            }
+          },
+          "ExampleRole": {
+            "id": "ExampleRole",
+            "path": "IntegBedrockInferenceProfileStack/ExampleRole",
+            "children": {
+              "ImportExampleRole": {
+                "id": "ImportExampleRole",
+                "path": "IntegBedrockInferenceProfileStack/ExampleRole/ImportExampleRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.168.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "IntegBedrockInferenceProfileStack/ExampleRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "description": "Example role for testing inference profile permissions"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.168.0"
+                }
+              },
+              "DefaultPolicy": {
+                "id": "DefaultPolicy",
+                "path": "IntegBedrockInferenceProfileStack/ExampleRole/DefaultPolicy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IntegBedrockInferenceProfileStack/ExampleRole/DefaultPolicy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                      "aws:cdk:cloudformation:props": {
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "bedrock:Converse",
+                                "bedrock:ConverseStream",
+                                "bedrock:InvokeModel",
+                                "bedrock:InvokeModelWithResponseStream"
+                              ],
+                              "Effect": "Allow",
+                              "Resource": [
+                                "arn:aws:bedrock:*::foundation-model/*",
+                                {
+                                  "Fn::GetAtt": [
+                                    "IntegInferenceProfile0CF85217",
+                                    "InferenceProfileArn"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "IntegInferenceProfileNoNameDDA60A41",
+                                    "InferenceProfileArn"
+                                  ]
+                                },
+                                {
+                                  "Fn::GetAtt": [
+                                    "IntegInferenceProfileNoRegionCF010098",
+                                    "InferenceProfileArn"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Action": [
+                                "bedrock:Converse",
+                                "bedrock:ConverseStream",
+                                "bedrock:InvokeModel",
+                                "bedrock:InvokeModelWithResponseStream"
+                              ],
+                              "Condition": {
+                                "ArnEquals": {
+                                  "bedrock:InferenceProfileArn": {
+                                    "Fn::GetAtt": [
+                                      "IntegInferenceProfile0CF85217",
+                                      "InferenceProfileArn"
+                                    ]
+                                  }
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:bedrock:*::foundation-model/*"
+                            },
+                            {
+                              "Action": [
+                                "bedrock:Converse",
+                                "bedrock:ConverseStream",
+                                "bedrock:InvokeModel",
+                                "bedrock:InvokeModelWithResponseStream"
+                              ],
+                              "Condition": {
+                                "ArnEquals": {
+                                  "bedrock:InferenceProfileArn": {
+                                    "Fn::GetAtt": [
+                                      "IntegInferenceProfileNoRegionCF010098",
+                                      "InferenceProfileArn"
+                                    ]
+                                  }
+                                }
+                              },
+                              "Effect": "Allow",
+                              "Resource": "arn:aws:bedrock:*::foundation-model/anthropic.*"
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "policyName": "ExampleRoleDefaultPolicy688DB891",
+                        "roles": [
+                          {
+                            "Ref": "ExampleRole576372CE"
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                      "version": "2.168.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Policy",
+                  "version": "2.168.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.168.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "IntegBedrockInferenceProfileStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.168.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "IntegBedrockInferenceProfileStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.168.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.168.0"
+        }
+      },
+      "Integ": {
+        "id": "Integ",
+        "path": "Integ",
+        "children": {
+          "DefaultTest": {
+            "id": "DefaultTest",
+            "path": "Integ/DefaultTest",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "Integ/DefaultTest/Default",
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.3.0"
+                }
+              },
+              "DeployAssert": {
+                "id": "DeployAssert",
+                "path": "Integ/DefaultTest/DeployAssert",
+                "children": {
+                  "BootstrapVersion": {
+                    "id": "BootstrapVersion",
+                    "path": "Integ/DefaultTest/DeployAssert/BootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.168.0"
+                    }
+                  },
+                  "CheckBootstrapVersion": {
+                    "id": "CheckBootstrapVersion",
+                    "path": "Integ/DefaultTest/DeployAssert/CheckBootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnRule",
+                      "version": "2.168.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Stack",
+                  "version": "2.168.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/integ-tests-alpha.IntegTestCase",
+              "version": "2.168.0-alpha.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "@aws-cdk/integ-tests-alpha.IntegTest",
+          "version": "2.168.0-alpha.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.3.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.168.0"
+    }
+  }
+}
