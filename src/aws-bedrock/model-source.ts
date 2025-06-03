@@ -12,19 +12,14 @@ export class ModelSource {
    * @param region The AWS region where the model is located. If not provided, the current stack's region will be used.
    * @returns A ModelSource object
    */
-  public static fromFoundationModel(
-    modelId: FoundationModelIdentifier | string,
-    region?: string,
-  ): ModelSource {
+  public static fromFoundationModel(modelId: FoundationModelIdentifier | string, region?: string): ModelSource {
     // Convert to string if it's an enum
     const modelIdString = typeof modelId === 'string' ? modelId : modelId.toString();
 
     // If region is not provided, use the stack's region
     const regionValue = region || Aws.REGION;
 
-    return new ModelSource(
-      `arn:aws:bedrock:${regionValue}::foundation-model/${modelIdString}`
-    );
+    return new ModelSource(`arn:aws:bedrock:${regionValue}::foundation-model/${modelIdString}`);
   }
 
   /**
