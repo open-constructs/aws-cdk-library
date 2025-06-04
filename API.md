@@ -4369,7 +4369,7 @@ const bedrockApplicationInferenceProfileProps: aws_bedrock.BedrockApplicationInf
 | <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.environmentFromArn">environmentFromArn</a></code> | <code>string</code> | ARN to deduce region and account from. |
 | <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.physicalName">physicalName</a></code> | <code>string</code> | The value passed in by users to the physical name prop of the resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.region">region</a></code> | <code>string</code> | The AWS region this resource belongs to. |
-| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.modelSource">modelSource</a></code> | <code>@open-constructs/aws-cdk.aws_bedrock.InferenceProfileModelSourceProps</code> | Contains configurations for the inference profile to copy as the resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.modelSource">modelSource</a></code> | <code>@open-constructs/aws-cdk.aws_bedrock.ModelSource</code> | Contains configurations for the inference profile to copy as the resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.description">description</a></code> | <code>string</code> | The description of the inference profile. |
 | <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.inferenceProfileName">inferenceProfileName</a></code> | <code>string</code> | The name of the inference profile. |
 
@@ -4441,10 +4441,10 @@ The AWS region this resource belongs to.
 ##### `modelSource`<sup>Required</sup> <a name="modelSource" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.modelSource"></a>
 
 ```typescript
-public readonly modelSource: InferenceProfileModelSourceProps;
+public readonly modelSource: ModelSource;
 ```
 
-- *Type:* @open-constructs/aws-cdk.aws_bedrock.InferenceProfileModelSourceProps
+- *Type:* @open-constructs/aws-cdk.aws_bedrock.ModelSource
 
 Contains configurations for the inference profile to copy as the resource.
 
@@ -4888,27 +4888,38 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 
 ---
 
-### InferenceProfileModelSourceProps <a name="InferenceProfileModelSourceProps" id="@open-constructs/aws-cdk.aws_bedrock.InferenceProfileModelSourceProps"></a>
+### ModelSource <a name="ModelSource" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource"></a>
 
-Properties for the InferenceProfileModelSource.
+Helper class to create model sources for inference profiles.
 
-#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_bedrock.InferenceProfileModelSourceProps.Initializer"></a>
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource.Initializer"></a>
 
 ```typescript
 import { aws_bedrock } from '@open-constructs/aws-cdk'
 
-const inferenceProfileModelSourceProps: aws_bedrock.InferenceProfileModelSourceProps = { ... }
+// Create from foundation model
+const modelSource = aws_bedrock.ModelSource.fromFoundationModel('anthropic.claude-3-sonnet-20240229-v1:0');
+
+// Create from inference profile
+const modelSource = aws_bedrock.ModelSource.fromInferenceProfile('arn:aws:bedrock:us-east-1:123456789012:inference-profile/my-profile');
 ```
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.ModelSource.fromFoundationModel">fromFoundationModel</a></code> | Creates a model source from a foundation model identifier. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.ModelSource.fromInferenceProfile">fromInferenceProfile</a></code> | Creates a model source from an existing inference profile. |
 
 #### Properties <a name="Properties" id="Properties"></a>
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.InferenceProfileModelSourceProps.property.copyFrom">copyFrom</a></code> | <code>string</code> | The ARN of the model or system-defined inference profile that is the source for the inference profile. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.ModelSource.property.copyFrom">copyFrom</a></code> | <code>string</code> | The ARN of the model or system-defined inference profile that is the source for the inference profile. |
 
 ---
 
-##### `copyFrom`<sup>Required</sup> <a name="copyFrom" id="@open-constructs/aws-cdk.aws_bedrock.InferenceProfileModelSourceProps.property.copyFrom"></a>
+##### `copyFrom`<sup>Required</sup> <a name="copyFrom" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource.property.copyFrom"></a>
 
 ```typescript
 public readonly copyFrom: string;
