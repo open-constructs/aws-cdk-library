@@ -27,6 +27,7 @@ export interface GrantInvokeOptions {
   /**
    * Additional conditions to match resource tags for tag-based access control.
    * Keys are resource tag keys, values are principal tag variables or literal values.
+   * @default - No tag conditions applied
    * @example {'UserEmail': '${aws:PrincipalTag/UserEmail}'}
    */
   readonly tagConditions?: Record<string, string>;
