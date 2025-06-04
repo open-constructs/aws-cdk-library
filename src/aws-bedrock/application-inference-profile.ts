@@ -1,5 +1,5 @@
 import { IResource, Resource, ResourceProps, Names, Lazy } from 'aws-cdk-lib';
-import { CfnApplicationInferenceProfile } from 'aws-cdk-lib/aws-bedrock';
+import { CfnApplicationInferenceProfile, FoundationModel } from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import { ModelSource } from './model-source';
@@ -17,11 +17,12 @@ export interface GrantInvokeOptions {
   readonly allowModelsDirectAccess?: boolean;
 
   /**
-   * Model ARN pattern used to restrict access to foundation models.
-   * Useful when supporting multiple models.
+   * The foundation model to restrict access to.
+   * Can be either a FoundationModel construct or a string ARN pattern.
+   * When a FoundationModel is provided, its ARN will be used.
    * @default 'arn:aws:bedrock:*::foundation-model/*' (all foundation models)
    */
-  readonly foundationModelArn?: string;
+  readonly foundationModel?: FoundationModel;
 
   /**
    * Additional conditions to match resource tags for tag-based access control.
@@ -123,7 +124,17 @@ abstract class ApplicationInferenceProfileBase extends Resource implements IAppl
    * @returns The granted permission
    */
   public grantInvoke(grantee: iam.IGrantable, options: GrantInvokeOptions = {}): iam.Grant {
-    const foundationModelArn = options.foundationModelArn || 'arn:aws:bedrock:*::foundation-model/*';
+    // Handle backward compatibility: prefer foundationModel over foundationModelArn
+    let foundationModelArn: string;
+    if (options.foundationModel) {
+      // If foundationModel is provided, use it (either as string or IModel)
+      foundationModelArn =
+        typeof options.foundationModel === 'string' ? options.foundationModel : options.foundationModel.modelArn;
+    } else {
+      // Default to all foundation models
+      foundationModelArn = 'arn:aws:bedrock:*::foundation-model/*';
+    }
+
     const allowDirectAccess = options.allowModelsDirectAccess ?? false;
 
     // 1. Access permission to the inference profile itself

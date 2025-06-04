@@ -1,5 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
+import * as bedrock from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { ApplicationInferenceProfile } from '../../src/aws-bedrock';
 import { ModelSource } from '../../src/aws-bedrock/model-source';
@@ -352,12 +353,16 @@ describe('ApplicationInferenceProfile', () => {
         assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
       });
 
-      const specificModelArn = 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0';
+      const foundationModel = bedrock.FoundationModel.fromFoundationModelId(
+        stack,
+        'TestSpecificModel',
+        bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1_0,
+      );
 
       // WHEN - grant with direct access and specific model ARN
       profile.grantInvoke(role, {
         allowModelsDirectAccess: true,
-        foundationModelArn: specificModelArn,
+        foundationModel: foundationModel,
       });
 
       // THEN
@@ -376,7 +381,18 @@ describe('ApplicationInferenceProfile', () => {
                 'bedrock:ConverseStream',
               ],
               Effect: 'Allow',
-              Resource: specificModelArn,
+              Resource: {
+                'Fn::Join': [
+                  '',
+                  [
+                    'arn:',
+                    { Ref: 'AWS::Partition' },
+                    ':bedrock:',
+                    { Ref: 'AWS::Region' },
+                    '::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0',
+                  ],
+                ],
+              },
               // No Condition field expected
             }),
           ]),
@@ -448,12 +464,16 @@ describe('ApplicationInferenceProfile', () => {
         assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
       });
 
-      const specificModelArn = 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0';
+      const foundationModel = bedrock.FoundationModel.fromFoundationModelId(
+        stack,
+        'TestSpecificModelProfileOnly',
+        bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1_0,
+      );
 
       // WHEN - grant with profile-only access and specific model ARN
       profile.grantInvoke(role, {
         allowModelsDirectAccess: false,
-        foundationModelArn: specificModelArn,
+        foundationModel: foundationModel,
       });
 
       // THEN
@@ -472,7 +492,18 @@ describe('ApplicationInferenceProfile', () => {
                 'bedrock:ConverseStream',
               ],
               Effect: 'Allow',
-              Resource: specificModelArn,
+              Resource: {
+                'Fn::Join': [
+                  '',
+                  [
+                    'arn:',
+                    { Ref: 'AWS::Partition' },
+                    ':bedrock:',
+                    { Ref: 'AWS::Region' },
+                    '::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0',
+                  ],
+                ],
+              },
               Condition: {
                 ArnEquals: {
                   'bedrock:InferenceProfileArn': {
@@ -505,11 +536,15 @@ describe('ApplicationInferenceProfile', () => {
         assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
       });
 
-      const specificModelArn = 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0';
+      const specificModel = bedrock.FoundationModel.fromFoundationModelId(
+        stack,
+        'SpecificModelWithTags',
+        bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1_0,
+      );
 
       // WHEN - grant with tag conditions and specific model ARN
       profile.grantInvoke(role, {
-        foundationModelArn: specificModelArn,
+        foundationModel: specificModel,
         tagConditions: {
           Project: '${aws:PrincipalTag/Project}',
         },
@@ -531,7 +566,18 @@ describe('ApplicationInferenceProfile', () => {
                 'bedrock:ConverseStream',
               ],
               Effect: 'Allow',
-              Resource: specificModelArn,
+              Resource: {
+                'Fn::Join': [
+                  '',
+                  [
+                    'arn:',
+                    { Ref: 'AWS::Partition' },
+                    ':bedrock:',
+                    { Ref: 'AWS::Region' },
+                    '::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0',
+                  ],
+                ],
+              },
               Condition: Match.objectLike({
                 ArnEquals: {
                   'bedrock:InferenceProfileArn': {
@@ -672,12 +718,16 @@ describe('ApplicationInferenceProfile', () => {
         assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
       });
 
-      const specificModelArn = 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0';
+      const specificModel = bedrock.FoundationModel.fromFoundationModelId(
+        stack,
+        'ImportedSpecificModel',
+        bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1_0,
+      );
 
       // WHEN - grant with all possible options on imported profile
       importedProfile.grantInvoke(role, {
         allowModelsDirectAccess: false,
-        foundationModelArn: specificModelArn,
+        foundationModel: specificModel,
         tagConditions: {
           Department: '${aws:PrincipalTag/Department}',
         },
@@ -710,7 +760,18 @@ describe('ApplicationInferenceProfile', () => {
                 'bedrock:ConverseStream',
               ],
               Effect: 'Allow',
-              Resource: specificModelArn,
+              Resource: Match.objectLike({
+                'Fn::Join': Match.arrayWith([
+                  '',
+                  Match.arrayWith([
+                    'arn:',
+                    { Ref: 'AWS::Partition' },
+                    ':bedrock:',
+                    { Ref: 'AWS::Region' },
+                    '::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0',
+                  ]),
+                ]),
+              }),
               Condition: Match.objectLike({
                 ArnEquals: {
                   'bedrock:InferenceProfileArn':
@@ -718,6 +779,223 @@ describe('ApplicationInferenceProfile', () => {
                 },
                 StringLike: {
                   'aws:ResourceTag/Department': '${aws:PrincipalTag/Department}',
+                },
+              }),
+            }),
+          ]),
+        },
+      });
+    });
+
+    test('with FoundationModel instead of string ARN', () => {
+      // GIVEN
+      const modelId = 'anthropic.claude-3-5-sonnet-20240620-v1:0';
+      const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
+
+      const profile = new ApplicationInferenceProfile(stack, 'TestIModelProfile', {
+        inferenceProfileName: 'test-imodel',
+        description: 'Test inference profile with FoundationModel',
+        modelSource,
+      });
+
+      const role = new iam.Role(stack, 'TestIModelRole', {
+        assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      });
+
+      // Create a FoundationModel instance
+      const foundationModel = bedrock.FoundationModel.fromFoundationModelId(
+        stack,
+        'TestModel',
+        bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1_0,
+      );
+
+      // WHEN - grant with FoundationModel
+      profile.grantInvoke(role, {
+        foundationModel: foundationModel,
+      });
+
+      // THEN
+      const template = Template.fromStack(stack);
+
+      // Check the generated IAM policy
+      template.hasResourceProperties('AWS::IAM::Policy', {
+        PolicyDocument: {
+          Statement: Match.arrayWith([
+            // Conditional InvokeModel permission to specific foundation model
+            Match.objectLike({
+              Action: [
+                'bedrock:InvokeModel',
+                'bedrock:InvokeModelWithResponseStream',
+                'bedrock:Converse',
+                'bedrock:ConverseStream',
+              ],
+              Effect: 'Allow',
+              Resource: {
+                'Fn::Join': [
+                  '',
+                  [
+                    'arn:',
+                    { Ref: 'AWS::Partition' },
+                    ':bedrock:',
+                    { Ref: 'AWS::Region' },
+                    '::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0',
+                  ],
+                ],
+              },
+              Condition: Match.objectLike({
+                ArnEquals: {
+                  'bedrock:InferenceProfileArn': {
+                    'Fn::GetAtt': Match.arrayWith([Match.stringLikeRegexp('TestIModelProfile'), 'InferenceProfileArn']),
+                  },
+                },
+              }),
+            }),
+          ]),
+        },
+      });
+    });
+
+    test('with FoundationModel and allowModelsDirectAccess', () => {
+      // GIVEN
+      const modelId = 'amazon.titan-text-express-v1';
+      const modelSource = ModelSource.fromFoundationModel(modelId, 'us-east-1');
+
+      const profile = new ApplicationInferenceProfile(stack, 'TestIModelDirectProfile', {
+        inferenceProfileName: 'test-imodel-direct',
+        description: 'Test inference profile with FoundationModel and direct access',
+        modelSource,
+      });
+
+      const role = new iam.Role(stack, 'TestIModelDirectRole', {
+        assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      });
+
+      // Create a FoundationModel instance
+      const foundationModel = bedrock.FoundationModel.fromFoundationModelId(
+        stack,
+        'TestTitanModel',
+        bedrock.FoundationModelIdentifier.AMAZON_TITAN_TEXT_G1_EXPRESS_V1,
+      );
+
+      // WHEN - grant with FoundationModel and direct access
+      profile.grantInvoke(role, {
+        foundationModel: foundationModel,
+        allowModelsDirectAccess: true,
+      });
+
+      // THEN
+      const template = Template.fromStack(stack);
+
+      // Check the generated IAM policy
+      template.hasResourceProperties('AWS::IAM::Policy', {
+        PolicyDocument: {
+          Statement: Match.arrayWith([
+            // InvokeModel permission to the inference profile itself
+            Match.objectLike({
+              Action: [
+                'bedrock:InvokeModel',
+                'bedrock:InvokeModelWithResponseStream',
+                'bedrock:Converse',
+                'bedrock:ConverseStream',
+              ],
+              Effect: 'Allow',
+              Resource: {
+                'Fn::GetAtt': Match.arrayWith([
+                  Match.stringLikeRegexp('TestIModelDirectProfile'),
+                  'InferenceProfileArn',
+                ]),
+              },
+            }),
+            // Direct InvokeModel permission to specific foundation model
+            Match.objectLike({
+              Action: [
+                'bedrock:InvokeModel',
+                'bedrock:InvokeModelWithResponseStream',
+                'bedrock:Converse',
+                'bedrock:ConverseStream',
+              ],
+              Effect: 'Allow',
+              Resource: {
+                'Fn::Join': [
+                  '',
+                  [
+                    'arn:',
+                    { Ref: 'AWS::Partition' },
+                    ':bedrock:',
+                    { Ref: 'AWS::Region' },
+                    '::foundation-model/amazon.titan-text-express-v1',
+                  ],
+                ],
+              },
+              // No Condition field expected for direct access
+            }),
+          ]),
+        },
+      });
+    });
+
+    test('backwards compatibility - still accepts string ARN', () => {
+      // GIVEN
+      const modelId = 'meta.llama3-70b-instruct-v1:0';
+      const modelSource = ModelSource.fromFoundationModel(modelId, 'us-west-2');
+
+      const profile = new ApplicationInferenceProfile(stack, 'TestBackwardCompatProfile', {
+        inferenceProfileName: 'test-backward-compat',
+        description: 'Test inference profile with string ARN for backward compatibility',
+        modelSource,
+      });
+
+      const role = new iam.Role(stack, 'TestBackwardCompatRole', {
+        assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      });
+
+      const specificModel = bedrock.FoundationModel.fromFoundationModelId(
+        stack,
+        'SpecificModelBackwardCompat',
+        bedrock.FoundationModelIdentifier.META_LLAMA_3_70_INSTRUCT_V1,
+      );
+
+      // WHEN - grant with FoundationModel object
+      profile.grantInvoke(role, {
+        foundationModel: specificModel,
+      });
+
+      // THEN
+      const template = Template.fromStack(stack);
+
+      // Check the generated IAM policy
+      template.hasResourceProperties('AWS::IAM::Policy', {
+        PolicyDocument: {
+          Statement: Match.arrayWith([
+            // Conditional InvokeModel permission to specific foundation model
+            Match.objectLike({
+              Action: [
+                'bedrock:InvokeModel',
+                'bedrock:InvokeModelWithResponseStream',
+                'bedrock:Converse',
+                'bedrock:ConverseStream',
+              ],
+              Effect: 'Allow',
+              Resource: Match.objectLike({
+                'Fn::Join': Match.arrayWith([
+                  '',
+                  Match.arrayWith([
+                    'arn:',
+                    { Ref: 'AWS::Partition' },
+                    ':bedrock:',
+                    { Ref: 'AWS::Region' },
+                    '::foundation-model/meta.llama3-70b-instruct-v1:0',
+                  ]),
+                ]),
+              }),
+              Condition: Match.objectLike({
+                ArnEquals: {
+                  'bedrock:InferenceProfileArn': {
+                    'Fn::GetAtt': Match.arrayWith([
+                      Match.stringLikeRegexp('TestBackwardCompatProfile'),
+                      'InferenceProfileArn',
+                    ]),
+                  },
                 },
               }),
             }),
