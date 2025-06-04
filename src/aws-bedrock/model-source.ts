@@ -16,14 +16,11 @@ export class ModelSource {
     // Convert to string if it's an enum
     const modelIdString = typeof modelId === 'string' ? modelId : modelId.toString();
 
-    // If region is not provided, use the stack's region
-    const regionValue = region || Aws.REGION;
-
     return new ModelSource(
       Arn.format({
         partition: 'aws',
         service: 'bedrock',
-        region: regionValue,
+        region,
         account: '', // Empty account for foundation models
         resource: 'foundation-model',
         resourceName: modelIdString,
