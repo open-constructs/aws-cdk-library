@@ -41,10 +41,10 @@ const modelSource1 = ModelSource.fromFoundationModel('anthropic.claude-3-5-sonne
 const modelSource2 = ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0');
 
 // Using the FoundationModelIdentifier enum (with explicit region)
-const modelSource3 = ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1, 'us-west-2');
+const modelSource3 = ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1_0, 'us-west-2');
 
 // Using the FoundationModelIdentifier enum (using stack's region automatically)
-const modelSource4 = ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1);
+const modelSource4 = ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1_0);
 ```
 
 #### Using with Existing Inference Profiles
@@ -80,7 +80,7 @@ import { FoundationModelIdentifier } from 'aws-cdk-lib/aws-bedrock';
 const inferenceProfile = new ApplicationInferenceProfile(this, 'MyInferenceProfile', {
   inferenceProfileName: 'my-inference-profile',
   description: 'My Bedrock inference profile',
-  modelSource: ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1),
+  modelSource: ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1_0),
 });
 
 // Tags can be added individually
