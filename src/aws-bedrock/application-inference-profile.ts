@@ -1,4 +1,4 @@
-import { IResource, Resource, ResourceProps, Names, Lazy } from 'aws-cdk-lib';
+import { Arn, ArnFormat, IResource, Resource, ResourceProps, Names, Stack, Lazy } from 'aws-cdk-lib';
 import { CfnApplicationInferenceProfile, FoundationModel } from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
@@ -125,7 +125,19 @@ abstract class ApplicationInferenceProfileBase extends Resource implements IAppl
    * @returns The granted permission
    */
   public grantInvoke(grantee: iam.IGrantable, options: GrantInvokeOptions = {}): iam.Grant {
-    const foundationModelArn = options.foundationModel?.modelArn ?? 'arn:aws:bedrock:*::foundation-model/*';
+    const foundationModelArn =
+      options.foundationModel?.modelArn ??
+      Arn.format(
+        {
+          service: 'bedrock',
+          region: '*',
+          account: '',
+          resource: 'foundation-model',
+          resourceName: '*',
+          arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+        },
+        Stack.of(this),
+      );
 
     const allowDirectAccess = options.allowModelsDirectAccess ?? false;
 

@@ -141,7 +141,9 @@ describe('ApplicationInferenceProfile', () => {
                 'bedrock:ConverseStream',
               ],
               Effect: 'Allow',
-              Resource: 'arn:aws:bedrock:*::foundation-model/*',
+              Resource: Match.objectLike({
+                'Fn::Join': ['', ['arn:', { Ref: 'AWS::Partition' }, ':bedrock:*::foundation-model/*']],
+              }),
               Condition: {
                 ArnEquals: {
                   'bedrock:InferenceProfileArn': {
@@ -205,7 +207,9 @@ describe('ApplicationInferenceProfile', () => {
                 'bedrock:ConverseStream',
               ],
               Effect: 'Allow',
-              Resource: 'arn:aws:bedrock:*::foundation-model/*',
+              Resource: Match.objectLike({
+                'Fn::Join': ['', ['arn:', { Ref: 'AWS::Partition' }, ':bedrock:*::foundation-model/*']],
+              }),
               Condition: {
                 ArnEquals: {
                   'bedrock:InferenceProfileArn': {
@@ -271,7 +275,9 @@ describe('ApplicationInferenceProfile', () => {
                 'bedrock:ConverseStream',
               ],
               Effect: 'Allow',
-              Resource: 'arn:aws:bedrock:*::foundation-model/*',
+              Resource: Match.objectLike({
+                'Fn::Join': ['', ['arn:', { Ref: 'AWS::Partition' }, ':bedrock:*::foundation-model/*']],
+              }),
               // No Condition field expected
             }),
           ]),
@@ -321,7 +327,9 @@ describe('ApplicationInferenceProfile', () => {
                 'bedrock:ConverseStream',
               ],
               Effect: 'Allow',
-              Resource: 'arn:aws:bedrock:*::foundation-model/*',
+              Resource: Match.objectLike({
+                'Fn::Join': ['', ['arn:', { Ref: 'AWS::Partition' }, ':bedrock:*::foundation-model/*']],
+              }),
               Condition: Match.objectLike({
                 ArnEquals: {
                   'bedrock:InferenceProfileArn': {
@@ -441,7 +449,9 @@ describe('ApplicationInferenceProfile', () => {
                 'bedrock:ConverseStream',
               ],
               Effect: 'Allow',
-              Resource: 'arn:aws:bedrock:*::foundation-model/*',
+              Resource: Match.objectLike({
+                'Fn::Join': ['', ['arn:', { Ref: 'AWS::Partition' }, ':bedrock:*::foundation-model/*']],
+              }),
               // No Condition field should be present
             }),
           ]),
@@ -639,7 +649,9 @@ describe('ApplicationInferenceProfile', () => {
                 'bedrock:ConverseStream',
               ],
               Effect: 'Allow',
-              Resource: 'arn:aws:bedrock:*::foundation-model/*',
+              Resource: Match.objectLike({
+                'Fn::Join': ['', ['arn:', { Ref: 'AWS::Partition' }, ':bedrock:*::foundation-model/*']],
+              }),
               Condition: Match.objectLike({
                 StringLike: {
                   'aws:ResourceTag/Department': '${aws:PrincipalTag/Department}',
@@ -688,7 +700,9 @@ describe('ApplicationInferenceProfile', () => {
                 'bedrock:ConverseStream',
               ],
               Effect: 'Allow',
-              Resource: 'arn:aws:bedrock:*::foundation-model/*',
+              Resource: Match.objectLike({
+                'Fn::Join': ['', ['arn:', { Ref: 'AWS::Partition' }, ':bedrock:*::foundation-model/*']],
+              }),
               Condition: {
                 ArnEquals: {
                   'bedrock:InferenceProfileArn': {
