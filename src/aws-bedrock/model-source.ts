@@ -1,4 +1,4 @@
-import { Aws } from 'aws-cdk-lib';
+import { Aws, ArnFormat, Arn } from 'aws-cdk-lib';
 import { FoundationModelIdentifier } from 'aws-cdk-lib/aws-bedrock';
 
 /**
@@ -19,7 +19,17 @@ export class ModelSource {
     // If region is not provided, use the stack's region
     const regionValue = region || Aws.REGION;
 
-    return new ModelSource(`arn:aws:bedrock:${regionValue}::foundation-model/${modelIdString}`);
+    return new ModelSource(
+      Arn.format({
+        partition: 'aws',
+        service: 'bedrock',
+        region: regionValue,
+        account: '', // Empty account for foundation models
+        resource: 'foundation-model',
+        resourceName: modelIdString,
+        arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+      }),
+    );
   }
 
   /**
