@@ -124,16 +124,7 @@ abstract class ApplicationInferenceProfileBase extends Resource implements IAppl
    * @returns The granted permission
    */
   public grantInvoke(grantee: iam.IGrantable, options: GrantInvokeOptions = {}): iam.Grant {
-    // Handle backward compatibility: prefer foundationModel over foundationModelArn
-    let foundationModelArn: string;
-    if (options.foundationModel) {
-      // If foundationModel is provided, use it (either as string or IModel)
-      foundationModelArn =
-        typeof options.foundationModel === 'string' ? options.foundationModel : options.foundationModel.modelArn;
-    } else {
-      // Default to all foundation models
-      foundationModelArn = 'arn:aws:bedrock:*::foundation-model/*';
-    }
+    const foundationModelArn = options.foundationModel?.modelArn ?? 'arn:aws:bedrock:*::foundation-model/*';
 
     const allowDirectAccess = options.allowModelsDirectAccess ?? false;
 
