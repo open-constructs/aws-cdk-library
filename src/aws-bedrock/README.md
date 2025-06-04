@@ -101,9 +101,11 @@ const existingInferenceProfile = ApplicationInferenceProfile.fromInferenceProfil
 );
 ```
 
-#### Granting permissions to invoke models via inference profile only
+#### Granting permissions to invoke models
 
-The `grantInvokeViaProfileOnly` method allows you to securely grant permissions to IAM principals to invoke Bedrock models through a specific inference profile only, preventing direct access to the models.
+The `grantInvoke` method allows you to grant permissions to IAM principals to invoke Bedrock models through an inference profile. You can configure whether to allow direct model access or restrict access to only go through the inference profile.
+
+##### Basic usage - Profile-only access (recommended)
 
 ```typescript
 import { ApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
@@ -121,8 +123,44 @@ const inferenceProfile = new ApplicationInferenceProfile(this, 'MyInferenceProfi
   modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0', 'us-west-2'),
 });
 
-// Grant permissions to invoke models ONLY through the inference profile
-inferenceProfile.grantInvokeViaProfileOnly(role);
+// Grant permissions to invoke models ONLY through the inference profile (default behavior)
+inferenceProfile.grantInvoke(role);
+```
+
+##### Using IModel for type-safe model specification
+
+```typescript
+import { ApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
+import { FoundationModel } from 'aws-cdk-lib/aws-bedrock';
+import * as iam from 'aws-cdk-lib/aws-iam';
+
+// Create a FoundationModel construct
+const claudeModel = FoundationModel.fromFoundationModelId(
+  this,
+  'ClaudeModel',
+  'anthropic.claude-3-5-sonnet-20240620-v1:0'
+);
+
+// Create an inference profile
+const inferenceProfile = new ApplicationInferenceProfile(this, 'MyInferenceProfile', {
+  inferenceProfileName: 'my-inference-profile',
+  modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0'),
+});
+
+// Grant permissions with a specific model using IModel
+inferenceProfile.grantInvoke(role, {
+  foundationModel: claudeModel, // Uses IModel interface for type safety
+});
+```
+
+##### Allowing direct model access
+
+```typescript
+// Grant permissions with direct model access (not recommended for production)
+inferenceProfile.grantInvoke(role, {
+  allowModelsDirectAccess: true,
+  foundationModel: claudeModel, // Optional: restrict to specific model
+});
 ```
 
 #### Advanced permissions with tag-based access control
@@ -150,7 +188,7 @@ const userRole = new iam.Role(this, 'UserRole', {
 });
 
 // Grant permissions with tag conditions matching principal tags to resource tags
-userInferenceProfile.grantInvokeViaProfileOnly(userRole, {
+userInferenceProfile.grantInvoke(userRole, {
   tagConditions: {
     'UserEmail': '${aws:PrincipalTag/UserEmail}',
     'Department': '${aws:PrincipalTag/Department}'
