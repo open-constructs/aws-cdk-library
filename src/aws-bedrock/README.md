@@ -34,17 +34,17 @@ The `ModelSource` helper class provides methods to create model sources for infe
 import { ModelSource } from '@open-constructs/aws-cdk/aws-bedrock';
 import { FoundationModelIdentifier } from 'aws-cdk-lib/aws-bedrock';
 
-// Using a string model ID (with explicit region)
-const modelSource1 = ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0', 'us-west-2');
-
 // Using a string model ID (using stack's region automatically)
-const modelSource2 = ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0');
+const modelSource1 = ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0');
 
-// Using the FoundationModelIdentifier enum (with explicit region)
-const modelSource3 = ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1_0, 'us-west-2');
+// Using a string model ID (with explicit region)
+const modelSource2 = ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0', 'us-west-2');
 
 // Using the FoundationModelIdentifier enum (using stack's region automatically)
-const modelSource4 = ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1_0);
+const modelSource3 = ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1_0);
+
+// Using the FoundationModelIdentifier enum (with explicit region)
+const modelSource4 = ModelSource.fromFoundationModel(FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20240620_V1_0, 'us-west-2');
 ```
 
 #### Using with Existing Inference Profiles
@@ -67,7 +67,7 @@ import { ApplicationInferenceProfile, ModelSource } from '@open-constructs/aws-c
 const inferenceProfile = new ApplicationInferenceProfile(this, 'MyInferenceProfile', {
   inferenceProfileName: 'my-inference-profile',
   description: 'My Bedrock inference profile',
-  modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0', 'us-west-2'),
+  modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0'),
 });
 ```
 
@@ -120,11 +120,13 @@ const role = new iam.Role(this, 'AIServiceRole', {
 const inferenceProfile = new ApplicationInferenceProfile(this, 'MyInferenceProfile', {
   inferenceProfileName: 'my-inference-profile',
   description: 'My Bedrock inference profile',
-  modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0', 'us-west-2'),
+  modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0'),
 });
 
 // Grant permissions to invoke models ONLY through the inference profile (default behavior)
 inferenceProfile.grantInvoke(role);
+// This will automatically add permissions to invoke the foundation model with the condition
+// that it must be accessed through this inference profile
 ```
 
 ##### Using IModel for type-safe model specification
@@ -147,9 +149,9 @@ const inferenceProfile = new ApplicationInferenceProfile(this, 'MyInferenceProfi
   modelSource: ModelSource.fromFoundationModel('anthropic.claude-3-5-sonnet-20240620-v1:0'),
 });
 
-// Grant permissions with a specific model using IModel
+// Grant permissions with a specific model using FoundationModel
 inferenceProfile.grantInvoke(role, {
-  foundationModel: claudeModel, // Uses IModel interface for type safety
+  foundationModel: claudeModel, // Uses FoundationModel for type safety
 });
 ```
 
