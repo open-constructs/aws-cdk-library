@@ -18,7 +18,6 @@ export interface GrantInvokeOptions {
 
   /**
    * The foundation model to restrict access to.
-   * Can be either a FoundationModel construct or a string ARN pattern.
    * When a FoundationModel is provided, its ARN will be used.
    * @default 'arn:aws:bedrock:*::foundation-model/*' (all foundation models)
    */
