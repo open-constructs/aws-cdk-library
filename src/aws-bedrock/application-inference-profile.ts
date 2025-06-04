@@ -198,7 +198,6 @@ abstract class ApplicationInferenceProfileBase extends Resource implements IAppl
  * A CDK construct for AWS Bedrock Application Inference Profile
  *
  * Use the ModelSource field to specify the inference profile to copy into the resource.
- * For more information about using inference profiles in Amazon Bedrock.
  */
 export class ApplicationInferenceProfile extends ApplicationInferenceProfileBase {
   /**
