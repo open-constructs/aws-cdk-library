@@ -2,6 +2,330 @@
 
 ## Constructs <a name="Constructs" id="Constructs"></a>
 
+### BedrockApplicationInferenceProfile <a name="BedrockApplicationInferenceProfile" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile"></a>
+
+- *Implements:* @open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile
+
+A CDK construct for AWS Bedrock Application Inference Profile.
+
+Use the ModelSource field to specify the inference profile to copy into the resource.
+For more information about using inference profiles in Amazon Bedrock, see
+Improve resilience with cross-region inference.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.Initializer"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+new aws_bedrock.BedrockApplicationInferenceProfile(scope: Construct, id: string, props: BedrockApplicationInferenceProfileProps)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.Initializer.parameter.props">props</a></code> | <code>@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.Initializer.parameter.props"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.grantInvokeViaProfileOnly">grantInvokeViaProfileOnly</a></code> | Grants permissions to an IAM principal to invoke Bedrock foundation models only via the inference profile. |
+
+---
+
+##### `toString` <a name="toString" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply the given removal policy to this resource.
+
+The Removal Policy controls what happens to this resource when it stops
+being managed by CloudFormation, either because you've removed it from the
+CDK application or because you've made a change that requires the resource
+to be replaced.
+
+The resource can be deleted (`RemovalPolicy.DESTROY`), or left in your AWS
+account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
+
+###### `policy`<sup>Required</sup> <a name="policy" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `grantInvokeViaProfileOnly` <a name="grantInvokeViaProfileOnly" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.grantInvokeViaProfileOnly"></a>
+
+```typescript
+public grantInvokeViaProfileOnly(grantee: IGrantable, options?: GrantInvokeViaProfileOnlyOptions): Grant
+```
+
+Grants permissions to an IAM principal to invoke Bedrock foundation models only via the inference profile.
+
+This method implements the secure design pattern described in the article:
+1. Grant InvokeModel permission to the inference profile itself
+2. Conditionally grant InvokeModel permission to foundation models (allowing calls only via the inference profile)
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.grantInvokeViaProfileOnly.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The IAM principal to grant permissions to.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.grantInvokeViaProfileOnly.parameter.options"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions
+
+Additional options (such as tag conditions).
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.fromInferenceProfileArn">fromInferenceProfileArn</a></code> | Import an existing Bedrock Application Inference Profile by ARN. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.fromInferenceProfileAttributes">fromInferenceProfileAttributes</a></code> | Import an existing Bedrock Application Inference Profile using attributes. |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.isConstruct"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+aws_bedrock.BedrockApplicationInferenceProfile.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isOwnedResource` <a name="isOwnedResource" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.isOwnedResource"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+aws_bedrock.BedrockApplicationInferenceProfile.isOwnedResource(construct: IConstruct)
+```
+
+Returns true if the construct was created by CDK, and false otherwise.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.isOwnedResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `isResource` <a name="isResource" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.isResource"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+aws_bedrock.BedrockApplicationInferenceProfile.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `fromInferenceProfileArn` <a name="fromInferenceProfileArn" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.fromInferenceProfileArn"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+aws_bedrock.BedrockApplicationInferenceProfile.fromInferenceProfileArn(scope: Construct, id: string, inferenceProfileArn: string)
+```
+
+Import an existing Bedrock Application Inference Profile by ARN.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.fromInferenceProfileArn.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.fromInferenceProfileArn.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `inferenceProfileArn`<sup>Required</sup> <a name="inferenceProfileArn" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.fromInferenceProfileArn.parameter.inferenceProfileArn"></a>
+
+- *Type:* string
+
+---
+
+##### `fromInferenceProfileAttributes` <a name="fromInferenceProfileAttributes" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.fromInferenceProfileAttributes"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+aws_bedrock.BedrockApplicationInferenceProfile.fromInferenceProfileAttributes(scope: Construct, id: string, attrs: BedrockApplicationInferenceProfileAttributes)
+```
+
+Import an existing Bedrock Application Inference Profile using attributes.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.fromInferenceProfileAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.fromInferenceProfileAttributes.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.fromInferenceProfileAttributes.parameter.attrs"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileAttributes
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.property.inferenceProfileArn">inferenceProfileArn</a></code> | <code>string</code> | The ARN of the inference profile. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.property.inferenceProfileId">inferenceProfileId</a></code> | <code>string</code> | The ID of the inference profile. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `inferenceProfileArn`<sup>Required</sup> <a name="inferenceProfileArn" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.property.inferenceProfileArn"></a>
+
+```typescript
+public readonly inferenceProfileArn: string;
+```
+
+- *Type:* string
+
+The ARN of the inference profile.
+
+---
+
+##### `inferenceProfileId`<sup>Required</sup> <a name="inferenceProfileId" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile.property.inferenceProfileId"></a>
+
+```typescript
+public readonly inferenceProfileId: string;
+```
+
+- *Type:* string
+
+The ID of the inference profile.
+
+---
+
+
 ### CostReport <a name="CostReport" id="@open-constructs/aws-cdk.aws_cur.CostReport"></a>
 
 Represents a Cost Report construct in AWS CDK.
@@ -3979,6 +4303,179 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 
 ---
 
+### BedrockApplicationInferenceProfileAttributes <a name="BedrockApplicationInferenceProfileAttributes" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileAttributes"></a>
+
+Attributes for importing an existing Bedrock Application Inference Profile.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileAttributes.Initializer"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+const bedrockApplicationInferenceProfileAttributes: aws_bedrock.BedrockApplicationInferenceProfileAttributes = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileAttributes.property.inferenceProfileArn">inferenceProfileArn</a></code> | <code>string</code> | The ARN of the inference profile. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileAttributes.property.inferenceProfileId">inferenceProfileId</a></code> | <code>string</code> | The ID of the inference profile. |
+
+---
+
+##### `inferenceProfileArn`<sup>Required</sup> <a name="inferenceProfileArn" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileAttributes.property.inferenceProfileArn"></a>
+
+```typescript
+public readonly inferenceProfileArn: string;
+```
+
+- *Type:* string
+
+The ARN of the inference profile.
+
+---
+
+##### `inferenceProfileId`<sup>Optional</sup> <a name="inferenceProfileId" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileAttributes.property.inferenceProfileId"></a>
+
+```typescript
+public readonly inferenceProfileId: string;
+```
+
+- *Type:* string
+- *Default:* Derived from ARN
+
+The ID of the inference profile.
+
+---
+
+### BedrockApplicationInferenceProfileProps <a name="BedrockApplicationInferenceProfileProps" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps"></a>
+
+Properties for defining a Bedrock Application Inference Profile.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.Initializer"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+const bedrockApplicationInferenceProfileProps: aws_bedrock.BedrockApplicationInferenceProfileProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.account">account</a></code> | <code>string</code> | The AWS account ID this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.environmentFromArn">environmentFromArn</a></code> | <code>string</code> | ARN to deduce region and account from. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.physicalName">physicalName</a></code> | <code>string</code> | The value passed in by users to the physical name prop of the resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.region">region</a></code> | <code>string</code> | The AWS region this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.modelSource">modelSource</a></code> | <code>@open-constructs/aws-cdk.aws_bedrock.ModelSource</code> | Contains configurations for the inference profile to copy as the resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.description">description</a></code> | <code>string</code> | The description of the inference profile. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.inferenceProfileName">inferenceProfileName</a></code> | <code>string</code> | The name of the inference profile. |
+
+---
+
+##### `account`<sup>Optional</sup> <a name="account" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.account"></a>
+
+```typescript
+public readonly account: string;
+```
+
+- *Type:* string
+- *Default:* the resource is in the same account as the stack it belongs to
+
+The AWS account ID this resource belongs to.
+
+---
+
+##### `environmentFromArn`<sup>Optional</sup> <a name="environmentFromArn" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.environmentFromArn"></a>
+
+```typescript
+public readonly environmentFromArn: string;
+```
+
+- *Type:* string
+- *Default:* take environment from `account`, `region` parameters, or use Stack environment.
+
+ARN to deduce region and account from.
+
+The ARN is parsed and the account and region are taken from the ARN.
+This should be used for imported resources.
+
+Cannot be supplied together with either `account` or `region`.
+
+---
+
+##### `physicalName`<sup>Optional</sup> <a name="physicalName" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.physicalName"></a>
+
+```typescript
+public readonly physicalName: string;
+```
+
+- *Type:* string
+- *Default:* The physical name will be allocated by CloudFormation at deployment time
+
+The value passed in by users to the physical name prop of the resource.
+
+`undefined` implies that a physical name will be allocated by
+  CloudFormation during deployment.
+- a concrete value implies a specific physical name
+- `PhysicalName.GENERATE_IF_NEEDED` is a marker that indicates that a physical will only be generated
+  by the CDK if it is needed for cross-environment references. Otherwise, it will be allocated by CloudFormation.
+
+---
+
+##### `region`<sup>Optional</sup> <a name="region" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.region"></a>
+
+```typescript
+public readonly region: string;
+```
+
+- *Type:* string
+- *Default:* the resource is in the same region as the stack it belongs to
+
+The AWS region this resource belongs to.
+
+---
+
+##### `modelSource`<sup>Required</sup> <a name="modelSource" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.modelSource"></a>
+
+```typescript
+public readonly modelSource: ModelSource;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_bedrock.ModelSource
+
+Contains configurations for the inference profile to copy as the resource.
+
+---
+
+##### `description`<sup>Optional</sup> <a name="description" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.description"></a>
+
+```typescript
+public readonly description: string;
+```
+
+- *Type:* string
+- *Default:* No description
+
+The description of the inference profile.
+
+---
+
+##### `inferenceProfileName`<sup>Optional</sup> <a name="inferenceProfileName" id="@open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfileProps.property.inferenceProfileName"></a>
+
+```typescript
+public readonly inferenceProfileName: string;
+```
+
+- *Type:* string
+- *Default:* Assigned by CloudFormation (recommended).
+
+The name of the inference profile.
+
+---
+
 ### CostReportProps <a name="CostReportProps" id="@open-constructs/aws-cdk.aws_cur.CostReportProps"></a>
 
 Properties for defining a Cost and Usage Report.
@@ -4286,6 +4783,59 @@ The key used to encrypt the Domain.
 
 ---
 
+### GrantInvokeViaProfileOnlyOptions <a name="GrantInvokeViaProfileOnlyOptions" id="@open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions"></a>
+
+Optional interface for specifying additional conditions when granting access permissions via inference profile only.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions.Initializer"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+const grantInvokeViaProfileOnlyOptions: aws_bedrock.GrantInvokeViaProfileOnlyOptions = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions.property.foundationModelArn">foundationModelArn</a></code> | <code>string</code> | Model ARN pattern used to restrict access to foundation models Useful when supporting multiple models. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions.property.tagConditions">tagConditions</a></code> | <code>{[ key: string ]: string}</code> | Additional conditions to match resource tags for tag-based access control Keys are resource tag keys, values are principal tag variables or literal values. |
+
+---
+
+##### `foundationModelArn`<sup>Optional</sup> <a name="foundationModelArn" id="@open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions.property.foundationModelArn"></a>
+
+```typescript
+public readonly foundationModelArn: string;
+```
+
+- *Type:* string
+- *Default:* 'arn:aws:bedrock:*::foundation-model/*' (all foundation models)
+
+Model ARN pattern used to restrict access to foundation models Useful when supporting multiple models.
+
+---
+
+##### `tagConditions`<sup>Optional</sup> <a name="tagConditions" id="@open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions.property.tagConditions"></a>
+
+```typescript
+public readonly tagConditions: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+
+Additional conditions to match resource tags for tag-based access control Keys are resource tag keys, values are principal tag variables or literal values.
+
+---
+
+*Example*
+
+```typescript
+{'UserEmail': '${aws:PrincipalTag/UserEmail}'}
+```
+
+
 ### IamUserProps <a name="IamUserProps" id="@open-constructs/aws-cdk.aws_elasticache.IamUserProps"></a>
 
 Properties for IAM-enabled users.
@@ -4335,6 +4885,51 @@ The ID of the user.
 
 Must consist only of alphanumeric characters or hyphens, with the first character as a letter.
 Cannot end with a hyphen or contain two consecutive hyphens.
+
+---
+
+### ModelSource <a name="ModelSource" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource"></a>
+
+Helper class to create model sources for inference profiles.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource.Initializer"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+// Create from foundation model
+const modelSource = aws_bedrock.ModelSource.fromFoundationModel('anthropic.claude-3-sonnet-20240229-v1:0');
+
+// Create from inference profile
+const modelSource = aws_bedrock.ModelSource.fromInferenceProfile('arn:aws:bedrock:us-east-1:123456789012:inference-profile/my-profile');
+```
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.ModelSource.fromFoundationModel">fromFoundationModel</a></code> | Creates a model source from a foundation model identifier. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.ModelSource.fromInferenceProfile">fromInferenceProfile</a></code> | Creates a model source from an existing inference profile. |
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.ModelSource.property.copyFrom">copyFrom</a></code> | <code>string</code> | The ARN of the model or system-defined inference profile that is the source for the inference profile. |
+
+---
+
+##### `copyFrom`<sup>Required</sup> <a name="copyFrom" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource.property.copyFrom"></a>
+
+```typescript
+public readonly copyFrom: string;
+```
+
+- *Type:* string
+
+The ARN of the model or system-defined inference profile that is the source for the inference profile.
+
+Pattern: ^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|foundation-model)/[a-zA-Z0-9-:.]+$
 
 ---
 
@@ -6367,6 +6962,79 @@ Converts a day, hour, and minute into a timestamp as used by FSx for Lustre's we
 
 
 
+### ModelSource <a name="ModelSource" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource"></a>
+
+Helper class to create model sources for inference profiles.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource.Initializer"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+new aws_bedrock.ModelSource()
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+
+---
+
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.ModelSource.fromFoundationModel">fromFoundationModel</a></code> | Creates a model source from a foundation model identifier. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.ModelSource.fromInferenceProfile">fromInferenceProfile</a></code> | Creates a model source from an existing inference profile. |
+
+---
+
+##### `fromFoundationModel` <a name="fromFoundationModel" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource.fromFoundationModel"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+aws_bedrock.ModelSource.fromFoundationModel(modelId: string | FoundationModelIdentifier, region?: string)
+```
+
+Creates a model source from a foundation model identifier.
+
+###### `modelId`<sup>Required</sup> <a name="modelId" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource.fromFoundationModel.parameter.modelId"></a>
+
+- *Type:* string | aws-cdk-lib.aws_bedrock.FoundationModelIdentifier
+
+The foundation model identifier or string ID.
+
+---
+
+###### `region`<sup>Optional</sup> <a name="region" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource.fromFoundationModel.parameter.region"></a>
+
+- *Type:* string
+
+The AWS region where the model is located.
+
+---
+
+##### `fromInferenceProfile` <a name="fromInferenceProfile" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource.fromInferenceProfile"></a>
+
+```typescript
+import { aws_bedrock } from '@open-constructs/aws-cdk'
+
+aws_bedrock.ModelSource.fromInferenceProfile(inferenceProfileArn: string)
+```
+
+Creates a model source from an existing inference profile.
+
+###### `inferenceProfileArn`<sup>Required</sup> <a name="inferenceProfileArn" id="@open-constructs/aws-cdk.aws_bedrock.ModelSource.fromInferenceProfile.parameter.inferenceProfileArn"></a>
+
+- *Type:* string
+
+The ARN of the existing inference profile.
+
+---
+
+
+
 ### MultiAz1ThroughputCapacityPerHaPair <a name="MultiAz1ThroughputCapacityPerHaPair" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair"></a>
 
 The throughput capacity for the Multi-AZ 1 deployment type.
@@ -7057,6 +7725,125 @@ The deployment type of the throughput capacity.
 
 
 ## Protocols <a name="Protocols" id="Protocols"></a>
+
+### IBedrockApplicationInferenceProfile <a name="IBedrockApplicationInferenceProfile" id="@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile"></a>
+
+- *Extends:* aws-cdk-lib.IResource
+
+- *Implemented By:* @open-constructs/aws-cdk.aws_bedrock.BedrockApplicationInferenceProfile, @open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile
+
+Interface representing a Bedrock Application Inference Profile.
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.grantInvokeViaProfileOnly">grantInvokeViaProfileOnly</a></code> | Grants permissions to an IAM principal to invoke Bedrock foundation models only via the inference profile. |
+
+---
+
+##### `grantInvokeViaProfileOnly` <a name="grantInvokeViaProfileOnly" id="@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.grantInvokeViaProfileOnly"></a>
+
+```typescript
+public grantInvokeViaProfileOnly(grantee: IGrantable, options?: GrantInvokeViaProfileOnlyOptions): Grant
+```
+
+Grants permissions to an IAM principal to invoke Bedrock foundation models only via the inference profile.
+
+###### `grantee`<sup>Required</sup> <a name="grantee" id="@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.grantInvokeViaProfileOnly.parameter.grantee"></a>
+
+- *Type:* aws-cdk-lib.aws_iam.IGrantable
+
+The IAM principal to grant permissions to.
+
+---
+
+###### `options`<sup>Optional</sup> <a name="options" id="@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.grantInvokeViaProfileOnly.parameter.options"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_bedrock.GrantInvokeViaProfileOnlyOptions
+
+Additional options (such as tag conditions).
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.property.inferenceProfileArn">inferenceProfileArn</a></code> | <code>string</code> | The ARN of the inference profile. |
+| <code><a href="#@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.property.inferenceProfileId">inferenceProfileId</a></code> | <code>string</code> | The ID of the inference profile. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed by the CDK
+(generally, those created by creating new class instances like Role, Bucket, etc.),
+this is always the same as the environment of the stack they belong to;
+however, for imported resources
+(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
+that might be different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `inferenceProfileArn`<sup>Required</sup> <a name="inferenceProfileArn" id="@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.property.inferenceProfileArn"></a>
+
+```typescript
+public readonly inferenceProfileArn: string;
+```
+
+- *Type:* string
+
+The ARN of the inference profile.
+
+---
+
+##### `inferenceProfileId`<sup>Required</sup> <a name="inferenceProfileId" id="@open-constructs/aws-cdk.aws_bedrock.IBedrockApplicationInferenceProfile.property.inferenceProfileId"></a>
+
+```typescript
+public readonly inferenceProfileId: string;
+```
+
+- *Type:* string
+
+The ID of the inference profile.
+
+---
 
 ### IDomain <a name="IDomain" id="@open-constructs/aws-cdk.aws_codeartifact.IDomain"></a>
 

@@ -1,0 +1,205 @@
+{
+ "Resources": {
+  "IntegInferenceProfile0CF85217": {
+   "Type": "AWS::Bedrock::ApplicationInferenceProfile",
+   "Properties": {
+    "Description": "Integration test inference profile with explicit name",
+    "InferenceProfileName": "IntegTestInferenceProfile",
+    "ModelSource": {
+     "CopyFrom": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+    },
+    "Tags": [
+     {
+      "Key": "Environment",
+      "Value": "integration"
+     },
+     {
+      "Key": "Project",
+      "Value": "bedrock-testing"
+     }
+    ]
+   }
+  },
+  "IntegInferenceProfileNoNameDDA60A41": {
+   "Type": "AWS::Bedrock::ApplicationInferenceProfile",
+   "Properties": {
+    "Description": "Integration test inference profile without explicit name",
+    "InferenceProfileName": "IntegBedrockInferenceProfileIntegInferenceProfileNoName-EAFAB660",
+    "ModelSource": {
+     "CopyFrom": "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+    },
+    "Tags": [
+     {
+      "Key": "GeneratedName",
+      "Value": "true"
+     }
+    ]
+   }
+  },
+  "IntegInferenceProfileNoRegionCF010098": {
+   "Type": "AWS::Bedrock::ApplicationInferenceProfile",
+   "Properties": {
+    "Description": "Integration test inference profile without specifying region",
+    "InferenceProfileName": "IntegTestInferenceProfileNoRegion",
+    "ModelSource": {
+     "CopyFrom": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:bedrock:",
+        {
+         "Ref": "AWS::Region"
+        },
+        "::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+       ]
+      ]
+     }
+    },
+    "Tags": [
+     {
+      "Key": "AutoRegion",
+      "Value": "true"
+     }
+    ]
+   }
+  },
+  "ExampleRole576372CE": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Description": "Example role for testing inference profile permissions"
+   }
+  },
+  "ExampleRoleDefaultPolicy688DB891": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "bedrock:Converse",
+        "bedrock:ConverseStream",
+        "bedrock:InvokeModel",
+        "bedrock:InvokeModelWithResponseStream"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        "arn:aws:bedrock:*::foundation-model/*",
+        {
+         "Fn::GetAtt": [
+          "IntegInferenceProfile0CF85217",
+          "InferenceProfileArn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "IntegInferenceProfileNoNameDDA60A41",
+          "InferenceProfileArn"
+         ]
+        },
+        {
+         "Fn::GetAtt": [
+          "IntegInferenceProfileNoRegionCF010098",
+          "InferenceProfileArn"
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "bedrock:Converse",
+        "bedrock:ConverseStream",
+        "bedrock:InvokeModel",
+        "bedrock:InvokeModelWithResponseStream"
+       ],
+       "Condition": {
+        "ArnEquals": {
+         "bedrock:InferenceProfileArn": {
+          "Fn::GetAtt": [
+           "IntegInferenceProfile0CF85217",
+           "InferenceProfileArn"
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Resource": "arn:aws:bedrock:*::foundation-model/*"
+      },
+      {
+       "Action": [
+        "bedrock:Converse",
+        "bedrock:ConverseStream",
+        "bedrock:InvokeModel",
+        "bedrock:InvokeModelWithResponseStream"
+       ],
+       "Condition": {
+        "ArnEquals": {
+         "bedrock:InferenceProfileArn": {
+          "Fn::GetAtt": [
+           "IntegInferenceProfileNoRegionCF010098",
+           "InferenceProfileArn"
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Resource": "arn:aws:bedrock:*::foundation-model/anthropic.*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ExampleRoleDefaultPolicy688DB891",
+    "Roles": [
+     {
+      "Ref": "ExampleRole576372CE"
+     }
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

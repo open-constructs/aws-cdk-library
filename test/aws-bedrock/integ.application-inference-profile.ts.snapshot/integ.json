@@ -1,0 +1,15 @@
+{
+  "version": "38.0.1",
+  "testCases": {
+    "Integ/DefaultTest": {
+      "stacks": [
+        "IntegBedrockInferenceProfileStack"
+      ],
+      "regions": [
+        "us-east-1"
+      ],
+      "assertionStack": "Integ/DefaultTest/DeployAssert",
+      "assertionStackName": "IntegDefaultTestDeployAssert4E6713E1"
+    }
+  }
+}
