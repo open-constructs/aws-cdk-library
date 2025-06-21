@@ -65,6 +65,12 @@ class ElastiCacheStack extends cdk.Stack {
     const serverlessCache = new ocf.aws_elasticache.ServerlessCache(this, 'ElastiCacheServerlessCluster', {
       engine: Engine.VALKEY,
       serverlessCacheName: 'my-serverless-cache',
+      cacheUsageLimits: {
+        maximumDataStorage: 5000,
+        minimumDataStorage: 1,
+        maximumECPUPerSecond: 15000000,
+        minimumECPUPerSecond: 1000,
+      },
       dailySnapshotTime: new DailySnapshotTime({ hour: 12, minute: 0 }),
       description: 'my serverless cache',
       finalSnapshotName: 'my-finalsnapshot',

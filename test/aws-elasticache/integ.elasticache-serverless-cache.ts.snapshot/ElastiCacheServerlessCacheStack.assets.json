@@ -1,20 +1,20 @@
 {
-  "version": "36.0.0",
+  "version": "38.0.1",
   "files": {
-    "dd5711540f04e06aa955d7f4862fc04e8cdea464cb590dae91ed2976bb78098e": {
+    "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200": {
       "source": {
-        "path": "asset.dd5711540f04e06aa955d7f4862fc04e8cdea464cb590dae91ed2976bb78098e",
+        "path": "asset.7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200",
         "packaging": "zip"
       },
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "dd5711540f04e06aa955d7f4862fc04e8cdea464cb590dae91ed2976bb78098e.zip",
+          "objectKey": "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200.zip",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     },
-    "d64b11b9e7a58a88f37eced4fb01e4e1930be8cfc214dd9339b0146a929ed9c3": {
+    "7e55c8448733775057f138cbde7d98837c6a1df4417ff1a9a1c3421f13951265": {
       "source": {
         "path": "ElastiCacheServerlessCacheStack.template.json",
         "packaging": "file"
@@ -22,7 +22,7 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "d64b11b9e7a58a88f37eced4fb01e4e1930be8cfc214dd9339b0146a929ed9c3.json",
+          "objectKey": "7e55c8448733775057f138cbde7d98837c6a1df4417ff1a9a1c3421f13951265.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

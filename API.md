@@ -3979,6 +3979,81 @@ Cannot end with a hyphen or contain two consecutive hyphens.
 
 ---
 
+### CacheUsageLimits <a name="CacheUsageLimits" id="@open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits"></a>
+
+The usage limits for storage and ElastiCache Processing Units for the cache.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits.Initializer"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+const cacheUsageLimits: aws_elasticache.CacheUsageLimits = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits.property.maximumDataStorage">maximumDataStorage</a></code> | <code>number</code> | The upper limit for data storage the cache in GB is set to use. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits.property.maximumECPUPerSecond">maximumECPUPerSecond</a></code> | <code>number</code> | The configuration for the maximum number of ECPUs the cache can consume per second. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits.property.minimumDataStorage">minimumDataStorage</a></code> | <code>number</code> | The lower limit for data storage the cache in GB is set to use. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits.property.minimumECPUPerSecond">minimumECPUPerSecond</a></code> | <code>number</code> | The configuration for the minimum number of ECPUs the cache should be able consume per second. |
+
+---
+
+##### `maximumDataStorage`<sup>Optional</sup> <a name="maximumDataStorage" id="@open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits.property.maximumDataStorage"></a>
+
+```typescript
+public readonly maximumDataStorage: number;
+```
+
+- *Type:* number
+- *Default:* no limit
+
+The upper limit for data storage the cache in GB is set to use.
+
+---
+
+##### `maximumECPUPerSecond`<sup>Optional</sup> <a name="maximumECPUPerSecond" id="@open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits.property.maximumECPUPerSecond"></a>
+
+```typescript
+public readonly maximumECPUPerSecond: number;
+```
+
+- *Type:* number
+- *Default:* no limit
+
+The configuration for the maximum number of ECPUs the cache can consume per second.
+
+---
+
+##### `minimumDataStorage`<sup>Optional</sup> <a name="minimumDataStorage" id="@open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits.property.minimumDataStorage"></a>
+
+```typescript
+public readonly minimumDataStorage: number;
+```
+
+- *Type:* number
+- *Default:* no limit
+
+The lower limit for data storage the cache in GB is set to use.
+
+---
+
+##### `minimumECPUPerSecond`<sup>Optional</sup> <a name="minimumECPUPerSecond" id="@open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits.property.minimumECPUPerSecond"></a>
+
+```typescript
+public readonly minimumECPUPerSecond: number;
+```
+
+- *Type:* number
+- *Default:* no limit
+
+The configuration for the minimum number of ECPUs the cache should be able consume per second.
+
+---
+
 ### CostReportProps <a name="CostReportProps" id="@open-constructs/aws-cdk.aws_cur.CostReportProps"></a>
 
 Properties for defining a Cost and Usage Report.
@@ -5577,6 +5652,7 @@ const serverlessCacheProps: aws_elasticache.ServerlessCacheProps = { ... }
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.engine">engine</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.Engine</code> | The engine the serverless cache is compatible with. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.majorEngineVersion">majorEngineVersion</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.MajorVersion</code> | The version number of the engine the serverless cache is compatible with. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | The VPC to place the serverless cache in. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.cacheUsageLimits">cacheUsageLimits</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits</code> | The usage limits for storage and ElastiCache Processing Units for the cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.dailySnapshotTime">dailySnapshotTime</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.DailySnapshotTime</code> | The daily time when a cache snapshot will be created. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.description">description</a></code> | <code>string</code> | A description of the serverless cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.finalSnapshotName">finalSnapshotName</a></code> | <code>string</code> | The name of the final snapshot taken of a cache before the cache is deleted. |
@@ -5623,6 +5699,19 @@ public readonly vpc: IVpc;
 - *Type:* aws-cdk-lib.aws_ec2.IVpc
 
 The VPC to place the serverless cache in.
+
+---
+
+##### `cacheUsageLimits`<sup>Optional</sup> <a name="cacheUsageLimits" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.cacheUsageLimits"></a>
+
+```typescript
+public readonly cacheUsageLimits: CacheUsageLimits;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits
+- *Default:* no limits.
+
+The usage limits for storage and ElastiCache Processing Units for the cache.
 
 ---
 

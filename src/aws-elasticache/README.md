@@ -259,6 +259,29 @@ const endpointAddress = serverlessCache.endpointAddress;
 const endpointPort = serverlessCache.endpointPort;
 ```
 
+### Cache usage limits
+
+You can choose to configure a maximum usage on both cache data storage and ECPU/second for your cache to control cache costs.
+Doing so will ensure that your cache usage never exceeds the configured maximum.
+
+For more infomation, see [Setting scaling limits to manage costs](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Scaling.html#Pre-Scaling).
+
+
+```ts
+declare const vpc: ec2.Vpc;
+
+const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
+  engine: Engine.VALKEY,
+  vpc,
+  // cache data storage limits (GB)
+  maximumDataStorage: 5000,
+  minimumDataStorage: 1,
+  // ECPU limits (ECPU/second)
+  maximumECPUPerSecond: 15000000,
+  minimumECPUPerSecond: 1000,
+});
+```
+
 ### Snapshots and restore
 
 You can enable automatic backups for serverless cache.
