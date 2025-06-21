@@ -213,28 +213,28 @@ export interface CacheUsageLimits {
    *
    * @default - no limit
    */
-  maximumDataStorage?: number;
+  readonly maximumDataStorage?: number;
 
   /**
    * The lower limit for data storage the cache in GB is set to use.
    *
    * @default - no limit
    */
-  minimumDataStorage?: number;
+  readonly minimumDataStorage?: number;
 
   /**
    * The configuration for the maximum number of ECPUs the cache can consume per second.
    *
    * @default - no limit
    */
-  maximumECPUPerSecond?: number;
+  readonly maximumECPUPerSecond?: number;
 
   /**
    * The configuration for the minimum number of ECPUs the cache should be able consume per second.
    *
    * @default - no limit
    */
-  minimumECPUPerSecond?: number;
+  readonly minimumECPUPerSecond?: number;
 }
 
 /**
@@ -551,14 +551,14 @@ export class ServerlessCache extends ServerlessCacheBase {
 
     if (
       usageLimits.maximumDataStorage !== undefined &&
-      (usageLimits.maximumDataStorage > 5000 || usageLimits.maximumDataStorage < 1)
+      (usageLimits.maximumDataStorage < 1 || usageLimits.maximumDataStorage > 5000)
     ) {
       throw new Error(`\`maximumDataStorage\` must be between 1 and 5000, got: ${usageLimits.maximumDataStorage}.`);
     }
 
     if (
       usageLimits.minimumDataStorage !== undefined &&
-      (usageLimits.minimumDataStorage > 5000 || usageLimits.minimumDataStorage < 1)
+      (usageLimits.minimumDataStorage < 1 || usageLimits.minimumDataStorage > 5000)
     ) {
       throw new Error(`\`minimumDataStorage\` must be between 1 and 5000, got: ${usageLimits.minimumDataStorage}.`);
     }
