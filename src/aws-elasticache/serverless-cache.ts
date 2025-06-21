@@ -96,6 +96,13 @@ export interface ServerlessCacheProps {
   readonly serverlessCacheName?: string;
 
   /**
+   * The usage limits for storage and ElastiCache Processing Units for the cache.
+   *
+   * @default - no limits.
+   */
+  readonly cacheUsageLimits?: CacheUsageLimits;
+
+  /**
    * The daily time when a cache snapshot will be created.
    * This property must be set along with `snapshotRetentionLimit`.
    *
@@ -195,6 +202,39 @@ export interface ServerlessCacheAttributes {
    * The security groups to associate with the serverless cache.
    */
   readonly securityGroups: aws_ec2.ISecurityGroup[];
+}
+
+/**
+ * The usage limits for storage and ElastiCache Processing Units for the cache.
+ */
+export interface CacheUsageLimits {
+  /**
+   * The upper limit for data storage the cache in GB is set to use.
+   *
+   * @default - no limit
+   */
+  maximumDataStorage?: number;
+
+  /**
+   * The lower limit for data storage the cache in GB is set to use.
+   *
+   * @default - no limit
+   */
+  minimumDataStorage?: number;
+
+  /**
+   * The configuration for the maximum number of ECPUs the cache can consume per second.
+   *
+   * @default - no limit
+   */
+  maximumECPUPerSecond?: number;
+
+  /**
+   * The configuration for the minimum number of ECPUs the cache should be able consume per second.
+   *
+   * @default - no limit
+   */
+  minimumECPUPerSecond?: number;
 }
 
 /**
@@ -389,6 +429,7 @@ export class ServerlessCache extends ServerlessCacheBase {
     };
 
     this.validateServerlessCacheName();
+    this.validateCacheUsageLimits();
     this.validateDescription();
     this.validateAutomaticBackupSettings();
     this.validateFinalSnapshotName();
@@ -397,6 +438,7 @@ export class ServerlessCache extends ServerlessCacheBase {
     const serverlessCache = this.createResource(this, 'Resource', {
       engine: this.props.engine,
       serverlessCacheName: this.physicalName,
+      cacheUsageLimits: this.renderCacheUsageLimits(),
       dailySnapshotTime: props.dailySnapshotTime?.toTimestamp(),
       description: this.props.description,
       finalSnapshotName: this.props.finalSnapshotName,
@@ -437,6 +479,36 @@ export class ServerlessCache extends ServerlessCacheBase {
     return new aws_ec2.SecurityGroup(scope, id, props);
   }
 
+  private renderCacheUsageLimits(): aws_elasticache.CfnServerlessCache.CacheUsageLimitsProperty | undefined {
+    const usageLimits = this.props.cacheUsageLimits;
+    if (usageLimits === undefined) {
+      return undefined;
+    }
+
+    const hasDataStorageConfig =
+      usageLimits.maximumDataStorage !== undefined || usageLimits.minimumDataStorage !== undefined;
+
+    const hasEcpuConfig =
+      usageLimits.maximumECPUPerSecond !== undefined || usageLimits.minimumECPUPerSecond !== undefined;
+
+    return {
+      dataStorage: hasDataStorageConfig
+        ? {
+            unit: 'GB',
+            maximum: usageLimits.maximumDataStorage,
+            minimum: usageLimits.minimumDataStorage,
+          }
+        : undefined,
+
+      ecpuPerSecond: hasEcpuConfig
+        ? {
+            maximum: usageLimits.maximumECPUPerSecond,
+            minimum: usageLimits.minimumECPUPerSecond,
+          }
+        : undefined,
+    };
+  }
+
   /**
    * Validates a serverless cache name.
    */
@@ -454,6 +526,77 @@ export class ServerlessCache extends ServerlessCacheBase {
     if (serverlessCacheName.length < 1 || serverlessCacheName.length > 40) {
       throw new Error(
         `\`serverlessCacheName\` must be between 1 and 40 characters, got: ${serverlessCacheName.length} characters.`,
+      );
+    }
+  }
+
+  /**
+   * Validates cach usage limits settings.
+   */
+  private validateCacheUsageLimits(): void {
+    const usageLimits = this.props.cacheUsageLimits;
+
+    if (usageLimits === undefined) {
+      return;
+    }
+
+    if (
+      Token.isUnresolved(usageLimits.maximumDataStorage) ||
+      Token.isUnresolved(usageLimits.minimumDataStorage) ||
+      Token.isUnresolved(usageLimits.maximumECPUPerSecond) ||
+      Token.isUnresolved(usageLimits.minimumECPUPerSecond)
+    ) {
+      return;
+    }
+
+    if (
+      usageLimits.maximumDataStorage !== undefined &&
+      (usageLimits.maximumDataStorage > 5000 || usageLimits.maximumDataStorage < 1)
+    ) {
+      throw new Error(`\`maximumDataStorage\` must be between 1 and 5000, got: ${usageLimits.maximumDataStorage}.`);
+    }
+
+    if (
+      usageLimits.minimumDataStorage !== undefined &&
+      (usageLimits.minimumDataStorage > 5000 || usageLimits.minimumDataStorage < 1)
+    ) {
+      throw new Error(`\`minimumDataStorage\` must be between 1 and 5000, got: ${usageLimits.minimumDataStorage}.`);
+    }
+
+    if (
+      usageLimits.maximumDataStorage !== undefined &&
+      usageLimits.minimumDataStorage !== undefined &&
+      usageLimits.maximumDataStorage < usageLimits.minimumDataStorage
+    ) {
+      throw new Error(
+        `\`maximumDataStorage\` must be greater than or equal to \`minimumDataStorage\`, got: maximum ${usageLimits.maximumDataStorage}, minimum ${usageLimits.minimumDataStorage}.`,
+      );
+    }
+    if (
+      usageLimits.maximumECPUPerSecond !== undefined &&
+      (usageLimits.maximumECPUPerSecond < 1000 || usageLimits.maximumECPUPerSecond > 15000000)
+    ) {
+      throw new Error(
+        `\`maximumECPUPerSecond\` must be between 1000 and 15000000, got: ${usageLimits.maximumECPUPerSecond}.`,
+      );
+    }
+
+    if (
+      usageLimits.minimumECPUPerSecond !== undefined &&
+      (usageLimits.minimumECPUPerSecond < 1000 || usageLimits.minimumECPUPerSecond > 15000000)
+    ) {
+      throw new Error(
+        `\`minimumECPUPerSecond\` must be between 1000 and 15000000, got: ${usageLimits.minimumECPUPerSecond}.`,
+      );
+    }
+
+    if (
+      usageLimits.maximumECPUPerSecond !== undefined &&
+      usageLimits.minimumECPUPerSecond !== undefined &&
+      usageLimits.maximumECPUPerSecond < usageLimits.minimumECPUPerSecond
+    ) {
+      throw new Error(
+        `\`maximumECPUPerSecond\` must be greater than or equal to \`minimumECPUPerSecond\`, got: maximum ${usageLimits.maximumECPUPerSecond}, minimum ${usageLimits.minimumECPUPerSecond}.`,
       );
     }
   }
