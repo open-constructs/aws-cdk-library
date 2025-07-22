@@ -1,6 +1,6 @@
 import { readdirSync } from 'fs';
 import path from 'path';
-import { ReleasableCommits, awscdk, github, javascript, release } from 'projen';
+import { ReleasableCommits, SourceCode, awscdk, github, javascript, release } from 'projen';
 import { ArrowParens, NodePackageManager } from 'projen/lib/javascript';
 
 let cdkVersion = '2.168.0';
@@ -115,5 +115,14 @@ const solutions = readdirSync(path.join(project.outdir, project.srcdir), {
   .filter(entry => entry.isDirectory())
   .map(entry => entry.name)
   .sort((a, b) => a.localeCompare(b));
+
+const sourceCode = new SourceCode(project, path.join(project.srcdir, 'index.ts'));
+sourceCode.line('// ' + sourceCode.marker);
+
+for (const solution of solutions) {
+  const exportName = solution.split('-').join('_');
+
+  sourceCode.line(`export * as ${exportName} from './${solution}';`);
+}
 
 project.synth();
