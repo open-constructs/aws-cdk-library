@@ -1,3 +1,5 @@
+import { readdirSync } from 'fs';
+import path from 'path';
 import { ReleasableCommits, awscdk, github, javascript, release } from 'projen';
 import { ArrowParens, NodePackageManager } from 'projen/lib/javascript';
 
@@ -105,5 +107,13 @@ project.addTask('integ:update', {
   description: 'Run integration tests and update on any failed tests',
   receiveArgs: true,
 });
+
+const solutions = readdirSync(path.join(project.outdir, project.srcdir), {
+  encoding: 'utf8',
+  withFileTypes: true,
+})
+  .filter(entry => entry.isDirectory())
+  .map(entry => entry.name)
+  .sort((a, b) => a.localeCompare(b));
 
 project.synth();
