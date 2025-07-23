@@ -35,9 +35,8 @@ export class SubPathExports extends Component {
     sourceCode.line('// ' + sourceCode.marker);
 
     for (const solution of this.solutions) {
-      const exportName = solution.split('-').join('_');
-
-      sourceCode.line(`export * as ${exportName} from './${solution}';`);
+      const exportedName = solution.split('-').join('_');
+      sourceCode.line(`export * as ${exportedName} from './${solution}';`);
     }
   }
 
