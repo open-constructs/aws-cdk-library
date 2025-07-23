@@ -9,13 +9,15 @@ import type { TypeScriptProject } from 'projen/lib/typescript';
  * @see https://nodejs.org/api/packages.html#subpath-patterns
  */
 export class SubPathExports extends Component {
+  private readonly solutions: string[]
+
   constructor(project: TypeScriptProject) {
     super(project);
 
     /**
      * Gather all solution directories (e.g. `aws-codeartifact`, `aws-cur`).
      */
-    const solutions = readdirSync(path.join(project.outdir, project.srcdir), {
+    this.solutions = readdirSync(path.join(project.outdir, project.srcdir), {
       encoding: 'utf8',
       withFileTypes: true,
     })
@@ -32,7 +34,7 @@ export class SubPathExports extends Component {
       '.': subPathExportPath('index.js'),
     };
 
-    for (const solution of solutions) {
+    for (const solution of this.solutions) {
       const exportName = solution.split('-').join('_');
 
       sourceCode.line(`export * as ${exportName} from './${solution}';`);
