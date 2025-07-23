@@ -3,10 +3,18 @@ import path from 'path';
 import { Component, SourceCode } from 'projen';
 import type { TypeScriptProject } from 'projen/lib/typescript';
 
+/**
+ * Dynamically generate Node.js subpath exports and root barrel file.
+ *
+ * @see https://nodejs.org/api/packages.html#subpath-patterns
+ */
 export class SubPathExports extends Component {
   constructor(project: TypeScriptProject) {
     super(project);
 
+    /**
+     * Gather all solution directories (e.g. `aws-codeartifact`, `aws-cur`).
+     */
     const solutions = readdirSync(path.join(project.outdir, project.srcdir), {
       encoding: 'utf8',
       withFileTypes: true,
