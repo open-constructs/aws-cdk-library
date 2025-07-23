@@ -119,7 +119,9 @@ const solutions = readdirSync(path.join(project.outdir, project.srcdir), {
 const sourceCode = new SourceCode(project, path.join(project.srcdir, 'index.ts'));
 sourceCode.line('// ' + sourceCode.marker);
 
-const subPathExports: Record<string, string> = {};
+const subPathExports: Record<string, string> = {
+  '.': './lib/index.js',
+};
 
 for (const solution of solutions) {
   const exportName = solution.split('-').join('_');
