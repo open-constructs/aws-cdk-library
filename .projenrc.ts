@@ -119,8 +119,10 @@ const solutions = readdirSync(path.join(project.outdir, project.srcdir), {
 const sourceCode = new SourceCode(project, path.join(project.srcdir, 'index.ts'));
 sourceCode.line('// ' + sourceCode.marker);
 
+const subPathExportPath = (...chunks: string[]) => './' + path.posix.join(project.libdir, ...chunks);
+
 const subPathExports: Record<string, string> = {
-  '.': './lib/index.js',
+  '.': subPathExportPath('index.js'),
 };
 
 for (const solution of solutions) {
@@ -128,7 +130,7 @@ for (const solution of solutions) {
 
   sourceCode.line(`export * as ${exportName} from './${solution}';`);
 
-  subPathExports[`./${solution}`] = `./lib/${solution}/index.js`;
+  subPathExports[`./${solution}`] = subPathExportPath(solution, 'index.js');
 }
 
 project.package.addField('exports', subPathExports);
