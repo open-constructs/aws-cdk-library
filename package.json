@@ -141,6 +141,7 @@
     }
   },
   "exports": {
+    ".": "./lib/index.js",
     "./aws-codeartifact": "./lib/aws-codeartifact/index.js",
     "./aws-cur": "./lib/aws-cur/index.js",
     "./aws-ec2": "./lib/aws-ec2/index.js",
