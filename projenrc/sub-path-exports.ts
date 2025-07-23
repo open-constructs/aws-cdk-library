@@ -41,14 +41,14 @@ export class SubPathExports extends Component {
   }
 
   private generateSubPathExports() {
-    const subPathExportPath = (...chunks: string[]) => './' + path.posix.join(this.project.libdir, ...chunks);
+    const subPathExport = (...chunks: string[]) => './' + path.posix.join(this.project.libdir, ...chunks);
 
     const subPathExports: Record<string, string> = {
-      '.': subPathExportPath('index.js'),
+      '.': subPathExport('index.js'),
     };
 
     for (const solution of this.solutions) {
-      subPathExports[`./${solution}`] = subPathExportPath(solution, 'index.js');
+      subPathExports[`./${solution}`] = subPathExport(solution, 'index.js');
     }
 
     this.project.package.addField('exports', subPathExports);
