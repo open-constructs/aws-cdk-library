@@ -26,18 +26,7 @@ export class SubPathExports extends Component {
       .sort((a, b) => a.localeCompare(b));
 
     this.generateBarrel();
-
-    const subPathExportPath = (...chunks: string[]) => './' + path.posix.join(project.libdir, ...chunks);
-
-    const subPathExports: Record<string, string> = {
-      '.': subPathExportPath('index.js'),
-    };
-
-    for (const solution of this.solutions) {
-      subPathExports[`./${solution}`] = subPathExportPath(solution, 'index.js');
-    }
-
-    project.package.addField('exports', subPathExports);
+    this.generateSubPathExports();
   }
 
   private generateBarrel() {
@@ -50,5 +39,19 @@ export class SubPathExports extends Component {
 
       sourceCode.line(`export * as ${exportName} from './${solution}';`);
     }
+  }
+
+  private generateSubPathExports() {
+    const subPathExportPath = (...chunks: string[]) => './' + path.posix.join(this.project.libdir, ...chunks);
+
+    const subPathExports: Record<string, string> = {
+      '.': subPathExportPath('index.js'),
+    };
+
+    for (const solution of this.solutions) {
+      subPathExports[`./${solution}`] = subPathExportPath(solution, 'index.js');
+    }
+
+    this.project.package.addField('exports', subPathExports);
   }
 }
