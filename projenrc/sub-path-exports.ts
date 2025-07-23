@@ -9,9 +9,9 @@ import type { TypeScriptProject } from 'projen/lib/typescript';
  * @see https://nodejs.org/api/packages.html#subpath-patterns
  */
 export class SubPathExports extends Component {
-  private readonly solutions: string[]
+  private readonly solutions: string[];
 
-  constructor(project: TypeScriptProject) {
+  constructor(public readonly project: TypeScriptProject) {
     super(project);
 
     /**
@@ -25,8 +25,7 @@ export class SubPathExports extends Component {
       .map(entry => entry.name)
       .sort((a, b) => a.localeCompare(b));
 
-    const sourceCode = new SourceCode(project, path.join(project.srcdir, 'index.ts'));
-    sourceCode.line('// ' + sourceCode.marker);
+    this.generateBarrel();
 
     const subPathExportPath = (...chunks: string[]) => './' + path.posix.join(project.libdir, ...chunks);
 
@@ -35,13 +34,21 @@ export class SubPathExports extends Component {
     };
 
     for (const solution of this.solutions) {
-      const exportName = solution.split('-').join('_');
-
-      sourceCode.line(`export * as ${exportName} from './${solution}';`);
-
       subPathExports[`./${solution}`] = subPathExportPath(solution, 'index.js');
     }
 
     project.package.addField('exports', subPathExports);
+  }
+
+  private generateBarrel() {
+    const sourceCode = new SourceCode(this.project, path.join(this.project.srcdir, 'index.ts'));
+
+    sourceCode.line('// ' + sourceCode.marker);
+
+    for (const solution of this.solutions) {
+      const exportName = solution.split('-').join('_');
+
+      sourceCode.line(`export * as ${exportName} from './${solution}';`);
+    }
   }
 }
