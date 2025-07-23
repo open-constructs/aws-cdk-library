@@ -119,10 +119,16 @@ const solutions = readdirSync(path.join(project.outdir, project.srcdir), {
 const sourceCode = new SourceCode(project, path.join(project.srcdir, 'index.ts'));
 sourceCode.line('// ' + sourceCode.marker);
 
+const subPathExports: Record<string, string> = {};
+
 for (const solution of solutions) {
   const exportName = solution.split('-').join('_');
 
   sourceCode.line(`export * as ${exportName} from './${solution}';`);
+
+  subPathExports[`./${solution}`] = `./lib/${solution}/index.js`;
 }
+
+project.package.addField('exports', subPathExports);
 
 project.synth();
