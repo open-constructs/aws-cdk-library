@@ -1,5 +1,6 @@
 import { ReleasableCommits, awscdk, github, javascript, release } from 'projen';
 import { ArrowParens, NodePackageManager } from 'projen/lib/javascript';
+import { SubPathExports } from './projenrc/sub-path-exports';
 
 let cdkVersion = '2.168.0';
 const project = new awscdk.AwsCdkConstructLibrary({
@@ -105,5 +106,7 @@ project.addTask('integ:update', {
   description: 'Run integration tests and update on any failed tests',
   receiveArgs: true,
 });
+
+new SubPathExports(project);
 
 project.synth();

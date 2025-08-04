@@ -109,6 +109,19 @@ export class MyConstruct extends Resource {
   * Other import methods normally require access to the context API which is beyond the scope of these constructs. We'd like to address this in the future.
 * Constructs should implement an interface so that the import methods (e.g. `.fromSomethingAttributes()`) can return the interface type.
 
+## Construct Bootstrap
+
+To init a new construct, follow these steps:
+
+1. Create a new construct directory in `./src/${YOUR_CONSTRUCT_NAME}`
+2. Create an empty barrel file `./src/${YOUR_CONSTRUCT_NAME}/index.ts`
+3. Run `npm run default`
+
+This will produce the following changes:
+
+1. Updates to the root barrel file to export the construct.
+2. Update to the `package.json` to create Node.js subpath exports to allow subpath imports (`import * as cur from "@open-constructs/aws-cdk/aws-cur"`).
+
 ## Testing
 
 Tests are fundamental to building good constructs. The following testing guidelines should be followed:
