@@ -266,7 +266,6 @@ Doing so will ensure that your cache usage never exceeds the configured maximum.
 
 For more infomation, see [Setting scaling limits to manage costs](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Scaling.html#Pre-Scaling).
 
-
 ```ts
 declare const vpc: ec2.Vpc;
 
@@ -275,27 +274,11 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   vpc,
   cacheUsageLimits: {
     // cache data storage limits (GB)
-    dataStorage: DataStorage.gb(1, 5000), // min: 1GB, max: 5000GB
+    dataStorage: DataStorage.gb({ min: 1, max: 5000 }), // min: 1GB, max: 5000GB
     // ECPU limits (ECPU/second)
-    ecpuPerSecond: ECPUPerSecond.of(1000, 15000000), // min: 1000, max: 15000000
+    ecpuPerSecond: ECPUPerSecond.of({ min: 1000, max: 15000000 }), // min: 1000, max: 15000000
   },
 });
-```
-
-You can also set just the maximum or minimum values:
-
-```ts
-// Setting only maximum data storage (5000GB)
-dataStorage: DataStorage.gb(undefined, 5000)
-
-// Setting only minimum data storage (1GB)
-dataStorage: DataStorage.gb(1)
-
-// Setting only maximum ECPU (15000000)
-ecpuPerSecond: ECPUPerSecond.of(undefined, 15000000)
-
-// Setting only minimum ECPU (1000)
-ecpuPerSecond: ECPUPerSecond.of(1000)
 ```
 
 ### Snapshots and restore

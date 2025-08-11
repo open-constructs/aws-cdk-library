@@ -66,8 +66,8 @@ class ElastiCacheStack extends cdk.Stack {
       engine: Engine.VALKEY,
       serverlessCacheName: 'my-serverless-cache',
       cacheUsageLimits: {
-        dataStorage: DataStorage.gb(1, 5000),
-        ecpuPerSecond: ECPUPerSecond.of(1000, 15000000),
+        dataStorage: DataStorage.gb({ min: 1, max: 5000 }),
+        ecpuPerSecond: ECPUPerSecond.of({ min: 1000, max: 15000000 }),
       },
       dailySnapshotTime: new DailySnapshotTime({ hour: 12, minute: 0 }),
       description: 'my serverless cache',

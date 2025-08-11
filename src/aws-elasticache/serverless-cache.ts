@@ -28,9 +28,32 @@ export enum StorageUnit {
 }
 
 /**
+ * Interface for configuring data storage limits.
+ */
+export interface DataStorageOptions {
+  /**
+   * The lower limit for data storage the cache is set to use.
+   */
+  readonly min?: number;
+
+  /**
+   * The upper limit for data storage the cache is set to use.
+   */
+  readonly max?: number;
+}
+
+/**
  * The data storage limit.
  */
 export class DataStorage {
+  /**
+   * Creates data storage settings with gigabytes as the unit.
+   * @param options The configuration options containing min and/or max values.
+   */
+  public static gb(options: DataStorageOptions): DataStorage {
+    return new DataStorage(StorageUnit.GB, options.min, options.max);
+  }
+
   /**
    * The lower limit for data storage the cache is set to use.
    */
@@ -51,22 +74,36 @@ export class DataStorage {
     this.maximum = maximum;
     this.unit = unit;
   }
+}
+
+/**
+ * Interface for configuring ECPU per second limits.
+ */
+export interface ECPUPerSecondOptions {
+  /**
+   * The configuration for the minimum number of ECPUs the cache should be able consume per second.
+   */
+  readonly min?: number;
 
   /**
-   * Creates data storage settings with gigabytes as the unit.
-   *
-   * @param minimum The lower limit for data storage the cache is set to use.
-   * @param maximum The upper limit for data storage the cache is set to use.
+   * The configuration for the maximum number of ECPUs the cache can consume per second.
    */
-  public static gb(minimum?: number, maximum?: number): DataStorage {
-    return new DataStorage(StorageUnit.GB, minimum, maximum);
-  }
+  readonly max?: number;
 }
 
 /**
  * The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
  */
 export class ECPUPerSecond {
+  /**
+   * Creates ECPU per second settings.
+   *
+   * @param options The configuration options containing min and/or max values.
+   */
+  public static of(options: ECPUPerSecondOptions): ECPUPerSecond {
+    return new ECPUPerSecond(options.min, options.max);
+  }
+
   /**
    * The configuration for the minimum number of ECPUs the cache should be able consume per second.
    */
@@ -80,16 +117,6 @@ export class ECPUPerSecond {
   private constructor(minimum?: number, maximum?: number) {
     this.minimum = minimum;
     this.maximum = maximum;
-  }
-
-  /**
-   * Creates ECPU per second settings.
-   *
-   * @param minimum The configuration for the minimum number of ECPUs the cache should be able consume per second.
-   * @param maximum The configuration for the maximum number of ECPUs the cache can consume per second.
-   */
-  public static of(minimum?: number, maximum?: number): ECPUPerSecond {
-    return new ECPUPerSecond(minimum, maximum);
   }
 }
 
@@ -605,37 +632,27 @@ export class ServerlessCache extends ServerlessCacheBase {
 
     const dataStorage = usageLimits.dataStorage;
     const ecpuPerSecond = usageLimits.ecpuPerSecond;
-    
+
     if (
-      dataStorage !== undefined && (
-        Token.isUnresolved(dataStorage.maximum) ||
-        Token.isUnresolved(dataStorage.minimum)
-      )
+      dataStorage !== undefined &&
+      (Token.isUnresolved(dataStorage.maximum) || Token.isUnresolved(dataStorage.minimum))
     ) {
       return;
     }
 
     if (
-      ecpuPerSecond !== undefined && (
-        Token.isUnresolved(ecpuPerSecond.maximum) ||
-        Token.isUnresolved(ecpuPerSecond.minimum)
-      )
+      ecpuPerSecond !== undefined &&
+      (Token.isUnresolved(ecpuPerSecond.maximum) || Token.isUnresolved(ecpuPerSecond.minimum))
     ) {
       return;
     }
 
     // Validate DataStorage
-    if (
-      dataStorage?.maximum !== undefined &&
-      (dataStorage.maximum < 1 || dataStorage.maximum > 5000)
-    ) {
+    if (dataStorage?.maximum !== undefined && (dataStorage.maximum < 1 || dataStorage.maximum > 5000)) {
       throw new Error(`\`dataStorage.maximum\` must be between 1 and 5000, got: ${dataStorage.maximum}.`);
     }
 
-    if (
-      dataStorage?.minimum !== undefined &&
-      (dataStorage.minimum < 1 || dataStorage.minimum > 5000)
-    ) {
+    if (dataStorage?.minimum !== undefined && (dataStorage.minimum < 1 || dataStorage.minimum > 5000)) {
       throw new Error(`\`dataStorage.minimum\` must be between 1 and 5000, got: ${dataStorage.minimum}.`);
     }
 
@@ -649,22 +666,12 @@ export class ServerlessCache extends ServerlessCacheBase {
       );
     }
 
-    if (
-      ecpuPerSecond?.maximum !== undefined &&
-      (ecpuPerSecond.maximum < 1000 || ecpuPerSecond.maximum > 15000000)
-    ) {
-      throw new Error(
-        `\`ecpuPerSecond.maximum\` must be between 1000 and 15000000, got: ${ecpuPerSecond.maximum}.`,
-      );
+    if (ecpuPerSecond?.maximum !== undefined && (ecpuPerSecond.maximum < 1000 || ecpuPerSecond.maximum > 15000000)) {
+      throw new Error(`\`ecpuPerSecond.maximum\` must be between 1000 and 15000000, got: ${ecpuPerSecond.maximum}.`);
     }
 
-    if (
-      ecpuPerSecond?.minimum !== undefined &&
-      (ecpuPerSecond.minimum < 1000 || ecpuPerSecond.minimum > 15000000)
-    ) {
-      throw new Error(
-        `\`ecpuPerSecond.minimum\` must be between 1000 and 15000000, got: ${ecpuPerSecond.minimum}.`,
-      );
+    if (ecpuPerSecond?.minimum !== undefined && (ecpuPerSecond.minimum < 1000 || ecpuPerSecond.minimum > 15000000)) {
+      throw new Error(`\`ecpuPerSecond.minimum\` must be between 1000 and 15000000, got: ${ecpuPerSecond.minimum}.`);
     }
 
     if (
