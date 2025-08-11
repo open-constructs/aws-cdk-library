@@ -64,8 +64,8 @@ describe('ElastiCache Serverless Cache', () => {
       engine: Engine.VALKEY,
       serverlessCacheName: 'my-serverless-cache',
       cacheUsageLimits: {
-        dataStorage: DataStorage.gb({ min: 1000, max: 2000 }),
-        ecpuPerSecond: ECPUPerSecond.of({ min: 1000, max: 2000 }),
+        dataStorage: DataStorage.gb({ minimum: 1000, maximum: 2000 }),
+        ecpuPerSecond: ECPUPerSecond.of({ minimum: 1000, maximum: 2000 }),
       },
       dailySnapshotTime: new DailySnapshotTime({ hour: 12, minute: 0 }),
       description: 'my serverless cache',
@@ -235,7 +235,7 @@ describe('ElastiCache Serverless Cache', () => {
           engine: Engine.VALKEY,
           vpc,
           cacheUsageLimits: {
-            dataStorage: DataStorage.gb({ max: invalidMax }),
+            dataStorage: DataStorage.gb({ maximum: invalidMax }),
           },
           majorEngineVersion: MajorVersion.VER_8,
         });
@@ -248,7 +248,7 @@ describe('ElastiCache Serverless Cache', () => {
           engine: Engine.VALKEY,
           vpc,
           cacheUsageLimits: {
-            dataStorage: DataStorage.gb({ min: invalidMin }),
+            dataStorage: DataStorage.gb({ minimum: invalidMin }),
           },
           majorEngineVersion: MajorVersion.VER_8,
         });
@@ -261,7 +261,7 @@ describe('ElastiCache Serverless Cache', () => {
           engine: Engine.VALKEY,
           vpc,
           cacheUsageLimits: {
-            dataStorage: DataStorage.gb({ min: 2000, max: 1000 }),
+            dataStorage: DataStorage.gb({ minimum: 2000, maximum: 1000 }),
           },
           majorEngineVersion: MajorVersion.VER_8,
         });
@@ -276,7 +276,7 @@ describe('ElastiCache Serverless Cache', () => {
           engine: Engine.VALKEY,
           vpc,
           cacheUsageLimits: {
-            ecpuPerSecond: ECPUPerSecond.of({ max: invalidMax }),
+            ecpuPerSecond: ECPUPerSecond.of({ maximum: invalidMax }),
           },
           majorEngineVersion: MajorVersion.VER_8,
         });
@@ -289,7 +289,7 @@ describe('ElastiCache Serverless Cache', () => {
           engine: Engine.VALKEY,
           vpc,
           cacheUsageLimits: {
-            ecpuPerSecond: ECPUPerSecond.of({ min: invalidMin }),
+            ecpuPerSecond: ECPUPerSecond.of({ minimum: invalidMin }),
           },
           majorEngineVersion: MajorVersion.VER_8,
         });
@@ -302,7 +302,7 @@ describe('ElastiCache Serverless Cache', () => {
           engine: Engine.VALKEY,
           vpc,
           cacheUsageLimits: {
-            ecpuPerSecond: ECPUPerSecond.of({ min: 2000, max: 1000 }),
+            ecpuPerSecond: ECPUPerSecond.of({ minimum: 2000, maximum: 1000 }),
           },
           majorEngineVersion: MajorVersion.VER_8,
         });

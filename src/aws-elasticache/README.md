@@ -274,9 +274,9 @@ const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   vpc,
   cacheUsageLimits: {
     // cache data storage limits (GB)
-    dataStorage: DataStorage.gb({ min: 1, max: 5000 }), // min: 1GB, max: 5000GB
+    dataStorage: DataStorage.gb({ minimum: 1, maximum: 5000 }), // minimum: 1GB, maximum: 5000GB
     // ECPU limits (ECPU/second)
-    ecpuPerSecond: ECPUPerSecond.of({ min: 1000, max: 15000000 }), // min: 1000, max: 15000000
+    ecpuPerSecond: ECPUPerSecond.of({ minimum: 1000, maximum: 15000000 }), // minimum: 1000, maximum: 15000000
   },
 });
 ```

@@ -4240,7 +4240,7 @@ const dataStorageOptions: aws_elasticache.DataStorageOptions = { ... }
 ##### `max`<sup>Optional</sup> <a name="max" id="@open-constructs/aws-cdk.aws_elasticache.DataStorageOptions.property.max"></a>
 
 ```typescript
-public readonly max: number;
+public readonly maximum: number;
 ```
 
 - *Type:* number
@@ -4252,7 +4252,7 @@ The upper limit for data storage the cache is set to use.
 ##### `min`<sup>Optional</sup> <a name="min" id="@open-constructs/aws-cdk.aws_elasticache.DataStorageOptions.property.min"></a>
 
 ```typescript
-public readonly min: number;
+public readonly minimum: number;
 ```
 
 - *Type:* number
@@ -4402,7 +4402,7 @@ const eCPUPerSecondOptions: aws_elasticache.ECPUPerSecondOptions = { ... }
 ##### `max`<sup>Optional</sup> <a name="max" id="@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecondOptions.property.max"></a>
 
 ```typescript
-public readonly max: number;
+public readonly maximum: number;
 ```
 
 - *Type:* number
@@ -4414,7 +4414,7 @@ The configuration for the maximum number of ECPUs the cache can consume per seco
 ##### `min`<sup>Optional</sup> <a name="min" id="@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecondOptions.property.min"></a>
 
 ```typescript
-public readonly min: number;
+public readonly minimum: number;
 ```
 
 - *Type:* number

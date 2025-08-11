@@ -33,13 +33,17 @@ export enum StorageUnit {
 export interface DataStorageOptions {
   /**
    * The lower limit for data storage the cache is set to use.
+   * 
+   * @default - no lower limit
    */
-  readonly min?: number;
+  readonly minimum?: number;
 
   /**
    * The upper limit for data storage the cache is set to use.
+   * 
+   * @default - no upper limit
    */
-  readonly max?: number;
+  readonly maximum?: number;
 }
 
 /**
@@ -51,16 +55,20 @@ export class DataStorage {
    * @param options The configuration options containing min and/or max values.
    */
   public static gb(options: DataStorageOptions): DataStorage {
-    return new DataStorage(StorageUnit.GB, options.min, options.max);
+    return new DataStorage(StorageUnit.GB, options.minimum, options.maximum);
   }
 
   /**
    * The lower limit for data storage the cache is set to use.
+   * 
+   * @default - no lower limit
    */
   public readonly minimum?: number;
 
   /**
    * The upper limit for data storage the cache is set to use.
+   * 
+   * @default - no upper limit
    */
   public readonly maximum?: number;
 
@@ -83,12 +91,12 @@ export interface ECPUPerSecondOptions {
   /**
    * The configuration for the minimum number of ECPUs the cache should be able consume per second.
    */
-  readonly min?: number;
+  readonly minimum?: number;
 
   /**
    * The configuration for the maximum number of ECPUs the cache can consume per second.
    */
-  readonly max?: number;
+  readonly maximum?: number;
 }
 
 /**
@@ -101,7 +109,7 @@ export class ECPUPerSecond {
    * @param options The configuration options containing min and/or max values.
    */
   public static of(options: ECPUPerSecondOptions): ECPUPerSecond {
-    return new ECPUPerSecond(options.min, options.max);
+    return new ECPUPerSecond(options.minimum, options.maximum);
   }
 
   /**
