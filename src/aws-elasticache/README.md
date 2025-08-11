@@ -273,13 +273,29 @@ declare const vpc: ec2.Vpc;
 const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
   engine: Engine.VALKEY,
   vpc,
-  // cache data storage limits (GB)
-  maximumDataStorage: 5000,
-  minimumDataStorage: 1,
-  // ECPU limits (ECPU/second)
-  maximumECPUPerSecond: 15000000,
-  minimumECPUPerSecond: 1000,
+  cacheUsageLimits: {
+    // cache data storage limits (GB)
+    dataStorage: DataStorage.gb(1, 5000), // min: 1GB, max: 5000GB
+    // ECPU limits (ECPU/second)
+    ecpuPerSecond: ECPUPerSecond.of(1000, 15000000), // min: 1000, max: 15000000
+  },
 });
+```
+
+You can also set just the maximum or minimum values:
+
+```ts
+// Setting only maximum data storage (5000GB)
+dataStorage: DataStorage.gb(undefined, 5000)
+
+// Setting only minimum data storage (1GB)
+dataStorage: DataStorage.gb(1)
+
+// Setting only maximum ECPU (15000000)
+ecpuPerSecond: ECPUPerSecond.of(undefined, 15000000)
+
+// Setting only minimum ECPU (1000)
+ecpuPerSecond: ECPUPerSecond.of(1000)
 ```
 
 ### Snapshots and restore
