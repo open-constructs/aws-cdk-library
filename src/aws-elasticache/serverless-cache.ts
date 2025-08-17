@@ -33,14 +33,14 @@ export enum StorageUnit {
 export interface DataStorageOptions {
   /**
    * The lower limit for data storage the cache is set to use.
-   * 
+   *
    * @default - no lower limit
    */
   readonly minimum?: number;
 
   /**
    * The upper limit for data storage the cache is set to use.
-   * 
+   *
    * @default - no upper limit
    */
   readonly maximum?: number;
@@ -60,14 +60,14 @@ export class DataStorage {
 
   /**
    * The lower limit for data storage the cache is set to use.
-   * 
+   *
    * @default - no lower limit
    */
   public readonly minimum?: number;
 
   /**
    * The upper limit for data storage the cache is set to use.
-   * 
+   *
    * @default - no upper limit
    */
   public readonly maximum?: number;
@@ -78,9 +78,42 @@ export class DataStorage {
   public readonly unit: StorageUnit;
 
   private constructor(unit: StorageUnit, minimum?: number, maximum?: number) {
+    this.validate(minimum, maximum);
+
     this.minimum = minimum;
     this.maximum = maximum;
     this.unit = unit;
+  }
+
+  public render(): any {
+    return {
+      unit: this.unit,
+      maximum: this.maximum,
+      minimum: this.minimum,
+    };
+  }
+
+  private validate(minimum?: number, maximum?: number): void {
+    if (
+      (maximum !== undefined && Token.isUnresolved(maximum)) ||
+      (minimum !== undefined && Token.isUnresolved(minimum))
+    ) {
+      return;
+    }
+
+    if (maximum !== undefined && (maximum < 1 || maximum > 5000)) {
+      throw new Error(`\`dataStorage.maximum\` must be between 1 and 5000, got: ${maximum}.`);
+    }
+
+    if (minimum !== undefined && (minimum < 1 || minimum > 5000)) {
+      throw new Error(`\`dataStorage.minimum\` must be between 1 and 5000, got: ${minimum}.`);
+    }
+
+    if (maximum !== undefined && minimum !== undefined && maximum < minimum) {
+      throw new Error(
+        `\`dataStorage.maximum\` must be greater than or equal to \`dataStorage.minimum\`, got: maximum ${maximum}, minimum ${minimum}.`,
+      );
+    }
   }
 }
 
@@ -123,8 +156,40 @@ export class ECPUPerSecond {
   public readonly maximum?: number;
 
   private constructor(minimum?: number, maximum?: number) {
+    this.validate(minimum, maximum);
+
     this.minimum = minimum;
     this.maximum = maximum;
+  }
+
+  public render(): any {
+    return {
+      maximum: this.maximum,
+      minimum: this.minimum,
+    };
+  }
+
+  private validate(minimum?: number, maximum?: number): void {
+    if (
+      (maximum !== undefined && Token.isUnresolved(maximum)) ||
+      (minimum !== undefined && Token.isUnresolved(minimum))
+    ) {
+      return;
+    }
+
+    if (maximum !== undefined && (maximum < 1000 || maximum > 15000000)) {
+      throw new Error(`\`ecpuPerSecond.maximum\` must be between 1000 and 15000000, got: ${maximum}.`);
+    }
+
+    if (minimum !== undefined && (minimum < 1000 || minimum > 15000000)) {
+      throw new Error(`\`ecpuPerSecond.minimum\` must be between 1000 and 15000000, got: ${minimum}.`);
+    }
+
+    if (maximum !== undefined && minimum !== undefined && maximum < minimum) {
+      throw new Error(
+        `\`ecpuPerSecond.maximum\` must be greater than or equal to \`ecpuPerSecond.minimum\`, got: maximum ${maximum}, minimum ${minimum}.`,
+      );
+    }
   }
 }
 
@@ -526,7 +591,6 @@ export class ServerlessCache extends ServerlessCacheBase {
     };
 
     this.validateServerlessCacheName();
-    this.validateCacheUsageLimits();
     this.validateDescription();
     this.validateAutomaticBackupSettings();
     this.validateFinalSnapshotName();
@@ -590,20 +654,8 @@ export class ServerlessCache extends ServerlessCacheBase {
     }
 
     return {
-      dataStorage: dataStorage
-        ? {
-            unit: dataStorage.unit,
-            maximum: dataStorage.maximum,
-            minimum: dataStorage.minimum,
-          }
-        : undefined,
-
-      ecpuPerSecond: ecpuPerSecond
-        ? {
-            maximum: ecpuPerSecond.maximum,
-            minimum: ecpuPerSecond.minimum,
-          }
-        : undefined,
+      dataStorage: dataStorage ? dataStorage.render() : undefined,
+      ecpuPerSecond: ecpuPerSecond ? ecpuPerSecond.render() : undefined,
     };
   }
 
@@ -624,71 +676,6 @@ export class ServerlessCache extends ServerlessCacheBase {
     if (serverlessCacheName.length < 1 || serverlessCacheName.length > 40) {
       throw new Error(
         `\`serverlessCacheName\` must be between 1 and 40 characters, got: ${serverlessCacheName.length} characters.`,
-      );
-    }
-  }
-
-  /**
-   * Validates cache usage limits settings.
-   */
-  private validateCacheUsageLimits(): void {
-    const usageLimits = this.props.cacheUsageLimits;
-
-    if (usageLimits === undefined) {
-      return;
-    }
-
-    const dataStorage = usageLimits.dataStorage;
-    const ecpuPerSecond = usageLimits.ecpuPerSecond;
-
-    if (
-      dataStorage !== undefined &&
-      (Token.isUnresolved(dataStorage.maximum) || Token.isUnresolved(dataStorage.minimum))
-    ) {
-      return;
-    }
-
-    if (
-      ecpuPerSecond !== undefined &&
-      (Token.isUnresolved(ecpuPerSecond.maximum) || Token.isUnresolved(ecpuPerSecond.minimum))
-    ) {
-      return;
-    }
-
-    // Validate DataStorage
-    if (dataStorage?.maximum !== undefined && (dataStorage.maximum < 1 || dataStorage.maximum > 5000)) {
-      throw new Error(`\`dataStorage.maximum\` must be between 1 and 5000, got: ${dataStorage.maximum}.`);
-    }
-
-    if (dataStorage?.minimum !== undefined && (dataStorage.minimum < 1 || dataStorage.minimum > 5000)) {
-      throw new Error(`\`dataStorage.minimum\` must be between 1 and 5000, got: ${dataStorage.minimum}.`);
-    }
-
-    if (
-      dataStorage?.maximum !== undefined &&
-      dataStorage.minimum !== undefined &&
-      dataStorage.maximum < dataStorage.minimum
-    ) {
-      throw new Error(
-        `\`dataStorage.maximum\` must be greater than or equal to \`dataStorage.minimum\`, got: maximum ${dataStorage.maximum}, minimum ${dataStorage.minimum}.`,
-      );
-    }
-
-    if (ecpuPerSecond?.maximum !== undefined && (ecpuPerSecond.maximum < 1000 || ecpuPerSecond.maximum > 15000000)) {
-      throw new Error(`\`ecpuPerSecond.maximum\` must be between 1000 and 15000000, got: ${ecpuPerSecond.maximum}.`);
-    }
-
-    if (ecpuPerSecond?.minimum !== undefined && (ecpuPerSecond.minimum < 1000 || ecpuPerSecond.minimum > 15000000)) {
-      throw new Error(`\`ecpuPerSecond.minimum\` must be between 1000 and 15000000, got: ${ecpuPerSecond.minimum}.`);
-    }
-
-    if (
-      ecpuPerSecond?.maximum !== undefined &&
-      ecpuPerSecond.minimum !== undefined &&
-      ecpuPerSecond.maximum < ecpuPerSecond.minimum
-    ) {
-      throw new Error(
-        `\`ecpuPerSecond.maximum\` must be greater than or equal to \`ecpuPerSecond.minimum\`, got: maximum ${ecpuPerSecond.maximum}, minimum ${ecpuPerSecond.minimum}.`,
       );
     }
   }

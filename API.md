@@ -4232,30 +4232,32 @@ const dataStorageOptions: aws_elasticache.DataStorageOptions = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.DataStorageOptions.property.max">max</a></code> | <code>number</code> | The upper limit for data storage the cache is set to use. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.DataStorageOptions.property.min">min</a></code> | <code>number</code> | The lower limit for data storage the cache is set to use. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.DataStorageOptions.property.maximum">maximum</a></code> | <code>number</code> | The upper limit for data storage the cache is set to use. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.DataStorageOptions.property.minimum">minimum</a></code> | <code>number</code> | The lower limit for data storage the cache is set to use. |
 
 ---
 
-##### `max`<sup>Optional</sup> <a name="max" id="@open-constructs/aws-cdk.aws_elasticache.DataStorageOptions.property.max"></a>
+##### `maximum`<sup>Optional</sup> <a name="maximum" id="@open-constructs/aws-cdk.aws_elasticache.DataStorageOptions.property.maximum"></a>
 
 ```typescript
 public readonly maximum: number;
 ```
 
 - *Type:* number
+- *Default:* no upper limit
 
 The upper limit for data storage the cache is set to use.
 
 ---
 
-##### `min`<sup>Optional</sup> <a name="min" id="@open-constructs/aws-cdk.aws_elasticache.DataStorageOptions.property.min"></a>
+##### `minimum`<sup>Optional</sup> <a name="minimum" id="@open-constructs/aws-cdk.aws_elasticache.DataStorageOptions.property.minimum"></a>
 
 ```typescript
 public readonly minimum: number;
 ```
 
 - *Type:* number
+- *Default:* no lower limit
 
 The lower limit for data storage the cache is set to use.
 
@@ -4394,12 +4396,12 @@ const eCPUPerSecondOptions: aws_elasticache.ECPUPerSecondOptions = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecondOptions.property.max">max</a></code> | <code>number</code> | The configuration for the maximum number of ECPUs the cache can consume per second. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecondOptions.property.min">min</a></code> | <code>number</code> | The configuration for the minimum number of ECPUs the cache should be able consume per second. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecondOptions.property.maximum">maximum</a></code> | <code>number</code> | The configuration for the maximum number of ECPUs the cache can consume per second. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecondOptions.property.minimum">minimum</a></code> | <code>number</code> | The configuration for the minimum number of ECPUs the cache should be able consume per second. |
 
 ---
 
-##### `max`<sup>Optional</sup> <a name="max" id="@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecondOptions.property.max"></a>
+##### `maximum`<sup>Optional</sup> <a name="maximum" id="@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecondOptions.property.maximum"></a>
 
 ```typescript
 public readonly maximum: number;
@@ -4411,7 +4413,7 @@ The configuration for the maximum number of ECPUs the cache can consume per seco
 
 ---
 
-##### `min`<sup>Optional</sup> <a name="min" id="@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecondOptions.property.min"></a>
+##### `minimum`<sup>Optional</sup> <a name="minimum" id="@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecondOptions.property.minimum"></a>
 
 ```typescript
 public readonly minimum: number;
@@ -6479,6 +6481,19 @@ Converts an hour, and minute into HH:MM string.
 
 The data storage limit.
 
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.DataStorage.render">render</a></code> | *No description.* |
+
+---
+
+##### `render` <a name="render" id="@open-constructs/aws-cdk.aws_elasticache.DataStorage.render"></a>
+
+```typescript
+public render(): any
+```
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
@@ -6535,6 +6550,7 @@ public readonly maximum: number;
 ```
 
 - *Type:* number
+- *Default:* no upper limit
 
 The upper limit for data storage the cache is set to use.
 
@@ -6547,6 +6563,7 @@ public readonly minimum: number;
 ```
 
 - *Type:* number
+- *Default:* no lower limit
 
 The lower limit for data storage the cache is set to use.
 
@@ -6557,6 +6574,19 @@ The lower limit for data storage the cache is set to use.
 
 The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
 
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecond.render">render</a></code> | *No description.* |
+
+---
+
+##### `render` <a name="render" id="@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecond.render"></a>
+
+```typescript
+public render(): any
+```
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
