@@ -3,7 +3,8 @@ import * as cdk from 'aws-cdk-lib';
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
 import * as ocf from '../../src';
-import { DailySnapshotTime, Engine, MajorVersion } from '../../src/aws-elasticache';
+import { DailySnapshotTime } from '../../src/aws-elasticache';
+import { ServerlessCacheEngine, ValkeyEngineVersion } from '../../src/aws-elasticache/serverless-cache-engine';
 
 class ElastiCacheStack extends cdk.Stack {
   public readonly alarms: cloudwatch.IAlarm[] = [];
@@ -63,13 +64,14 @@ class ElastiCacheStack extends cdk.Stack {
     });
 
     const serverlessCache = new ocf.aws_elasticache.ServerlessCache(this, 'ElastiCacheServerlessCluster', {
-      engine: Engine.VALKEY,
+      serverlessCacheEngine: ServerlessCacheEngine.valkey({
+        engineVersion: ValkeyEngineVersion.VER_8,
+      }),
       serverlessCacheName: 'my-serverless-cache',
       dailySnapshotTime: new DailySnapshotTime({ hour: 12, minute: 0 }),
       description: 'my serverless cache',
       finalSnapshotName: 'my-finalsnapshot',
       kmsKey: key,
-      majorEngineVersion: MajorVersion.VER_8,
       snapshotRetentionLimit: 6,
       securityGroups: [
         new cdk.aws_ec2.SecurityGroup(this, 'SecurityGroup', {
