@@ -60,15 +60,11 @@ export class DataStorage {
 
   /**
    * The lower limit for data storage the cache is set to use.
-   *
-   * @default - no lower limit
    */
   public readonly minimum?: number;
 
   /**
    * The upper limit for data storage the cache is set to use.
-   *
-   * @default - no upper limit
    */
   public readonly maximum?: number;
 
@@ -124,11 +120,15 @@ export class DataStorage {
 export interface ECPUPerSecondOptions {
   /**
    * The configuration for the minimum number of ECPUs the cache should be able consume per second.
+   *
+   * @default - no minimum configuration
    */
   readonly minimum?: number;
 
   /**
    * The configuration for the maximum number of ECPUs the cache can consume per second.
+   *
+   * @default - no maximum configuration
    */
   readonly maximum?: number;
 }
