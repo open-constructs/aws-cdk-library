@@ -19,6 +19,184 @@ import { IUserGroup } from './user-group';
 import { Engine } from './util';
 
 /**
+ * Storage unit for data storage in ElastiCache Serverless.
+ */
+export enum StorageUnit {
+  /**
+   * Gigabytes
+   */
+  GB = 'GB',
+}
+
+/**
+ * Interface for configuring data storage limits.
+ */
+export interface DataStorageOptions {
+  /**
+   * The lower limit for data storage the cache is set to use.
+   *
+   * @default - no lower limit
+   */
+  readonly minimum?: number;
+
+  /**
+   * The upper limit for data storage the cache is set to use.
+   *
+   * @default - no upper limit
+   */
+  readonly maximum?: number;
+}
+
+/**
+ * The data storage limit.
+ */
+export class DataStorage {
+  /**
+   * Creates data storage settings with gigabytes as the unit.
+   * @param options The configuration options containing min and/or max values.
+   */
+  public static gb(options: DataStorageOptions): DataStorage {
+    return new DataStorage(StorageUnit.GB, options.minimum, options.maximum);
+  }
+
+  /**
+   * The lower limit for data storage the cache is set to use.
+   */
+  public readonly minimum?: number;
+
+  /**
+   * The upper limit for data storage the cache is set to use.
+   */
+  public readonly maximum?: number;
+
+  /**
+   * The unit of the storage sizes.
+   */
+  public readonly unit: StorageUnit;
+
+  private constructor(unit: StorageUnit, minimum?: number, maximum?: number) {
+    this.validate(minimum, maximum);
+
+    this.minimum = minimum;
+    this.maximum = maximum;
+    this.unit = unit;
+  }
+
+  /**
+   * Render dataStorage property.
+   *
+   * @internal
+   */
+  public _render(): aws_elasticache.CfnServerlessCache.DataStorageProperty {
+    return {
+      unit: this.unit,
+      maximum: this.maximum,
+      minimum: this.minimum,
+    };
+  }
+
+  private validate(minimum?: number, maximum?: number): void {
+    const validMinimum = minimum !== undefined && !Token.isUnresolved(minimum);
+    const validMaximum = maximum !== undefined && !Token.isUnresolved(maximum);
+
+    if (validMinimum && (minimum < 1 || minimum > 5000)) {
+      throw new Error(`\`dataStorage.minimum\` must be between 1 and 5000, got: ${minimum}.`);
+    }
+
+    if (validMaximum && (maximum < 1 || maximum > 5000)) {
+      throw new Error(`\`dataStorage.maximum\` must be between 1 and 5000, got: ${maximum}.`);
+    }
+
+    if (validMinimum && validMaximum && maximum < minimum) {
+      throw new Error(
+        `\`dataStorage.maximum\` must be greater than or equal to \`dataStorage.minimum\`, got: maximum ${maximum}, minimum ${minimum}.`,
+      );
+    }
+  }
+}
+
+/**
+ * Interface for configuring ECPU per second limits.
+ */
+export interface ECPUPerSecondOptions {
+  /**
+   * The configuration for the minimum number of ECPUs the cache should be able consume per second.
+   *
+   * @default - no minimum configuration
+   */
+  readonly minimum?: number;
+
+  /**
+   * The configuration for the maximum number of ECPUs the cache can consume per second.
+   *
+   * @default - no maximum configuration
+   */
+  readonly maximum?: number;
+}
+
+/**
+ * The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
+ */
+export class ECPUPerSecond {
+  /**
+   * Creates ECPU per second settings.
+   *
+   * @param options The configuration options containing min and/or max values.
+   */
+  public static of(options: ECPUPerSecondOptions): ECPUPerSecond {
+    return new ECPUPerSecond(options.minimum, options.maximum);
+  }
+
+  /**
+   * The configuration for the minimum number of ECPUs the cache should be able consume per second.
+   */
+  public readonly minimum?: number;
+
+  /**
+   * The configuration for the maximum number of ECPUs the cache can consume per second.
+   */
+  public readonly maximum?: number;
+
+  private constructor(minimum?: number, maximum?: number) {
+    this.validate(minimum, maximum);
+
+    this.minimum = minimum;
+    this.maximum = maximum;
+  }
+
+  /**
+   * Render ecpuPerSecond property.
+   *
+   * @internal
+   */
+  public _render(): aws_elasticache.CfnServerlessCache.ECPUPerSecondProperty {
+    return {
+      maximum: this.maximum,
+      minimum: this.minimum,
+    };
+  }
+
+  private validate(minimum?: number, maximum?: number): void {
+    const validMinimum = minimum !== undefined && !Token.isUnresolved(minimum);
+    const validMaximum = maximum !== undefined && !Token.isUnresolved(maximum);
+
+    if (validMinimum && (minimum < 1000 || minimum > 15000000)) {
+      throw new Error(`\`ecpuPerSecond.minimum\` must be between 1000 and 15000000, got: ${minimum}.`);
+    }
+
+    if (validMaximum && (maximum < 1000 || maximum > 15000000)) {
+      throw new Error(`\`ecpuPerSecond.maximum\` must be between 1000 and 15000000, got: ${maximum}.`);
+    }
+
+    if (validMinimum && validMaximum && maximum < minimum) {
+      throw new Error(
+        `\`ecpuPerSecond.maximum\` must be greater than or equal to \`ecpuPerSecond.minimum\`, got: maximum ${maximum}, minimum ${minimum}.`,
+      );
+    }
+  }
+}
+
+/**
  * Interface for an ElastiCache Serverless Cache
  */
 export interface IServerlessCache extends IResource, aws_ec2.IConnectable {
@@ -80,6 +258,13 @@ export interface ServerlessCacheProps {
    * @default - auto generate
    */
   readonly serverlessCacheName?: string;
+
+  /**
+   * The usage limits for storage and ElastiCache Processing Units for the cache.
+   *
+   * @default - no limits.
+   */
+  readonly cacheUsageLimits?: CacheUsageLimits;
 
   /**
    * The daily time when a cache snapshot will be created.
@@ -176,6 +361,25 @@ export interface ServerlessCacheAttributes {
    * The security groups to associate with the serverless cache.
    */
   readonly securityGroups: aws_ec2.ISecurityGroup[];
+}
+
+/**
+ * The usage limits for storage and ElastiCache Processing Units for the cache.
+ */
+export interface CacheUsageLimits {
+  /**
+   * The data storage limit.
+   *
+   * @default - no limits
+   */
+  readonly dataStorage?: DataStorage;
+
+  /**
+   * The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
+   *
+   * @default - no limits
+   */
+  readonly ecpuPerSecond?: ECPUPerSecond;
 }
 
 /**
@@ -378,6 +582,7 @@ export class ServerlessCache extends ServerlessCacheBase {
     const serverlessCache = this.createResource(this, 'Resource', {
       engine: this.props.serverlessCacheEngine.engine,
       serverlessCacheName: this.physicalName,
+      cacheUsageLimits: this.renderCacheUsageLimits(),
       dailySnapshotTime: props.dailySnapshotTime?.toTimestamp(),
       description: this.props.description,
       finalSnapshotName: this.props.finalSnapshotName,
@@ -416,6 +621,25 @@ export class ServerlessCache extends ServerlessCacheBase {
     props: aws_ec2.SecurityGroupProps,
   ): aws_ec2.SecurityGroup {
     return new aws_ec2.SecurityGroup(scope, id, props);
+  }
+
+  private renderCacheUsageLimits(): aws_elasticache.CfnServerlessCache.CacheUsageLimitsProperty | undefined {
+    const usageLimits = this.props.cacheUsageLimits;
+    if (usageLimits === undefined) {
+      return undefined;
+    }
+
+    const dataStorage = usageLimits.dataStorage;
+    const ecpuPerSecond = usageLimits.ecpuPerSecond;
+
+    if (dataStorage === undefined && ecpuPerSecond === undefined) {
+      return undefined;
+    }
+
+    return {
+      dataStorage: dataStorage ? dataStorage._render() : undefined,
+      ecpuPerSecond: ecpuPerSecond ? ecpuPerSecond._render() : undefined,
+    };
   }
 
   /**
