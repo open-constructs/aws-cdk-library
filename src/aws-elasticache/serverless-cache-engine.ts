@@ -38,9 +38,9 @@ export class ValkeyEngineVersion extends EngineVersionBase {
   public static readonly VER_8 = new ValkeyEngineVersion({ majorVersion: '8' });
 
   /**
-   * Creates a ValkeyEngineVersion instance.
+   * Creates a ValkeyEngineVersion.
    * @param props The properties for the Valkey engine version.
-   * @returns A ValkeyEngineVersion instance.
+   * @returns A ValkeyEngineVersion.
    */
   public static of(props: ValkeyEngineVersionProps): ValkeyEngineVersion {
     return new ValkeyEngineVersion(props);
@@ -76,9 +76,9 @@ export class RedisEngineVersion extends EngineVersionBase {
   public static readonly VER_7 = new RedisEngineVersion({ majorVersion: '7' });
 
   /**
-   * Creates a RedisEngineVersion instance.
+   * Creates a RedisEngineVersion.
    * @param props The properties for the Redis engine version.
-   * @returns A RedisEngineVersion instance.
+   * @returns A RedisEngineVersion.
    */
   public static of(props: RedisEngineVersionProps): RedisEngineVersion {
     return new RedisEngineVersion(props);
@@ -114,9 +114,9 @@ export class MemcachedEngineVersion extends EngineVersionBase {
   public static readonly VER_1_6 = new MemcachedEngineVersion({ majorVersion: '1.6' });
 
   /**
-   * Creates a MemcachedEngineVersion instance.
+   * Creates a MemcachedEngineVersion.
    * @param props The properties for the Memcached engine version.
-   * @returns A MemcachedEngineVersion instance.
+   * @returns A MemcachedEngineVersion.
    */
   public static of(props: MemcachedEngineVersionProps): MemcachedEngineVersion {
     return new MemcachedEngineVersion(props);
@@ -144,7 +144,7 @@ export class ServerlessCacheEngine {
   /**
    * Creates a ServerlessCacheEngine for Redis.
    * @param props The properties for the Redis engine.
-   * @returns A ServerlessCacheEngine instance for Redis.
+   * @returns A ServerlessCacheEngine for Redis.
    */
   public static redis(props: RedisEngineProps): ServerlessCacheEngine {
     return new ServerlessCacheEngine(Engine.REDIS, props.engineVersion.majorVersion);
@@ -153,7 +153,7 @@ export class ServerlessCacheEngine {
   /**
    * Creates a ServerlessCacheEngine for Valkey.
    * @param props The properties for the Valkey engine.
-   * @returns A ServerlessCacheEngine instance for Valkey.
+   * @returns A ServerlessCacheEngine for Valkey.
    */
   public static valkey(props: ValkeyEngineProps): ServerlessCacheEngine {
     return new ServerlessCacheEngine(Engine.VALKEY, props.engineVersion.majorVersion);
@@ -162,7 +162,7 @@ export class ServerlessCacheEngine {
   /**
    * Creates a ServerlessCacheEngine for Memcached.
    * @param props The properties for the Memcached engine.
-   * @returns A ServerlessCacheEngine instance for Memcached.
+   * @returns A ServerlessCacheEngine for Memcached.
    */
   public static memcached(props: MemcachedEngineProps): ServerlessCacheEngine {
     return new ServerlessCacheEngine(Engine.MEMCACHED, props.engineVersion.majorVersion);

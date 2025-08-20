@@ -6555,7 +6555,7 @@ Memcached engine version for serverless cache.
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion.of">of</a></code> | Creates a MemcachedEngineVersion instance. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion.of">of</a></code> | Creates a MemcachedEngineVersion. |
 
 ---
 
@@ -6567,7 +6567,7 @@ import { aws_elasticache } from '@open-constructs/aws-cdk'
 aws_elasticache.MemcachedEngineVersion.of(props: MemcachedEngineVersionProps)
 ```
 
-Creates a MemcachedEngineVersion instance.
+Creates a MemcachedEngineVersion.
 
 ###### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion.of.parameter.props"></a>
 
@@ -6897,7 +6897,7 @@ Redis engine version for serverless cache.
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion.of">of</a></code> | Creates a RedisEngineVersion instance. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion.of">of</a></code> | Creates a RedisEngineVersion. |
 
 ---
 
@@ -6909,7 +6909,7 @@ import { aws_elasticache } from '@open-constructs/aws-cdk'
 aws_elasticache.RedisEngineVersion.of(props: RedisEngineVersionProps)
 ```
 
-Creates a RedisEngineVersion instance.
+Creates a RedisEngineVersion.
 
 ###### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion.of.parameter.props"></a>
 
@@ -7489,7 +7489,7 @@ Valkey engine version for serverless cache.
 
 | **Name** | **Description** |
 | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion.of">of</a></code> | Creates a ValkeyEngineVersion instance. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion.of">of</a></code> | Creates a ValkeyEngineVersion. |
 
 ---
 
@@ -7501,7 +7501,7 @@ import { aws_elasticache } from '@open-constructs/aws-cdk'
 aws_elasticache.ValkeyEngineVersion.of(props: ValkeyEngineVersionProps)
 ```
 
-Creates a ValkeyEngineVersion instance.
+Creates a ValkeyEngineVersion.
 
 ###### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion.of.parameter.props"></a>
 
