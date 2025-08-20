@@ -85,7 +85,12 @@ export class DataStorage {
     this.unit = unit;
   }
 
-  public render(): any {
+  /**
+   * Render dataStorage property.
+   *
+   * @internal
+   */
+  public _render(): any {
     return {
       unit: this.unit,
       maximum: this.maximum,
@@ -162,7 +167,12 @@ export class ECPUPerSecond {
     this.maximum = maximum;
   }
 
-  public render(): any {
+  /**
+   * Render ecpuPerSecond property.
+   *
+   * @internal
+   */
+  public _render(): any {
     return {
       maximum: this.maximum,
       minimum: this.minimum,
@@ -654,8 +664,8 @@ export class ServerlessCache extends ServerlessCacheBase {
     }
 
     return {
-      dataStorage: dataStorage ? dataStorage.render() : undefined,
-      ecpuPerSecond: ecpuPerSecond ? ecpuPerSecond.render() : undefined,
+      dataStorage: dataStorage ? dataStorage._render() : undefined,
+      ecpuPerSecond: ecpuPerSecond ? ecpuPerSecond._render() : undefined,
     };
   }
 

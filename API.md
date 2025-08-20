@@ -6481,19 +6481,6 @@ Converts an hour, and minute into HH:MM string.
 
 The data storage limit.
 
-#### Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.DataStorage.render">render</a></code> | *No description.* |
-
----
-
-##### `render` <a name="render" id="@open-constructs/aws-cdk.aws_elasticache.DataStorage.render"></a>
-
-```typescript
-public render(): any
-```
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
@@ -6574,19 +6561,6 @@ The lower limit for data storage the cache is set to use.
 
 The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
 
-#### Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecond.render">render</a></code> | *No description.* |
-
----
-
-##### `render` <a name="render" id="@open-constructs/aws-cdk.aws_elasticache.ECPUPerSecond.render"></a>
-
-```typescript
-public render(): any
-```
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
