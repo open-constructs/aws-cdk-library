@@ -4408,6 +4408,7 @@ public readonly maximum: number;
 ```
 
 - *Type:* number
+- *Default:* no maximum configuration
 
 The configuration for the maximum number of ECPUs the cache can consume per second.
 
@@ -4420,6 +4421,7 @@ public readonly minimum: number;
 ```
 
 - *Type:* number
+- *Default:* no minimum configuration
 
 The configuration for the minimum number of ECPUs the cache should be able consume per second.
 
@@ -6537,7 +6539,6 @@ public readonly maximum: number;
 ```
 
 - *Type:* number
-- *Default:* no upper limit
 
 The upper limit for data storage the cache is set to use.
 
@@ -6550,7 +6551,6 @@ public readonly minimum: number;
 ```
 
 - *Type:* number
-- *Default:* no lower limit
 
 The lower limit for data storage the cache is set to use.
 
