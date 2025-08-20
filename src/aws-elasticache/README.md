@@ -170,8 +170,9 @@ declare const vpc: ec2.Vpc;
 declare const userGroup: UserGroup;
 
 const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
-  engine: Engine.VALKEY,
-  majorEngineVersion: MajorVersion.VER_8,
+  serverlessCacheEngine: ServerlessCacheEngine.valkey({
+    engineVersion: ValkeyEngineVersion.VER_8,
+  }),
   serverlessCacheName: 'my-serverless-cache',
   vpc,
   // assign User Group
@@ -228,9 +229,10 @@ Setup required properties and create:
 declare const vpc: ec2.Vpc;
 
 const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
-  engine: Engine.VALKEY,
+  serverlessCacheEngine: ServerlessCacheEngine.valkey({
+    engineVersion: ValkeyEngineVersion.VER_8,
+  }),
   vpc,
-  majorEngineVersion: MajorVersion.VER_8,
 });
 ```
 
@@ -297,13 +299,14 @@ To enable automatic backups, set the `snapshotRetentionLimit` property. You can 
 declare const vpc: ec2.Vpc;
 
 const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
-  engine: Engine.VALKEY,
+  serverlessCacheEngine: ServerlessCacheEngine.valkey({
+    engineVersion: ValkeyEngineVersion.VER_8,
+  }),
   // enable automatic backups and set the retention period to 6 days
   snapshotRetentionLimit: 6,
   // set the backup window to 12:00 AM UTC
   dailySnapshotTime: new DailySnapshotTime({ hour: 12, minute: 0 }),
   vpc,
-  majorEngineVersion: MajorVersion.VER_8,
 });
 ```
 
@@ -313,11 +316,12 @@ You can create a final backup by setting `finalSnapshotName` property.
 declare const vpc: ec2.Vpc;
 
 const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
-  engine: Engine.VALKEY,
+  serverlessCacheEngine: ServerlessCacheEngine.valkey({
+    engineVersion: ValkeyEngineVersion.VER_8,
+  }),
   // set the final snapshot name
   finalSnapshotName: 'my-finalsnapshot',
   vpc,
-  majorEngineVersion: MajorVersion.VER_8,
 });
 ```
 
@@ -327,11 +331,12 @@ You can restore from snapshots by setting snapshot ARNs to `snapshotArnsToRestor
 declare const vpc: ec2.Vpc;
 
 const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
-  engine: Engine.VALKEY,
+  serverlessCacheEngine: ServerlessCacheEngine.valkey({
+    engineVersion: ValkeyEngineVersion.VER_8,
+  }),
   // set the snapshot to restore
   snapshotArnsToRestore: ['arn:aws:elasticache:us-east-1:123456789012:serverlesscachesnapshot:my-final-snapshot'],
   vpc,
-  majorEngineVersion: MajorVersion.VER_8,
 });
 ```
 
@@ -347,12 +352,13 @@ To use CMK, set your CMK to the `kmsKey` property:
 declare const kmsKey: kms.Key;
 
 const serverlessCache = new ServerlessCache(this, 'ServerlessCache', {
-  engine: Engine.VALKEY,
+  serverlessCacheEngine: ServerlessCacheEngine.valkey({
+    engineVersion: ValkeyEngineVersion.VER_8,
+  }),
   serverlessCacheName: 'my-serverless-cache',
   vpc,
   // set Customer Managed Key
   kmsKey,
-  majorEngineVersion: MajorVersion.VER_8,
 });
 ```
 

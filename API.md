@@ -4659,6 +4659,70 @@ The minute of the hour (from 0-59) for maintenance to be performed.
 
 ---
 
+### MemcachedEngineProps <a name="MemcachedEngineProps" id="@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineProps"></a>
+
+Properties of the Memcached engine for serverless cache.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineProps.Initializer"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+const memcachedEngineProps: aws_elasticache.MemcachedEngineProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineProps.property.engineVersion">engineVersion</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion</code> | The engine version of the Memcached engine. |
+
+---
+
+##### `engineVersion`<sup>Required</sup> <a name="engineVersion" id="@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineProps.property.engineVersion"></a>
+
+```typescript
+public readonly engineVersion: MemcachedEngineVersion;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion
+
+The engine version of the Memcached engine.
+
+---
+
+### MemcachedEngineVersionProps <a name="MemcachedEngineVersionProps" id="@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersionProps"></a>
+
+Properties for the Memcached engine version.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersionProps.Initializer"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+const memcachedEngineVersionProps: aws_elasticache.MemcachedEngineVersionProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersionProps.property.majorVersion">majorVersion</a></code> | <code>string</code> | The major version of the engine. |
+
+---
+
+##### `majorVersion`<sup>Required</sup> <a name="majorVersion" id="@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersionProps.property.majorVersion"></a>
+
+```typescript
+public readonly majorVersion: string;
+```
+
+- *Type:* string
+
+The major version of the engine.
+
+---
+
 ### NamespaceAttributes <a name="NamespaceAttributes" id="@open-constructs/aws-cdk.aws_redshiftserverless.NamespaceAttributes"></a>
 
 Attributes for importing a Redshift Serverless Namespace.
@@ -5475,6 +5539,70 @@ The username of the user.
 
 ---
 
+### RedisEngineProps <a name="RedisEngineProps" id="@open-constructs/aws-cdk.aws_elasticache.RedisEngineProps"></a>
+
+Properties of the Redis engine for serverless cache.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.RedisEngineProps.Initializer"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+const redisEngineProps: aws_elasticache.RedisEngineProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.RedisEngineProps.property.engineVersion">engineVersion</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion</code> | The engine version of the Redis engine. |
+
+---
+
+##### `engineVersion`<sup>Required</sup> <a name="engineVersion" id="@open-constructs/aws-cdk.aws_elasticache.RedisEngineProps.property.engineVersion"></a>
+
+```typescript
+public readonly engineVersion: RedisEngineVersion;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion
+
+The engine version of the Redis engine.
+
+---
+
+### RedisEngineVersionProps <a name="RedisEngineVersionProps" id="@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersionProps"></a>
+
+Properties for the Redis engine version.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersionProps.Initializer"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+const redisEngineVersionProps: aws_elasticache.RedisEngineVersionProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersionProps.property.majorVersion">majorVersion</a></code> | <code>string</code> | The major version of the engine. |
+
+---
+
+##### `majorVersion`<sup>Required</sup> <a name="majorVersion" id="@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersionProps.property.majorVersion"></a>
+
+```typescript
+public readonly majorVersion: string;
+```
+
+- *Type:* string
+
+The major version of the engine.
+
+---
+
 ### RepositoryAttributes <a name="RepositoryAttributes" id="@open-constructs/aws-cdk.aws_codeartifact.RepositoryAttributes"></a>
 
 Represents the attributes of an existing CodeArtifact repository.
@@ -5715,8 +5843,7 @@ const serverlessCacheProps: aws_elasticache.ServerlessCacheProps = { ... }
 
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.engine">engine</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.Engine</code> | The engine the serverless cache is compatible with. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.majorEngineVersion">majorEngineVersion</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.MajorVersion</code> | The version number of the engine the serverless cache is compatible with. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.serverlessCacheEngine">serverlessCacheEngine</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine</code> | The engine the serverless cache is compatible with. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | The VPC to place the serverless cache in. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.cacheUsageLimits">cacheUsageLimits</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.CacheUsageLimits</code> | The usage limits for storage and ElastiCache Processing Units for the cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.dailySnapshotTime">dailySnapshotTime</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.DailySnapshotTime</code> | The daily time when a cache snapshot will be created. |
@@ -5732,27 +5859,15 @@ const serverlessCacheProps: aws_elasticache.ServerlessCacheProps = { ... }
 
 ---
 
-##### `engine`<sup>Required</sup> <a name="engine" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.engine"></a>
+##### `serverlessCacheEngine`<sup>Required</sup> <a name="serverlessCacheEngine" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.serverlessCacheEngine"></a>
 
 ```typescript
-public readonly engine: Engine;
+public readonly serverlessCacheEngine: ServerlessCacheEngine;
 ```
 
-- *Type:* @open-constructs/aws-cdk.aws_elasticache.Engine
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine
 
 The engine the serverless cache is compatible with.
-
----
-
-##### `majorEngineVersion`<sup>Required</sup> <a name="majorEngineVersion" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheProps.property.majorEngineVersion"></a>
-
-```typescript
-public readonly majorEngineVersion: MajorVersion;
-```
-
-- *Type:* @open-constructs/aws-cdk.aws_elasticache.MajorVersion
-
-The version number of the engine the serverless cache is compatible with.
 
 ---
 
@@ -6005,6 +6120,70 @@ The ID of the user group.
 
 \`userGroupId\` must consist only of alphanumeric characters or hyphens,
 with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens.
+
+---
+
+### ValkeyEngineProps <a name="ValkeyEngineProps" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineProps"></a>
+
+Properties of the Valkey engine for serverless cache.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineProps.Initializer"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+const valkeyEngineProps: aws_elasticache.ValkeyEngineProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineProps.property.engineVersion">engineVersion</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion</code> | The engine version of the Valkey engine. |
+
+---
+
+##### `engineVersion`<sup>Required</sup> <a name="engineVersion" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineProps.property.engineVersion"></a>
+
+```typescript
+public readonly engineVersion: ValkeyEngineVersion;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion
+
+The engine version of the Valkey engine.
+
+---
+
+### ValkeyEngineVersionProps <a name="ValkeyEngineVersionProps" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersionProps"></a>
+
+Properties for the Valkey engine version.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersionProps.Initializer"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+const valkeyEngineVersionProps: aws_elasticache.ValkeyEngineVersionProps = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersionProps.property.majorVersion">majorVersion</a></code> | <code>string</code> | The major version of the engine. |
+
+---
+
+##### `majorVersion`<sup>Required</sup> <a name="majorVersion" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersionProps.property.majorVersion"></a>
+
+```typescript
+public readonly majorVersion: string;
+```
+
+- *Type:* string
+
+The major version of the engine.
 
 ---
 
@@ -6665,6 +6844,77 @@ Converts a day, hour, and minute into a timestamp as used by FSx for Lustre's we
 
 
 
+### MemcachedEngineVersion <a name="MemcachedEngineVersion" id="@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion"></a>
+
+Memcached engine version for serverless cache.
+
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion.of">of</a></code> | Creates a MemcachedEngineVersion. |
+
+---
+
+##### `of` <a name="of" id="@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion.of"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.MemcachedEngineVersion.of(props: MemcachedEngineVersionProps)
+```
+
+Creates a MemcachedEngineVersion.
+
+###### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion.of.parameter.props"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersionProps
+
+The properties for the Memcached engine version.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion.property.majorVersion">majorVersion</a></code> | <code>string</code> | The major version of the engine. |
+
+---
+
+##### `majorVersion`<sup>Required</sup> <a name="majorVersion" id="@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion.property.majorVersion"></a>
+
+```typescript
+public readonly majorVersion: string;
+```
+
+- *Type:* string
+
+The major version of the engine.
+
+---
+
+#### Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion.property.VER_1_6">VER_1_6</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion</code> | Version 1.6. |
+
+---
+
+##### `VER_1_6`<sup>Required</sup> <a name="VER_1_6" id="@open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion.property.VER_1_6"></a>
+
+```typescript
+public readonly VER_1_6: MemcachedEngineVersion;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.MemcachedEngineVersion
+
+Version 1.6.
+
+---
+
 ### MultiAz1ThroughputCapacityPerHaPair <a name="MultiAz1ThroughputCapacityPerHaPair" id="@open-constructs/aws-cdk.aws_fsx.MultiAz1ThroughputCapacityPerHaPair"></a>
 
 The throughput capacity for the Multi-AZ 1 deployment type.
@@ -6936,6 +7186,77 @@ The throughput capacity of 768 MBps per HA pair.
 
 ---
 
+### RedisEngineVersion <a name="RedisEngineVersion" id="@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion"></a>
+
+Redis engine version for serverless cache.
+
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion.of">of</a></code> | Creates a RedisEngineVersion. |
+
+---
+
+##### `of` <a name="of" id="@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion.of"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.RedisEngineVersion.of(props: RedisEngineVersionProps)
+```
+
+Creates a RedisEngineVersion.
+
+###### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion.of.parameter.props"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.RedisEngineVersionProps
+
+The properties for the Redis engine version.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion.property.majorVersion">majorVersion</a></code> | <code>string</code> | The major version of the engine. |
+
+---
+
+##### `majorVersion`<sup>Required</sup> <a name="majorVersion" id="@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion.property.majorVersion"></a>
+
+```typescript
+public readonly majorVersion: string;
+```
+
+- *Type:* string
+
+The major version of the engine.
+
+---
+
+#### Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion.property.VER_7">VER_7</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion</code> | Version 7. |
+
+---
+
+##### `VER_7`<sup>Required</sup> <a name="VER_7" id="@open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion.property.VER_7"></a>
+
+```typescript
+public readonly VER_7: RedisEngineVersion;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.RedisEngineVersion
+
+Version 7.
+
+---
+
 ### ReportGranularity <a name="ReportGranularity" id="@open-constructs/aws-cdk.aws_cur.ReportGranularity"></a>
 
 Enum for the possible granularities of a cost report.
@@ -7050,6 +7371,109 @@ public readonly MONTHLY: ReportGranularity;
 Weekly granularity.
 
 ---
+
+### ServerlessCacheEngine <a name="ServerlessCacheEngine" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine"></a>
+
+Engine class for serverless cache.
+
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.memcached">memcached</a></code> | Creates a ServerlessCacheEngine for Memcached. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.redis">redis</a></code> | Creates a ServerlessCacheEngine for Redis. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.valkey">valkey</a></code> | Creates a ServerlessCacheEngine for Valkey. |
+
+---
+
+##### `memcached` <a name="memcached" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.memcached"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.ServerlessCacheEngine.memcached(props: MemcachedEngineProps)
+```
+
+Creates a ServerlessCacheEngine for Memcached.
+
+###### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.memcached.parameter.props"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.MemcachedEngineProps
+
+The properties for the Memcached engine.
+
+---
+
+##### `redis` <a name="redis" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.redis"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.ServerlessCacheEngine.redis(props: RedisEngineProps)
+```
+
+Creates a ServerlessCacheEngine for Redis.
+
+###### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.redis.parameter.props"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.RedisEngineProps
+
+The properties for the Redis engine.
+
+---
+
+##### `valkey` <a name="valkey" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.valkey"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.ServerlessCacheEngine.valkey(props: ValkeyEngineProps)
+```
+
+Creates a ServerlessCacheEngine for Valkey.
+
+###### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.valkey.parameter.props"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.ValkeyEngineProps
+
+The properties for the Valkey engine.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.property.engine">engine</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.Engine</code> | The engine type of the serverless cache. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.property.majorEngineVersion">majorEngineVersion</a></code> | <code>string</code> | The major engine version of the serverless cache. |
+
+---
+
+##### `engine`<sup>Required</sup> <a name="engine" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.property.engine"></a>
+
+```typescript
+public readonly engine: Engine;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.Engine
+
+The engine type of the serverless cache.
+
+---
+
+##### `majorEngineVersion`<sup>Required</sup> <a name="majorEngineVersion" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCacheEngine.property.majorEngineVersion"></a>
+
+```typescript
+public readonly majorEngineVersion: string;
+```
+
+- *Type:* string
+
+The major engine version of the serverless cache.
+
+---
+
 
 ### SingleAz1ThroughputCapacityPerHaPair <a name="SingleAz1ThroughputCapacityPerHaPair" id="@open-constructs/aws-cdk.aws_fsx.SingleAz1ThroughputCapacityPerHaPair"></a>
 
@@ -7353,6 +7777,90 @@ The deployment type of the throughput capacity.
 
 ---
 
+
+### ValkeyEngineVersion <a name="ValkeyEngineVersion" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion"></a>
+
+Valkey engine version for serverless cache.
+
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion.of">of</a></code> | Creates a ValkeyEngineVersion. |
+
+---
+
+##### `of` <a name="of" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion.of"></a>
+
+```typescript
+import { aws_elasticache } from '@open-constructs/aws-cdk'
+
+aws_elasticache.ValkeyEngineVersion.of(props: ValkeyEngineVersionProps)
+```
+
+Creates a ValkeyEngineVersion.
+
+###### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion.of.parameter.props"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersionProps
+
+The properties for the Valkey engine version.
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion.property.majorVersion">majorVersion</a></code> | <code>string</code> | The major version of the engine. |
+
+---
+
+##### `majorVersion`<sup>Required</sup> <a name="majorVersion" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion.property.majorVersion"></a>
+
+```typescript
+public readonly majorVersion: string;
+```
+
+- *Type:* string
+
+The major version of the engine.
+
+---
+
+#### Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion.property.VER_7">VER_7</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion</code> | Version 7. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion.property.VER_8">VER_8</a></code> | <code>@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion</code> | Version 8. |
+
+---
+
+##### `VER_7`<sup>Required</sup> <a name="VER_7" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion.property.VER_7"></a>
+
+```typescript
+public readonly VER_7: ValkeyEngineVersion;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion
+
+Version 7.
+
+---
+
+##### `VER_8`<sup>Required</sup> <a name="VER_8" id="@open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion.property.VER_8"></a>
+
+```typescript
+public readonly VER_8: ValkeyEngineVersion;
+```
+
+- *Type:* @open-constructs/aws-cdk.aws_elasticache.ValkeyEngineVersion
+
+Version 8.
+
+---
 
 ## Protocols <a name="Protocols" id="Protocols"></a>
 
@@ -8884,33 +9392,6 @@ Connection log.
 ##### `USER_ACTIVITY_LOG` <a name="USER_ACTIVITY_LOG" id="@open-constructs/aws-cdk.aws_redshiftserverless.LogExport.USER_ACTIVITY_LOG"></a>
 
 User activity log.
-
----
-
-
-### MajorVersion <a name="MajorVersion" id="@open-constructs/aws-cdk.aws_elasticache.MajorVersion"></a>
-
-The version number of the engine the serverless cache is compatible with.
-
-#### Members <a name="Members" id="Members"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.MajorVersion.VER_7">VER_7</a></code> | Version 7. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.MajorVersion.VER_8">VER_8</a></code> | Version 8. |
-
----
-
-##### `VER_7` <a name="VER_7" id="@open-constructs/aws-cdk.aws_elasticache.MajorVersion.VER_7"></a>
-
-Version 7.
-
----
-
-
-##### `VER_8` <a name="VER_8" id="@open-constructs/aws-cdk.aws_elasticache.MajorVersion.VER_8"></a>
-
-Version 8.
 
 ---
 
