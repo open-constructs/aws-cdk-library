@@ -5,6 +5,8 @@ import { SecurityGroup } from 'aws-cdk-lib/aws-ec2';
 import { Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import {
   DailySnapshotTime,
+  DataStorage,
+  ECPUPerSecond,
   Engine,
   IServerlessCache,
   MajorVersion,
@@ -61,6 +63,10 @@ describe('ElastiCache Serverless Cache', () => {
     new ServerlessCache(stack, 'ServerlessCache', {
       engine: Engine.VALKEY,
       serverlessCacheName: 'my-serverless-cache',
+      cacheUsageLimits: {
+        dataStorage: DataStorage.gb({ minimum: 1000, maximum: 2000 }),
+        ecpuPerSecond: ECPUPerSecond.of({ minimum: 1000, maximum: 2000 }),
+      },
       dailySnapshotTime: new DailySnapshotTime({ hour: 12, minute: 0 }),
       description: 'my serverless cache',
       finalSnapshotName: 'my-finalsnapshot',
@@ -79,6 +85,17 @@ describe('ElastiCache Serverless Cache', () => {
     Template.fromStack(stack).hasResourceProperties('AWS::ElastiCache::ServerlessCache', {
       Engine: 'valkey',
       ServerlessCacheName: 'my-serverless-cache',
+      CacheUsageLimits: {
+        DataStorage: {
+          Unit: 'GB',
+          Maximum: 2000,
+          Minimum: 1000,
+        },
+        ECPUPerSecond: {
+          Maximum: 2000,
+          Minimum: 1000,
+        },
+      },
       DailySnapshotTime: '12:00',
       Description: 'my serverless cache',
       FinalSnapshotName: 'my-finalsnapshot',
@@ -209,6 +226,90 @@ describe('ElastiCache Serverless Cache', () => {
         );
       },
     );
+  });
+
+  describe('validateCacheUsageLimits test', () => {
+    test.each([0, 5001])('throws when dataStorage.maximum is invalid, got %s', invalidMax => {
+      expect(() => {
+        new ServerlessCache(stack, 'ServerlessCache', {
+          engine: Engine.VALKEY,
+          vpc,
+          cacheUsageLimits: {
+            dataStorage: DataStorage.gb({ maximum: invalidMax }),
+          },
+          majorEngineVersion: MajorVersion.VER_8,
+        });
+      }).toThrow(`\`dataStorage.maximum\` must be between 1 and 5000, got: ${invalidMax}.`);
+    });
+
+    test.each([0, 5001])('throws when dataStorage.minimum is invalid, got %s', invalidMin => {
+      expect(() => {
+        new ServerlessCache(stack, 'ServerlessCache', {
+          engine: Engine.VALKEY,
+          vpc,
+          cacheUsageLimits: {
+            dataStorage: DataStorage.gb({ minimum: invalidMin }),
+          },
+          majorEngineVersion: MajorVersion.VER_8,
+        });
+      }).toThrow(`\`dataStorage.minimum\` must be between 1 and 5000, got: ${invalidMin}.`);
+    });
+
+    test('throws when dataStorage.maximum is less than dataStorage.minimum', () => {
+      expect(() => {
+        new ServerlessCache(stack, 'ServerlessCache', {
+          engine: Engine.VALKEY,
+          vpc,
+          cacheUsageLimits: {
+            dataStorage: DataStorage.gb({ minimum: 2000, maximum: 1000 }),
+          },
+          majorEngineVersion: MajorVersion.VER_8,
+        });
+      }).toThrow(
+        '`dataStorage.maximum` must be greater than or equal to `dataStorage.minimum`, got: maximum 1000, minimum 2000.',
+      );
+    });
+
+    test.each([999, 15000001])('throws when ecpuPerSecond.maximum is invalid, got %s', invalidMax => {
+      expect(() => {
+        new ServerlessCache(stack, 'ServerlessCache', {
+          engine: Engine.VALKEY,
+          vpc,
+          cacheUsageLimits: {
+            ecpuPerSecond: ECPUPerSecond.of({ maximum: invalidMax }),
+          },
+          majorEngineVersion: MajorVersion.VER_8,
+        });
+      }).toThrow(`\`ecpuPerSecond.maximum\` must be between 1000 and 15000000, got: ${invalidMax}.`);
+    });
+
+    test.each([999, 15000001])('throws when ecpuPerSecond.minimum is invalid, got %s', invalidMin => {
+      expect(() => {
+        new ServerlessCache(stack, 'ServerlessCache', {
+          engine: Engine.VALKEY,
+          vpc,
+          cacheUsageLimits: {
+            ecpuPerSecond: ECPUPerSecond.of({ minimum: invalidMin }),
+          },
+          majorEngineVersion: MajorVersion.VER_8,
+        });
+      }).toThrow(`\`ecpuPerSecond.minimum\` must be between 1000 and 15000000, got: ${invalidMin}.`);
+    });
+
+    test('throws when ecpuPerSecond.maximum is less than ecpuPerSecond.minimum', () => {
+      expect(() => {
+        new ServerlessCache(stack, 'ServerlessCache', {
+          engine: Engine.VALKEY,
+          vpc,
+          cacheUsageLimits: {
+            ecpuPerSecond: ECPUPerSecond.of({ minimum: 2000, maximum: 1000 }),
+          },
+          majorEngineVersion: MajorVersion.VER_8,
+        });
+      }).toThrow(
+        '`ecpuPerSecond.maximum` must be greater than or equal to `ecpuPerSecond.minimum`, got: maximum 1000, minimum 2000.',
+      );
+    });
   });
 
   describe('validateDescription test', () => {
