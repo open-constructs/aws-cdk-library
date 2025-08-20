@@ -99,22 +99,18 @@ export class DataStorage {
   }
 
   private validate(minimum?: number, maximum?: number): void {
-    if (
-      (maximum !== undefined && Token.isUnresolved(maximum)) ||
-      (minimum !== undefined && Token.isUnresolved(minimum))
-    ) {
-      return;
-    }
+    const validMinimum = minimum !== undefined && !Token.isUnresolved(minimum);
+    const validMaximum = maximum !== undefined && !Token.isUnresolved(maximum);
 
-    if (maximum !== undefined && (maximum < 1 || maximum > 5000)) {
-      throw new Error(`\`dataStorage.maximum\` must be between 1 and 5000, got: ${maximum}.`);
-    }
-
-    if (minimum !== undefined && (minimum < 1 || minimum > 5000)) {
+    if (validMinimum && (minimum < 1 || minimum > 5000)) {
       throw new Error(`\`dataStorage.minimum\` must be between 1 and 5000, got: ${minimum}.`);
     }
 
-    if (maximum !== undefined && minimum !== undefined && maximum < minimum) {
+    if (validMaximum && (maximum < 1 || maximum > 5000)) {
+      throw new Error(`\`dataStorage.maximum\` must be between 1 and 5000, got: ${maximum}.`);
+    }
+
+    if (validMinimum && validMaximum && maximum < minimum) {
       throw new Error(
         `\`dataStorage.maximum\` must be greater than or equal to \`dataStorage.minimum\`, got: maximum ${maximum}, minimum ${minimum}.`,
       );
@@ -180,22 +176,18 @@ export class ECPUPerSecond {
   }
 
   private validate(minimum?: number, maximum?: number): void {
-    if (
-      (maximum !== undefined && Token.isUnresolved(maximum)) ||
-      (minimum !== undefined && Token.isUnresolved(minimum))
-    ) {
-      return;
-    }
+    const validMinimum = minimum !== undefined && !Token.isUnresolved(minimum);
+    const validMaximum = maximum !== undefined && !Token.isUnresolved(maximum);
 
-    if (maximum !== undefined && (maximum < 1000 || maximum > 15000000)) {
-      throw new Error(`\`ecpuPerSecond.maximum\` must be between 1000 and 15000000, got: ${maximum}.`);
-    }
-
-    if (minimum !== undefined && (minimum < 1000 || minimum > 15000000)) {
+    if (validMinimum && (minimum < 1000 || minimum > 15000000)) {
       throw new Error(`\`ecpuPerSecond.minimum\` must be between 1000 and 15000000, got: ${minimum}.`);
     }
 
-    if (maximum !== undefined && minimum !== undefined && maximum < minimum) {
+    if (validMaximum && (maximum < 1000 || maximum > 15000000)) {
+      throw new Error(`\`ecpuPerSecond.maximum\` must be between 1000 and 15000000, got: ${maximum}.`);
+    }
+
+    if (validMinimum && validMaximum && maximum < minimum) {
       throw new Error(
         `\`ecpuPerSecond.maximum\` must be greater than or equal to \`ecpuPerSecond.minimum\`, got: maximum ${maximum}, minimum ${minimum}.`,
       );
