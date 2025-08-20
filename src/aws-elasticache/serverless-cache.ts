@@ -90,7 +90,7 @@ export class DataStorage {
    *
    * @internal
    */
-  public _render(): any {
+  public _render(): aws_elasticache.CfnServerlessCache.DataStorageProperty {
     return {
       unit: this.unit,
       maximum: this.maximum,
@@ -172,7 +172,7 @@ export class ECPUPerSecond {
    *
    * @internal
    */
-  public _render(): any {
+  public _render(): aws_elasticache.CfnServerlessCache.ECPUPerSecondProperty {
     return {
       maximum: this.maximum,
       minimum: this.minimum,
