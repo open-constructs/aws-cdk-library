@@ -41,6 +41,30 @@ describe('ElastiCache Serverless Cache', () => {
     });
   });
 
+  test('should correctly export properties to dependencies', () => {
+    const cache = new ServerlessCache(stack, 'ServerlessCache', {
+      engine: Engine.VALKEY,
+      vpc,
+      majorEngineVersion: MajorVersion.VER_8,
+    });
+    const dependentStack = new Stack(app, 'DependentStack', {});
+    new SecurityGroup(dependentStack, 'SecurityGroup', { vpc }).connections.allowToDefaultPort(cache);
+
+    Template.fromStack(stack).hasOutput('ExportsOutputFnGetAttServerlessCacheDFFA799DEndpointPort48E77897', {
+      Export: {
+        Name: 'TestStack:ExportsOutputFnGetAttServerlessCacheDFFA799DEndpointPort48E77897',
+      },
+      Value: {
+        'Fn::GetAtt': ['ServerlessCacheDFFA799D', 'Endpoint.Port'],
+      },
+    });
+    Template.fromStack(dependentStack).hasResourceProperties('AWS::EC2::SecurityGroupIngress', {
+      FromPort: {
+        'Fn::ImportValue': 'TestStack:ExportsOutputFnGetAttServerlessCacheDFFA799DEndpointPort48E77897',
+      },
+    });
+  });
+
   test('Create a serverless cache with maximum properties', () => {
     const user = new NoPasswordRequiredUser(stack, 'User', {});
 
