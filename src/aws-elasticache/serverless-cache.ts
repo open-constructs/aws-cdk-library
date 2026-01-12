@@ -14,6 +14,7 @@ import { Metric, MetricOptions } from 'aws-cdk-lib/aws-cloudwatch';
 import { IKey } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 import { DailySnapshotTime } from './daily-snapshot-time';
+import { ServerlessCacheEngine } from './serverless-cache-engine';
 import { IUserGroup } from './user-group';
 import { Engine } from './util';
 
@@ -242,28 +243,13 @@ export interface IServerlessCache extends IResource, aws_ec2.IConnectable {
 }
 
 /**
- * The version number of the engine the serverless cache is compatible with.
- */
-export enum MajorVersion {
-  /**
-   * Version 7
-   */
-  VER_7 = '7',
-
-  /**
-   * Version 8
-   */
-  VER_8 = '8',
-}
-
-/**
  * Properties for defining an ElastiCache Serverless Cache.
  */
 export interface ServerlessCacheProps {
   /**
    * The engine the serverless cache is compatible with.
    */
-  readonly engine: Engine;
+  readonly serverlessCacheEngine: ServerlessCacheEngine;
 
   /**
    * The unique identifier of the serverless cache.
@@ -310,11 +296,6 @@ export interface ServerlessCacheProps {
    * @default - use AWS managed key
    */
   readonly kmsKey?: IKey;
-
-  /**
-   * The version number of the engine the serverless cache is compatible with.
-   */
-  readonly majorEngineVersion: MajorVersion;
 
   /**
    * The security groups to associate with the serverless cache.
@@ -599,14 +580,14 @@ export class ServerlessCache extends ServerlessCacheBase {
     this.validateUserGroup();
 
     const serverlessCache = this.createResource(this, 'Resource', {
-      engine: this.props.engine,
+      engine: this.props.serverlessCacheEngine.engine,
       serverlessCacheName: this.physicalName,
       cacheUsageLimits: this.renderCacheUsageLimits(),
       dailySnapshotTime: props.dailySnapshotTime?.toTimestamp(),
       description: this.props.description,
       finalSnapshotName: this.props.finalSnapshotName,
       kmsKeyId: this.props.kmsKey?.keyArn,
-      majorEngineVersion: this.props.majorEngineVersion,
+      majorEngineVersion: this.props.serverlessCacheEngine.majorEngineVersion,
       securityGroupIds: this.securityGroups.map(sg => sg.securityGroupId),
       subnetIds: this.props.vpc.selectSubnets(this.vpcSubnets).subnetIds,
       snapshotArnsToRestore: this.props.snapshotArnsToRestore,
@@ -748,8 +729,10 @@ export class ServerlessCache extends ServerlessCacheBase {
   private validateUserGroup(): void {
     if (this.props.userGroup === undefined) return;
 
-    if (![Engine.REDIS, Engine.VALKEY].includes(this.props.engine)) {
-      throw new Error(`\`userGroup\` is available for Valkey and Redis OSS only, got engine: ${this.props.engine}.`);
+    if (![Engine.REDIS, Engine.VALKEY].includes(this.props.serverlessCacheEngine.engine)) {
+      throw new Error(
+        `\`userGroup\` is available for Valkey and Redis OSS only, got engine: ${this.props.serverlessCacheEngine.engine}.`,
+      );
     }
   }
 }

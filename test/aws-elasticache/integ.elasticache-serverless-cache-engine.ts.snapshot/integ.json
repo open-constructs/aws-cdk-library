@@ -1,0 +1,12 @@
+{
+  "version": "38.0.1",
+  "testCases": {
+    "ElastiCacheServerlessCacheEngineTest/DefaultTest": {
+      "stacks": [
+        "ElastiCacheServerlessCacheEngineStack"
+      ],
+      "assertionStack": "ElastiCacheServerlessCacheEngineTest/DefaultTest/DeployAssert",
+      "assertionStackName": "ElastiCacheServerlessCacheEngineTestDefaultTestDeployAssertEE90413E"
+    }
+  }
+}
