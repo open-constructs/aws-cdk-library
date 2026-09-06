@@ -136,6 +136,8 @@ export interface DnsValidatedCertificateV2Props {
    * ownership. The stack must be in the same app/stage, account, and partition
    * as the containing stack. Its region determines the certificate region.
    *
+   * Nested owners support consumers only within their top-level stack tree.
+   * Use a top-level owner for sharing outside that tree.
    * Cannot be combined with `certificateRegion`.
    *
    * @default - create or reuse a generated certificate stack when needed
@@ -173,7 +175,7 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
     return Certificate.fromCertificateArn(scope, id, attrs.certificateArn);
   }
 
-  /** The ARN of the certificate. */
+  /** The ARN of the certificate. Nested owners support consumers only within their top-level stack tree. */
   public readonly certificateArn: string;
 
   /** The region in which the certificate is created. */
@@ -253,7 +255,21 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
       }
 
       this.certificateResource.applyCrossStackReferenceStrength(ReferenceStrength.WEAK);
-      this.certificateArn = this.certificateResource.ref;
+      const nativeArn = this.certificateResource.ref;
+      const ownerRoot = topLevelStack(this.certificateStack);
+      this.certificateArn = this.certificateStack.nested
+        ? Lazy.uncachedString({
+            produce: context => {
+              if (topLevelStack(Stack.of(context.scope)) !== ownerRoot) {
+                throw new Error(
+                  this.node.path +
+                    ': a certificate owned by a nested stack cannot be consumed outside its top-level stack tree; use a top-level certificateStack for cross-stack sharing',
+                );
+              }
+              return nativeArn;
+            },
+          })
+        : nativeArn;
 
       this.node.addValidation({ validate: () => this.validateHostedZoneAuthority() });
     } catch (error) {
@@ -715,4 +731,13 @@ function resolvePlacement(
     throw new Error(`${path}: a separate certificateStack must have a concrete region`);
   }
   return { containingStack, region, separate };
+}
+
+/** Find the reference boundary shared by a top-level stack and its nested descendants. */
+function topLevelStack(stack: Stack): Stack {
+  let current = stack;
+  while (current.nestedStackParent !== undefined) {
+    current = current.nestedStackParent;
+  }
+  return current;
 }

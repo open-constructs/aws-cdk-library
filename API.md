@@ -614,6 +614,8 @@ public readonly certificateArn: string;
 
 The ARN of the certificate.
 
+Nested owners support consumers only within their top-level stack tree.
+
 ---
 
 ##### `certificateRef`<sup>Required</sup> <a name="certificateRef" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateRef"></a>
@@ -5315,6 +5317,8 @@ permissions boundary, termination protection, or explicit lifecycle
 ownership. The stack must be in the same app/stage, account, and partition
 as the containing stack. Its region determines the certificate region.
 
+Nested owners support consumers only within their top-level stack tree.
+Use a top-level owner for sharing outside that tree.
 Cannot be combined with `certificateRegion`.
 
 ---

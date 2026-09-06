@@ -18,7 +18,7 @@ import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import { CfnCertificate, KeyAlgorithm } from 'aws-cdk-lib/aws-certificatemanager';
 import { CloudFrontWebDistribution, Distribution, ViewerCertificate } from 'aws-cdk-lib/aws-cloudfront';
 import { HttpOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
-import { Alarm } from 'aws-cdk-lib/aws-cloudwatch';
+import { Alarm, Dashboard, GraphWidget } from 'aws-cdk-lib/aws-cloudwatch';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { CfnHostedZone, HostedZone, PrivateHostedZone, PublicHostedZone } from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
@@ -1845,5 +1845,139 @@ test.each([undefined, []])('omits empty concrete SANs in exact multi-zone mode: 
   Template.fromStack(certificate.certificateStack).hasResourceProperties('AWS::CertificateManager::Certificate', {
     SubjectAlternativeNames: Match.absent(),
     DomainValidationOptions: [{ DomainName: 'www.example.com', HostedZoneId: 'Z123456' }],
+  });
+});
+
+describe('nested certificate owner reference boundary', () => {
+  const policies = [undefined, 'strong', 'weak', 'both'];
+  const boundaryError =
+    /nested stack cannot be consumed outside its top-level stack tree; use a top-level certificateStack/;
+
+  test.each(
+    policies.flatMap(policy =>
+      ['us-east-1', 'eu-central-1'].flatMap(region =>
+        [false, true].flatMap(explicitOwner =>
+          ['arn', 'typed', 'metric'].map(surface => ({ policy, region, explicitOwner, surface })),
+        ),
+      ),
+    ),
+  )('rejects external consumption: %j', ({ policy, region, explicitOwner, surface }) => {
+    const app = new App({ context: policy ? { '@aws-cdk/core:defaultCrossStackReferences': policy } : {} });
+    const parent = createStack(app, 'Parent', 'us-east-1');
+    const owner = new NestedStack(parent, 'Owner');
+    const consumer = createStack(app, 'Consumer', region);
+    const certificate = new DnsValidatedCertificateV2(explicitOwner ? consumer : owner, 'Certificate', {
+      domainName: 'www.example.com',
+      hostedZone: HostedZone.fromHostedZoneId(owner, 'Zone', 'Z123456'),
+      ...(explicitOwner ? { certificateStack: owner } : {}),
+    });
+    new CfnOutput(owner, 'LocalArn', { value: certificate.certificateArn });
+    if (surface === 'metric') {
+      new Dashboard(consumer, 'Expiry', { widgets: [[new GraphWidget({ left: [certificate.metricDaysToExpiry()] })]] });
+    } else {
+      new CfnOutput(consumer, 'Arn', {
+        value: surface === 'typed' ? certificate.certificateRef.certificateArn : certificate.certificateArn,
+      });
+    }
+    expect(() => app.synth()).toThrow(boundaryError);
+  });
+
+  test.each(
+    policies.flatMap(policy => [1, 2].flatMap(depth => [false, true].map(reverse => ({ policy, depth, reverse })))),
+  )('preserves native tree wiring: %j', ({ policy, depth, reverse }) => {
+    const app = new App({ context: policy ? { '@aws-cdk/core:defaultCrossStackReferences': policy } : {} });
+    const parent = createStack(app, 'Parent', 'us-east-1');
+    const first = new NestedStack(parent, 'First');
+    const owner = depth === 1 ? first : new NestedStack(first, 'Owner');
+    const sibling = new NestedStack(parent, 'Sibling');
+    const descendant = new NestedStack(owner, 'Descendant');
+    // Wrapper placement must not determine the actual consumer's reference boundary.
+    const wrapper = createStack(app, 'Wrapper', 'us-east-1');
+    const certificate = new DnsValidatedCertificateV2(wrapper, 'Certificate', {
+      domainName: 'www.example.com',
+      hostedZone: HostedZone.fromHostedZoneId(owner, 'Zone', 'Z123456'),
+      certificateStack: owner,
+    });
+    const stacks = [...new Set([parent, first, owner, sibling, descendant])];
+    for (const stack of reverse ? [...stacks].reverse() : stacks) {
+      new CfnOutput(stack, 'Arn', { value: certificate.certificateArn });
+      new CfnOutput(stack, 'TypedArn', { value: certificate.certificateRef.certificateArn });
+      new Distribution(stack, 'Distribution', {
+        certificate,
+        defaultBehavior: { origin: new HttpOrigin('origin.example.com') },
+      });
+      new Alarm(stack, 'Expiry', { metric: certificate.metricDaysToExpiry(), threshold: 30, evaluationPeriods: 1 });
+    }
+    app.synth();
+    const templates = new Map(stacks.map(stack => [stack, Template.fromStack(stack).toJSON()]));
+    const nativeId = owner.getLogicalId(certificate.certificateResource);
+
+    // Follow CDK's nested parameters and outputs all the way to the ACM resource.
+    function assertNativeReference(stack: Stack, value: any): void {
+      if (value.Ref === nativeId && stack === owner) {
+        return;
+      }
+      if (value.Ref !== undefined) {
+        expect(templates.get(stack)!.Parameters[value.Ref]).toBeDefined();
+        const parentStack = stack.nestedStackParent!;
+        const resourceId = parentStack.getLogicalId(stack.nestedStackResource!);
+        assertNativeReference(
+          parentStack,
+          templates.get(parentStack)!.Resources[resourceId].Properties.Parameters[value.Ref],
+        );
+        return;
+      }
+      expect(value['Fn::GetAtt']).toBeDefined();
+      const [resourceId, output] = value['Fn::GetAtt'];
+      const child = stacks.find(
+        candidate =>
+          candidate.nestedStackParent === stack && stack.getLogicalId(candidate.nestedStackResource!) === resourceId,
+      )!;
+      expect(child).toBeDefined();
+      assertNativeReference(child, templates.get(child)!.Outputs[output.replace(/^Outputs\./, '')].Value);
+    }
+    for (const stack of stacks) {
+      const template = templates.get(stack)!;
+      assertNativeReference(stack, template.Outputs.Arn.Value);
+      expect(template.Outputs.TypedArn.Value).toEqual(template.Outputs.Arn.Value);
+      const resources: any[] = Object.values(template.Resources);
+      const distribution = resources.find(resource => resource.Type === 'AWS::CloudFront::Distribution');
+      expect(distribution.Properties.DistributionConfig.ViewerCertificate.AcmCertificateArn).toEqual(
+        template.Outputs.Arn.Value,
+      );
+      const alarm = resources.find(resource => resource.Type === 'AWS::CloudWatch::Alarm');
+      expect(alarm.Properties.Dimensions).toContainEqual({ Name: 'CertificateArn', Value: template.Outputs.Arn.Value });
+      expect(JSON.stringify(template)).not.toMatch(
+        /Fn::ImportValue|Fn::GetStackOutput|AWS::Lambda::|AWS::IAM::|AWS::Logs::|Custom::|AWS::CloudFormation::CustomResource/,
+      );
+      for (const output of Object.values(template.Outputs) as any[]) {
+        expect(output.Export).toBeUndefined();
+      }
+    }
+  });
+
+  test('does not change unrelated nested resource export strength', () => {
+    const app = new App({ context: { '@aws-cdk/core:defaultCrossStackReferences': 'strong' } });
+    const parent = createStack(app, 'Parent', 'us-east-1');
+    const owner = new NestedStack(parent, 'Owner');
+    const external = createStack(app, 'External', 'us-east-1');
+    const unrelated = new CfnHostedZone(owner, 'Unrelated', { name: 'unrelated.example.com' });
+    const certificate = new DnsValidatedCertificateV2(owner, 'Certificate', {
+      domainName: 'www.example.com',
+      hostedZone: HostedZone.fromHostedZoneId(owner, 'Zone', 'Z123456'),
+    });
+    new CfnOutput(parent, 'Arn', { value: certificate.certificateArn });
+    new CfnOutput(external, 'ZoneId', { value: unrelated.ref });
+    app.synth();
+    const parentTemplate = Template.fromStack(parent).toJSON();
+    const externalTemplate = Template.fromStack(external).toJSON();
+    const exportName = externalTemplate.Outputs.ZoneId.Value['Fn::ImportValue'];
+    expect(exportName).toBeDefined();
+    expect(Object.values(parentTemplate.Outputs)).toContainEqual(
+      expect.objectContaining({
+        Export: { Name: exportName },
+      }),
+    );
+    expect(parentTemplate.Outputs.Arn.Export).toBeUndefined();
   });
 });
