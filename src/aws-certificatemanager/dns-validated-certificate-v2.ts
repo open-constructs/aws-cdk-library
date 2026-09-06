@@ -251,9 +251,8 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
         this.certificateResource.applyRemovalPolicy(props.removalPolicy);
       }
 
-      this.certificateArn = usesSeparateStack
-        ? Stack.consumeReference(this.certificateResource.ref, ReferenceStrength.WEAK)
-        : this.certificateResource.ref;
+      this.certificateResource.applyCrossStackReferenceStrength(ReferenceStrength.WEAK);
+      this.certificateArn = this.certificateResource.ref;
 
       this.node.addValidation({ validate: () => this.validateHostedZoneAuthority() });
     } catch (error) {

@@ -17,6 +17,7 @@ import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import { CfnCertificate, KeyAlgorithm } from 'aws-cdk-lib/aws-certificatemanager';
 import { CloudFrontWebDistribution, Distribution, ViewerCertificate } from 'aws-cdk-lib/aws-cloudfront';
 import { HttpOrigin } from 'aws-cdk-lib/aws-cloudfront-origins';
+import { Alarm } from 'aws-cdk-lib/aws-cloudwatch';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { CfnHostedZone, HostedZone, PrivateHostedZone, PublicHostedZone } from 'aws-cdk-lib/aws-route53';
 import { Construct } from 'constructs';
@@ -1703,4 +1704,76 @@ test('rejects a known authority mismatch before creating a generated owner', () 
       }),
   ).toThrow(/not authoritative/);
   expect(app.node.children.filter(Stack.isStack)).toEqual([stack]);
+});
+
+describe('producer reference strength across shared consumption contexts', () => {
+  const cases = [undefined, 'strong', 'weak', 'both'].flatMap(policy =>
+    [false, true].flatMap(local => [false, true].map(reverse => ({ policy, local, reverse }))),
+  );
+  test.each(cases)('keeps references contextual: %j', ({ policy, local, reverse }) => {
+    const app = new App({ context: policy ? { '@aws-cdk/core:defaultCrossStackReferences': policy } : {} });
+    const stackSpecs = [
+      ['Owner', 'us-east-1'],
+      ['Consumer', 'eu-central-1'],
+      ['SecondConsumer', 'eu-west-1'],
+    ];
+    const stacks = new Map(
+      (reverse ? [...stackSpecs].reverse() : stackSpecs).map(([id, region]) => [id, createStack(app, id, region)]),
+    );
+    const owner = stacks.get('Owner')!;
+    const consumer = stacks.get('Consumer')!;
+    const second = stacks.get('SecondConsumer')!;
+    const nested = new NestedStack(owner, 'NestedConsumer');
+    const hostedZone = HostedZone.fromHostedZoneId(owner, 'Zone', 'Z123456');
+    const certificate = new DnsValidatedCertificateV2(local ? owner : consumer, 'Certificate', {
+      domainName: 'www.example.com',
+      hostedZone,
+      ...(local ? {} : { certificateStack: owner }),
+    });
+    new CfnOutput(owner, 'CertificateArn', { value: certificate.certificateArn });
+    new CfnOutput(owner, 'CertificateRefArn', { value: certificate.certificateRef.certificateArn });
+    new Alarm(owner, 'Expiry', { metric: certificate.metricDaysToExpiry(), threshold: 30, evaluationPeriods: 1 });
+    const consumers = [owner, consumer, second, nested];
+    for (const scope of reverse ? [...consumers].reverse() : consumers) {
+      new Distribution(scope, 'Distribution', {
+        certificate,
+        defaultBehavior: { origin: new HttpOrigin('origin.example.com') },
+      });
+    }
+    const assembly = app.synth();
+    const own = assembly.getStackArtifact(owner.artifactId).template;
+    const localRef = { Ref: owner.getLogicalId(certificate.certificateResource) };
+    const viewerArn = (template: any): any =>
+      Object.values(template.Resources)
+        .filter((resource: any) => resource.Type === 'AWS::CloudFront::Distribution')
+        .map((resource: any) => resource.Properties.DistributionConfig.ViewerCertificate.AcmCertificateArn)[0];
+    expect(own.Outputs.CertificateArn.Value).toEqual(localRef);
+    expect(own.Outputs.CertificateRefArn.Value).toEqual(localRef);
+    expect(viewerArn(own)).toEqual(localRef);
+    Template.fromStack(owner).hasResourceProperties('AWS::CloudWatch::Alarm', {
+      Dimensions: [{ Name: 'CertificateArn', Value: localRef }],
+    });
+    for (const remote of [consumer, second]) {
+      const artifact = assembly.getStackArtifact(remote.artifactId);
+      const reference = viewerArn(artifact.template)['Fn::GetStackOutput'];
+      expect(reference).toEqual({ StackName: owner.stackName, Region: 'us-east-1', OutputName: expect.any(String) });
+      expect(own.Outputs[reference.OutputName].Value).toEqual(localRef);
+      expect(artifact.dependencies.map(dependency => dependency.id)).toContain(owner.artifactId);
+    }
+    const nestedTemplate = Template.fromStack(nested).toJSON();
+    const parameter = viewerArn(nestedTemplate).Ref;
+    expect(nestedTemplate.Parameters[parameter].Type).toBe('String');
+    expect(own.Resources[owner.getLogicalId(nested.nestedStackResource!)].Properties.Parameters[parameter]).toEqual(
+      localRef,
+    );
+    expect(owner.dependencies).not.toContain(consumer);
+    expect(owner.dependencies).not.toContain(second);
+    for (const template of [...assembly.stacks.map(stack => stack.template), nestedTemplate]) {
+      for (const resource of Object.values(template.Resources ?? {}) as any[]) {
+        expect(resource.Type).not.toMatch(
+          /^(AWS::Lambda::|AWS::IAM::|AWS::Logs::|Custom::|AWS::CloudFormation::CustomResource)/,
+        );
+      }
+    }
+  });
 });
