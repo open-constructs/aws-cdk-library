@@ -290,6 +290,380 @@ The S3 bucket that stores the cost report.
 ---
 
 
+### DnsValidatedCertificateV2 <a name="DnsValidatedCertificateV2" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2"></a>
+
+- *Implements:* aws-cdk-lib.aws_certificatemanager.ICertificate
+
+A native DNS-validated ACM certificate in a specific region.
+
+The construct creates `AWS::CertificateManager::Certificate` directly. If
+the requested certificate region differs from the containing stack region,
+it creates or uses a certificate stack and returns the ARN through a weak
+`Fn::GetStackOutput` reference.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+new aws_certificatemanager.DnsValidatedCertificateV2(scope: Construct, id: string, props: DnsValidatedCertificateV2Props)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer.parameter.props">props</a></code> | <code>@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer.parameter.props"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply a removal policy to the native certificate resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.metricDaysToExpiry">metricDaysToExpiry</a></code> | Return the ACM `DaysToExpiry` metric in the certificate region. |
+
+---
+
+##### `toString` <a name="toString" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply a removal policy to the native certificate resource.
+
+###### `policy`<sup>Required</sup> <a name="policy" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `metricDaysToExpiry` <a name="metricDaysToExpiry" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.metricDaysToExpiry"></a>
+
+```typescript
+public metricDaysToExpiry(props?: MetricOptions): Metric
+```
+
+Return the ACM `DaysToExpiry` metric in the certificate region.
+
+###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.metricDaysToExpiry.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.fromCertificateAttributes">fromCertificateAttributes</a></code> | Import an existing certificate without adopting it or creating resources. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isDnsValidatedCertificateV2">isDnsValidatedCertificateV2</a></code> | Return whether an object is a `DnsValidatedCertificateV2`. |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isConstruct"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+aws_certificatemanager.DnsValidatedCertificateV2.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isOwnedResource` <a name="isOwnedResource" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isOwnedResource"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+aws_certificatemanager.DnsValidatedCertificateV2.isOwnedResource(construct: IConstruct)
+```
+
+Returns true if the construct was created by CDK, and false otherwise.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isOwnedResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `isResource` <a name="isResource" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isResource"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+aws_certificatemanager.DnsValidatedCertificateV2.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `fromCertificateAttributes` <a name="fromCertificateAttributes" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.fromCertificateAttributes"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+aws_certificatemanager.DnsValidatedCertificateV2.fromCertificateAttributes(scope: Construct, id: string, attrs: DnsValidatedCertificateV2Attributes)
+```
+
+Import an existing certificate without adopting it or creating resources.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.fromCertificateAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.fromCertificateAttributes.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.fromCertificateAttributes.parameter.attrs"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Attributes
+
+---
+
+##### `isDnsValidatedCertificateV2` <a name="isDnsValidatedCertificateV2" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isDnsValidatedCertificateV2"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+aws_certificatemanager.DnsValidatedCertificateV2.isDnsValidatedCertificateV2(value: any)
+```
+
+Return whether an object is a `DnsValidatedCertificateV2`.
+
+###### `value`<sup>Required</sup> <a name="value" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isDnsValidatedCertificateV2.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateArn">certificateArn</a></code> | <code>string</code> | The ARN of the certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateRef">certificateRef</a></code> | <code>aws-cdk-lib.interfaces.aws_certificatemanager.CertificateReference</code> | A public ACM resource reference. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateRegion">certificateRegion</a></code> | <code>string</code> | The region in which the certificate is created. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateStack">certificateStack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack that owns the native ACM certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.tags">tags</a></code> | <code>aws-cdk-lib.TagManager</code> | Tag manager for the native ACM certificate. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `certificateArn`<sup>Required</sup> <a name="certificateArn" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateArn"></a>
+
+```typescript
+public readonly certificateArn: string;
+```
+
+- *Type:* string
+
+The ARN of the certificate.
+
+---
+
+##### `certificateRef`<sup>Required</sup> <a name="certificateRef" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateRef"></a>
+
+```typescript
+public readonly certificateRef: CertificateReference;
+```
+
+- *Type:* aws-cdk-lib.interfaces.aws_certificatemanager.CertificateReference
+
+A public ACM resource reference.
+
+---
+
+##### `certificateRegion`<sup>Required</sup> <a name="certificateRegion" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateRegion"></a>
+
+```typescript
+public readonly certificateRegion: string;
+```
+
+- *Type:* string
+
+The region in which the certificate is created.
+
+---
+
+##### `certificateStack`<sup>Required</sup> <a name="certificateStack" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateStack"></a>
+
+```typescript
+public readonly certificateStack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack that owns the native ACM certificate.
+
+---
+
+##### `tags`<sup>Required</sup> <a name="tags" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.tags"></a>
+
+```typescript
+public readonly tags: TagManager;
+```
+
+- *Type:* aws-cdk-lib.TagManager
+
+Tag manager for the native ACM certificate.
+
+---
+
+
 ### Domain <a name="Domain" id="@open-constructs/aws-cdk.aws_codeartifact.Domain"></a>
 
 - *Implements:* @open-constructs/aws-cdk.aws_codeartifact.IDomain
@@ -4788,6 +5162,267 @@ public readonly minimum: number;
 - *Default:* no lower limit
 
 The lower limit for data storage the cache is set to use.
+
+---
+
+### DnsValidatedCertificateV2Attributes <a name="DnsValidatedCertificateV2Attributes" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Attributes"></a>
+
+Attributes of an existing ACM certificate to import.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Attributes.Initializer"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+const dnsValidatedCertificateV2Attributes: aws_certificatemanager.DnsValidatedCertificateV2Attributes = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Attributes.property.certificateArn">certificateArn</a></code> | <code>string</code> | The ARN of an existing ACM certificate. |
+
+---
+
+##### `certificateArn`<sup>Required</sup> <a name="certificateArn" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Attributes.property.certificateArn"></a>
+
+```typescript
+public readonly certificateArn: string;
+```
+
+- *Type:* string
+
+The ARN of an existing ACM certificate.
+
+---
+
+### DnsValidatedCertificateV2Props <a name="DnsValidatedCertificateV2Props" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props"></a>
+
+Properties for a DNS-validated ACM certificate.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.Initializer"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+const dnsValidatedCertificateV2Props: aws_certificatemanager.DnsValidatedCertificateV2Props = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.domainName">domainName</a></code> | <code>string</code> | Fully qualified domain name to request a certificate for. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.allowExport">allowExport</a></code> | <code>boolean</code> | Whether the public certificate can be exported. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateName">certificateName</a></code> | <code>string</code> | Value for the certificate's `Name` tag. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateStack">certificateStack</a></code> | <code>aws-cdk-lib.Stack</code> | Explicit stack in which to create the certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZone">hostedZone</a></code> | <code>aws-cdk-lib.aws_route53.IHostedZone</code> | Route 53 hosted zone used to validate every certificate domain name. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZones">hostedZones</a></code> | <code>{[ key: string ]: aws-cdk-lib.aws_route53.IHostedZone}</code> | Route 53 hosted zones used to validate individual certificate domain names. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.keyAlgorithm">keyAlgorithm</a></code> | <code>aws-cdk-lib.aws_certificatemanager.KeyAlgorithm</code> | Public/private key algorithm for the certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.region">region</a></code> | <code>string</code> | Region in which to create the certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.removalPolicy">removalPolicy</a></code> | <code>aws-cdk-lib.RemovalPolicy</code> | Removal policy for the ACM certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.stackId">stackId</a></code> | <code>string</code> | ID for the generated or reused certificate stack. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.subjectAlternativeNames">subjectAlternativeNames</a></code> | <code>string[]</code> | Alternative domain names on the certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.tags">tags</a></code> | <code>{[ key: string ]: string}</code> | Tags applied directly to the certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.transparencyLoggingEnabled">transparencyLoggingEnabled</a></code> | <code>boolean</code> | Whether ACM certificate transparency logging is enabled. |
+
+---
+
+##### `domainName`<sup>Required</sup> <a name="domainName" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.domainName"></a>
+
+```typescript
+public readonly domainName: string;
+```
+
+- *Type:* string
+
+Fully qualified domain name to request a certificate for.
+
+Wildcards such as `*.example.com` are supported.
+
+---
+
+##### `allowExport`<sup>Optional</sup> <a name="allowExport" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.allowExport"></a>
+
+```typescript
+public readonly allowExport: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Whether the public certificate can be exported.
+
+Exportable public certificates incur issuance and renewal charges.
+
+---
+
+##### `certificateName`<sup>Optional</sup> <a name="certificateName" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateName"></a>
+
+```typescript
+public readonly certificateName: string;
+```
+
+- *Type:* string
+- *Default:* the construct path, truncated to 255 characters
+
+Value for the certificate's `Name` tag.
+
+---
+
+##### `certificateStack`<sup>Optional</sup> <a name="certificateStack" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateStack"></a>
+
+```typescript
+public readonly certificateStack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+- *Default:* create or reuse a generated certificate stack when needed
+
+Explicit stack in which to create the certificate.
+
+Use this when the certificate stack needs a custom synthesizer, stack name,
+permissions boundary, termination protection, or explicit lifecycle
+ownership. The stack must be in the same app and stage, account, partition,
+and requested certificate region as the containing stack.
+
+Cannot be combined with `stackId`.
+
+---
+
+##### `hostedZone`<sup>Optional</sup> <a name="hostedZone" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZone"></a>
+
+```typescript
+public readonly hostedZone: IHostedZone;
+```
+
+- *Type:* aws-cdk-lib.aws_route53.IHostedZone
+- *Default:* use hostedZones for exact per-domain validation
+
+Route 53 hosted zone used to validate every certificate domain name.
+
+Specify exactly one of `hostedZone` and `hostedZones`.
+When the certificate is created in a separate stack, the hosted zone ID
+must be concrete. Imports from `HostedZone.fromLookup()`,
+`HostedZone.fromHostedZoneId()`, and `HostedZone.fromHostedZoneAttributes()`
+satisfy that requirement.
+
+---
+
+##### `hostedZones`<sup>Optional</sup> <a name="hostedZones" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZones"></a>
+
+```typescript
+public readonly hostedZones: {[ key: string ]: IHostedZone};
+```
+
+- *Type:* {[ key: string ]: aws-cdk-lib.aws_route53.IHostedZone}
+- *Default:* use hostedZone for every domain
+
+Route 53 hosted zones used to validate individual certificate domain names.
+
+Keys are the primary domain name and every subject alternative name.
+Matching is case-insensitive and ignores one trailing dot. Specify exactly
+one of `hostedZone` and `hostedZones`.
+
+---
+
+##### `keyAlgorithm`<sup>Optional</sup> <a name="keyAlgorithm" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.keyAlgorithm"></a>
+
+```typescript
+public readonly keyAlgorithm: KeyAlgorithm;
+```
+
+- *Type:* aws-cdk-lib.aws_certificatemanager.KeyAlgorithm
+- *Default:* KeyAlgorithm.RSA_2048
+
+Public/private key algorithm for the certificate.
+
+---
+
+##### `region`<sup>Optional</sup> <a name="region" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.region"></a>
+
+```typescript
+public readonly region: string;
+```
+
+- *Type:* string
+- *Default:* us-east-1
+
+Region in which to create the certificate.
+
+---
+
+##### `removalPolicy`<sup>Optional</sup> <a name="removalPolicy" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.removalPolicy"></a>
+
+```typescript
+public readonly removalPolicy: RemovalPolicy;
+```
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+- *Default:* RemovalPolicy.DESTROY
+
+Removal policy for the ACM certificate.
+
+---
+
+##### `stackId`<sup>Optional</sup> <a name="stackId" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.stackId"></a>
+
+```typescript
+public readonly stackId: string;
+```
+
+- *Type:* string
+- *Default:* `dns-validated-certificate-stack-${containingStack.node.addr}-${region}`
+
+ID for the generated or reused certificate stack.
+
+Supplying this property creates or reuses a separate stack even when the
+containing stack is already in the requested certificate region.
+
+Cannot be combined with `certificateStack`.
+
+---
+
+##### `subjectAlternativeNames`<sup>Optional</sup> <a name="subjectAlternativeNames" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.subjectAlternativeNames"></a>
+
+```typescript
+public readonly subjectAlternativeNames: string[];
+```
+
+- *Type:* string[]
+- *Default:* no subject alternative names
+
+Alternative domain names on the certificate.
+
+---
+
+##### `tags`<sup>Optional</sup> <a name="tags" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.tags"></a>
+
+```typescript
+public readonly tags: {[ key: string ]: string};
+```
+
+- *Type:* {[ key: string ]: string}
+- *Default:* no explicit certificate tags
+
+Tags applied directly to the certificate.
+
+These work in both same-stack and separate-stack modes. Standard
+`Tags.of(certificate).add()` calls are also supported.
+
+---
+
+##### `transparencyLoggingEnabled`<sup>Optional</sup> <a name="transparencyLoggingEnabled" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.transparencyLoggingEnabled"></a>
+
+```typescript
+public readonly transparencyLoggingEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Whether ACM certificate transparency logging is enabled.
 
 ---
 

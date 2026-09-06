@@ -25,6 +25,9 @@ tsconfig.tsbuildinfo
 /.eslintrc.json
 !.jsii
 /.plans/
+/cdk.context.json
+/cdk.out*/
+/.env*
 /.gitattributes
 /.projenrc.ts
 /projenrc
