@@ -21,8 +21,9 @@ To get started with the Open Constructs Library, you'll need to have Node.js and
 
 ### Prerequisites
 
-- Node.js (version 18.x or later)
-- AWS CDK (version 2.120.0 or later)
+- Node.js (version 22.0.0 or later)
+- AWS CDK library (version 2.268.0 or later)
+- Constructs (version 10.8.1 or later)
 
 ### Installation
 
