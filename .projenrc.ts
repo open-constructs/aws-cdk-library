@@ -2,14 +2,17 @@ import { ReleasableCommits, awscdk, github, javascript, release } from 'projen';
 import { ArrowParens, NodePackageManager } from 'projen/lib/javascript';
 import { SubPathExports } from './projenrc/sub-path-exports';
 
-let cdkVersion = '2.168.0';
+const cdkVersion = '2.268.0';
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Open Construct Foundation',
   authorAddress: 'thorsten.hoeger@taimos.de',
   cdkVersion: cdkVersion,
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.7.0',
-  constructsVersion: '10.3.0',
+  jsiiVersion: '~6.0.0',
+  typescriptVersion: '~6.0.0',
+  tsconfigDev: { compilerOptions: { types: ['node', 'jest'], rootDir: '.' } },
+  jestOptions: { jestConfig: { maxWorkers: 1 } },
+  constructsVersion: '10.8.1',
   name: '@open-constructs/aws-cdk',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/open-constructs/aws-cdk-library.git',
@@ -66,8 +69,8 @@ Closes #<issue number here>.
     distName: 'open-constructs-aws-cdk',
     module: 'open_constructs_aws_cdk',
   },
-  workflowNodeVersion: '18.x',
-  minNodeVersion: '18.0.0',
+  workflowNodeVersion: '24.x',
+  minNodeVersion: '22.0.0',
   // publishToMaven: {
   //   mavenGroupId: 'org.open-constructs',
   //   mavenArtifactId: 'aws-cdk',
@@ -77,7 +80,7 @@ Closes #<issue number here>.
   //   packageId: 'OpenConstructs.AwsCdk',
   //   dotNetNamespace: 'OpenConstructs.AwsCdk',
   // },
-  devDeps: [`@aws-cdk/integ-runner@${cdkVersion}-alpha.0`, `@aws-cdk/integ-tests-alpha@${cdkVersion}-alpha.0`],
+  devDeps: ['@aws-cdk/integ-runner@2.205.1', `@aws-cdk/integ-tests-alpha@${cdkVersion}-alpha.0`, 'ts-jest@^29.4.12'],
   eslintOptions: {
     dirs: ['src', 'test'],
     prettier: true,
@@ -108,5 +111,14 @@ project.addTask('integ:update', {
 });
 
 new SubPathExports(project);
+
+// These releases support the jsii 6 / TypeScript 6 compiler family.
+project.addDevDeps(
+  'ts-jest@^29.4.12',
+  'jsii-docgen@^10.12.6',
+  '@typescript-eslint/parser@^8.69.0',
+  '@typescript-eslint/eslint-plugin@^8.69.0',
+);
+project.npmignore?.addPatterns('/.plans/', '/cdk.context.json', '/cdk.out*/', '/.env*');
 
 project.synth();

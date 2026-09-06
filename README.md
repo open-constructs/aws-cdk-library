@@ -17,12 +17,13 @@ By leveraging the power of AWS CDK, our library offers developers a wide range o
 
 ## Getting Started
 
-To get started with the Open Constructs Library, you'll need to have Node.js and the AWS CDK installed on your machine (Other languages will follow very soon). Follow these steps to set up your project.
+To get started with the Open Constructs Library, you'll need Node.js and the AWS CDK. JavaScript/TypeScript and Python packages are provided. Follow these steps to set up your JavaScript project.
 
 ### Prerequisites
 
-- Node.js (version 18.x or later)
-- AWS CDK (version 2.120.0 or later)
+- Node.js (version 22.0.0 or later)
+- AWS CDK library (version 2.268.0 or later)
+- Constructs (version 10.8.1 or later)
 
 ### Installation
 
@@ -35,7 +36,7 @@ npm install @open-constructs/aws-cdk
 2. Import the constructs you need in your CDK stack:
 
 ```typescript
-import { SomeConstruct } from '@open-constructs/aws-cdk';
+import { DnsValidatedCertificateV2 } from '@open-constructs/aws-cdk/aws-certificatemanager';
 ```
 
 3. Follow the library documentation to see how to use the constructs in your application.
@@ -43,6 +44,8 @@ import { SomeConstruct } from '@open-constructs/aws-cdk';
 ## Documentation
 
 For more detailed documentation, including API references and examples, please visit our [documentation site](./API.md).
+
+For native DNS-validated certificates, including CloudFront certificates in another region, see the [ACM module guide](./src/aws-certificatemanager/README.md).
 
 ## Contributing
 

@@ -58,6 +58,8 @@ new aws_cur.CostReport(scope: Construct, id: string, props: CostReportProps)
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 
 ---
@@ -69,6 +71,47 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_cur.CostReport.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_cur.CostReport.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_cur.CostReport.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_cur.CostReport.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
 
 ##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_cur.CostReport.applyRemovalPolicy"></a>
 
@@ -171,7 +214,7 @@ Check whether the given construct is a Resource.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.costReportName">costReportName</a></code> | <code>string</code> | The name of the cost report. |
 | <code><a href="#@open-constructs/aws-cdk.aws_cur.CostReport.property.reportBucket">reportBucket</a></code> | <code>aws-cdk-lib.aws_s3.IBucket</code> | The S3 bucket that stores the cost report. |
@@ -196,16 +239,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -242,6 +286,395 @@ public readonly reportBucket: IBucket;
 - *Type:* aws-cdk-lib.aws_s3.IBucket
 
 The S3 bucket that stores the cost report.
+
+---
+
+
+### DnsValidatedCertificateV2 <a name="DnsValidatedCertificateV2" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2"></a>
+
+- *Implements:* aws-cdk-lib.aws_certificatemanager.ICertificate
+
+A native DNS-validated ACM certificate in a specific region.
+
+The construct creates `AWS::CertificateManager::Certificate` directly. If
+the requested certificate region differs from the containing stack region,
+it creates or uses a certificate stack and returns the ARN through a weak
+`Fn::GetStackOutput` reference.
+
+#### Initializers <a name="Initializers" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+new aws_certificatemanager.DnsValidatedCertificateV2(scope: Construct, id: string, props: DnsValidatedCertificateV2Props)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer.parameter.id">id</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer.parameter.props">props</a></code> | <code>@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props</code> | *No description.* |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+##### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+##### `props`<sup>Required</sup> <a name="props" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.Initializer.parameter.props"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply a removal policy to the native certificate resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.metricDaysToExpiry">metricDaysToExpiry</a></code> | Return the ACM `DaysToExpiry` metric in the certificate region. |
+
+---
+
+##### `toString` <a name="toString" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.toString"></a>
+
+```typescript
+public toString(): string
+```
+
+Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
+
+##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.applyRemovalPolicy"></a>
+
+```typescript
+public applyRemovalPolicy(policy: RemovalPolicy): void
+```
+
+Apply a removal policy to the native certificate resource.
+
+###### `policy`<sup>Required</sup> <a name="policy" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.applyRemovalPolicy.parameter.policy"></a>
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+
+---
+
+##### `metricDaysToExpiry` <a name="metricDaysToExpiry" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.metricDaysToExpiry"></a>
+
+```typescript
+public metricDaysToExpiry(props?: MetricOptions): Metric
+```
+
+Return the ACM `DaysToExpiry` metric in the certificate region.
+
+###### `props`<sup>Optional</sup> <a name="props" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.metricDaysToExpiry.parameter.props"></a>
+
+- *Type:* aws-cdk-lib.aws_cloudwatch.MetricOptions
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isOwnedResource">isOwnedResource</a></code> | Returns true if the construct was created by CDK, and false otherwise. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isResource">isResource</a></code> | Check whether the given construct is a Resource. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.fromCertificateAttributes">fromCertificateAttributes</a></code> | Import an existing certificate without adopting it or creating resources. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isDnsValidatedCertificateV2">isDnsValidatedCertificateV2</a></code> | Return whether an object is a `DnsValidatedCertificateV2`. |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isConstruct"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+aws_certificatemanager.DnsValidatedCertificateV2.isConstruct(x: any)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isConstruct.parameter.x"></a>
+
+- *Type:* any
+
+Any object.
+
+---
+
+##### `isOwnedResource` <a name="isOwnedResource" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isOwnedResource"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+aws_certificatemanager.DnsValidatedCertificateV2.isOwnedResource(construct: IConstruct)
+```
+
+Returns true if the construct was created by CDK, and false otherwise.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isOwnedResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `isResource` <a name="isResource" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isResource"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+aws_certificatemanager.DnsValidatedCertificateV2.isResource(construct: IConstruct)
+```
+
+Check whether the given construct is a Resource.
+
+###### `construct`<sup>Required</sup> <a name="construct" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isResource.parameter.construct"></a>
+
+- *Type:* constructs.IConstruct
+
+---
+
+##### `fromCertificateAttributes` <a name="fromCertificateAttributes" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.fromCertificateAttributes"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+aws_certificatemanager.DnsValidatedCertificateV2.fromCertificateAttributes(scope: Construct, id: string, attrs: DnsValidatedCertificateV2Attributes)
+```
+
+Import an existing certificate without adopting it or creating resources.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.fromCertificateAttributes.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+###### `id`<sup>Required</sup> <a name="id" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.fromCertificateAttributes.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+###### `attrs`<sup>Required</sup> <a name="attrs" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.fromCertificateAttributes.parameter.attrs"></a>
+
+- *Type:* @open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Attributes
+
+---
+
+##### `isDnsValidatedCertificateV2` <a name="isDnsValidatedCertificateV2" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isDnsValidatedCertificateV2"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+aws_certificatemanager.DnsValidatedCertificateV2.isDnsValidatedCertificateV2(value: any)
+```
+
+Return whether an object is a `DnsValidatedCertificateV2`.
+
+###### `value`<sup>Required</sup> <a name="value" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.isDnsValidatedCertificateV2.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateArn">certificateArn</a></code> | <code>string</code> | The ARN of the certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateRef">certificateRef</a></code> | <code>aws-cdk-lib.interfaces.aws_certificatemanager.CertificateReference</code> | A public ACM resource reference. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateRegion">certificateRegion</a></code> | <code>string</code> | The region in which the certificate is created. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateResource">certificateResource</a></code> | <code>aws-cdk-lib.aws_certificatemanager.CfnCertificate</code> | Native certificate in certificateStack, also exposed as node.defaultChild. Overriding this resource changes the owning stack, not the wrapper's stack. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateStack">certificateStack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack that owns the native ACM certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.tags">tags</a></code> | <code>aws-cdk-lib.TagManager</code> | Tag manager for the native ACM certificate. |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.node"></a>
+
+```typescript
+public readonly node: Node;
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+##### `env`<sup>Required</sup> <a name="env" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.env"></a>
+
+```typescript
+public readonly env: ResourceEnvironment;
+```
+
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
+
+The environment this resource belongs to.
+
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
+
+---
+
+##### `stack`<sup>Required</sup> <a name="stack" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.stack"></a>
+
+```typescript
+public readonly stack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack in which this resource is defined.
+
+---
+
+##### `certificateArn`<sup>Required</sup> <a name="certificateArn" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateArn"></a>
+
+```typescript
+public readonly certificateArn: string;
+```
+
+- *Type:* string
+
+The ARN of the certificate.
+
+Nested owners support consumers only within their top-level stack tree.
+
+---
+
+##### `certificateRef`<sup>Required</sup> <a name="certificateRef" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateRef"></a>
+
+```typescript
+public readonly certificateRef: CertificateReference;
+```
+
+- *Type:* aws-cdk-lib.interfaces.aws_certificatemanager.CertificateReference
+
+A public ACM resource reference.
+
+---
+
+##### `certificateRegion`<sup>Required</sup> <a name="certificateRegion" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateRegion"></a>
+
+```typescript
+public readonly certificateRegion: string;
+```
+
+- *Type:* string
+
+The region in which the certificate is created.
+
+---
+
+##### `certificateResource`<sup>Required</sup> <a name="certificateResource" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateResource"></a>
+
+```typescript
+public readonly certificateResource: CfnCertificate;
+```
+
+- *Type:* aws-cdk-lib.aws_certificatemanager.CfnCertificate
+
+Native certificate in certificateStack, also exposed as node.defaultChild. Overriding this resource changes the owning stack, not the wrapper's stack.
+
+---
+
+##### `certificateStack`<sup>Required</sup> <a name="certificateStack" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateStack"></a>
+
+```typescript
+public readonly certificateStack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+
+The stack that owns the native ACM certificate.
+
+---
+
+##### `tags`<sup>Required</sup> <a name="tags" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.tags"></a>
+
+```typescript
+public readonly tags: TagManager;
+```
+
+- *Type:* aws-cdk-lib.TagManager
+
+Tag manager for the native ACM certificate.
 
 ---
 
@@ -291,6 +724,8 @@ new aws_codeartifact.Domain(scope: Construct, id: string, props: DomainProps)
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.addToResourcePolicy">addToResourcePolicy</a></code> | Adds a statement to the Codeartifact domain resource policy. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.grant">grant</a></code> | Grants permissions to the specified grantee on this CodeArtifact domain. |
@@ -305,6 +740,47 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
 
 ##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_codeartifact.Domain.applyRemovalPolicy"></a>
 
@@ -539,7 +1015,7 @@ The attributes of the domain to import.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainArn">domainArn</a></code> | <code>string</code> | The ARN (Amazon Resource Name) of this CodeArtifact domain. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Domain.property.domainName">domainName</a></code> | <code>string</code> | The name of this CodeArtifact domain. |
@@ -567,16 +1043,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -711,6 +1188,8 @@ new aws_elasticache.IamUser(scope: Construct, id: string, props?: IamUserProps)
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.grant">grant</a></code> | Grant the given identity the specified actions. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.grantConnect">grantConnect</a></code> | Permits an IAM principal to perform connect to the user. |
@@ -724,6 +1203,47 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_elasticache.IamUser.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_elasticache.IamUser.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_elasticache.IamUser.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_elasticache.IamUser.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
 
 ##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_elasticache.IamUser.applyRemovalPolicy"></a>
 
@@ -901,7 +1421,7 @@ Imports an existing IAM-enabled user from userId.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IamUser.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
@@ -927,16 +1447,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -1053,6 +1574,8 @@ new aws_ec2.InstanceConnectEndpoint(scope: Construct, id: string, props: Instanc
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 
 ---
@@ -1064,6 +1587,47 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
 
 ##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.applyRemovalPolicy"></a>
 
@@ -1195,7 +1759,7 @@ Import an existing endpoint to the stack from its attributes.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The connection object associated with the EC2 Instance Connect Endpoint. |
 | <code><a href="#@open-constructs/aws-cdk.aws_ec2.InstanceConnectEndpoint.property.instanceConnectEndpointId">instanceConnectEndpointId</a></code> | <code>string</code> | The ID of the EC2 Instance Connect Endpoint. |
@@ -1220,16 +1784,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -1328,6 +1893,8 @@ new aws_redshiftserverless.Namespace(scope: Construct, id: string, props: Namesp
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.addIamRole">addIamRole</a></code> | Adds a role to the namespace. |
 
@@ -1340,6 +1907,47 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
 
 ##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.applyRemovalPolicy"></a>
 
@@ -1487,7 +2095,7 @@ Imports an existing Namespace from attributes.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.property.namespaceArn">namespaceArn</a></code> | <code>string</code> | The namespace Arn. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Namespace.property.namespaceId">namespaceId</a></code> | <code>string</code> | The namespace id. |
@@ -1513,16 +2121,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -1634,6 +2243,8 @@ new aws_elasticache.NoPasswordRequiredUser(scope: Construct, id: string, props?:
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 
 ---
@@ -1645,6 +2256,47 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
 
 ##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.applyRemovalPolicy"></a>
 
@@ -1776,7 +2428,7 @@ Imports an existing no password required user from attributes.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.NoPasswordRequiredUser.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
@@ -1802,16 +2454,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -1909,6 +2562,8 @@ new aws_fsx.OntapFileSystem(scope: Construct, id: string, props: OntapFileSystem
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 
 ---
@@ -1920,6 +2575,47 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
 
 ##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.applyRemovalPolicy"></a>
 
@@ -2051,7 +2747,7 @@ Import an existing FSx for NetApp ONTAP file system from the given properties.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The security groups/rules used to allow network connections to the file system. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystem.property.dnsName">dnsName</a></code> | <code>string</code> | The management endpoint DNS name assigned to this file system. |
@@ -2078,16 +2774,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -2213,6 +2910,8 @@ new aws_elasticache.PasswordUser(scope: Construct, id: string, props: PasswordUs
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 
 ---
@@ -2224,6 +2923,47 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUser.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUser.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUser.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUser.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
 
 ##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_elasticache.PasswordUser.applyRemovalPolicy"></a>
 
@@ -2355,7 +3095,7 @@ Imports an existing password authentication user from attributes.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.generatedSecret">generatedSecret</a></code> | <code>aws-cdk-lib.aws_secretsmanager.ISecret</code> | The secret containing the generated password. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.PasswordUser.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
@@ -2382,16 +3122,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -2503,6 +3244,8 @@ new aws_codeartifact.Repository(scope: Construct, id: string, props: RepositoryP
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.addToResourcePolicy">addToResourcePolicy</a></code> | Adds a statement to the CodeArtifact repository resource policy. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.grant">grant</a></code> | Grants permissions to the specified grantee on this CodeArtifact repository. |
@@ -2518,6 +3261,47 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
 
 ##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_codeartifact.Repository.applyRemovalPolicy"></a>
 
@@ -2762,7 +3546,7 @@ The attributes of the repository to import.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.domain">domain</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.IDomain</code> | The domain that contains this repository. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.Repository.property.repositoryArn">repositoryArn</a></code> | <code>string</code> | The ARN (Amazon Resource Name) of this CodeArtifact repository. |
@@ -2790,16 +3574,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -2938,6 +3723,8 @@ new aws_elasticache.ServerlessCache(scope: Construct, id: string, props: Serverl
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.grant">grant</a></code> | Grant the given identity the specified actions. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.grantConnect">grantConnect</a></code> | Permits an IAM principal to perform connect to the serverless cache. |
@@ -2954,6 +3741,47 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
 
 ##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.applyRemovalPolicy"></a>
 
@@ -3185,7 +4013,7 @@ Imports an existing ServerlessCache from attributes.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The connection object associated with the ElastiCache Serverless Cache. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.ServerlessCache.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
@@ -3213,16 +4041,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -3359,6 +4188,8 @@ new aws_elasticache.UserGroup(scope: Construct, id: string, props: UserGroupProp
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.addUser">addUser</a></code> | Adds a user to the user group. |
 
@@ -3371,6 +4202,47 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_elasticache.UserGroup.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_elasticache.UserGroup.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_elasticache.UserGroup.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_elasticache.UserGroup.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
 
 ##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_elasticache.UserGroup.applyRemovalPolicy"></a>
 
@@ -3518,7 +4390,7 @@ Imports an existing user group from attributes.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.property.userGroupArn">userGroupArn</a></code> | <code>string</code> | The ARN of the user group. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.UserGroup.property.userGroupId">userGroupId</a></code> | <code>string</code> | The ID of the user group. |
@@ -3543,16 +4415,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -3656,6 +4529,8 @@ new aws_redshiftserverless.Workgroup(scope: Construct, id: string, props: Workgr
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.with">with</a></code> | Applies one or more mixins to this construct. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.applyCrossStackReferenceStrength">applyCrossStackReferenceStrength</a></code> | Override the cross-stack reference strength for this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.applyRemovalPolicy">applyRemovalPolicy</a></code> | Apply the given removal policy to this resource. |
 
 ---
@@ -3667,6 +4542,47 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+---
+
+##### `applyCrossStackReferenceStrength` <a name="applyCrossStackReferenceStrength" id="@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.applyCrossStackReferenceStrength"></a>
+
+```typescript
+public applyCrossStackReferenceStrength(strength: ReferenceStrength): void
+```
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+###### `strength`<sup>Required</sup> <a name="strength" id="@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.applyCrossStackReferenceStrength.parameter.strength"></a>
+
+- *Type:* aws-cdk-lib.ReferenceStrength
+
+The reference strength to use for this resource.
+
+---
 
 ##### `applyRemovalPolicy` <a name="applyRemovalPolicy" id="@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.applyRemovalPolicy"></a>
 
@@ -3798,7 +4714,7 @@ Import an existing workgroup to the stack from its attributes.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The connection object associated with the Redshift Serverless Workgroup. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.Workgroup.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The workgroup endpoint address. |
@@ -3827,16 +4743,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -4260,6 +5177,244 @@ public readonly minimum: number;
 - *Default:* no lower limit
 
 The lower limit for data storage the cache is set to use.
+
+---
+
+### DnsValidatedCertificateV2Attributes <a name="DnsValidatedCertificateV2Attributes" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Attributes"></a>
+
+Attributes of an existing ACM certificate to import.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Attributes.Initializer"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+const dnsValidatedCertificateV2Attributes: aws_certificatemanager.DnsValidatedCertificateV2Attributes = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Attributes.property.certificateArn">certificateArn</a></code> | <code>string</code> | The ARN of an existing ACM certificate. |
+
+---
+
+##### `certificateArn`<sup>Required</sup> <a name="certificateArn" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Attributes.property.certificateArn"></a>
+
+```typescript
+public readonly certificateArn: string;
+```
+
+- *Type:* string
+
+The ARN of an existing ACM certificate.
+
+---
+
+### DnsValidatedCertificateV2Props <a name="DnsValidatedCertificateV2Props" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props"></a>
+
+Properties for a DNS-validated ACM certificate.
+
+#### Initializer <a name="Initializer" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.Initializer"></a>
+
+```typescript
+import { aws_certificatemanager } from '@open-constructs/aws-cdk'
+
+const dnsValidatedCertificateV2Props: aws_certificatemanager.DnsValidatedCertificateV2Props = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.domainName">domainName</a></code> | <code>string</code> | Fully qualified domain name to request a certificate for. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.allowExport">allowExport</a></code> | <code>boolean</code> | Whether the public certificate can be exported. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateName">certificateName</a></code> | <code>string</code> | Value for the certificate's `Name` tag. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateRegion">certificateRegion</a></code> | <code>string</code> | Concrete region in which to create the certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateStack">certificateStack</a></code> | <code>aws-cdk-lib.Stack</code> | Explicit stack in which to create the certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZone">hostedZone</a></code> | <code>aws-cdk-lib.aws_route53.IHostedZone</code> | Route 53 hosted zone used to validate every certificate domain name. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZonesByDomain">hostedZonesByDomain</a></code> | <code>{[ key: string ]: aws-cdk-lib.aws_route53.IHostedZone}</code> | Route 53 hosted zones used to validate individual certificate domain names. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.keyAlgorithm">keyAlgorithm</a></code> | <code>aws-cdk-lib.aws_certificatemanager.KeyAlgorithm</code> | Public/private key algorithm for the certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.removalPolicy">removalPolicy</a></code> | <code>aws-cdk-lib.RemovalPolicy</code> | Removal policy for the ACM certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.subjectAlternativeNames">subjectAlternativeNames</a></code> | <code>string[]</code> | Alternative domain names on the certificate. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.transparencyLoggingEnabled">transparencyLoggingEnabled</a></code> | <code>boolean</code> | Whether ACM certificate transparency logging is enabled. |
+
+---
+
+##### `domainName`<sup>Required</sup> <a name="domainName" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.domainName"></a>
+
+```typescript
+public readonly domainName: string;
+```
+
+- *Type:* string
+
+Fully qualified domain name to request a certificate for.
+
+Wildcards such as `*.example.com` are supported. Scalar tokens must be
+valid in the native owner; consumer-owned parameters can create cycles.
+
+---
+
+##### `allowExport`<sup>Optional</sup> <a name="allowExport" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.allowExport"></a>
+
+```typescript
+public readonly allowExport: boolean;
+```
+
+- *Type:* boolean
+- *Default:* false
+
+Whether the public certificate can be exported.
+
+Exportable public certificates incur issuance and renewal charges.
+
+---
+
+##### `certificateName`<sup>Optional</sup> <a name="certificateName" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateName"></a>
+
+```typescript
+public readonly certificateName: string;
+```
+
+- *Type:* string
+- *Default:* the construct path, truncated to 255 characters
+
+Value for the certificate's `Name` tag.
+
+---
+
+##### `certificateRegion`<sup>Optional</sup> <a name="certificateRegion" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateRegion"></a>
+
+```typescript
+public readonly certificateRegion: string;
+```
+
+- *Type:* string
+- *Default:* the containing stack's region
+
+Concrete region in which to create the certificate.
+
+Cannot be combined with `certificateStack`. Omit this property for an
+environment-agnostic same-stack certificate. CloudFront requires us-east-1.
+
+---
+
+##### `certificateStack`<sup>Optional</sup> <a name="certificateStack" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateStack"></a>
+
+```typescript
+public readonly certificateStack: Stack;
+```
+
+- *Type:* aws-cdk-lib.Stack
+- *Default:* create or reuse a generated certificate stack when needed
+
+Explicit stack in which to create the certificate.
+
+Use this when the certificate stack needs a custom synthesizer, stack name,
+permissions boundary, termination protection, or explicit lifecycle
+ownership. The stack must be in the same app/stage, account, and partition
+as the containing stack. Its region determines the certificate region.
+
+Nested owners support consumers only within their top-level stack tree.
+Use a top-level owner for sharing outside that tree.
+Cannot be combined with `certificateRegion`.
+
+---
+
+##### `hostedZone`<sup>Optional</sup> <a name="hostedZone" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZone"></a>
+
+```typescript
+public readonly hostedZone: IHostedZone;
+```
+
+- *Type:* aws-cdk-lib.aws_route53.IHostedZone
+- *Default:* use hostedZonesByDomain for exact per-domain validation
+
+Route 53 hosted zone used to validate every certificate domain name.
+
+Specify exactly one of `hostedZone` and `hostedZonesByDomain`.
+A separate owner requires a concrete zone ID or a native public hosted
+zone created in that owner. Imported token scope does not prove ownership.
+Public delegation and actual account ownership remain caller preconditions.
+
+---
+
+##### `hostedZonesByDomain`<sup>Optional</sup> <a name="hostedZonesByDomain" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZonesByDomain"></a>
+
+```typescript
+public readonly hostedZonesByDomain: {[ key: string ]: IHostedZone};
+```
+
+- *Type:* {[ key: string ]: aws-cdk-lib.aws_route53.IHostedZone}
+- *Default:* use hostedZone for every domain
+
+Route 53 hosted zones used to validate individual certificate domain names.
+
+Keys are the primary domain name and every subject alternative name.
+Matching is case-insensitive and ignores one trailing dot. Specify exactly
+one of `hostedZone` and `hostedZonesByDomain`. Apex and wildcard names
+require distinct keys. There is no suffix matching or implicit SAN creation.
+Names and the SAN list must be concrete in this mode.
+
+---
+
+##### `keyAlgorithm`<sup>Optional</sup> <a name="keyAlgorithm" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.keyAlgorithm"></a>
+
+```typescript
+public readonly keyAlgorithm: KeyAlgorithm;
+```
+
+- *Type:* aws-cdk-lib.aws_certificatemanager.KeyAlgorithm
+- *Default:* KeyAlgorithm.RSA_2048
+
+Public/private key algorithm for the certificate.
+
+---
+
+##### `removalPolicy`<sup>Optional</sup> <a name="removalPolicy" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.removalPolicy"></a>
+
+```typescript
+public readonly removalPolicy: RemovalPolicy;
+```
+
+- *Type:* aws-cdk-lib.RemovalPolicy
+- *Default:* RemovalPolicy.DESTROY
+
+Removal policy for the ACM certificate.
+
+---
+
+##### `subjectAlternativeNames`<sup>Optional</sup> <a name="subjectAlternativeNames" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.subjectAlternativeNames"></a>
+
+```typescript
+public readonly subjectAlternativeNames: string[];
+```
+
+- *Type:* string[]
+- *Default:* no subject alternative names
+
+Alternative domain names on the certificate.
+
+Single-zone validation supports fixed arrays of scalar tokens and lists
+whose length resolves during synthesis. Resolved names are normalized and
+checked for duplicates and zone authority. Opaque deployment-time lists
+are unsupported. Empty or absent resolved lists omit the native SAN
+property. Exact multi-zone mapping requires concrete names.
+
+---
+
+##### `transparencyLoggingEnabled`<sup>Optional</sup> <a name="transparencyLoggingEnabled" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.transparencyLoggingEnabled"></a>
+
+```typescript
+public readonly transparencyLoggingEnabled: boolean;
+```
+
+- *Type:* boolean
+- *Default:* true
+
+Whether ACM certificate transparency logging is enabled.
 
 ---
 
@@ -5212,7 +6367,7 @@ const ontapFileSystemProps: aws_fsx.OntapFileSystemProps = { ... }
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.storageCapacityGiB">storageCapacityGiB</a></code> | <code>number</code> | The storage capacity of the file system being created. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.vpc">vpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | The VPC to launch the file system in. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.backupId">backupId</a></code> | <code>string</code> | The ID of the backup. |
-| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.kmsKey">kmsKey</a></code> | <code>aws-cdk-lib.aws_kms.IKey</code> | The KMS key used for encryption to protect your data at rest. |
+| <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.kmsKey">kmsKey</a></code> | <code>aws-cdk-lib.interfaces.aws_kms.IKeyRef</code> | The KMS key used for encryption to protect your data at rest. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.removalPolicy">removalPolicy</a></code> | <code>aws-cdk-lib.RemovalPolicy</code> | Policy to apply when the file system is removed from the stack. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.securityGroup">securityGroup</a></code> | <code>aws-cdk-lib.aws_ec2.ISecurityGroup</code> | Security Group to assign to this file system. |
 | <code><a href="#@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.storageType">storageType</a></code> | <code>aws-cdk-lib.aws_fsx.StorageType</code> | The storage type for the file system that you're creating. |
@@ -5268,10 +6423,10 @@ Specifies the backup to use if you're creating a file system from an existing ba
 ##### `kmsKey`<sup>Optional</sup> <a name="kmsKey" id="@open-constructs/aws-cdk.aws_fsx.OntapFileSystemProps.property.kmsKey"></a>
 
 ```typescript
-public readonly kmsKey: IKey;
+public readonly kmsKey: IKeyRef;
 ```
 
-- *Type:* aws-cdk-lib.aws_kms.IKey
+- *Type:* aws-cdk-lib.interfaces.aws_kms.IKeyRef
 - *Default:* the aws/fsx default KMS key for the AWS account being deployed into.
 
 The KMS key used for encryption to protect your data at rest.
@@ -7441,7 +8596,7 @@ The principal to grant contribute permissions to.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.domainArn">domainArn</a></code> | <code>string</code> | The ARN of the Domain. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IDomain.property.domainName">domainName</a></code> | <code>string</code> | The name of the Domain. |
@@ -7469,16 +8624,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -7610,7 +8766,7 @@ Grant connect permissions to this user.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IIamUser.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IIamUser.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IIamUser.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IIamUser.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IIamUser.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IIamUser.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
@@ -7636,16 +8792,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -7712,7 +8869,7 @@ An EC2 Instance Connect Endpoint.
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_ec2.IInstanceConnectEndpoint.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The network connections associated with this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_ec2.IInstanceConnectEndpoint.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_ec2.IInstanceConnectEndpoint.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_ec2.IInstanceConnectEndpoint.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_ec2.IInstanceConnectEndpoint.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_ec2.IInstanceConnectEndpoint.property.instanceConnectEndpointId">instanceConnectEndpointId</a></code> | <code>string</code> | The ID of the EC2 Instance Connect Endpoint. |
 
@@ -7748,16 +8905,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -7799,7 +8957,7 @@ A Redshift Serverless Namespace.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.namespaceArn">namespaceArn</a></code> | <code>string</code> | The namespace ARN. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.INamespace.property.namespaceId">namespaceId</a></code> | <code>string</code> | The namespace id. |
@@ -7825,16 +8983,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -7900,7 +9059,7 @@ Interface for no password required users.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.INoPasswordRequiredUser.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.INoPasswordRequiredUser.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.INoPasswordRequiredUser.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.INoPasswordRequiredUser.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.INoPasswordRequiredUser.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.INoPasswordRequiredUser.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
@@ -7926,16 +9085,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -8001,7 +9161,7 @@ Interface for password-authenticated users.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IPasswordUser.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IPasswordUser.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IPasswordUser.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IPasswordUser.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IPasswordUser.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IPasswordUser.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
@@ -8027,16 +9187,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -8184,7 +9345,7 @@ The principal to grant permissions to.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.domain">domain</a></code> | <code>@open-constructs/aws-cdk.aws_codeartifact.IDomain</code> | The domain that contains the repository. |
 | <code><a href="#@open-constructs/aws-cdk.aws_codeartifact.IRepository.property.repositoryArn">repositoryArn</a></code> | <code>string</code> | The ARN of the repository. |
@@ -8212,16 +9373,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -8374,7 +9536,7 @@ Create a CloudWatch metric.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The network connections associated with this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IServerlessCache.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The DNS hostname of the cache node. |
@@ -8402,16 +9564,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -8501,7 +9664,7 @@ Interface for a User.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUser.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUser.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUser.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUser.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUser.property.userArn">userArn</a></code> | <code>string</code> | The ARN of the user. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUser.property.userId">userId</a></code> | <code>string</code> | The ID of the user. |
@@ -8527,16 +9690,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -8602,7 +9766,7 @@ Interface for a User Group.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUserGroup.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUserGroup.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUserGroup.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUserGroup.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUserGroup.property.userGroupArn">userGroupArn</a></code> | <code>string</code> | The ARN of the user group. |
 | <code><a href="#@open-constructs/aws-cdk.aws_elasticache.IUserGroup.property.userGroupId">userGroupId</a></code> | <code>string</code> | The ID of the user group. |
@@ -8627,16 +9791,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
@@ -8690,7 +9855,7 @@ A Redshift Serverless Workgroup.
 | **Name** | **Type** | **Description** |
 | --- | --- | --- |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup.property.env">env</a></code> | <code>aws-cdk-lib.ResourceEnvironment</code> | The environment this resource belongs to. |
+| <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup.property.env">env</a></code> | <code>aws-cdk-lib.interfaces.ResourceEnvironment</code> | The environment this resource belongs to. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup.property.stack">stack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack in which this resource is defined. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup.property.connections">connections</a></code> | <code>aws-cdk-lib.aws_ec2.Connections</code> | The network connections associated with this resource. |
 | <code><a href="#@open-constructs/aws-cdk.aws_redshiftserverless.IWorkgroup.property.endpointAddress">endpointAddress</a></code> | <code>string</code> | The workgroup endpoint address. |
@@ -8719,16 +9884,17 @@ The tree node.
 public readonly env: ResourceEnvironment;
 ```
 
-- *Type:* aws-cdk-lib.ResourceEnvironment
+- *Type:* aws-cdk-lib.interfaces.ResourceEnvironment
 
 The environment this resource belongs to.
 
-For resources that are created and managed by the CDK
-(generally, those created by creating new class instances like Role, Bucket, etc.),
-this is always the same as the environment of the stack they belong to;
-however, for imported resources
-(those obtained from static methods like fromRoleArn, fromBucketName, etc.),
-that might be different than the stack they were imported into.
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
 
 ---
 
