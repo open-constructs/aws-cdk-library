@@ -5396,7 +5396,8 @@ Alternative domain names on the certificate.
 Single-zone validation supports fixed arrays of scalar tokens and lists
 whose length resolves during synthesis. Resolved names are normalized and
 checked for duplicates and zone authority. Opaque deployment-time lists
-are unsupported. Exact multi-zone mapping requires concrete names.
+are unsupported. Empty or absent resolved lists omit the native SAN
+property. Exact multi-zone mapping requires concrete names.
 
 ---
 

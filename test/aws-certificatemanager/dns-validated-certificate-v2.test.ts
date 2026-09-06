@@ -4,6 +4,7 @@ import {
   CfnOutput,
   CfnParameter,
   Duration,
+  Fn,
   Lazy,
   NestedStack,
   RemovalPolicy,
@@ -1775,5 +1776,74 @@ describe('producer reference strength across shared consumption contexts', () =>
         );
       }
     }
+  });
+});
+
+describe('optional lazy SAN absence', () => {
+  const forms = {
+    omitted: () => undefined,
+    empty: () => [],
+    lazyEmpty: () => Lazy.list({ produce: () => [] }),
+    omitEmpty: () => Lazy.list({ produce: () => [] }, { omitEmpty: true }),
+    lazyUndefined: () => Lazy.list({ produce: () => undefined }),
+  };
+  test.each(
+    Object.entries(forms).flatMap(([name, produce]) => [false, true].map(separate => ({ name, produce, separate }))),
+  )('omits native SANs for $name, separate=$separate', ({ produce, separate }) => {
+    const { stack, hostedZone } = crossRegionFixture();
+    const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      domainName: 'WWW.Example.COM.',
+      hostedZone,
+      ...(separate ? { certificateRegion: 'us-east-1' } : {}),
+      subjectAlternativeNames: produce(),
+    });
+    Template.fromStack(certificate.certificateStack).hasResourceProperties('AWS::CertificateManager::Certificate', {
+      DomainName: 'www.example.com',
+      SubjectAlternativeNames: Match.absent(),
+      DomainValidationOptions: [{ DomainName: 'www.example.com', HostedZoneId: 'Z123456' }],
+    });
+  });
+
+  test('an omitEmpty producer can be populated after construction', () => {
+    const { stack, hostedZone } = crossRegionFixture();
+    let names: string[] | undefined;
+    const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      domainName: 'www.example.com',
+      hostedZone,
+      subjectAlternativeNames: Lazy.list({ produce: () => names }, { omitEmpty: true }),
+    });
+    names = ['API.Example.COM.'];
+    Template.fromStack(certificate.certificateStack).hasResourceProperties('AWS::CertificateManager::Certificate', {
+      SubjectAlternativeNames: ['api.example.com'],
+      DomainValidationOptions: [
+        { DomainName: 'www.example.com', HostedZoneId: 'Z123456' },
+        { DomainName: 'api.example.com', HostedZoneId: 'Z123456' },
+      ],
+    });
+  });
+
+  test.each(['split', 'condition'])('still rejects a deployment-time %s list', kind => {
+    const { app, stack, hostedZone } = crossRegionFixture();
+    const value = new CfnParameter(stack, 'Names').valueAsString;
+    new DnsValidatedCertificateV2(stack, 'Certificate', {
+      domainName: 'www.example.com',
+      hostedZone,
+      subjectAlternativeNames:
+        kind === 'split' ? Fn.split(',', value) : Token.asList(Fn.conditionIf('HasNames', ['api.example.com'], [])),
+    });
+    expect(() => app.synth()).toThrow(/subjectAlternativeNames must resolve to a fixed-length list/);
+  });
+});
+
+test.each([undefined, []])('omits empty concrete SANs in exact multi-zone mode: %j', subjectAlternativeNames => {
+  const { stack, hostedZone } = crossRegionFixture();
+  const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+    domainName: 'www.example.com',
+    subjectAlternativeNames,
+    hostedZonesByDomain: { 'www.example.com': hostedZone },
+  });
+  Template.fromStack(certificate.certificateStack).hasResourceProperties('AWS::CertificateManager::Certificate', {
+    SubjectAlternativeNames: Match.absent(),
+    DomainValidationOptions: [{ DomainName: 'www.example.com', HostedZoneId: 'Z123456' }],
   });
 });

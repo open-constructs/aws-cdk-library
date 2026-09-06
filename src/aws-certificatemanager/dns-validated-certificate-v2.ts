@@ -81,7 +81,8 @@ export interface DnsValidatedCertificateV2Props {
    * Single-zone validation supports fixed arrays of scalar tokens and lists
    * whose length resolves during synthesis. Resolved names are normalized and
    * checked for duplicates and zone authority. Opaque deployment-time lists
-   * are unsupported. Exact multi-zone mapping requires concrete names.
+   * are unsupported. Empty or absent resolved lists omit the native SAN
+   * property. Exact multi-zone mapping requires concrete names.
    *
    * @default - no subject alternative names
    */
@@ -292,7 +293,8 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
     // preparation and retain their originating stacks. Stack.resolve() here
     // would flatten parameter/resource references before dependency discovery.
     const names = (context: IResolveContext): string[] => {
-      const sans: unknown = context.resolve(this.props.subjectAlternativeNames ?? []);
+      const resolvedSans: unknown = context.resolve(this.props.subjectAlternativeNames ?? []);
+      const sans: unknown = resolvedSans === undefined ? [] : resolvedSans;
       if (!Array.isArray(sans)) {
         throw new Error(
           `${this.node.path}: subjectAlternativeNames must resolve to a fixed-length list at synthesis so DNS validation options can be created; use a concrete array of string tokens for deployment-time values`,
@@ -310,9 +312,10 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
     };
     this.certificateResource.domainName = Lazy.uncachedString({ produce: context => names(context)[0] });
     if (this.props.subjectAlternativeNames !== undefined) {
-      this.certificateResource.subjectAlternativeNames = Lazy.uncachedList({
-        produce: context => names(context).slice(1),
-      });
+      this.certificateResource.subjectAlternativeNames = Lazy.uncachedList(
+        { produce: context => names(context).slice(1) },
+        { omitEmpty: true },
+      );
     }
     this.certificateResource.domainValidationOptions = Lazy.uncachedAny({
       produce: context =>
@@ -622,7 +625,7 @@ function certificateProperties(
     certificateName: props.certificateName ?? scope.node.path.slice(0, 255),
     domainName: props.domainName,
     keyAlgorithm: props.keyAlgorithm,
-    subjectAlternativeNames: props.subjectAlternativeNames,
+    subjectAlternativeNames: props.subjectAlternativeNames?.length === 0 ? undefined : props.subjectAlternativeNames,
     transparencyLoggingEnabled: props.transparencyLoggingEnabled,
     validation,
   };
