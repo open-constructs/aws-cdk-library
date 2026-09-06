@@ -1,6 +1,6 @@
 # Certificate integration fixture
 
-This integration test requests a public certificate in `us-east-1`, attaches it to CloudFront from `eu-central-1`, and asserts ACM issuance and the deployed viewer certificate. Its HTTP origin is a synthetic endpoint; it does not test origin content. No deployment or snapshot is implied by successful local synthesis.
+This integration test requests a public certificate in `us-east-1`, attaches it to CloudFront from `eu-central-1`, and asserts ACM issuance and the deployed viewer certificate. Its HTTP origin is a synthetic endpoint; it does not test origin content. The explicit `certificateStack` supplies its `us-east-1` region; do not also supply `certificateRegion`. The revised API defaults to the containing stack when both inputs are omitted. No deployment or snapshot is implied by successful local synthesis.
 
 Run only this test after obtaining permission to deploy and clean up in the selected account, and permission to use a publicly delegated Route 53 zone in that account. Supply `CDK_DEFAULT_ACCOUNT`, `OCF_CERTIFICATE_INTEG_ZONE_ID`, and `OCF_CERTIFICATE_INTEG_ZONE_NAME`. The alias is `ocf-certificate-integ.<zone name>`; reserve it for this test and ensure no other distribution uses it. Use a fixture whose identifiers are approved for the public snapshot. Do not commit local environment files or credentials.
 

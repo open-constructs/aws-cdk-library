@@ -21,7 +21,9 @@ const zone = HostedZone.fromHostedZoneAttributes(owner, 'Zone', { hostedZoneId: 
 const certificate = new aws_certificatemanager.DnsValidatedCertificateV2(consumer, 'Certificate', {
   domainName,
   hostedZone: zone,
+  // The explicit owner supplies its us-east-1 region.
   certificateStack: owner,
+  allowExport: false,
   removalPolicy: RemovalPolicy.DESTROY,
 });
 const distribution = new Distribution(consumer, 'Distribution', {

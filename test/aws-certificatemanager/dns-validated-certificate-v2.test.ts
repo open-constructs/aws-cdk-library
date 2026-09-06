@@ -29,9 +29,10 @@ const WEAK_REFERENCE_CONTEXT = {
 };
 
 describe('certificate placement and references', () => {
-  test('creates a native certificate in a us-east-1 support stack by default', () => {
+  test('creates a native certificate in an explicitly requested us-east-1 support stack', () => {
     const { app, stack, hostedZone } = crossRegionFixture();
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
       subjectAlternativeNames: ['api.example.com'],
@@ -69,6 +70,7 @@ describe('certificate placement and references', () => {
     const hostedZone = HostedZone.fromHostedZoneId(stack, 'HostedZone', 'Z123456');
 
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
     });
@@ -84,7 +86,7 @@ describe('certificate placement and references', () => {
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
       domainName: 'test.example.com',
       hostedZone,
-      region: 'us-west-2',
+      certificateRegion: 'us-west-2',
     });
 
     expect(certificate.certificateRegion).toBe('us-west-2');
@@ -95,10 +97,12 @@ describe('certificate placement and references', () => {
     const { app, stack, hostedZone } = crossRegionFixture();
 
     const first = new DnsValidatedCertificateV2(stack, 'FirstCertificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'first.example.com',
       hostedZone,
     });
     const second = new DnsValidatedCertificateV2(stack, 'SecondCertificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'second.example.com',
       hostedZone,
     });
@@ -110,7 +114,7 @@ describe('certificate placement and references', () => {
     );
   });
 
-  test('custom stackId forces a separate stack even in the same region', () => {
+  test('an explicit owner separates certificates even in the same region', () => {
     const app = createApp();
     const stack = createStack(app, 'Stack', 'us-east-1');
     const hostedZone = HostedZone.fromHostedZoneId(stack, 'HostedZone', 'Z123456');
@@ -118,7 +122,7 @@ describe('certificate placement and references', () => {
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
       domainName: 'test.example.com',
       hostedZone,
-      stackId: 'Certificates',
+      certificateStack: createStack(app, 'Certificates', 'us-east-1'),
     });
     new CfnOutput(stack, 'CertificateArn', { value: certificate.certificateArn });
 
@@ -161,6 +165,7 @@ describe('certificate placement and references', () => {
     const hostedZone = HostedZone.fromHostedZoneId(stack, 'HostedZone', 'Z123456');
 
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
     });
@@ -172,6 +177,7 @@ describe('certificate placement and references', () => {
   test('works with CloudFront using the current certificate reference contract', () => {
     const { stack, hostedZone } = crossRegionFixture();
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
     });
@@ -197,6 +203,7 @@ describe('certificate placement and references', () => {
     const stack = createStack(app, 'Stack', 'us-east-1');
     const hostedZone = HostedZone.fromHostedZoneId(stack, 'HostedZone', 'Z123456');
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
     });
@@ -209,6 +216,7 @@ describe('certificate placement and references', () => {
   test('does not emit the global default-reference warning when the app selects weak references', () => {
     const { stack, hostedZone } = crossRegionFixture();
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
     });
@@ -238,8 +246,9 @@ describe('DNS validation', () => {
     });
 
     new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'www.example.com',
-      hostedZones: {
+      hostedZonesByDomain: {
         'www.example.com': exampleCom,
         'api.example.net': exampleNet,
       },
@@ -263,8 +272,9 @@ describe('DNS validation', () => {
     });
 
     new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'WWW.Example.Com',
-      hostedZones: { 'www.example.com.': hostedZone },
+      hostedZonesByDomain: { 'www.example.com.': hostedZone },
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::CertificateManager::Certificate', {
@@ -279,6 +289,7 @@ describe('DNS validation', () => {
     const hostedZone = HostedZone.fromHostedZoneId(stack, 'HostedZone', '/hostedzone/Z123456');
 
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
     });
@@ -296,6 +307,7 @@ describe('DNS validation', () => {
     });
 
     new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
     });
@@ -314,6 +326,7 @@ describe('DNS validation', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName: 'test.example.com',
           hostedZone,
         }),
@@ -328,14 +341,14 @@ describe('DNS validation', () => {
       zoneName: 'example.com',
     });
 
-    new DnsValidatedCertificateV2(stack, 'Certificate', {
-      domainName: 'notexample.com',
-      hostedZone,
-    });
-
-    expect(() => Template.fromStack(stack)).toThrow(
-      /DNS zone example\.com is not authoritative for certificate domain name notexample\.com/,
-    );
+    expect(
+      () =>
+        new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
+          domainName: 'notexample.com',
+          hostedZone,
+        }),
+    ).toThrow(/DNS zone example\.com is not authoritative for certificate domain name notexample\.com/);
   });
 
   test('rejects a subject alternative name outside the single hosted zone', () => {
@@ -346,15 +359,15 @@ describe('DNS validation', () => {
       zoneName: 'example.com',
     });
 
-    new DnsValidatedCertificateV2(stack, 'Certificate', {
-      domainName: 'www.example.com',
-      hostedZone,
-      subjectAlternativeNames: ['api.example.net'],
-    });
-
-    expect(() => Template.fromStack(stack)).toThrow(
-      /DNS zone example\.com is not authoritative for certificate domain name api\.example\.net/,
-    );
+    expect(
+      () =>
+        new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
+          domainName: 'www.example.com',
+          hostedZone,
+          subjectAlternativeNames: ['api.example.net'],
+        }),
+    ).toThrow(/DNS zone example\.com is not authoritative for certificate domain name api\.example\.net/);
   });
 
   test('rejects a mismatched zone in multi-zone validation', () => {
@@ -365,14 +378,14 @@ describe('DNS validation', () => {
       zoneName: 'example.net',
     });
 
-    new DnsValidatedCertificateV2(stack, 'Certificate', {
-      domainName: 'www.example.com',
-      hostedZones: { 'www.example.com': wrongZone },
-    });
-
-    expect(() => Template.fromStack(stack)).toThrow(
-      /DNS zone example\.net is not authoritative for certificate domain name www\.example\.com/,
-    );
+    expect(
+      () =>
+        new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
+          domainName: 'www.example.com',
+          hostedZonesByDomain: { 'www.example.com': wrongZone },
+        }),
+    ).toThrow(/DNS zone example\.net is not authoritative for certificate domain name www\.example\.com/);
   });
 
   test('rejects a hosted zone from a different concrete account', () => {
@@ -386,6 +399,7 @@ describe('DNS validation', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName: 'test.example.com',
           hostedZone,
         }),
@@ -401,6 +415,7 @@ describe('DNS validation', () => {
     });
 
     new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: '*.example.com',
       hostedZone,
       subjectAlternativeNames: ['API.Example.Com.'],
@@ -415,6 +430,7 @@ describe('DNS validation', () => {
     const hostedZone = HostedZone.fromHostedZoneId(stack, 'HostedZone', 'Z123456');
 
     new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'unknown.example.net',
       hostedZone,
     });
@@ -430,17 +446,19 @@ describe('DNS validation', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Missing', {
+          certificateRegion: 'us-east-1',
           domainName: 'test.example.com',
         }),
-    ).toThrow(/exactly one of hostedZone and hostedZones/);
+    ).toThrow(/exactly one of hostedZone and hostedZonesByDomain/);
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Both', {
+          certificateRegion: 'us-east-1',
           domainName: 'test.example.com',
           hostedZone,
-          hostedZones: { 'test.example.com': hostedZone },
+          hostedZonesByDomain: { 'test.example.com': hostedZone },
         }),
-    ).toThrow(/exactly one of hostedZone and hostedZones/);
+    ).toThrow(/exactly one of hostedZone and hostedZonesByDomain/);
   });
 
   test('requires a multi-zone mapping for every certificate domain name', () => {
@@ -451,8 +469,9 @@ describe('DNS validation', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName: 'www.example.com',
-          hostedZones: { 'www.example.com': hostedZone },
+          hostedZonesByDomain: { 'www.example.com': hostedZone },
           subjectAlternativeNames: ['api.example.com'],
         }),
     ).toThrow(/mapping for certificate domain name "api\.example\.com"/);
@@ -466,8 +485,9 @@ describe('DNS validation', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName: 'www.example.com',
-          hostedZones: {
+          hostedZonesByDomain: {
             'WWW.EXAMPLE.COM': hostedZone,
             'www.example.com.': hostedZone,
           },
@@ -486,8 +506,9 @@ describe('DNS validation', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName: 'www.example.com',
-          hostedZones: { 'www.example.com': hostedZone },
+          hostedZonesByDomain: { 'www.example.com': hostedZone },
           subjectAlternativeNames,
         }),
     ).toThrow(/cannot be used with an unresolved subjectAlternativeNames list/);
@@ -502,10 +523,11 @@ describe('DNS validation', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName,
-          hostedZones: { [domainName]: hostedZone },
+          hostedZonesByDomain: { [domainName]: hostedZone },
         }),
-    ).toThrow(/hostedZones requires concrete domain names/);
+    ).toThrow(/hostedZonesByDomain requires concrete domain names/);
   });
 
   test('rejects an unused multi-zone mapping', () => {
@@ -516,8 +538,9 @@ describe('DNS validation', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName: 'www.example.com',
-          hostedZones: {
+          hostedZonesByDomain: {
             'api.example.com': hostedZone,
             'www.example.com': hostedZone,
           },
@@ -533,6 +556,7 @@ describe('DNS validation', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName: 'www.example.com',
           hostedZone,
           subjectAlternativeNames: ['WWW.EXAMPLE.COM.'],
@@ -548,6 +572,7 @@ describe('certificate options, tags, metrics, and lifecycle', () => {
     const hostedZone = HostedZone.fromHostedZoneId(stack, 'HostedZone', 'Z123456');
 
     new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       allowExport: true,
       certificateName: 'Edge certificate',
       domainName: 'test.example.com',
@@ -567,10 +592,12 @@ describe('certificate options, tags, metrics, and lifecycle', () => {
   test('applies explicit tags in a generated stack', () => {
     const { stack, hostedZone } = crossRegionFixture();
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
-      tags: { application: 'edge', costCenter: 'web' },
     });
+    Tags.of(certificate).add('application', 'edge');
+    Tags.of(certificate).add('costCenter', 'web');
 
     Template.fromStack(certificate.certificateStack).hasResourceProperties('AWS::CertificateManager::Certificate', {
       Tags: Match.arrayWith([
@@ -583,6 +610,7 @@ describe('certificate options, tags, metrics, and lifecycle', () => {
   test('proxies Tags.of() directly to a cross-region certificate', () => {
     const { stack, hostedZone } = crossRegionFixture();
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
     });
@@ -596,6 +624,7 @@ describe('certificate options, tags, metrics, and lifecycle', () => {
   test('proxies containing-stack tag aspects to a cross-region certificate', () => {
     const { stack, hostedZone } = crossRegionFixture();
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
     });
@@ -609,11 +638,13 @@ describe('certificate options, tags, metrics, and lifecycle', () => {
   test('explicit certificateName takes precedence over a Name tag', () => {
     const { stack, hostedZone } = crossRegionFixture();
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       certificateName: 'Friendly certificate',
       domainName: 'test.example.com',
       hostedZone,
-      tags: { Name: 'Ignored name', application: 'edge' },
     });
+    Tags.of(certificate).add('Name', 'Ignored name', { priority: 50 });
+    Tags.of(certificate).add('application', 'edge');
 
     Template.fromStack(certificate.certificateStack).hasResourceProperties('AWS::CertificateManager::Certificate', {
       Tags: Match.arrayWith([
@@ -629,10 +660,11 @@ describe('certificate options, tags, metrics, and lifecycle', () => {
   test('a Name tag can replace the generated default name', () => {
     const { stack, hostedZone } = crossRegionFixture();
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
-      tags: { Name: 'Tagged name' },
     });
+    Tags.of(certificate).add('Name', 'Tagged name', { priority: 200 });
 
     Template.fromStack(certificate.certificateStack).hasResourceProperties('AWS::CertificateManager::Certificate', {
       Tags: Match.arrayWith([{ Key: 'Name', Value: 'Tagged name' }]),
@@ -642,11 +674,13 @@ describe('certificate options, tags, metrics, and lifecycle', () => {
   test('applies removal policy from props and through the method', () => {
     const { stack, hostedZone } = crossRegionFixture();
     const retained = new DnsValidatedCertificateV2(stack, 'Retained', {
+      certificateRegion: 'us-east-1',
       domainName: 'retained.example.com',
       hostedZone,
       removalPolicy: RemovalPolicy.RETAIN,
     });
     const method = new DnsValidatedCertificateV2(stack, 'Method', {
+      certificateRegion: 'us-east-1',
       domainName: 'method.example.com',
       hostedZone,
     });
@@ -662,6 +696,7 @@ describe('certificate options, tags, metrics, and lifecycle', () => {
   test('metricDaysToExpiry uses the certificate region', () => {
     const { stack, hostedZone } = crossRegionFixture();
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
     });
@@ -685,6 +720,7 @@ describe('certificate options, tags, metrics, and lifecycle', () => {
     const stack = createStack(app, 'Stack', 'us-east-1');
     const hostedZone = HostedZone.fromHostedZoneId(stack, 'HostedZone', 'Z123456');
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'test.example.com',
       hostedZone,
     });
@@ -696,37 +732,37 @@ describe('certificate options, tags, metrics, and lifecycle', () => {
 });
 
 describe('invalid stack topology', () => {
-  test('rejects stackId together with certificateStack', () => {
-    const app = createApp();
-    const stack = createStack(app, 'Stack', 'eu-west-1');
-    const certificateStack = createStack(app, 'Certificates', 'us-east-1');
-    const hostedZone = HostedZone.fromHostedZoneId(stack, 'HostedZone', 'Z123456');
+  test.each(['us-east-1', 'eu-west-1'])(
+    'rejects certificateRegion %s together with certificateStack',
+    certificateRegion => {
+      const app = createApp();
+      const stack = createStack(app, 'Stack', 'eu-west-1');
+      const certificateStack = createStack(app, 'Certificates', 'us-east-1');
+      const hostedZone = HostedZone.fromHostedZoneId(stack, 'HostedZone', 'Z123456');
 
-    expect(
-      () =>
-        new DnsValidatedCertificateV2(stack, 'Certificate', {
-          certificateStack,
-          domainName: 'test.example.com',
-          hostedZone,
-          stackId: 'OtherCertificates',
-        }),
-    ).toThrow(/cannot be specified together/);
-  });
+      expect(
+        () =>
+          new DnsValidatedCertificateV2(stack, 'Certificate', {
+            certificateStack,
+            domainName: 'test.example.com',
+            hostedZone,
+            certificateRegion,
+          }),
+      ).toThrow(/specify at most one of certificateStack and certificateRegion/);
+    },
+  );
 
-  test('rejects a certificate stack in a different region', () => {
-    const app = createApp();
-    const stack = createStack(app, 'Stack', 'eu-west-1');
-    const certificateStack = createStack(app, 'Certificates', 'us-west-2');
-    const hostedZone = HostedZone.fromHostedZoneId(stack, 'HostedZone', 'Z123456');
-
-    expect(
-      () =>
-        new DnsValidatedCertificateV2(stack, 'Certificate', {
-          certificateStack,
-          domainName: 'test.example.com',
-          hostedZone,
-        }),
-    ).toThrow(/must be in region "us-east-1", got "us-west-2"/);
+  test.each(['eu-west-1', 'us-east-1'])('infers explicit owner region %s', region => {
+    const { app, stack, hostedZone } = crossRegionFixture();
+    const owner = createStack(app, 'Owner', region);
+    const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      domainName: 'test.example.com',
+      hostedZone,
+      certificateStack: owner,
+    });
+    expect(certificate.certificateRegion).toBe(region);
+    expect(certificate.env.region).toBe(region);
+    Template.fromStack(owner).resourceCountIs('AWS::CertificateManager::Certificate', 1);
   });
 
   test('rejects a certificate stack in a different account', () => {
@@ -773,6 +809,7 @@ describe('invalid stack topology', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName: 'test.example.com',
           hostedZone,
         }),
@@ -789,9 +826,9 @@ describe('invalid stack topology', () => {
         new DnsValidatedCertificateV2(stack, 'Certificate', {
           domainName: 'test.example.com',
           hostedZone,
-          region: Token.asString({ Ref: 'CertificateRegion' }),
+          certificateRegion: Token.asString({ Ref: 'CertificateRegion' }),
         }),
-    ).toThrow(/region must be concrete/);
+    ).toThrow(/certificateRegion must be concrete/);
   });
 
   test('rejects an unresolved containing-stack region for a separate stack', () => {
@@ -802,6 +839,7 @@ describe('invalid stack topology', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName: 'test.example.com',
           hostedZone,
         }),
@@ -830,14 +868,14 @@ describe('invalid stack topology', () => {
     const app = createApp();
     const stack = createStack(app, 'Stack', 'eu-west-1');
     const hostedZone = HostedZone.fromHostedZoneId(stack, 'HostedZone', 'Z123456');
-    new Construct(app, 'Certificates');
+    new Construct(app, `dns-validated-certificate-stack-${stack.node.addr}-us-east-1`);
 
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
           domainName: 'test.example.com',
           hostedZone,
-          stackId: 'Certificates',
+          certificateRegion: 'us-east-1',
         }),
     ).toThrow(/already exists in the stage and is not a Stack/);
   });
@@ -852,6 +890,7 @@ describe('invalid stack topology', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName: 'test.example.com',
           hostedZone,
         }),
@@ -908,6 +947,7 @@ describe('OCF contract regressions', () => {
         zoneName: 'example.com',
       });
       const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+        certificateRegion: 'us-east-1',
         domainName: 'www.example.com',
         hostedZone: zone,
       });
@@ -953,6 +993,7 @@ describe('OCF contract regressions', () => {
     const stack = createStack(app, 'Consumer', separate ? 'eu-central-1' : 'us-east-1');
     const zone = HostedZone.fromHostedZoneId(stack, 'Zone', 'Z123456');
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'www.example.com',
       hostedZone: zone,
     });
@@ -978,7 +1019,7 @@ describe('OCF contract regressions', () => {
     const props = Object.freeze({
       domainName: 'Example.COM.',
       subjectAlternativeNames: [...sans],
-      hostedZones: mappings,
+      hostedZonesByDomain: mappings,
     });
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', props);
     Template.fromStack(certificate.certificateStack).hasResourceProperties('AWS::CertificateManager::Certificate', {
@@ -997,10 +1038,15 @@ describe('OCF contract regressions', () => {
   test('ignores inherited mappings and rejects an empty map before creating an owner', () => {
     for (const inherited of [false, true]) {
       const { app, stack, hostedZone } = crossRegionFixture();
-      const hostedZones = inherited ? Object.create({ 'test.example.com': hostedZone }) : {};
+      const hostedZonesByDomain = inherited ? Object.create({ 'test.example.com': hostedZone }) : {};
       expect(
-        () => new DnsValidatedCertificateV2(stack, 'Certificate', { domainName: 'test.example.com', hostedZones }),
-      ).toThrow(/Stack\/Certificate: hostedZones must contain a mapping/);
+        () =>
+          new DnsValidatedCertificateV2(stack, 'Certificate', {
+            certificateRegion: 'us-east-1',
+            domainName: 'test.example.com',
+            hostedZonesByDomain,
+          }),
+      ).toThrow(/Stack\/Certificate: hostedZonesByDomain must contain a mapping/);
       expect(app.node.children.filter(Stack.isStack)).toEqual([stack]);
     }
   });
@@ -1013,8 +1059,9 @@ describe('OCF contract regressions', () => {
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName: 'www.example.com',
-          ...(multi ? { hostedZones: { 'www.example.com': zone } } : { hostedZone: zone }),
+          ...(multi ? { hostedZonesByDomain: { 'www.example.com': zone } } : { hostedZone: zone }),
         }),
     ).toThrow(/Consumer\/Certificate: hosted zone .* is private/);
     expect(app.node.children.filter(Stack.isStack)).toEqual([stack]);
@@ -1025,7 +1072,11 @@ describe('OCF contract regressions', () => {
     const stack = createStack(app, 'Consumer', 'us-east-1');
     const zone = new PublicHostedZone(stack, 'Zone', { zoneName: 'example.com' });
     (zone.node.defaultChild as CfnHostedZone).vpcs = Lazy.any({ produce: () => undefined });
-    new DnsValidatedCertificateV2(stack, 'Certificate', { domainName: 'www.example.com', hostedZone: zone });
+    new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
+      domainName: 'www.example.com',
+      hostedZone: zone,
+    });
     Template.fromStack(stack).resourceCountIs('AWS::CertificateManager::Certificate', 1);
   });
 
@@ -1035,7 +1086,12 @@ describe('OCF contract regressions', () => {
     const zone = HostedZone.fromHostedZoneId(stack, 'Zone', 'Z123456');
     const domainName = Lazy.string({ produce: () => 'www.example.com' });
     const subjectAlternativeNames = Lazy.list({ produce: () => ['api.example.com'] });
-    new DnsValidatedCertificateV2(stack, 'Certificate', { domainName, subjectAlternativeNames, hostedZone: zone });
+    new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
+      domainName,
+      subjectAlternativeNames,
+      hostedZone: zone,
+    });
     Template.fromStack(stack).hasResourceProperties('AWS::CertificateManager::Certificate', {
       DomainName: 'www.example.com',
       SubjectAlternativeNames: ['api.example.com'],
@@ -1049,8 +1105,14 @@ describe('OCF contract regressions', () => {
       hostedZoneId: 'Z123456',
       zoneName: 'example.com',
     });
-    new DnsValidatedCertificateV2(stack, 'Certificate', { domainName: 'notexample.com', hostedZone: zone });
-    expect(() => app.synth()).toThrow(/not authoritative/);
+    expect(
+      () =>
+        new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
+          domainName: 'notexample.com',
+          hostedZone: zone,
+        }),
+    ).toThrow(/not authoritative/);
   });
 
   test.each(['duplicate', 'authority', 'opaque', 'valid'])('checks lazy SAN lists at synthesis: %s', kind => {
@@ -1066,6 +1128,7 @@ describe('OCF contract regressions', () => {
         ? new CfnParameter(stack, 'Names', { type: 'CommaDelimitedList' }).valueAsList
         : Lazy.list({ produce: () => names });
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'www.example.com',
       hostedZone: zone,
       subjectAlternativeNames,
@@ -1101,15 +1164,17 @@ describe('OCF contract regressions', () => {
     const scope = new Construct(stack, 'Scope');
     const zone = HostedZone.fromHostedZoneId(stack, 'Zone', 'Z123456');
     const certificate = new DnsValidatedCertificateV2(scope, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'www.example.com',
       hostedZone: zone,
-      tags: { Priority: 'prop', Removed: 'prop' },
+
       certificateName: 'named',
     });
     Tags.of(app).add('App', 'app');
     Tags.of(scope).add('Parent', 'parent');
     Tags.of(certificate).add('Direct', 'direct');
-    Tags.of(certificate).add('Priority', 'aspect');
+    Tags.of(certificate).add('Priority', 'aspect', { priority: 200 });
+    Tags.of(certificate).add('Removed', 'remove-me');
     Tags.of(certificate).remove('Removed');
     Tags.of(certificate).add('Excluded', 'no', { excludeResourceTypes: ['AWS::CertificateManager::Certificate'] });
     const resources = Template.fromStack(certificate.certificateStack).findResources(
@@ -1121,7 +1186,7 @@ describe('OCF contract regressions', () => {
       { Key: 'Direct', Value: 'direct' },
       { Key: 'Name', Value: 'named' },
       { Key: 'Parent', Value: 'parent' },
-      { Key: 'Priority', Value: 'prop' },
+      { Key: 'Priority', Value: 'aspect' },
     ]);
   });
 
@@ -1130,12 +1195,20 @@ describe('OCF contract regressions', () => {
     const first = createStack(app, 'First', 'eu-central-1');
     const second = createStack(app, 'Second', 'eu-central-1');
     const zone = HostedZone.fromHostedZoneId(first, 'Zone', 'Z123456');
-    const a = new DnsValidatedCertificateV2(first, 'A', { domainName: 'a.example.com', hostedZone: zone });
-    const b = new DnsValidatedCertificateV2(second, 'B', { domainName: 'b.example.com', hostedZone: zone });
+    const a = new DnsValidatedCertificateV2(first, 'A', {
+      certificateRegion: 'us-east-1',
+      domainName: 'a.example.com',
+      hostedZone: zone,
+    });
+    const b = new DnsValidatedCertificateV2(second, 'B', {
+      certificateRegion: 'us-east-1',
+      domainName: 'b.example.com',
+      hostedZone: zone,
+    });
     const c = new DnsValidatedCertificateV2(first, 'C', {
       domainName: 'c.example.com',
       hostedZone: zone,
-      region: 'eu-west-1',
+      certificateRegion: 'eu-west-1',
     });
     expect(new Set([a.certificateStack, b.certificateStack, c.certificateStack]).size).toBe(3);
     const before = app.synth().stacks.map(s => [s.id, s.template]);
@@ -1179,24 +1252,17 @@ describe('OCF contract regressions', () => {
     });
   });
 
-  test.each(['region', 'account'])('rejects a mismatched reused owner %s', mismatch => {
-    const app = createApp();
-    const stack = createStack(app, 'Consumer', 'eu-central-1');
-    new Stack(app, 'Owner', {
-      env: {
-        account: mismatch === 'account' ? OTHER_ACCOUNT : ACCOUNT,
-        region: mismatch === 'region' ? 'eu-west-1' : 'us-east-1',
-      },
-    });
-    const zone = HostedZone.fromHostedZoneId(stack, 'Zone', 'Z123456');
+  test('rejects an unmanaged stack collision instead of adopting it', () => {
+    const { app, stack, hostedZone } = crossRegionFixture();
+    createStack(app, `dns-validated-certificate-stack-${stack.node.addr}-us-east-1`, 'us-east-1');
     expect(
       () =>
         new DnsValidatedCertificateV2(stack, 'Certificate', {
+          certificateRegion: 'us-east-1',
           domainName: 'a.example.com',
-          hostedZone: zone,
-          stackId: 'Owner',
+          hostedZone,
         }),
-    ).toThrow(new RegExp(`Consumer/Certificate: certificate stack "Owner" must be in ${mismatch}`));
+    ).toThrow(/not a generated certificate owner; pass it as certificateStack/);
   });
 
   test('a nested consumer depends on a top-level regional owner through its parent', () => {
@@ -1205,6 +1271,7 @@ describe('OCF contract regressions', () => {
     const nested = new NestedStack(parent, 'Nested');
     const zone = HostedZone.fromHostedZoneId(nested, 'Zone', 'Z123456');
     const certificate = new DnsValidatedCertificateV2(nested, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'www.example.com',
       hostedZone: zone,
     });
@@ -1258,6 +1325,7 @@ describe('OCF contract regressions', () => {
     const nested = new NestedStack(parent, 'Nested');
     const zone = new PublicHostedZone(nested, 'Zone', { zoneName: 'example.com' });
     const certificate = new DnsValidatedCertificateV2(nested, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'www.example.com',
       hostedZone: zone,
     });
@@ -1284,6 +1352,7 @@ describe('OCF contract regressions', () => {
   test('legacy CloudFront also accepts the native regional reference', () => {
     const { stack, hostedZone } = crossRegionFixture();
     const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      certificateRegion: 'us-east-1',
       domainName: 'www.example.com',
       hostedZone,
     });
@@ -1344,3 +1413,294 @@ function weakCertificateArnReference(
     },
   };
 }
+
+describe('revised placement and late DNS contracts', () => {
+  test.each([false, true])('omitted placement stays local, environment agnostic=%s', agnostic => {
+    const app = createApp();
+    const stack = agnostic ? new Stack(app, 'Consumer') : createStack(app, 'Consumer', 'eu-central-1');
+    const hostedZone = HostedZone.fromHostedZoneId(stack, 'Zone', 'Z123456');
+    for (const explicit of [false, true]) {
+      const certificate = new DnsValidatedCertificateV2(stack, explicit ? 'Explicit' : 'Default', {
+        domainName: 'www.example.com',
+        hostedZone,
+        ...(explicit ? { certificateStack: stack } : {}),
+      });
+      expect(certificate.certificateStack).toBe(stack);
+      expect(certificate.certificateRegion).toBe(stack.region);
+      expect(certificate.env.region).toBe(stack.region);
+    }
+    Template.fromStack(stack).resourceCountIs('AWS::CertificateManager::Certificate', 2);
+    expect(app.synth().stacks).toHaveLength(1);
+  });
+
+  test.each([false, true])('native owner-local hosted zone succeeds, map=%s', multi => {
+    const { app, stack } = crossRegionFixture();
+    const owner = createStack(app, 'Owner', 'us-east-1');
+    const zone = new PublicHostedZone(owner, 'Zone', { zoneName: 'example.com' });
+    const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      domainName: 'www.example.com',
+      certificateStack: owner,
+      ...(multi ? { hostedZonesByDomain: { 'www.example.com': zone } } : { hostedZone: zone }),
+    });
+    new Distribution(stack, 'Distribution', {
+      certificate,
+      defaultBehavior: { origin: new HttpOrigin('origin.example.com') },
+    });
+    const template = Template.fromStack(owner);
+    template.hasResourceProperties('AWS::CertificateManager::Certificate', {
+      DomainValidationOptions: [
+        {
+          DomainName: 'www.example.com',
+          HostedZoneId: { Ref: owner.getLogicalId(zone.node.defaultChild as CfnHostedZone) },
+        },
+      ],
+    });
+    expect(owner.dependencies).not.toContain(stack);
+    expect(stack.dependencies).toContain(owner);
+    expect(owner.node.children.filter(child => child.node.id.startsWith('ValidationZone'))).toHaveLength(0);
+  });
+
+  test('an imported token scoped under the owner does not establish native zone ownership', () => {
+    const { app, stack } = crossRegionFixture();
+    const owner = createStack(app, 'Owner', 'us-east-1');
+    const foreignId = new CfnParameter(stack, 'ZoneId').valueAsString;
+    const zone = HostedZone.fromHostedZoneId(owner, 'Imported', foreignId);
+    expect(
+      () =>
+        new DnsValidatedCertificateV2(stack, 'Certificate', {
+          domainName: 'www.example.com',
+          hostedZone: zone,
+          certificateStack: owner,
+        }),
+    ).toThrow(/require concrete hosted zone IDs or a native hosted zone in certificateStack/);
+  });
+
+  test.each([false, true])('domain parameter belongs in native owner, foreign=%s', foreign => {
+    const { app, stack, hostedZone } = crossRegionFixture();
+    const owner = createStack(app, 'Owner', 'us-east-1');
+    const parameter = new CfnParameter(foreign ? stack : owner, 'DomainName');
+    const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+      domainName: parameter.valueAsString,
+      hostedZone,
+      certificateStack: owner,
+    });
+    new Distribution(stack, 'Distribution', {
+      certificate,
+      defaultBehavior: { origin: new HttpOrigin('origin.example.com') },
+    });
+    if (foreign) {
+      expect(() => app.synth()).toThrow(/cyclic reference/);
+    } else {
+      Template.fromStack(owner).hasResourceProperties('AWS::CertificateManager::Certificate', {
+        DomainName: { Ref: 'DomainName' },
+        DomainValidationOptions: [{ DomainName: { Ref: 'DomainName' }, HostedZoneId: 'Z123456' }],
+      });
+    }
+  });
+
+  test('eager and late normalized names emit identical properties after caller configuration', () => {
+    const properties = (late: boolean) => {
+      const { stack, hostedZone } = crossRegionFixture();
+      let values: string[] = [];
+      new DnsValidatedCertificateV2(stack, 'Certificate', {
+        domainName: late ? Lazy.string({ produce: () => 'WWW.Example.COM.' }) : 'www.example.com',
+        subjectAlternativeNames: late
+          ? Lazy.list({ produce: () => values })
+          : ['api.example.com', '*.example.com', 'example.com'],
+        hostedZone,
+      });
+      values = ['Api.Example.COM.', '*.Example.COM.', 'Example.COM.'];
+      return Object.values(Template.fromStack(stack).findResources('AWS::CertificateManager::Certificate'))[0]
+        .Properties;
+    };
+    expect(properties(true)).toEqual(properties(false));
+  });
+
+  test.each(['duplicate', 'authority'])('late normalized %s names fail', kind => {
+    const { app, stack } = crossRegionFixture();
+    const hostedZone = HostedZone.fromHostedZoneAttributes(stack, 'KnownZone', {
+      hostedZoneId: 'Z123456',
+      zoneName: 'example.com',
+    });
+    new DnsValidatedCertificateV2(stack, 'Certificate', {
+      domainName: 'www.example.com',
+      hostedZone,
+      subjectAlternativeNames: Lazy.list({
+        produce: () => [kind === 'duplicate' ? 'WWW.Example.COM.' : 'Api.Other.COM.'],
+      }),
+    });
+    expect(() => app.synth()).toThrow(kind === 'duplicate' ? /must be unique/ : /not authoritative/);
+  });
+
+  test('a real subclass uses the public native handle and retains lazy DNS validation', () => {
+    class ExtendedCertificate extends DnsValidatedCertificateV2 {
+      protected createCertificateResource(
+        scope: Construct,
+        id: string,
+        props: import('aws-cdk-lib/aws-certificatemanager').CertificateProps,
+      ): CfnCertificate {
+        const resource = super.createCertificateResource(scope, id, props);
+        resource.addPropertyOverride('CertificateTransparencyLoggingPreference', 'DISABLED');
+        return resource;
+      }
+    }
+    const { stack, hostedZone } = crossRegionFixture();
+    const certificate = new ExtendedCertificate(stack, 'Certificate', {
+      domainName: 'www.example.com',
+      hostedZone,
+      certificateRegion: 'us-east-1',
+      subjectAlternativeNames: Lazy.list({ produce: () => ['API.Example.COM.'] }),
+    });
+    expect(certificate.certificateResource).toBe(certificate.node.defaultChild);
+    expect(Stack.of(certificate.certificateResource)).toBe(certificate.certificateStack);
+    Template.fromStack(certificate.certificateStack).hasResourceProperties('AWS::CertificateManager::Certificate', {
+      CertificateTransparencyLoggingPreference: 'DISABLED',
+      SubjectAlternativeNames: ['api.example.com'],
+    });
+    Template.fromStack(stack).resourceCountIs('AWS::CertificateManager::Certificate', 0);
+  });
+
+  test('generated owners are shared across independently loaded package copies', async () => {
+    let OtherCertificate: typeof DnsValidatedCertificateV2;
+    await jest.isolateModulesAsync(async () => {
+      OtherCertificate = (await import('../../src/aws-certificatemanager')).DnsValidatedCertificateV2;
+    });
+    const { stack, hostedZone } = crossRegionFixture();
+    const first = new DnsValidatedCertificateV2(stack, 'First', {
+      domainName: 'a.example.com',
+      hostedZone,
+      certificateRegion: 'us-east-1',
+    });
+    const second = new OtherCertificate!(stack, 'Second', {
+      domainName: 'b.example.com',
+      hostedZone,
+      certificateRegion: 'us-east-1',
+    });
+    expect(first.certificateStack).toBe(second.certificateStack);
+    Template.fromStack(first.certificateStack).resourceCountIs('AWS::CertificateManager::Certificate', 2);
+  });
+});
+
+test('rejects a separate owner with unresolved region before allocating native resources', () => {
+  const { app, stack, hostedZone } = crossRegionFixture();
+  const owner = new Stack(app, 'Owner');
+  expect(
+    () =>
+      new DnsValidatedCertificateV2(stack, 'Certificate', {
+        domainName: 'www.example.com',
+        hostedZone,
+        certificateStack: owner,
+      }),
+  ).toThrow(/separate certificateStack must have a concrete region/);
+  expect(owner.node.children).toHaveLength(0);
+});
+
+test('caches a shared imported zone for exact multi-zone mappings', () => {
+  const { stack, hostedZone } = crossRegionFixture();
+  const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+    domainName: 'www.example.com',
+    subjectAlternativeNames: ['api.example.com'],
+    certificateRegion: 'us-east-1',
+    hostedZonesByDomain: { 'www.example.com': hostedZone, 'api.example.com': hostedZone },
+  });
+  expect(
+    certificate.certificateStack.node.children.filter(child => child.node.id.startsWith('ValidationZone')),
+  ).toHaveLength(1);
+  Template.fromStack(certificate.certificateStack).hasResourceProperties('AWS::CertificateManager::Certificate', {
+    DomainValidationOptions: [
+      { DomainName: 'www.example.com', HostedZoneId: 'Z123456' },
+      { DomainName: 'api.example.com', HostedZoneId: 'Z123456' },
+    ],
+  });
+});
+
+test('rejects a native private zone even when it belongs to the explicit owner', () => {
+  const { app, stack } = crossRegionFixture();
+  const owner = createStack(app, 'Owner', 'us-east-1');
+  const zone = new PrivateHostedZone(owner, 'Zone', {
+    zoneName: 'example.com',
+    vpc: new Vpc(owner, 'Vpc', { natGateways: 0 }),
+  });
+  expect(
+    () =>
+      new DnsValidatedCertificateV2(stack, 'Certificate', {
+        domainName: 'www.example.com',
+        hostedZone: zone,
+        certificateStack: owner,
+      }),
+  ).toThrow(/is private/);
+});
+
+test.each([false, true])('scalar token SAN arrays retain source dependencies, lazy=%s', lazy => {
+  const { app, stack, hostedZone } = crossRegionFixture();
+  const owner = createStack(app, 'Owner', 'us-east-1');
+  const parameter = new CfnParameter(stack, 'ForeignSan');
+  const sans = [parameter.valueAsString];
+  const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+    domainName: 'www.example.com',
+    hostedZone,
+    certificateStack: owner,
+    subjectAlternativeNames: lazy ? Lazy.list({ produce: () => sans }) : sans,
+  });
+  new Distribution(stack, 'Distribution', {
+    certificate,
+    defaultBehavior: { origin: new HttpOrigin('origin.example.com') },
+  });
+  expect(() => app.synth()).toThrow(/cyclic reference/);
+});
+
+test('explicit owner tag aspects reach the native certificate alongside wrapper tags', () => {
+  const { app, stack, hostedZone } = crossRegionFixture();
+  const owner = createStack(app, 'Owner', 'us-east-1');
+  const certificate = new DnsValidatedCertificateV2(stack, 'Certificate', {
+    domainName: 'www.example.com',
+    hostedZone,
+    certificateStack: owner,
+  });
+  Tags.of(owner).add('Owner', 'certificates');
+  Tags.of(certificate).add('Service', 'web');
+  Template.fromStack(owner).hasResourceProperties('AWS::CertificateManager::Certificate', {
+    Tags: Match.arrayWith([
+      { Key: 'Owner', Value: 'certificates' },
+      { Key: 'Service', Value: 'web' },
+    ]),
+  });
+});
+
+test.each([false, true])('owner-local scalar SAN tokens synthesize without flattening, lazy=%s', lazy => {
+  const { app, stack, hostedZone } = crossRegionFixture();
+  const owner = createStack(app, 'Owner', 'us-east-1');
+  const parameter = new CfnParameter(owner, 'San');
+  const sans = [parameter.valueAsString];
+  new DnsValidatedCertificateV2(stack, 'Certificate', {
+    domainName: 'www.example.com',
+    hostedZone,
+    certificateStack: owner,
+    subjectAlternativeNames: lazy ? Lazy.list({ produce: () => sans }) : sans,
+  });
+  Template.fromStack(owner).hasResourceProperties('AWS::CertificateManager::Certificate', {
+    SubjectAlternativeNames: [{ Ref: 'San' }],
+    DomainValidationOptions: [
+      { DomainName: 'www.example.com', HostedZoneId: 'Z123456' },
+      { DomainName: { Ref: 'San' }, HostedZoneId: 'Z123456' },
+    ],
+  });
+  expect(owner.dependencies).not.toContain(stack);
+});
+
+test('rejects a known authority mismatch before creating a generated owner', () => {
+  const { app, stack } = crossRegionFixture();
+  const hostedZone = HostedZone.fromHostedZoneAttributes(stack, 'KnownZone', {
+    hostedZoneId: 'Z123456',
+    zoneName: 'example.com',
+  });
+  expect(
+    () =>
+      new DnsValidatedCertificateV2(stack, 'Certificate', {
+        certificateRegion: 'us-east-1',
+        domainName: 'www.other.com',
+        hostedZone,
+      }),
+  ).toThrow(/not authoritative/);
+  expect(app.node.children.filter(Stack.isStack)).toEqual([stack]);
+});

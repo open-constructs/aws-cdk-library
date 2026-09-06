@@ -10,6 +10,7 @@ import {
   TagManager,
   Duration,
   Lazy,
+  IResolveContext,
   ReferenceStrength,
   RemovalPolicy,
   Resource,
@@ -31,6 +32,10 @@ import { IHostedZone, CfnHostedZone, HostedZone } from 'aws-cdk-lib/aws-route53'
 import { RegionInfo } from 'aws-cdk-lib/region-info';
 import type { Construct } from 'constructs';
 
+const GENERATED_OWNER_SYMBOL = Symbol.for(
+  '@open-constructs/aws-cdk.aws-certificatemanager.DnsValidatedCertificateV2.generatedOwner',
+);
+
 const CONSTRUCT_SYMBOL = Symbol.for('@open-constructs/aws-cdk.aws-certificatemanager.DnsValidatedCertificateV2');
 
 /**
@@ -40,20 +45,20 @@ export interface DnsValidatedCertificateV2Props {
   /**
    * Fully qualified domain name to request a certificate for.
    *
-   * Wildcards such as `*.example.com` are supported.
+   * Wildcards such as `*.example.com` are supported. Scalar tokens must be
+   * valid in the native owner; consumer-owned parameters can create cycles.
    */
   readonly domainName: string;
 
   /**
    * Route 53 hosted zone used to validate every certificate domain name.
    *
-   * Specify exactly one of `hostedZone` and `hostedZones`.
-   * When the certificate is created in a separate stack, the hosted zone ID
-   * must be concrete. Imports from `HostedZone.fromLookup()`,
-   * `HostedZone.fromHostedZoneId()`, and `HostedZone.fromHostedZoneAttributes()`
-   * satisfy that requirement.
+   * Specify exactly one of `hostedZone` and `hostedZonesByDomain`.
+   * A separate owner requires a concrete zone ID or a native public hosted
+   * zone created in that owner. Imported token scope does not prove ownership.
+   * Public delegation and actual account ownership remain caller preconditions.
    *
-   * @default - use hostedZones for exact per-domain validation
+   * @default - use hostedZonesByDomain for exact per-domain validation
    */
   readonly hostedZone?: IHostedZone;
 
@@ -62,14 +67,21 @@ export interface DnsValidatedCertificateV2Props {
    *
    * Keys are the primary domain name and every subject alternative name.
    * Matching is case-insensitive and ignores one trailing dot. Specify exactly
-   * one of `hostedZone` and `hostedZones`.
+   * one of `hostedZone` and `hostedZonesByDomain`. Apex and wildcard names
+   * require distinct keys. There is no suffix matching or implicit SAN creation.
+   * Names and the SAN list must be concrete in this mode.
    *
    * @default - use hostedZone for every domain
    */
-  readonly hostedZones?: Record<string, IHostedZone>;
+  readonly hostedZonesByDomain?: Record<string, IHostedZone>;
 
   /**
    * Alternative domain names on the certificate.
+   *
+   * Single-zone validation supports fixed arrays of scalar tokens and lists
+   * whose length resolves during synthesis. Resolved names are normalized and
+   * checked for duplicates and zone authority. Opaque deployment-time lists
+   * are unsupported. Exact multi-zone mapping requires concrete names.
    *
    * @default - no subject alternative names
    */
@@ -106,43 +118,24 @@ export interface DnsValidatedCertificateV2Props {
   readonly keyAlgorithm?: KeyAlgorithm;
 
   /**
-   * Tags applied directly to the certificate.
+   * Concrete region in which to create the certificate.
    *
-   * These work in both same-stack and separate-stack modes. Standard
-   * `Tags.of(certificate).add()` calls are also supported.
+   * Cannot be combined with `certificateStack`. Omit this property for an
+   * environment-agnostic same-stack certificate. CloudFront requires us-east-1.
    *
-   * @default - no explicit certificate tags
+   * @default - the containing stack's region
    */
-  readonly tags?: Record<string, string>;
-
-  /**
-   * Region in which to create the certificate.
-   *
-   * @default us-east-1
-   */
-  readonly region?: string;
-
-  /**
-   * ID for the generated or reused certificate stack.
-   *
-   * Supplying this property creates or reuses a separate stack even when the
-   * containing stack is already in the requested certificate region.
-   *
-   * Cannot be combined with `certificateStack`.
-   *
-   * @default - `dns-validated-certificate-stack-${containingStack.node.addr}-${region}`
-   */
-  readonly stackId?: string;
+  readonly certificateRegion?: string;
 
   /**
    * Explicit stack in which to create the certificate.
    *
    * Use this when the certificate stack needs a custom synthesizer, stack name,
    * permissions boundary, termination protection, or explicit lifecycle
-   * ownership. The stack must be in the same app and stage, account, partition,
-   * and requested certificate region as the containing stack.
+   * ownership. The stack must be in the same app/stage, account, and partition
+   * as the containing stack. Its region determines the certificate region.
    *
-   * Cannot be combined with `stackId`.
+   * Cannot be combined with `certificateRegion`.
    *
    * @default - create or reuse a generated certificate stack when needed
    */
@@ -195,12 +188,13 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
    * Native certificate in certificateStack, also exposed as node.defaultChild.
    * Overriding this resource changes the owning stack, not the wrapper's stack.
    */
-  protected readonly certificateResource: CfnCertificate;
+  public readonly certificateResource: CfnCertificate;
   private readonly props: DnsValidatedCertificateV2Props;
   private readonly validationAuthorities: ValidationAuthority[];
 
   public constructor(scope: Construct, id: string, props: DnsValidatedCertificateV2Props) {
-    super(scope, id, { region: props.region ?? 'us-east-1' });
+    const placement = resolvePlacement(scope, id, props);
+    super(scope, id, { region: placement.region });
     this.props = {
       ...props,
       domainName: normalizeConcreteDnsName(props.domainName),
@@ -212,23 +206,11 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
     try {
       Object.defineProperty(this, CONSTRUCT_SYMBOL, { value: true });
 
-      if (props.stackId !== undefined && props.certificateStack !== undefined) {
-        throw new Error('stackId and certificateStack cannot be specified together');
-      }
-
-      this.certificateRegion = props.region ?? 'us-east-1';
-      if (Token.isUnresolved(this.certificateRegion)) {
-        throw new Error('region must be concrete; unresolved tokens are not supported');
-      }
-
-      const domainNames = certificateDomainNames(props);
+      this.certificateRegion = placement.region;
+      const domainNames = certificateDomainNames(this.props);
       assertUniqueDomainNames(domainNames);
-
-      const containingStack = Stack.of(this);
-      const usesSeparateStack =
-        props.certificateStack !== undefined
-          ? props.certificateStack !== containingStack
-          : props.stackId !== undefined || containingStack.region !== this.certificateRegion;
+      const containingStack = placement.containingStack;
+      const usesSeparateStack = placement.separate;
 
       if (usesSeparateStack) {
         if (Token.isUnresolved(containingStack.region)) {
@@ -242,7 +224,11 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
       const validationConfiguration = resolveValidationConfiguration(this.props, certificateDomainNames(this.props));
       this.validationAuthorities = validationConfiguration.authorities;
       this.validateHostedZones(containingStack.account, usesSeparateStack);
-      this.certificateStack = this.selectCertificateStack(containingStack, props);
+      const authorityErrors = this.validateHostedZoneAuthority();
+      if (authorityErrors.length > 0) {
+        throw new Error(authorityErrors.join('; '));
+      }
+      this.certificateStack = this.selectCertificateStack(containingStack, props, usesSeparateStack);
       const validation = this.validationForCertificate(validationConfiguration, usesSeparateStack);
 
       const certificateScope: Construct = usesSeparateStack ? this.certificateStack : this;
@@ -250,12 +236,16 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
       this.certificateResource = this.createCertificateResource(
         certificateScope,
         usesSeparateStack ? `Certificate${this.node.addr}` : 'Certificate',
-        certificateProps,
+        Token.isUnresolved(certificateProps.subjectAlternativeNames)
+          ? { ...certificateProps, subjectAlternativeNames: undefined }
+          : certificateProps,
       );
+      if (validationConfiguration.kind === 'single') {
+        this.configureSingleZoneNames(validationConfiguration.hostedZone);
+      }
 
       this.node.defaultChild = this.certificateResource;
       this.tags = this.certificateResource.tags;
-      this.applyExplicitTags(props);
 
       if (props.removalPolicy !== undefined) {
         this.certificateResource.applyRemovalPolicy(props.removalPolicy);
@@ -283,49 +273,54 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
     this.certificateResource.applyRemovalPolicy(policy);
   }
 
-  /** Create the native resource through the public ACM Certificate construct. */
+  /**
+   * Create the native resource through public ACM composition.
+   *
+   * Props contain eagerly normalized inputs. Opaque SAN lists are withheld;
+   * the constructor applies shared synthesis-time name resolution afterwards.
+   */
   protected createCertificateResource(scope: Construct, id: string, props: CertificateProps): CfnCertificate {
-    const unresolvedSans = Token.isUnresolved(props.subjectAlternativeNames);
-    // Public Certificate iterates SANs eagerly. Keep a tokenized list intact and
-    // defer its DNS options until synthesis, when a Lazy list can be enumerated.
-    const certificate = new Certificate(
-      scope,
-      id,
-      unresolvedSans ? { ...props, subjectAlternativeNames: undefined } : props,
-    );
+    const certificate = new Certificate(scope, id, props);
     const resource = certificate.node.defaultChild;
     if (!CfnCertificate.isCfnCertificate(resource)) {
       throw new Error(`${this.node.path}: expected an ACM certificate resource`);
     }
-    if (unresolvedSans) {
-      const hostedZone = this.validationAuthorities[0].hostedZone;
-      resource.subjectAlternativeNames = props.subjectAlternativeNames;
-      resource.domainValidationOptions = Lazy.any({
-        produce: () => {
-          const stack = Stack.of(scope);
-          const resolved: unknown = stack.resolve(props.subjectAlternativeNames);
-          if (!Array.isArray(resolved)) {
-            throw new Error(
-              `${this.node.path}: subjectAlternativeNames must resolve to a fixed-length list at synthesis so DNS validation options can be created; use a concrete array of string tokens for deployment-time values`,
-            );
-          }
-          const names = [
-            Token.asString(stack.resolve(props.domainName)),
-            ...resolved.map(value => Token.asString(value)),
-          ];
-          assertUniqueDomainNames(names);
-          const errors = this.validateHostedZoneAuthority(names.map(domainName => ({ domainName, hostedZone })));
-          if (errors.length > 0) {
-            throw new Error(`${this.node.path}: ${errors.join('; ')}`);
-          }
-          // ACM uses the same validation record for an apex and its wildcard.
-          return names
-            .filter(name => Token.isUnresolved(name) || !name.startsWith('*.') || !names.includes(name.slice(2)))
-            .map(domainName => ({ domainName, hostedZoneId: hostedZone.hostedZoneId }));
-        },
+    return resource;
+  }
+
+  private configureSingleZoneNames(hostedZone: IHostedZone): void {
+    // Use the current resolution context so CDK can discover references during
+    // preparation and retain their originating stacks. Stack.resolve() here
+    // would flatten parameter/resource references before dependency discovery.
+    const names = (context: IResolveContext): string[] => {
+      const sans: unknown = context.resolve(this.props.subjectAlternativeNames ?? []);
+      if (!Array.isArray(sans)) {
+        throw new Error(
+          `${this.node.path}: subjectAlternativeNames must resolve to a fixed-length list at synthesis so DNS validation options can be created; use a concrete array of string tokens for deployment-time values`,
+        );
+      }
+      const values = [context.resolve(this.props.domainName), ...sans].map(value =>
+        typeof value === 'string' ? normalizeConcreteDnsName(value) : Token.asString(value),
+      );
+      assertUniqueDomainNames(values);
+      const errors = this.validateHostedZoneAuthority(values.map(domainName => ({ domainName, hostedZone })));
+      if (errors.length > 0) {
+        throw new Error(`${this.node.path}: ${errors.join('; ')}`);
+      }
+      return values;
+    };
+    this.certificateResource.domainName = Lazy.uncachedString({ produce: context => names(context)[0] });
+    if (this.props.subjectAlternativeNames !== undefined) {
+      this.certificateResource.subjectAlternativeNames = Lazy.uncachedList({
+        produce: context => names(context).slice(1),
       });
     }
-    return resource;
+    this.certificateResource.domainValidationOptions = Lazy.uncachedAny({
+      produce: context =>
+        names(context)
+          .filter(name => Token.isUnresolved(name) || !name.startsWith('*.') || !names(context).includes(name.slice(2)))
+          .map(domainName => ({ domainName, hostedZoneId: hostedZone.hostedZoneId.replace(/^\/hostedzone\//, '') })),
+    });
   }
 
   /** Return the ACM `DaysToExpiry` metric in the certificate region. */
@@ -341,15 +336,17 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
     });
   }
 
-  private selectCertificateStack(containingStack: Stack, props: DnsValidatedCertificateV2Props): Stack {
+  private selectCertificateStack(
+    containingStack: Stack,
+    props: DnsValidatedCertificateV2Props,
+    usesSeparateStack: boolean,
+  ): Stack {
     if (props.certificateStack !== undefined) {
       this.validateCertificateStack(props.certificateStack, props.certificateStack.node.id);
       return props.certificateStack;
     }
 
-    const containingRegionMatches =
-      !Token.isUnresolved(containingStack.region) && containingStack.region === this.certificateRegion;
-    if (containingRegionMatches && props.stackId === undefined) {
+    if (!usesSeparateStack) {
       return containingStack;
     }
 
@@ -358,28 +355,37 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
       throw new Error('cross-stack certificates must be defined inside a CDK App or Stage');
     }
 
-    const stackId =
-      props.stackId ?? `dns-validated-certificate-stack-${containingStack.node.addr}-${this.certificateRegion}`;
+    const stackId = `dns-validated-certificate-stack-${containingStack.node.addr}-${this.certificateRegion}`;
     const existing = stage.node.tryFindChild(stackId);
     if (existing !== undefined) {
       if (!Stack.isStack(existing)) {
         throw new Error(`a construct named ${JSON.stringify(stackId)} already exists in the stage and is not a Stack`);
       }
+      if (!(GENERATED_OWNER_SYMBOL in existing)) {
+        throw new Error(
+          `a stack named ${JSON.stringify(stackId)} already exists and is not a generated certificate owner; pass it as certificateStack`,
+        );
+      }
       this.validateCertificateStack(existing, stackId);
       return existing;
     }
 
-    return new Stack(stage, stackId, {
+    const owner = new Stack(stage, stackId, {
       env: {
         account: containingStack.account,
         region: this.certificateRegion,
       },
       tags: containingStack.tags.tagValues(),
     });
+    Object.defineProperty(owner, GENERATED_OWNER_SYMBOL, { value: true });
+    return owner;
   }
 
   private validateCertificateStack(stack: Stack, stackId: string): void {
     const containingStack = Stack.of(this);
+    if (stack === containingStack) {
+      return;
+    }
     const containingStage = Stage.of(containingStack);
     const certificateStage = Stage.of(stack);
     if (containingStage === undefined || certificateStage !== containingStage) {
@@ -431,8 +437,8 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
     }
 
     const importedZones = new Map<IHostedZone, IHostedZone>();
-    const hostedZones = Object.fromEntries(
-      Object.entries(configuration.hostedZones).map(([domainName, hostedZone], index) => {
+    const hostedZonesByDomain = Object.fromEntries(
+      Object.entries(configuration.hostedZonesByDomain).map(([domainName, hostedZone], index) => {
         if (!usesSeparateStack) {
           return [domainName, hostedZone];
         }
@@ -447,22 +453,26 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
         return [domainName, imported];
       }),
     );
-    return CertificateValidation.fromDnsMultiZone(hostedZones);
+    return CertificateValidation.fromDnsMultiZone(hostedZonesByDomain);
+  }
+
+  private isOwnerLocalHostedZone(hostedZone: IHostedZone, owner = this.props.certificateStack): boolean {
+    const resource = hostedZone.node.defaultChild;
+    return (
+      owner !== undefined &&
+      CfnHostedZone.isCfnHostedZone(resource) &&
+      Stack.of(resource) === owner &&
+      hostedZone.hostedZoneId === resource.ref
+    );
   }
 
   private importHostedZone(hostedZone: IHostedZone, index: number): IHostedZone {
+    if (this.isOwnerLocalHostedZone(hostedZone, this.certificateStack)) {
+      return hostedZone;
+    }
     const hostedZoneId = hostedZone.hostedZoneId.replace(/^\/hostedzone\//, '');
 
     return HostedZone.fromHostedZoneId(this.certificateStack, `ValidationZone${index}${this.node.addr}`, hostedZoneId);
-  }
-
-  private applyExplicitTags(props: DnsValidatedCertificateV2Props): void {
-    for (const [key, value] of Object.entries(props.tags ?? {})) {
-      if (key === 'Name' && props.certificateName !== undefined) {
-        continue;
-      }
-      this.tags.setTag(key, value, 101);
-    }
   }
 
   private validateHostedZones(certificateAccount: string, usesSeparateStack: boolean): void {
@@ -474,9 +484,13 @@ export class DnsValidatedCertificateV2 extends Resource implements ICertificate 
           `hosted zone ${JSON.stringify(hostedZone.node.path)} is private; public ACM certificates require a public hosted zone`,
         );
       }
-      if (usesSeparateStack && Token.isUnresolved(hostedZone.hostedZoneId)) {
+      if (
+        usesSeparateStack &&
+        Token.isUnresolved(hostedZone.hostedZoneId) &&
+        !this.isOwnerLocalHostedZone(hostedZone)
+      ) {
         throw new Error(
-          'certificates created in a separate stack require concrete hosted zone IDs; use HostedZone.fromLookup(), HostedZone.fromHostedZoneId(), or HostedZone.fromHostedZoneAttributes()',
+          'certificates created in a separate stack require concrete hosted zone IDs or a native hosted zone in certificateStack; use HostedZone.fromLookup(), HostedZone.fromHostedZoneId(), or HostedZone.fromHostedZoneAttributes()',
         );
       }
       if (
@@ -523,7 +537,7 @@ interface SingleZoneValidationConfiguration {
 
 interface MultiZoneValidationConfiguration {
   readonly kind: 'multi';
-  readonly hostedZones: Record<string, IHostedZone>;
+  readonly hostedZonesByDomain: Record<string, IHostedZone>;
   readonly authorities: ValidationAuthority[];
 }
 
@@ -533,8 +547,8 @@ function resolveValidationConfiguration(
   props: DnsValidatedCertificateV2Props,
   domainNames: string[],
 ): ValidationConfiguration {
-  if ((props.hostedZone === undefined) === (props.hostedZones === undefined)) {
-    throw new Error('specify exactly one of hostedZone and hostedZones');
+  if ((props.hostedZone === undefined) === (props.hostedZonesByDomain === undefined)) {
+    throw new Error('specify exactly one of hostedZone and hostedZonesByDomain');
   }
 
   if (props.hostedZone !== undefined) {
@@ -550,36 +564,40 @@ function resolveValidationConfiguration(
 
   if (props.subjectAlternativeNames !== undefined && Token.isUnresolved(props.subjectAlternativeNames)) {
     throw new Error(
-      'hostedZones cannot be used with an unresolved subjectAlternativeNames list; use hostedZone or provide a concrete list',
+      'hostedZonesByDomain cannot be used with an unresolved subjectAlternativeNames list; use hostedZone or provide a concrete list',
     );
   }
 
   const unresolvedDomainName = domainNames.find(domainName => Token.isUnresolved(domainName));
   if (unresolvedDomainName !== undefined) {
-    throw new Error('hostedZones requires concrete domain names; use hostedZone when a domain name is unresolved');
+    throw new Error(
+      'hostedZonesByDomain requires concrete domain names; use hostedZone when a domain name is unresolved',
+    );
   }
 
-  const configuredZones = props.hostedZones as Record<string, IHostedZone>;
+  const configuredZones = props.hostedZonesByDomain as Record<string, IHostedZone>;
   const normalizedZones = new Map<string, { key: string; hostedZone: IHostedZone }>();
   for (const [key, hostedZone] of Object.entries(configuredZones)) {
     const normalized = normalizeDnsName(key);
     const existing = normalizedZones.get(normalized);
     if (existing !== undefined) {
       throw new Error(
-        `hostedZones contains duplicate domain mappings ${JSON.stringify(existing.key)} and ${JSON.stringify(key)}`,
+        `hostedZonesByDomain contains duplicate domain mappings ${JSON.stringify(existing.key)} and ${JSON.stringify(key)}`,
       );
     }
     normalizedZones.set(normalized, { key, hostedZone });
   }
 
-  const hostedZones: Record<string, IHostedZone> = {};
+  const hostedZonesByDomain: Record<string, IHostedZone> = {};
   const authorities: ValidationAuthority[] = [];
   for (const domainName of domainNames) {
     const matched = normalizedZones.get(normalizeDnsName(domainName))?.hostedZone;
     if (matched === undefined) {
-      throw new Error(`hostedZones must contain a mapping for certificate domain name ${JSON.stringify(domainName)}`);
+      throw new Error(
+        `hostedZonesByDomain must contain a mapping for certificate domain name ${JSON.stringify(domainName)}`,
+      );
     }
-    hostedZones[domainName] = matched;
+    hostedZonesByDomain[domainName] = matched;
     authorities.push({ domainName, hostedZone: matched });
   }
 
@@ -587,12 +605,12 @@ function resolveValidationConfiguration(
   for (const [normalized, { key }] of normalizedZones) {
     if (!certificateDomainNameKeys.has(normalized)) {
       throw new Error(
-        `hostedZones contains a mapping for ${JSON.stringify(key)}, which is not a certificate domain name`,
+        `hostedZonesByDomain contains a mapping for ${JSON.stringify(key)}, which is not a certificate domain name`,
       );
     }
   }
 
-  return { kind: 'multi', hostedZones, authorities };
+  return { kind: 'multi', hostedZonesByDomain, authorities };
 }
 
 function certificateProperties(
@@ -664,4 +682,35 @@ function normalizeConcreteDnsName(value: string): string {
 export interface DnsValidatedCertificateV2Attributes {
   /** The ARN of an existing ACM certificate. */
   readonly certificateArn: string;
+}
+
+/** Resolve ownership metadata without allocating infrastructure. */
+function resolvePlacement(
+  scope: Construct,
+  id: string,
+  props: DnsValidatedCertificateV2Props,
+): {
+  containingStack: Stack;
+  region: string;
+  separate: boolean;
+} {
+  const path = `${scope.node.path}/${id}`;
+  if (props.certificateStack !== undefined && props.certificateRegion !== undefined) {
+    throw new Error(`${path}: specify at most one of certificateStack and certificateRegion`);
+  }
+  if (props.certificateRegion !== undefined && Token.isUnresolved(props.certificateRegion)) {
+    throw new Error(
+      `${path}: certificateRegion must be concrete; omit it for same-stack deployment or provide a concrete region for regional placement`,
+    );
+  }
+  const containingStack = Stack.of(scope);
+  const region = props.certificateStack?.region ?? props.certificateRegion ?? containingStack.region;
+  const separate =
+    props.certificateStack !== undefined
+      ? props.certificateStack !== containingStack
+      : props.certificateRegion !== undefined && props.certificateRegion !== containingStack.region;
+  if (separate && Token.isUnresolved(region)) {
+    throw new Error(`${path}: a separate certificateStack must have a concrete region`);
+  }
+  return { containingStack, region, separate };
 }

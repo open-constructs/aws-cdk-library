@@ -554,6 +554,7 @@ Return whether an object is a `DnsValidatedCertificateV2`.
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateArn">certificateArn</a></code> | <code>string</code> | The ARN of the certificate. |
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateRef">certificateRef</a></code> | <code>aws-cdk-lib.interfaces.aws_certificatemanager.CertificateReference</code> | A public ACM resource reference. |
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateRegion">certificateRegion</a></code> | <code>string</code> | The region in which the certificate is created. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateResource">certificateResource</a></code> | <code>aws-cdk-lib.aws_certificatemanager.CfnCertificate</code> | Native certificate in certificateStack, also exposed as node.defaultChild. Overriding this resource changes the owning stack, not the wrapper's stack. |
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateStack">certificateStack</a></code> | <code>aws-cdk-lib.Stack</code> | The stack that owns the native ACM certificate. |
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.tags">tags</a></code> | <code>aws-cdk-lib.TagManager</code> | Tag manager for the native ACM certificate. |
 
@@ -636,6 +637,18 @@ public readonly certificateRegion: string;
 - *Type:* string
 
 The region in which the certificate is created.
+
+---
+
+##### `certificateResource`<sup>Required</sup> <a name="certificateResource" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2.property.certificateResource"></a>
+
+```typescript
+public readonly certificateResource: CfnCertificate;
+```
+
+- *Type:* aws-cdk-lib.aws_certificatemanager.CfnCertificate
+
+Native certificate in certificateStack, also exposed as node.defaultChild. Overriding this resource changes the owning stack, not the wrapper's stack.
 
 ---
 
@@ -5216,15 +5229,13 @@ const dnsValidatedCertificateV2Props: aws_certificatemanager.DnsValidatedCertifi
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.domainName">domainName</a></code> | <code>string</code> | Fully qualified domain name to request a certificate for. |
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.allowExport">allowExport</a></code> | <code>boolean</code> | Whether the public certificate can be exported. |
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateName">certificateName</a></code> | <code>string</code> | Value for the certificate's `Name` tag. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateRegion">certificateRegion</a></code> | <code>string</code> | Concrete region in which to create the certificate. |
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateStack">certificateStack</a></code> | <code>aws-cdk-lib.Stack</code> | Explicit stack in which to create the certificate. |
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZone">hostedZone</a></code> | <code>aws-cdk-lib.aws_route53.IHostedZone</code> | Route 53 hosted zone used to validate every certificate domain name. |
-| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZones">hostedZones</a></code> | <code>{[ key: string ]: aws-cdk-lib.aws_route53.IHostedZone}</code> | Route 53 hosted zones used to validate individual certificate domain names. |
+| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZonesByDomain">hostedZonesByDomain</a></code> | <code>{[ key: string ]: aws-cdk-lib.aws_route53.IHostedZone}</code> | Route 53 hosted zones used to validate individual certificate domain names. |
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.keyAlgorithm">keyAlgorithm</a></code> | <code>aws-cdk-lib.aws_certificatemanager.KeyAlgorithm</code> | Public/private key algorithm for the certificate. |
-| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.region">region</a></code> | <code>string</code> | Region in which to create the certificate. |
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.removalPolicy">removalPolicy</a></code> | <code>aws-cdk-lib.RemovalPolicy</code> | Removal policy for the ACM certificate. |
-| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.stackId">stackId</a></code> | <code>string</code> | ID for the generated or reused certificate stack. |
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.subjectAlternativeNames">subjectAlternativeNames</a></code> | <code>string[]</code> | Alternative domain names on the certificate. |
-| <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.tags">tags</a></code> | <code>{[ key: string ]: string}</code> | Tags applied directly to the certificate. |
 | <code><a href="#@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.transparencyLoggingEnabled">transparencyLoggingEnabled</a></code> | <code>boolean</code> | Whether ACM certificate transparency logging is enabled. |
 
 ---
@@ -5239,7 +5250,8 @@ public readonly domainName: string;
 
 Fully qualified domain name to request a certificate for.
 
-Wildcards such as `*.example.com` are supported.
+Wildcards such as `*.example.com` are supported. Scalar tokens must be
+valid in the native owner; consumer-owned parameters can create cycles.
 
 ---
 
@@ -5271,6 +5283,22 @@ Value for the certificate's `Name` tag.
 
 ---
 
+##### `certificateRegion`<sup>Optional</sup> <a name="certificateRegion" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateRegion"></a>
+
+```typescript
+public readonly certificateRegion: string;
+```
+
+- *Type:* string
+- *Default:* the containing stack's region
+
+Concrete region in which to create the certificate.
+
+Cannot be combined with `certificateStack`. Omit this property for an
+environment-agnostic same-stack certificate. CloudFront requires us-east-1.
+
+---
+
 ##### `certificateStack`<sup>Optional</sup> <a name="certificateStack" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.certificateStack"></a>
 
 ```typescript
@@ -5284,10 +5312,10 @@ Explicit stack in which to create the certificate.
 
 Use this when the certificate stack needs a custom synthesizer, stack name,
 permissions boundary, termination protection, or explicit lifecycle
-ownership. The stack must be in the same app and stage, account, partition,
-and requested certificate region as the containing stack.
+ownership. The stack must be in the same app/stage, account, and partition
+as the containing stack. Its region determines the certificate region.
 
-Cannot be combined with `stackId`.
+Cannot be combined with `certificateRegion`.
 
 ---
 
@@ -5298,22 +5326,21 @@ public readonly hostedZone: IHostedZone;
 ```
 
 - *Type:* aws-cdk-lib.aws_route53.IHostedZone
-- *Default:* use hostedZones for exact per-domain validation
+- *Default:* use hostedZonesByDomain for exact per-domain validation
 
 Route 53 hosted zone used to validate every certificate domain name.
 
-Specify exactly one of `hostedZone` and `hostedZones`.
-When the certificate is created in a separate stack, the hosted zone ID
-must be concrete. Imports from `HostedZone.fromLookup()`,
-`HostedZone.fromHostedZoneId()`, and `HostedZone.fromHostedZoneAttributes()`
-satisfy that requirement.
+Specify exactly one of `hostedZone` and `hostedZonesByDomain`.
+A separate owner requires a concrete zone ID or a native public hosted
+zone created in that owner. Imported token scope does not prove ownership.
+Public delegation and actual account ownership remain caller preconditions.
 
 ---
 
-##### `hostedZones`<sup>Optional</sup> <a name="hostedZones" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZones"></a>
+##### `hostedZonesByDomain`<sup>Optional</sup> <a name="hostedZonesByDomain" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.hostedZonesByDomain"></a>
 
 ```typescript
-public readonly hostedZones: {[ key: string ]: IHostedZone};
+public readonly hostedZonesByDomain: {[ key: string ]: IHostedZone};
 ```
 
 - *Type:* {[ key: string ]: aws-cdk-lib.aws_route53.IHostedZone}
@@ -5323,7 +5350,9 @@ Route 53 hosted zones used to validate individual certificate domain names.
 
 Keys are the primary domain name and every subject alternative name.
 Matching is case-insensitive and ignores one trailing dot. Specify exactly
-one of `hostedZone` and `hostedZones`.
+one of `hostedZone` and `hostedZonesByDomain`. Apex and wildcard names
+require distinct keys. There is no suffix matching or implicit SAN creation.
+Names and the SAN list must be concrete in this mode.
 
 ---
 
@@ -5340,19 +5369,6 @@ Public/private key algorithm for the certificate.
 
 ---
 
-##### `region`<sup>Optional</sup> <a name="region" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.region"></a>
-
-```typescript
-public readonly region: string;
-```
-
-- *Type:* string
-- *Default:* us-east-1
-
-Region in which to create the certificate.
-
----
-
 ##### `removalPolicy`<sup>Optional</sup> <a name="removalPolicy" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.removalPolicy"></a>
 
 ```typescript
@@ -5363,24 +5379,6 @@ public readonly removalPolicy: RemovalPolicy;
 - *Default:* RemovalPolicy.DESTROY
 
 Removal policy for the ACM certificate.
-
----
-
-##### `stackId`<sup>Optional</sup> <a name="stackId" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.stackId"></a>
-
-```typescript
-public readonly stackId: string;
-```
-
-- *Type:* string
-- *Default:* `dns-validated-certificate-stack-${containingStack.node.addr}-${region}`
-
-ID for the generated or reused certificate stack.
-
-Supplying this property creates or reuses a separate stack even when the
-containing stack is already in the requested certificate region.
-
-Cannot be combined with `certificateStack`.
 
 ---
 
@@ -5395,21 +5393,10 @@ public readonly subjectAlternativeNames: string[];
 
 Alternative domain names on the certificate.
 
----
-
-##### `tags`<sup>Optional</sup> <a name="tags" id="@open-constructs/aws-cdk.aws_certificatemanager.DnsValidatedCertificateV2Props.property.tags"></a>
-
-```typescript
-public readonly tags: {[ key: string ]: string};
-```
-
-- *Type:* {[ key: string ]: string}
-- *Default:* no explicit certificate tags
-
-Tags applied directly to the certificate.
-
-These work in both same-stack and separate-stack modes. Standard
-`Tags.of(certificate).add()` calls are also supported.
+Single-zone validation supports fixed arrays of scalar tokens and lists
+whose length resolves during synthesis. Resolved names are normalized and
+checked for duplicates and zone authority. Opaque deployment-time lists
+are unsupported. Exact multi-zone mapping requires concrete names.
 
 ---
 
