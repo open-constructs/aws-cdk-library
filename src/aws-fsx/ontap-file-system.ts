@@ -428,7 +428,7 @@ export class OntapFileSystem extends aws_fsx.FileSystemBase {
       fileSystemType: OntapFileSystem.DEFAULT_FILE_SYSTEM_TYPE,
       subnetIds: props.vpcSubnets.map(subnet => subnet.subnetId),
       backupId: props.backupId,
-      kmsKeyId: props.kmsKey?.keyId,
+      kmsKeyId: props.kmsKey?.keyRef.keyId,
       ontapConfiguration: {
         automaticBackupRetentionDays: ontapConfiguration.automaticBackupRetention?.toDays() ?? 30,
         dailyAutomaticBackupStartTime: ontapConfiguration.dailyAutomaticBackupStartTime?.toTimestamp(),

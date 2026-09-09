@@ -5,31 +5,32 @@
     "url": "https://github.com/open-constructs/aws-cdk-library.git"
   },
   "scripts": {
-    "build": "npx projen build",
-    "bump": "npx projen bump",
-    "clobber": "npx projen clobber",
-    "compat": "npx projen compat",
-    "compile": "npx projen compile",
-    "default": "npx projen default",
-    "docgen": "npx projen docgen",
-    "eject": "npx projen eject",
-    "eslint": "npx projen eslint",
-    "integ": "npx projen integ",
-    "integ:update": "npx projen integ:update",
-    "package": "npx projen package",
-    "package-all": "npx projen package-all",
-    "package:js": "npx projen package:js",
-    "package:python": "npx projen package:python",
-    "post-compile": "npx projen post-compile",
-    "post-upgrade": "npx projen post-upgrade",
-    "pre-compile": "npx projen pre-compile",
-    "release": "npx projen release",
-    "test": "npx projen test",
-    "test:watch": "npx projen test:watch",
-    "unbump": "npx projen unbump",
-    "upgrade": "npx projen upgrade",
-    "watch": "npx projen watch",
-    "projen": "npx projen"
+    "build": "projen build",
+    "bump": "projen bump",
+    "bump:releasable-commits": "projen bump:releasable-commits",
+    "clobber": "projen clobber",
+    "compat": "projen compat",
+    "compile": "projen compile",
+    "default": "projen default",
+    "docgen": "projen docgen",
+    "eject": "projen eject",
+    "eslint": "projen eslint",
+    "integ": "projen integ",
+    "integ:update": "projen integ:update",
+    "package": "projen package",
+    "package-all": "projen package-all",
+    "package:js": "projen package:js",
+    "package:python": "projen package:python",
+    "post-compile": "projen post-compile",
+    "post-upgrade": "projen post-upgrade",
+    "pre-compile": "projen pre-compile",
+    "release": "projen release",
+    "test": "projen test",
+    "test:watch": "projen test:watch",
+    "unbump": "projen unbump",
+    "upgrade": "projen upgrade",
+    "watch": "projen watch",
+    "projen": "projen"
   },
   "author": {
     "name": "Open Construct Foundation",
@@ -37,36 +38,36 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-cdk/integ-runner": "2.168.0-alpha.0",
-    "@aws-cdk/integ-tests-alpha": "2.168.0-alpha.0",
+    "@aws-cdk/integ-runner": "2.205.1",
+    "@aws-cdk/integ-tests-alpha": "2.268.0-alpha.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
-    "aws-cdk-lib": "2.168.0",
+    "aws-cdk-lib": "2.268.0",
     "commit-and-tag-version": "^12",
-    "constructs": "10.3.0",
+    "constructs": "10.5.0",
     "eslint": "^9",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^3.10.1",
     "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-prettier": "^5.5.6",
     "jest": "^29.7.0",
-    "jest-junit": "^16",
-    "jsii": "~5.7.0",
-    "jsii-diff": "^1.121.0",
+    "jest-junit": "^17",
+    "jsii": "~5.9.0",
+    "jsii-diff": "^1.140.0",
     "jsii-docgen": "^10.5.0",
-    "jsii-pacmak": "^1.121.0",
-    "jsii-rosetta": "~5.7.0",
-    "prettier": "^3.7.4",
-    "projen": "^0.98.30",
-    "ts-jest": "^29.4.6",
+    "jsii-pacmak": "^1.140.0",
+    "jsii-rosetta": "~5.9.0",
+    "prettier": "^3.9.6",
+    "projen": "^0.103.21",
+    "ts-jest": "^29.4.12",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.168.0",
-    "constructs": "^10.3.0"
+    "aws-cdk-lib": "^2.268.0",
+    "constructs": "^10.5.0"
   },
   "keywords": [
     "cdk"
@@ -74,8 +75,15 @@
   "engines": {
     "node": ">= 18.0.0"
   },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "onFail": "ignore"
+    }
+  },
   "main": "lib/index.js",
   "license": "Apache-2.0",
+  "stability": "stable",
   "publishConfig": {
     "access": "public"
   },
@@ -120,13 +128,12 @@
       "^.+\\.[t]sx?$": [
         "ts-jest",
         {
-          "tsconfig": "tsconfig.dev.json"
+          "tsconfig": "test/tsconfig.json"
         }
       ]
     }
   },
   "types": "lib/index.d.ts",
-  "stability": "stable",
   "jsii": {
     "outdir": "dist",
     "targets": {
@@ -135,10 +142,8 @@
         "module": "open_constructs_aws_cdk"
       }
     },
-    "tsc": {
-      "outDir": "lib",
-      "rootDir": "src"
-    }
+    "tsconfig": "tsconfig.json",
+    "validateTsconfig": "strict"
   },
   "exports": {
     ".": "./lib/index.js",
