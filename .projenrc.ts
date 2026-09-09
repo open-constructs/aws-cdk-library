@@ -2,14 +2,14 @@ import { ReleasableCommits, awscdk, github, javascript, release } from 'projen';
 import { ArrowParens, NodePackageManager } from 'projen/lib/javascript';
 import { SubPathExports } from './projenrc/sub-path-exports';
 
-let cdkVersion = '2.168.0';
+let cdkVersion = '2.268.0';
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Open Construct Foundation',
   authorAddress: 'thorsten.hoeger@taimos.de',
   cdkVersion: cdkVersion,
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.7.0',
-  constructsVersion: '10.3.0',
+  jsiiVersion: '~5.9.0',
+  constructsVersion: '10.8.1',
   name: '@open-constructs/aws-cdk',
   projenrcTs: true,
   repositoryUrl: 'https://github.com/open-constructs/aws-cdk-library.git',
@@ -77,7 +77,11 @@ Closes #<issue number here>.
   //   packageId: 'OpenConstructs.AwsCdk',
   //   dotNetNamespace: 'OpenConstructs.AwsCdk',
   // },
-  devDeps: [`@aws-cdk/integ-runner@${cdkVersion}-alpha.0`, `@aws-cdk/integ-tests-alpha@${cdkVersion}-alpha.0`],
+  // @aws-cdk/integ-runner no longer publishes `-alpha.0` builds tracking each CDK
+  // release (the alpha channel stopped at 2.185.0-alpha.0); it now ships stable
+  // versions. Pin it to a concrete stable release. @aws-cdk/integ-tests-alpha still
+  // tracks the CDK version via the alpha channel, so it stays templated on cdkVersion.
+  devDeps: ['@aws-cdk/integ-runner@2.205.1', `@aws-cdk/integ-tests-alpha@${cdkVersion}-alpha.0`],
   eslintOptions: {
     dirs: ['src', 'test'],
     prettier: true,

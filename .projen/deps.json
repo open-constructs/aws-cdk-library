@@ -2,12 +2,12 @@
   "dependencies": [
     {
       "name": "@aws-cdk/integ-runner",
-      "version": "2.168.0-alpha.0",
+      "version": "2.205.1",
       "type": "build"
     },
     {
       "name": "@aws-cdk/integ-tests-alpha",
-      "version": "2.168.0-alpha.0",
+      "version": "2.268.0-alpha.0",
       "type": "build"
     },
     {
@@ -61,7 +61,7 @@
     },
     {
       "name": "jest-junit",
-      "version": "^16",
+      "version": "^17",
       "type": "build"
     },
     {
@@ -79,12 +79,12 @@
     },
     {
       "name": "jsii-rosetta",
-      "version": "~5.7.0",
+      "version": "~5.9.0",
       "type": "build"
     },
     {
       "name": "jsii",
-      "version": "~5.7.0",
+      "version": "~5.9.0",
       "type": "build"
     },
     {
@@ -109,12 +109,12 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.168.0",
+      "version": "^2.268.0",
       "type": "peer"
     },
     {
       "name": "constructs",
-      "version": "^10.3.0",
+      "version": "^10.8.1",
       "type": "peer"
     }
   ],
