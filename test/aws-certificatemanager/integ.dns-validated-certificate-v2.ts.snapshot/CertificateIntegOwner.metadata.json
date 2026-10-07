@@ -1,0 +1,40 @@
+{
+  "/CertificateIntegOwner/Certificatec843a2a150c10e48761df11e3b235f22ba64586d4d": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": {
+        "allowExport": false,
+        "certificateName": "*",
+        "domainName": "*",
+        "keyAlgorithm": "*",
+        "subjectAlternativeNames": "*",
+        "transparencyLoggingEnabled": "*",
+        "validation": "*"
+      }
+    }
+  ],
+  "/CertificateIntegOwner/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CertificateIntegOwner/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CertificateIntegOwner/Certificatec843a2a150c10e48761df11e3b235f22ba64586d4d/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Certificatec843a2a150c10e48761df11e3b235f22ba64586d4d5F43A31B"
+    }
+  ],
+  "/CertificateIntegOwner/Publish/Output{\"Ref\":\"Certificatec843a2a150c10e48761df11e3b235f22ba64586d4d5F43A31B\"}": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "PublishOutputRefCertificatec843a2a150c10e48761df11e3b235f22ba64586d4d5F43A31B06C11B01"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "version": "54.0.0",
+  "files": {
+    "b5c080d438f3b534b4684a51a6504d9d22b3235955222d1724eeaf853c5b32fd": {
+      "displayName": "CertificateIntegOwner Template",
+      "source": {
+        "path": "CertificateIntegOwner.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1-ffd4eaa6": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "b5c080d438f3b534b4684a51a6504d9d22b3235955222d1724eeaf853c5b32fd.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

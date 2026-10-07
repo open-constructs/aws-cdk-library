@@ -1,0 +1,102 @@
+{
+ "Resources": {
+  "Distribution830FAC52": {
+   "Type": "AWS::CloudFront::Distribution",
+   "Properties": {
+    "DistributionConfig": {
+     "Aliases": [
+      "ocf-certificate-integ.example.com"
+     ],
+     "DefaultCacheBehavior": {
+      "CachePolicyId": "658327ea-f89d-4fab-a63d-7e88639e58f6",
+      "Compress": true,
+      "TargetOriginId": "CertificateIntegConsumerDistributionOrigin104F0B52B",
+      "ViewerProtocolPolicy": "allow-all"
+     },
+     "Enabled": true,
+     "HttpVersion": "http2",
+     "IPV6Enabled": true,
+     "Origins": [
+      {
+       "CustomOriginConfig": {
+        "OriginProtocolPolicy": "https-only",
+        "OriginSSLProtocols": [
+         "TLSv1.2"
+        ]
+       },
+       "DomainName": "origin.example.com",
+       "Id": "CertificateIntegConsumerDistributionOrigin104F0B52B"
+      }
+     ],
+     "PriceClass": "PriceClass_100",
+     "ViewerCertificate": {
+      "AcmCertificateArn": {
+       "Fn::GetStackOutput": {
+        "StackName": "CertificateIntegOwner",
+        "Region": "us-east-1",
+        "OutputName": "PublishOutputRefCertificatec843a2a150c10e48761df11e3b235f22ba64586d4d5F43A31B06C11B01"
+       }
+      },
+      "MinimumProtocolVersion": "TLSv1.2_2021",
+      "SslSupportMethod": "sni-only"
+     }
+    }
+   }
+  }
+ },
+ "Outputs": {
+  "CertificateArn": {
+   "Value": {
+    "Fn::GetStackOutput": {
+     "StackName": "CertificateIntegOwner",
+     "Region": "us-east-1",
+     "OutputName": "PublishOutputRefCertificatec843a2a150c10e48761df11e3b235f22ba64586d4d5F43A31B06C11B01"
+    }
+   }
+  },
+  "DistributionId": {
+   "Value": {
+    "Ref": "Distribution830FAC52"
+   }
+  },
+  "PublishOutputRefDistribution830FAC52CCDF17E1": {
+   "Value": {
+    "Ref": "Distribution830FAC52"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,217 @@
+{
+ "Resources": {
+  "AwsApiCallACMdescribeCertificated4103c36f3a8166bdccf9b61b2581583": {
+   "Type": "Custom::DeployAssert@SdkCallACMdescribeCertificate",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F",
+      "Arn"
+     ]
+    },
+    "service": "ACM",
+    "api": "describeCertificate",
+    "expected": "{\"$ObjectLike\":{\"Certificate\":{\"Status\":\"ISSUED\",\"DomainName\":\"ocf-certificate-integ.example.com\"}}}",
+    "parameters": {
+     "CertificateArn": {
+      "Fn::Join": [
+       "",
+       [
+        "\"",
+        {
+         "Fn::GetStackOutput": {
+          "StackName": "CertificateIntegOwner",
+          "Region": "us-east-1",
+          "OutputName": "PublishOutputRefCertificatec843a2a150c10e48761df11e3b235f22ba64586d4d5F43A31B06C11B01"
+         }
+        },
+        "\""
+       ]
+      ]
+     }
+    },
+    "flattenResponse": "false",
+    "salt": "1790161534607"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Action": [
+          "acm:DescribeCertificate"
+         ],
+         "Effect": "Allow",
+         "Resource": [
+          "*"
+         ]
+        },
+        {
+         "Action": [
+          "cloudfront:GetDistribution"
+         ],
+         "Effect": "Allow",
+         "Resource": [
+          "*"
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   }
+  },
+  "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Runtime": "nodejs24.x",
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "6ffc47b88143a52aa50e26c31da776854b28dff0e45b1a97d7c1e530d59590ad.zip"
+    },
+    "Timeout": 120,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73",
+      "Arn"
+     ]
+    },
+    "LoggingConfig": {
+     "LogFormat": "JSON",
+     "ApplicationLogLevel": "FATAL"
+    }
+   }
+  },
+  "AwsApiCallCloudFrontgetDistribution79bf50e1496bccffb5e8c50edf178426": {
+   "Type": "Custom::DeployAssert@SdkCallCloudFrontgetDistribution",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F",
+      "Arn"
+     ]
+    },
+    "service": "CloudFront",
+    "api": "getDistribution",
+    "expected": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"$ObjectLike\":{\"Distribution\":{\"Status\":\"Deployed\",\"DistributionConfig\":{\"ViewerCertificate\":{\"ACMCertificateArn\":\"",
+       {
+        "Fn::GetStackOutput": {
+         "StackName": "CertificateIntegOwner",
+         "Region": "us-east-1",
+         "OutputName": "PublishOutputRefCertificatec843a2a150c10e48761df11e3b235f22ba64586d4d5F43A31B06C11B01"
+        }
+       },
+       "\"}}}}}"
+      ]
+     ]
+    },
+    "parameters": {
+     "Id": {
+      "Fn::Join": [
+       "",
+       [
+        "\"",
+        {
+         "Fn::GetStackOutput": {
+          "StackName": "CertificateIntegConsumer",
+          "Region": "eu-central-1",
+          "OutputName": "PublishOutputRefDistribution830FAC52CCDF17E1"
+         }
+        },
+        "\""
+       ]
+      ]
+     }
+    },
+    "flattenResponse": "false",
+    "salt": "1790161534608"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  }
+ },
+ "Outputs": {
+  "AssertionResultsAwsApiCallACMdescribeCertificated4103c36f3a8166bdccf9b61b2581583": {
+   "Value": {
+    "Fn::GetAtt": [
+     "AwsApiCallACMdescribeCertificated4103c36f3a8166bdccf9b61b2581583",
+     "assertion"
+    ]
+   }
+  },
+  "AssertionResultsAwsApiCallCloudFrontgetDistribution79bf50e1496bccffb5e8c50edf178426": {
+   "Value": {
+    "Fn::GetAtt": [
+     "AwsApiCallCloudFrontgetDistribution79bf50e1496bccffb5e8c50edf178426",
+     "assertion"
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

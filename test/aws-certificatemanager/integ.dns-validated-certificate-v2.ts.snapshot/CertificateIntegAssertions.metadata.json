@@ -1,0 +1,78 @@
+{
+  "/CertificateIntegAssertions/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    }
+  ],
+  "/CertificateIntegAssertions/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    }
+  ],
+  "/CertificateIntegAssertions/AwsApiCallACMdescribeCertificated4103c36f3a8166bdccf9b61b2581583/Default": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": "*"
+    }
+  ],
+  "/CertificateIntegAssertions/AwsApiCallACMdescribeCertificated4103c36f3a8166bdccf9b61b2581583/AssertionResults": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AssertionResultsAwsApiCallACMdescribeCertificated4103c36f3a8166bdccf9b61b2581583"
+    }
+  ],
+  "/CertificateIntegAssertions/SingletonFunction1488541a7b23466481b69b4408076b81/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SingletonFunction1488541a7b23466481b69b4408076b81Role37ABCE73"
+    }
+  ],
+  "/CertificateIntegAssertions/SingletonFunction1488541a7b23466481b69b4408076b81/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SingletonFunction1488541a7b23466481b69b4408076b81HandlerCD40AE9F"
+    }
+  ],
+  "/CertificateIntegAssertions/AwsApiCallCloudFrontgetDistribution79bf50e1496bccffb5e8c50edf178426/Default": [
+    {
+      "type": "aws:cdk:analytics:construct",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": "*"
+    },
+    {
+      "type": "aws:cdk:analytics:method",
+      "data": "*"
+    }
+  ],
+  "/CertificateIntegAssertions/AwsApiCallCloudFrontgetDistribution79bf50e1496bccffb5e8c50edf178426/AssertionResults": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AssertionResultsAwsApiCallCloudFrontgetDistribution79bf50e1496bccffb5e8c50edf178426"
+    }
+  ],
+  "/CertificateIntegAssertions/AwsApiCallACMdescribeCertificated4103c36f3a8166bdccf9b61b2581583/Default/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AwsApiCallACMdescribeCertificated4103c36f3a8166bdccf9b61b2581583"
+    }
+  ],
+  "/CertificateIntegAssertions/AwsApiCallCloudFrontgetDistribution79bf50e1496bccffb5e8c50edf178426/Default/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AwsApiCallCloudFrontgetDistribution79bf50e1496bccffb5e8c50edf178426"
+    }
+  ]
+}

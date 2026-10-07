@@ -1,0 +1,15 @@
+{
+  "version": "54.0.0",
+  "testCases": {
+    "DnsValidatedCertificateV2Integ/DefaultTest": {
+      "stacks": [
+        "CertificateIntegOwner",
+        "CertificateIntegConsumer"
+      ],
+      "assertionStack": "CertificateIntegAssertions",
+      "assertionStackName": "CertificateIntegAssertions"
+    }
+  },
+  "enableLookups": true,
+  "minimumCliVersion": "2.1142.0"
+}
