@@ -7,12 +7,13 @@ import {
   DailySnapshotTime,
   DataStorage,
   ECPUPerSecond,
-  Engine,
   IServerlessCache,
-  MajorVersion,
+  MemcachedEngineVersion,
   NoPasswordRequiredUser,
   ServerlessCache,
+  ServerlessCacheEngine,
   UserGroup,
+  ValkeyEngineVersion,
 } from '../../src/aws-elasticache';
 
 describe('ElastiCache Serverless Cache', () => {
@@ -28,9 +29,10 @@ describe('ElastiCache Serverless Cache', () => {
 
   test('Create a serverless cache with minimal properties', () => {
     new ServerlessCache(stack, 'ServerlessCache', {
-      engine: Engine.VALKEY,
+      serverlessCacheEngine: ServerlessCacheEngine.valkey({
+        engineVersion: ValkeyEngineVersion.VER_8,
+      }),
       vpc,
-      majorEngineVersion: MajorVersion.VER_8,
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::ElastiCache::ServerlessCache', {
@@ -85,7 +87,9 @@ describe('ElastiCache Serverless Cache', () => {
     });
 
     new ServerlessCache(stack, 'ServerlessCache', {
-      engine: Engine.VALKEY,
+      serverlessCacheEngine: ServerlessCacheEngine.valkey({
+        engineVersion: ValkeyEngineVersion.VER_8,
+      }),
       serverlessCacheName: 'my-serverless-cache',
       cacheUsageLimits: {
         dataStorage: DataStorage.gb({ minimum: 1000, maximum: 2000 }),
@@ -95,7 +99,6 @@ describe('ElastiCache Serverless Cache', () => {
       description: 'my serverless cache',
       finalSnapshotName: 'my-finalsnapshot',
       kmsKey: key,
-      majorEngineVersion: MajorVersion.VER_8,
       snapshotRetentionLimit: 6,
       snapshotArnsToRestore: ['arn:aws:elasticache:us-east-1:123456789012:serverlesscachesnapshot:my-final-snapshot'],
       securityGroups: [securityGroup],
@@ -185,9 +188,10 @@ describe('ElastiCache Serverless Cache', () => {
       });
 
       const serverlessCache = new ServerlessCache(stack, 'ServerlessCache', {
-        engine: Engine.VALKEY,
+        serverlessCacheEngine: ServerlessCacheEngine.valkey({
+          engineVersion: ValkeyEngineVersion.VER_8,
+        }),
         vpc,
-        majorEngineVersion: MajorVersion.VER_8,
       });
 
       serverlessCache.grantConnect(role);
@@ -228,9 +232,10 @@ describe('ElastiCache Serverless Cache', () => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
           serverlessCacheName: 'my serverless cache',
-          engine: Engine.VALKEY,
+          serverlessCacheEngine: ServerlessCacheEngine.valkey({
+            engineVersion: ValkeyEngineVersion.VER_8,
+          }),
           vpc,
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow('`serverlessCacheName` must not contain spaces, got: my serverless cache.');
     });
@@ -241,9 +246,10 @@ describe('ElastiCache Serverless Cache', () => {
         expect(() => {
           new ServerlessCache(stack, 'ServerlessCache', {
             serverlessCacheName,
-            engine: Engine.VALKEY,
+            serverlessCacheEngine: ServerlessCacheEngine.valkey({
+              engineVersion: ValkeyEngineVersion.VER_8,
+            }),
             vpc,
-            majorEngineVersion: MajorVersion.VER_8,
           });
         }).toThrow(
           `\`serverlessCacheName\` must be between 1 and 40 characters, got: ${serverlessCacheName.length} characters.`,
@@ -256,12 +262,13 @@ describe('ElastiCache Serverless Cache', () => {
     test.each([0, 5001])('throws when dataStorage.maximum is invalid, got %s', invalidMax => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
-          engine: Engine.VALKEY,
+          serverlessCacheEngine: ServerlessCacheEngine.valkey({
+            engineVersion: ValkeyEngineVersion.VER_8,
+          }),
           vpc,
           cacheUsageLimits: {
             dataStorage: DataStorage.gb({ maximum: invalidMax }),
           },
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow(`\`dataStorage.maximum\` must be between 1 and 5000, got: ${invalidMax}.`);
     });
@@ -269,12 +276,13 @@ describe('ElastiCache Serverless Cache', () => {
     test.each([0, 5001])('throws when dataStorage.minimum is invalid, got %s', invalidMin => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
-          engine: Engine.VALKEY,
+          serverlessCacheEngine: ServerlessCacheEngine.valkey({
+            engineVersion: ValkeyEngineVersion.VER_8,
+          }),
           vpc,
           cacheUsageLimits: {
             dataStorage: DataStorage.gb({ minimum: invalidMin }),
           },
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow(`\`dataStorage.minimum\` must be between 1 and 5000, got: ${invalidMin}.`);
     });
@@ -282,12 +290,13 @@ describe('ElastiCache Serverless Cache', () => {
     test('throws when dataStorage.maximum is less than dataStorage.minimum', () => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
-          engine: Engine.VALKEY,
+          serverlessCacheEngine: ServerlessCacheEngine.valkey({
+            engineVersion: ValkeyEngineVersion.VER_8,
+          }),
           vpc,
           cacheUsageLimits: {
             dataStorage: DataStorage.gb({ minimum: 2000, maximum: 1000 }),
           },
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow(
         '`dataStorage.maximum` must be greater than or equal to `dataStorage.minimum`, got: maximum 1000, minimum 2000.',
@@ -297,12 +306,13 @@ describe('ElastiCache Serverless Cache', () => {
     test.each([999, 15000001])('throws when ecpuPerSecond.maximum is invalid, got %s', invalidMax => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
-          engine: Engine.VALKEY,
+          serverlessCacheEngine: ServerlessCacheEngine.valkey({
+            engineVersion: ValkeyEngineVersion.VER_8,
+          }),
           vpc,
           cacheUsageLimits: {
             ecpuPerSecond: ECPUPerSecond.of({ maximum: invalidMax }),
           },
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow(`\`ecpuPerSecond.maximum\` must be between 1000 and 15000000, got: ${invalidMax}.`);
     });
@@ -310,12 +320,13 @@ describe('ElastiCache Serverless Cache', () => {
     test.each([999, 15000001])('throws when ecpuPerSecond.minimum is invalid, got %s', invalidMin => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
-          engine: Engine.VALKEY,
+          serverlessCacheEngine: ServerlessCacheEngine.valkey({
+            engineVersion: ValkeyEngineVersion.VER_8,
+          }),
           vpc,
           cacheUsageLimits: {
             ecpuPerSecond: ECPUPerSecond.of({ minimum: invalidMin }),
           },
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow(`\`ecpuPerSecond.minimum\` must be between 1000 and 15000000, got: ${invalidMin}.`);
     });
@@ -323,12 +334,13 @@ describe('ElastiCache Serverless Cache', () => {
     test('throws when ecpuPerSecond.maximum is less than ecpuPerSecond.minimum', () => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
-          engine: Engine.VALKEY,
+          serverlessCacheEngine: ServerlessCacheEngine.valkey({
+            engineVersion: ValkeyEngineVersion.VER_8,
+          }),
           vpc,
           cacheUsageLimits: {
             ecpuPerSecond: ECPUPerSecond.of({ minimum: 2000, maximum: 1000 }),
           },
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow(
         '`ecpuPerSecond.maximum` must be greater than or equal to `ecpuPerSecond.minimum`, got: maximum 1000, minimum 2000.',
@@ -341,9 +353,10 @@ describe('ElastiCache Serverless Cache', () => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
           description,
-          engine: Engine.VALKEY,
+          serverlessCacheEngine: ServerlessCacheEngine.valkey({
+            engineVersion: ValkeyEngineVersion.VER_8,
+          }),
           vpc,
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow(`\`description\` must not contain < and >, got: ${description}`);
     });
@@ -352,9 +365,10 @@ describe('ElastiCache Serverless Cache', () => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
           description: 'a'.repeat(256),
-          engine: Engine.VALKEY,
+          serverlessCacheEngine: ServerlessCacheEngine.valkey({
+            engineVersion: ValkeyEngineVersion.VER_8,
+          }),
           vpc,
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow('`description` must not exceed 255 characters, got: 256 characters.');
     });
@@ -364,10 +378,11 @@ describe('ElastiCache Serverless Cache', () => {
     test('throws when dailySnapshotTime is set without snapshotRetentionLimit', () => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
-          engine: Engine.VALKEY,
+          serverlessCacheEngine: ServerlessCacheEngine.valkey({
+            engineVersion: ValkeyEngineVersion.VER_8,
+          }),
           vpc,
           dailySnapshotTime: new DailySnapshotTime({ hour: 12, minute: 0 }),
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow('`snapshotRetentionLimit` must be specified when `dailySnapshotTime` is set.');
     });
@@ -375,10 +390,11 @@ describe('ElastiCache Serverless Cache', () => {
     test.each([0, 36])('throws when snapshotRetentionLimit is invalid, got %s', snapshotRetentionLimit => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
-          engine: Engine.VALKEY,
+          serverlessCacheEngine: ServerlessCacheEngine.valkey({
+            engineVersion: ValkeyEngineVersion.VER_8,
+          }),
           vpc,
           snapshotRetentionLimit,
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow(`\`snapshotRetentionLimit\` must be between 1 and 35, got: ${snapshotRetentionLimit}.`);
     });
@@ -390,10 +406,11 @@ describe('ElastiCache Serverless Cache', () => {
       finalSnapshotName => {
         expect(() => {
           new ServerlessCache(stack, 'ServerlessCache', {
-            engine: Engine.VALKEY,
+            serverlessCacheEngine: ServerlessCacheEngine.valkey({
+              engineVersion: ValkeyEngineVersion.VER_8,
+            }),
             vpc,
             finalSnapshotName,
-            majorEngineVersion: MajorVersion.VER_8,
           });
         }).toThrow(
           `\`finalSnapshotName\` must consist only of lowercase alphanumeric characters or hyphens, with the first character as a letter, and it can't end with a hyphen or contain two consecutive hyphens, got: ${finalSnapshotName}.`,
@@ -404,10 +421,11 @@ describe('ElastiCache Serverless Cache', () => {
     test('throws when finalSnapshotName length is invalid', () => {
       expect(() => {
         new ServerlessCache(stack, 'ServerlessCache', {
-          engine: Engine.VALKEY,
+          serverlessCacheEngine: ServerlessCacheEngine.valkey({
+            engineVersion: ValkeyEngineVersion.VER_8,
+          }),
           vpc,
           finalSnapshotName: 'a'.repeat(256),
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow('`finalSnapshotName` must not exceed 255 characters, got: 256 characters.');
     });
@@ -425,10 +443,11 @@ describe('ElastiCache Serverless Cache', () => {
         });
 
         new ServerlessCache(stack, 'ServerlessCache', {
-          engine: Engine.MEMCACHED,
+          serverlessCacheEngine: ServerlessCacheEngine.memcached({
+            engineVersion: MemcachedEngineVersion.VER_1_6,
+          }),
           vpc,
           userGroup,
-          majorEngineVersion: MajorVersion.VER_8,
         });
       }).toThrow('`userGroup` is available for Valkey and Redis OSS only, got engine: memcached.');
     });
@@ -437,9 +456,10 @@ describe('ElastiCache Serverless Cache', () => {
   describe('metric method test', () => {
     test('metric', () => {
       const serverlessCache = new ServerlessCache(stack, 'ServerlessCache', {
-        engine: Engine.VALKEY,
+        serverlessCacheEngine: ServerlessCacheEngine.valkey({
+          engineVersion: ValkeyEngineVersion.VER_8,
+        }),
         vpc,
-        majorEngineVersion: MajorVersion.VER_8,
       });
 
       const metric = serverlessCache.metric('CacheHits', {});
@@ -460,9 +480,10 @@ describe('ElastiCache Serverless Cache', () => {
 
     test('metricBytesUsedForCache', () => {
       const serverlessCache = new ServerlessCache(stack, 'ServerlessCache', {
-        engine: Engine.VALKEY,
+        serverlessCacheEngine: ServerlessCacheEngine.valkey({
+          engineVersion: ValkeyEngineVersion.VER_8,
+        }),
         vpc,
-        majorEngineVersion: MajorVersion.VER_8,
       });
 
       const metric = serverlessCache.metricBytesUsedForCache();
@@ -483,9 +504,10 @@ describe('ElastiCache Serverless Cache', () => {
 
     test('metricElastiCacheProcessingUnits', () => {
       const serverlessCache = new ServerlessCache(stack, 'ServerlessCache', {
-        engine: Engine.VALKEY,
+        serverlessCacheEngine: ServerlessCacheEngine.valkey({
+          engineVersion: ValkeyEngineVersion.VER_8,
+        }),
         vpc,
-        majorEngineVersion: MajorVersion.VER_8,
       });
 
       const metric = serverlessCache.metricElastiCacheProcessingUnits({});
