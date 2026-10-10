@@ -66,9 +66,13 @@ Closes #<issue number here>.
   releasableCommits: ReleasableCommits.ofType(['feat', 'fix', 'revert', 'Revert']),
   gitpod: true,
   npmAccess: javascript.NpmAccess.PUBLIC,
+  // Publish to npm via npm trusted publishing (OIDC) instead of an NPM_TOKEN secret.
+  npmTrustedPublishing: true,
   publishToPypi: {
     distName: 'open-constructs-aws-cdk',
     module: 'open_constructs_aws_cdk',
+    // Publish to PyPI via trusted publishing (OIDC) instead of TWINE_USERNAME/TWINE_PASSWORD.
+    trustedPublishing: true,
   },
   workflowNodeVersion: '24.x',
   minNodeVersion: '22.0.0',
